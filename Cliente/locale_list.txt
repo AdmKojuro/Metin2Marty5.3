@@ -1,0 +1,7 @@
+English 1252 en
+Portuguese 1252 pt
+Spanish 1252 es
+French 1252 fr
+German 1252 de
+Romanian 1250 ro
+Turkish 1254 tr

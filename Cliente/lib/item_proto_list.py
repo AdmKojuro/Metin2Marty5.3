@@ -1,0 +1,1 @@
+item_proto_list = {'vnum': '1', 'name': 'Espada +0'}

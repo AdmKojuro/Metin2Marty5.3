@@ -1,0 +1,23 @@
+1	Resistencia (Guerrero) 	jijoong	PASSIVE	Resistencia contra ataques de Guerreros (pasiva)	0
+2	Resistencia (Sura) 	jijoong	PASSIVE	Resistencia contra ataques de Suras (pasiva)	0
+3	Resistencia (Ninja) 	jijoong	PASSIVE	Resistencia contra ataques de Ninjas (pasiva)	0
+4	Resistencia (Chamán) 	jijoong	PASSIVE	Resistencia contra ataques de Chamanes (pasiva)	0
+5	Resistencia (Lícano) 	jijoong	PASSIVE	Resistencia contra ataques de Lícanos (pasiva)	0
+6	Bersérker	pacheon	PASSIVE	Aumenta el valor de ataque (pasiva)	0
+7	Rompemagia	cheonryeong	PASSIVE	Debilita la resistencia a la magia del enemigo (pasiva)	0
+8	Aceleración	banya	PASSIVE	Disminuye el tiempo de carga de habilidades (pasiva)	0
+9	Perforación	choehoenbimu	PASSIVE	Aumenta la probabilidad de impacto crítico (pasiva)	0
+10	Recuperación	heal	AUTO	Restaura HP si caen por debajo de 20%	480
+11	Vampirismo	stealhp	PASSIVE	Absorbe HP del enemigo (pasiva)	0
+12	Espiritismo	stealmp	PASSIVE	Absorbe SP del enemigo (pasiva)	0
+13	Bloqueo	block	PASSIVE	Bloquea daño físico (pasiva)	0
+14	Reflejo	reflect_melee	PASSIVE	Refleja el daño recibido hacia el enemigo (pasiva)	0
+15	Recogida de Yang	gold_drop	PASSIVE	Aumenta la probabilidad de obtener botín de Yang (pasiva)	0
+16	Alcance	bow_distance	PASSIVE	Aumenta el alcance (pasiva)	0
+17	Invencibilidad	invincibility	AUTO	Aumenta la probabilidad de disfrutar de un efecto de invencibilidad temporal	600
+18	Curación	removal	AUTO	Probabilidad de eliminar efectos de veneno, retardo o sangrado	480
+19	Brebaje	potion	PASSIVE	Aumenta la regeneración con pociones (pasiva)	0
+20	Cazamonstruos	mob_bonus	PASSIVE	Aumenta el efecto de fuerza contra monstruos (pasiva)	0
+21	Perspicacia	exp	PASSIVE	Aumenta la EXP acumulada (pasiva)	0
+22	Extracción	hp_recover	PASSIVE	Absorbe HP de monstruos derrotados (pasiva)	0
+23	Ligereza	feather	AUTO	Activa Camino pluma durante tiempo limitado	180
