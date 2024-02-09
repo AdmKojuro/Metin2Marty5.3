@@ -1,0 +1,3 @@
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\eterPythonLib\Debug\eterPythonLib.lib
+D:\Project lang\Binario\Client\eterPythonLib\Debug\eterPythonLib.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\Debug\eterPythonLib.lib

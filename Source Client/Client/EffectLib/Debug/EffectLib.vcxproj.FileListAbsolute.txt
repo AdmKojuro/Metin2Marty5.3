@@ -1,0 +1,3 @@
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\EffectLib\Debug\EffectLib.lib
+D:\Project lang\Binario\Client\EffectLib\Debug\EffectLib.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\EffectLib\Debug\EffectLib.lib

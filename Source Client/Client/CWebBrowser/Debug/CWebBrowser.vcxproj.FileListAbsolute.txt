@@ -1,0 +1,3 @@
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\CWebBrowser\Debug\CWebBrowser.lib
+D:\Project lang\Binario\Client\CWebBrowser\Debug\CWebBrowser.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\CWebBrowser\Debug\CWebBrowser.lib

@@ -1,0 +1,138 @@
+﻿  StdAfx.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterLib\SkyBox.h(107,2): warning C5208: la clase sin nombre que se usa en el nombre typedef no puede declarar miembros que no sean miembros de datos no estáticos, enumeraciones de miembros o clases de miembros
+  AffectFlagContainer.cpp
+  CPythonRenderTargetModule.cpp
+  InstanceBase.cpp
+  InstanceBaseBattle.cpp
+  InstanceBaseEffect.cpp
+  InstanceBaseEvent.cpp
+  InstanceBaseMotion.cpp
+  InstanceBaseMovement.cpp
+  InstanceBaseTransform.cpp
+  CameraProcedure.cpp
+  Python67Bonus.cpp
+  PythonAcce.cpp
+  PythonBackground.cpp
+  PythonBackgroundModule.cpp
+  PythonCharacterManager.cpp
+  PythonCharacterManagerModule.cpp
+  PythonCharacterModule.cpp
+  PythonConfig.cpp
+  PythonConfigModule.cpp
+  PythonCubeRenewal.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonCubeRenewal.cpp(125): warning C4715: 'SetCubeRenewalHandler': no todas las rutas de acceso de control devuelven un valor
+  PythonDropItem.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonDropItem.cpp(126): warning C4715: 'SetDropItemHandler': no todas las rutas de acceso de control devuelven un valor
+  PythonDungeonInfo.cpp
+  PythonDungeonInfoModule.cpp
+  PythonEffectModule.cpp
+  PythonEventManager.cpp
+  PythonEventManagerMoudle.cpp
+  PythonGameEventManager.cpp
+  PythonGameEventManagerModule.cpp
+  PythonItem.cpp
+  PythonItemModule.cpp
+  PythonNonPlayer.cpp
+  PythonNonPlayerModule.cpp
+  PythonPlayer.cpp
+  PythonPlayerEventHandler.cpp
+  PythonPlayerInput.cpp
+  PythonPlayerInputKeyboard.cpp
+  PythonPlayerInputMouse.cpp
+  PythonPlayerModule.cpp
+  PythonPlayerSkill.cpp
+  PythonQuest.cpp
+  PythonSkill.cpp
+  PythonChat.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChat.cpp(863,16): warning C4838: la conversión de 'float' en 'LONG' requiere una conversión de restricción
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChat.cpp(863,20): warning C4838: la conversión de 'float' en 'LONG' requiere una conversión de restricción
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChat.cpp(863,26): warning C4838: la conversión de 'float' en 'LONG' requiere una conversión de restricción
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChat.cpp(863,39): warning C4838: la conversión de 'float' en 'LONG' requiere una conversión de restricción
+  PythonChatModule.cpp
+  PythonExchange.cpp
+  PythonExchangeModule.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(434,62): warning C4477: '_snprintf' : la cadena de formato '%d' requiere un argumento de tipo 'int', pero el argumento variádico 2 tiene el tipo '__int64'
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(434,62): message : considere el uso de ' %lld' en la cadena de formato
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(434,62): message : considere el uso de ' %I64d' en la cadena de formato
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): warning C4477: '_snprintf' : la cadena de formato '%x' requiere un argumento de tipo 'unsigned int', pero el argumento variádico 2 tiene el tipo '__int64'
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): message : considere el uso de ' %llx' en la cadena de formato
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): message : considere el uso de ' %I64x' en la cadena de formato
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): warning C4477: '_snprintf' : la cadena de formato '%x' requiere un argumento de tipo 'unsigned int', pero el argumento variádico 7 tiene el tipo '__int64'
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): message : considere el uso de ' %llx' en la cadena de formato
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): message : considere el uso de ' %I64x' en la cadena de formato
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonChatModule.cpp(475,61): warning C4477: '_snprintf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 11 tiene el tipo '_Ty'
+          with
+          [
+              _Ty=std::string
+          ]
+  PythonFlyModule.cpp
+  PythonGuild.cpp
+  PythonMessenger.cpp
+  PythonMiniMap.cpp
+  PythonMiniMapModule.cpp
+  PythonSafeBox.cpp
+  PythonShop.cpp
+  PythonTextTail.cpp
+  PythonTextTailModule.cpp
+  PythonPackModule.cpp
+  ProcessScanner.cpp
+  PythonApplication.cpp
+  PythonApplicationCamera.cpp
+  PythonApplicationCursor.cpp
+  PythonApplicationEvent.cpp
+  PythonApplicationLogo.cpp
+  PythonApplicationModule.cpp
+  PythonApplicationProcedure.cpp
+  PythonApplicationWebPage.cpp
+  PythonIME.cpp
+  PythonIMEModule.cpp
+  PythonProfilerModule.cpp
+  PythonSoundManagerModule.cpp
+  PythonSystem.cpp
+  PythonSystemModule.cpp
+  GuildMarkDownloader.cpp
+  GuildMarkUploader.cpp
+  MarkImage.cpp
+  MarkManager.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\MarkManager.cpp(99,78): warning C4834: se descarta el valor devuelto de la función con el atributo "nodiscard"
+  Locale.cpp
+  AccountConnector.cpp
+  InsultChecker.cpp
+  NetworkActorManager.cpp
+  ProcessCRC.cpp
+  PythonExceptionSender.cpp
+  PythonNetworkDatagram.cpp
+  PythonNetworkDatagramModule.cpp
+  PythonNetworkStream.cpp
+  PythonNetworkStreamCommand.cpp
+  PythonNetworkStreamEvent.cpp
+  PythonNetworkStreamModule.cpp
+  PythonNetworkStreamPhaseGame.cpp
+  PythonNetworkStreamPhaseGameActor.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonNetworkStreamPhaseGame.cpp(99,44): warning C4477: '_snprintf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 3 tiene el tipo 'std::string *'
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonNetworkStreamPhaseGame.cpp(2172,45): warning C4267: 'argumento': conversión de 'size_t' a 'unsigned char'; posible pérdida de datos
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonNetworkStreamPhaseGame.cpp(2173,41): warning C4267: 'argumento': conversión de 'size_t' a 'unsigned char'; posible pérdida de datos
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonNetworkStreamPhaseGame.cpp(2180,43): warning C4267: 'argumento': conversión de 'size_t' a 'unsigned char'; posible pérdida de datos
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonNetworkStreamPhaseGame.cpp(4792,42): warning C4267: '=': conversión de 'size_t' a 'unsigned char'; posible pérdida de datos
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\PythonNetworkStreamPhaseGame.cpp(1667): warning C4172: devolución de dirección de la variable local o temporal: szFilteredChat
+  PythonNetworkStreamPhaseGameItem.cpp
+  PythonNetworkStreamPhaseHandShake.cpp
+  PythonNetworkStreamPhaseLoading.cpp
+  PythonNetworkStreamPhaseLogin.cpp
+  PythonNetworkStreamPhaseOffline.cpp
+  PythonNetworkStreamPhaseSelect.cpp
+  ServerStateChecker.cpp
+  ServerStateCheckerModule.cpp
+  CheckLatestFiles.cpp
+  Hackshield.cpp
+  NProtectGameGuard.cpp
+  WiseLogicXTrap.cpp
+  GameType.cpp
+  MovieMan.cpp
+  UserInterface.cpp
+  minIni.c
+F:\Marty Sama2023\marty sama\Source Client\Client\UserInterface\minIni.c(634,21): warning C4101: 'tail': variable local sin referencia
+  discord_rpc_r.lib(discord_rpc.obj) : se encontró .netmodule MSIL o un módulo compilado con /GL; reiniciando la vinculación con /LTCG; agregue /LTCG a la línea de comandos de vínculo para mejorar el rendimiento del vinculador
+  Generando código
+  Generación de código finalizada
+  UserInterface.vcxproj -> F:\Marty Sama2023\marty sama\Source Client\Client\bin\metin2client.exe

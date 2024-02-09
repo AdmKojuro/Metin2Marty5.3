@@ -1,0 +1,13 @@
+﻿  Stdafx.cpp
+  SoundBase.cpp
+  SoundData.cpp
+  SoundInstance2D.cpp
+  SoundInstance3D.cpp
+  SoundInstanceStream.cpp
+  SoundManager.cpp
+  SoundManager2D.cpp
+  SoundManager3D.cpp
+  SoundManagerStream.cpp
+  Type.cpp
+  Generando código...
+  mileslib.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\MilesLib\Distribute\mileslib.lib

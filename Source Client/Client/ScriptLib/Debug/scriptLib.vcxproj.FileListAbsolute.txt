@@ -1,0 +1,3 @@
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\scriptLib\Debug\scriptLib.lib
+D:\Project lang\Binario\Client\scriptLib\Debug\scriptLib.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\Debug\scriptLib.lib

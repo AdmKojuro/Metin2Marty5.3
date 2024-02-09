@@ -1,0 +1,25 @@
+﻿  Base.cpp
+  Poly.cpp
+  Symbol.cpp
+  SymTable.cpp
+  cipher.cpp
+  CPostIt.cpp
+  CRC32.cpp
+  Debug.cpp
+  error.cpp
+  FileBase.cpp
+  FileDir.cpp
+  FileLoader.cpp
+  lzo.cpp
+  MappedFile.cpp
+  Random.cpp
+  StdAfx.cpp
+  Stl.cpp
+  tea.cpp
+  TempFile.cpp
+  Timer.cpp
+  Generando código...
+  Compilando...
+  Utils.cpp
+  Generando código...
+  eterBase.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterBase\Distribute\eterBase.lib

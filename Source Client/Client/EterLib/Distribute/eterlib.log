@@ -1,0 +1,98 @@
+﻿  StdAfx.cpp
+  AttributeData.cpp
+  AttributeInstance.cpp
+  Camera.cpp
+  CollisionData.cpp
+  ColorTransitionHelper.cpp
+  Decal.cpp
+  EnvironmentMap.cpp
+  FileLoaderThread.cpp
+  GrpCollisionObject.cpp
+  GrpColor.cpp
+  GrpColorInstance.cpp
+  GrpD3DXBuffer.cpp
+  GrpDIB.cpp
+  GrpIndexBuffer.cpp
+  GrpLightManager.cpp
+  GrpObjectInstance.cpp
+  GrpPixelShader.cpp
+  GrpRatioInstance.cpp
+  GrpRenderTargetTexture.cpp
+  GrpShadowTexture.cpp
+  Generando código...
+  Compilando...
+  GrpVertexBuffer.cpp
+  GrpVertexBufferDynamic.cpp
+  GrpVertexBufferStatic.cpp
+  GrpVertexShader.cpp
+  Input.cpp
+  LensFlare.cpp
+  lineintersect_utils.cpp
+  MSApplication.cpp
+  MSWindow.cpp
+  Mutex.cpp
+  parser.cpp
+  PathStack.cpp
+  ReferenceObject.cpp
+  RenderTarget.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterLib\SkyBox.h(107,2): warning C5208: la clase sin nombre que se usa en el nombre typedef no puede declarar miembros que no sean miembros de datos no estáticos, enumeraciones de miembros o clases de miembros
+  RenderTargetManager.cpp
+  ScreenFilter.cpp
+  SkyBox.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\SkyBox.h(107,2): warning C5208: la clase sin nombre que se usa en el nombre typedef no puede declarar miembros que no sean miembros de datos no estáticos, enumeraciones de miembros o clases de miembros
+  TargaResource.cpp
+  Thread.cpp
+  Util.cpp
+  Generando código...
+  Compilando...
+  CullingManager.cpp
+  GrpBase.cpp
+  GrpDetector.cpp
+  GrpDevice.cpp
+  GrpMath.cpp
+  GrpScreen.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\GrpScreen.cpp(716,43): warning C4838: la conversión de 'UINT' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\GrpScreen.cpp(717,63): warning C4838: la conversión de 'UINT' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\GrpScreen.cpp(717,103): warning C4838: la conversión de 'UINT' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\GrpScreen.cpp(719,75): warning C4838: la conversión de 'UINT' en 'LONG' requiere una conversión de restricción
+  JpegFile.cpp
+  StateManager.cpp
+  Resource.cpp
+  ResourceManager.cpp
+  GrpExpandedImageInstance.cpp
+  GrpImage.cpp
+  GrpImageInstance.cpp
+  GrpImageTexture.cpp
+  GrpMarkInstance.cpp
+  GrpSubImage.cpp
+  GrpTexture.cpp
+  NetAddress.cpp
+  NetDatagram.cpp
+  NetDatagramReceiver.cpp
+  Generando código...
+  Compilando...
+  NetDatagramSender.cpp
+  NetDevice.cpp
+  NetPacketHeaderMap.cpp
+  NetStream.cpp
+  GrpFontTexture.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\GrpFontTexture.cpp(283,54): warning C4267: '=': conversión de 'size_t' a 'short'; posible pérdida de datos
+  GrpText.cpp
+  GrpTextInstance.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\GrpTextInstance.cpp(1244,30): warning C4267: 'return': conversión de 'size_t' a 'WORD'; posible pérdida de datos
+  TextTag.cpp
+  BlockTexture.cpp
+  DibBar.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\DibBar.cpp(7,21): warning C4838: la conversión de 'DWORD' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\DibBar.cpp(7,32): warning C4838: la conversión de 'DWORD' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\DibBar.cpp(81,18): warning C4838: la conversión de 'DWORD' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\DibBar.cpp(81,26): warning C4838: la conversión de 'DWORD' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\DibBar.cpp(81,40): warning C4838: la conversión de 'unsigned long' en 'LONG' requiere una conversión de restricción
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\DibBar.cpp(81,61): warning C4838: la conversión de 'unsigned long' en 'LONG' requiere una conversión de restricción
+  TextBar.cpp
+  IME.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\IME.cpp(309,2): warning C4996: 'GetVersionExA': se declaró desusado
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\IME.cpp(1197,7): warning C4996: 'GetVersionExA': se declaró desusado
+  TextFileLoader.cpp
+  Generando código...
+  eterlib.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EterLib\Distribute\eterlib.lib

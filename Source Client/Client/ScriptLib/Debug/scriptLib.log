@@ -1,0 +1,14 @@
+﻿  StdAfx.cpp
+  PythonDebugModule.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\PythonDebugModule.cpp(1,10): warning C4652: la opción del compilador 'Generar información del explorador' no es coherente con el encabezado precompilado; la opción de la línea de comandos actual invalidará la definida en el encabezado precompilado
+  PythonLauncher.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\PythonLauncher.cpp(1,10): warning C4652: la opción del compilador 'Generar información del explorador' no es coherente con el encabezado precompilado; la opción de la línea de comandos actual invalidará la definida en el encabezado precompilado
+  PythonMarshal.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\PythonMarshal.cpp(6,10): warning C4652: la opción del compilador 'Generar información del explorador' no es coherente con el encabezado precompilado; la opción de la línea de comandos actual invalidará la definida en el encabezado precompilado
+  PythonUtils.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\PythonUtils.cpp(1,10): warning C4652: la opción del compilador 'Generar información del explorador' no es coherente con el encabezado precompilado; la opción de la línea de comandos actual invalidará la definida en el encabezado precompilado
+  Resource.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\Resource.cpp(1,10): warning C4652: la opción del compilador 'Generar información del explorador' no es coherente con el encabezado precompilado; la opción de la línea de comandos actual invalidará la definida en el encabezado precompilado
+F:\Marty Sama2023\marty sama\Source Client\Client\eterLib\SkyBox.h(107,2): warning C5208: la clase sin nombre que se usa en el nombre typedef no puede declarar miembros que no sean miembros de datos no estáticos, enumeraciones de miembros o clases de miembros
+  Generando código...
+  scriptLib.vcxproj -> F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\Debug\scriptLib.lib

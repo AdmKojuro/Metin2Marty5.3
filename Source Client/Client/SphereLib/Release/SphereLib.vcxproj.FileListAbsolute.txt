@@ -1,0 +1,37 @@
+D:\VALABERIUS\ABERIUS\1-marty\martysamav4\martysama0134-s3ll-v5-ex\s3ll_client\Srcs\Client\SphereLib\Release\SphereLib.lib
+D:\VALABERIUS\ABERIUS\1-marty\martysamav4\Binario\Srcs\Client\SphereLib\Release\SphereLib.lib
+D:\VALABERIUS\ABERIUS\1-marty\martysamav4\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\VALABERIUS\ABERIUS\1-marty\copy\bar deciman y target info\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ZPRUEBAS FINALES\NUEVO\NUEVA BASE 2021\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\METIN\NUEVO\NUEVA BASE 2021\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Vesta Oficial\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\Base Fixeada\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\Copia alquimia mitica\zUpdate_alquimia\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\Copia_QuestRenewal\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\Copia refine element\Update_Refine_Element_2\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\New_Effect_slot & Swap Item\Binario_New_Effect_Slot_&_Swap_Item\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\Refine Element Final\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\Refine Final y New Interfaz\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\Fog Fix\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\New_Pendant\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_Ultimate\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_6&7_bonuses\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_Event_Manager\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_tradable + event\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_event + tradable + multitex\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_Pet_System\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\RUpdate_Pet_System_2\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Project lang\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Proyecto lang 2\Binario_ultimo full\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Proyecto lang 2\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\RUpdate_Lang_OnOff_environment\1\Client\SphereLib\Release\SphereLib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\RUpdate_Lang_OnOff_environment\Backups\Backups04-03-2022\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Blasfemy2-project\Backups11-03-2022\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Blasfemy2-project\Copy 040-02-2022\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Blasfemy2-project\COPY SPECIAL INVENTORY\Binario\Client\SphereLib\Release\SphereLib.lib
+D:\Blasfemy2-project\new copy special\Binario\Client\SphereLib\Release\SphereLib.lib
+F:\Marty Sama2023\marty sama\Source Client-SIN REINDER TARGET\Client\SphereLib\Release\SphereLib.lib
+F:\Marty Sama2023\marty sama\Source Client-con REINDER TARGET\Client\SphereLib\Release\SphereLib.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\SphereLib\Release\SphereLib.lib

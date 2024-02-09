@@ -1,0 +1,3 @@
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\EterLocale\Debug\EterLocale.lib
+D:\Project lang\Binario\Client\EterLocale\Debug\EterLocale.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\EterLocale\Debug\EterLocale.lib

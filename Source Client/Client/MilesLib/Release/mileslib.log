@@ -1,0 +1,12 @@
+﻿  Stdafx.cpp
+  SoundBase.cpp
+  SoundData.cpp
+  SoundInstance2D.cpp
+  SoundInstance3D.cpp
+  SoundInstanceStream.cpp
+  SoundManager.cpp
+  SoundManager2D.cpp
+  SoundManager3D.cpp
+  SoundManagerStream.cpp
+  Type.cpp
+  mileslib.vcxproj -> F:\Marty Sama2023\marty sama\Source Client\Client\MilesLib\Release\mileslib.lib

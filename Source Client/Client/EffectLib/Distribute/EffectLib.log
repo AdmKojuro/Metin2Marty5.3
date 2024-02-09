@@ -1,0 +1,20 @@
+﻿  StdAfx.cpp
+  EffectData.cpp
+  EffectElementBase.cpp
+  EffectElementBaseInstance.cpp
+  EffectInstance.cpp
+  EffectManager.cpp
+  EffectMesh.cpp
+  EffectMeshInstance.cpp
+  EffectUpdateDecorator.cpp
+  EmitterProperty.cpp
+  FrameController.cpp
+  ParticleInstance.cpp
+  ParticleProperty.cpp
+  ParticleSystemData.cpp
+  ParticleSystemInstance.cpp
+  SimpleLightData.cpp
+  SimpleLightInstance.cpp
+  Type.cpp
+  Generando código...
+  EffectLib.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\EffectLib\Distribute\EffectLib.lib

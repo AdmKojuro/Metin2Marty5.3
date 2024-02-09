@@ -1,0 +1,17 @@
+﻿  StdAfx.cpp
+  LODController.cpp
+  Material.cpp
+  Mesh.cpp
+  Model.cpp
+  ModelInstance.cpp
+  ModelInstanceCollisionDetection.cpp
+  ModelInstanceModel.cpp
+  ModelInstanceMotion.cpp
+  ModelInstanceRender.cpp
+  ModelInstanceUpdate.cpp
+  Motion.cpp
+  Thing.cpp
+  ThingInstance.cpp
+  Util.cpp
+  Generando código...
+  eterGrnLib.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterGrnLib\Distribute\eterGrnLib.lib

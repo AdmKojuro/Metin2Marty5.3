@@ -1,0 +1,20 @@
+﻿  StdAfx.cpp
+  PythonGridSlotWindow.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonSlotWindow.h(91): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonSlotWindow.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonSlotWindow.h(91): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonWindow.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonSlotWindow.h(91): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonWindow.cpp(1634,47): warning C4267: '=': conversión de 'size_t' a 'unsigned char'; posible pérdida de datos
+  PythonWindowManager.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonSlotWindow.h(91): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonWindowManagerModule.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonSlotWindow.h(91): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonGraphic.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\PythonGraphic.cpp(352,5): warning C4838: la conversión de 'int' en 'unsigned char' requiere una conversión de restricción
+  PythonGraphicImageModule.cpp
+  PythonGraphicModule.cpp
+  PythonGraphicTextModule.cpp
+  PythonGraphicThingModule.cpp
+  Generando código...
+  eterPythonLib.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\eterPythonLib\Distribute\eterPythonLib.lib

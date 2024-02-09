@@ -1,0 +1,20 @@
+﻿  StdAfx.cpp
+  PythonGridSlotWindow.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonSlotWindow.h(91,88): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonSlotWindow.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonSlotWindow.h(91,88): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonWindow.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonSlotWindow.h(91,88): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonWindow.cpp(1634,25): warning C4267: '=': conversión de 'size_t' a 'unsigned char'; posible pérdida de datos
+  PythonWindowManager.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonSlotWindow.h(91,88): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonWindowManagerModule.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonSlotWindow.h(91,88): warning C4091: 'typedef ': se ha omitido a la izquierda de 'UI::CSlotWindow::SStoreCoolDown' cuando no hay ninguna variable declarada
+  PythonGraphic.cpp
+F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\PythonGraphic.cpp(352,5): warning C4838: la conversión de 'int' en 'unsigned char' requiere una conversión de restricción
+  PythonGraphicImageModule.cpp
+  PythonGraphicModule.cpp
+  PythonGraphicTextModule.cpp
+  PythonGraphicThingModule.cpp
+  Generando código...
+  eterPythonLib.vcxproj -> F:\Marty Sama2023\marty sama\Source Client\Client\eterPythonLib\Debug\eterPythonLib.lib

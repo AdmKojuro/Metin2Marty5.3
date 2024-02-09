@@ -1,0 +1,3 @@
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\EterLib\Debug\eterlib.lib
+D:\Project lang\Binario\Client\EterLib\Debug\eterlib.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\EterLib\Debug\eterlib.lib

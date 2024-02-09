@@ -1,0 +1,6 @@
+﻿  StdAfx.cpp
+  Arabic.cpp
+  Japanese.cpp
+  StringCodec.cpp
+  StringCodec_Vietnamese.cpp
+  EterLocale.vcxproj -> F:\Marty Sama2023\marty sama\Source Client\Client\EterLocale\Release\EterLocale.lib

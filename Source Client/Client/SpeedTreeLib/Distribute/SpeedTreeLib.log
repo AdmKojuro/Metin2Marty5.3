@@ -1,0 +1,11 @@
+﻿  StdAfx.cpp
+  BoundaryShapeManager.cpp
+  SpeedGrassRT.cpp
+  SpeedGrassWrapper.cpp
+  SpeedTreeForest.cpp
+  SpeedTreeForestDirectX8.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\SpeedTreeLib\VertexShaders.h(171,23): warning C4477: 'sprintf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'LPVOID'
+  SpeedTreeWrapper.cpp
+C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\SpeedTreeLib\VertexShaders.h(171,23): warning C4477: 'sprintf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'LPVOID'
+  Generando código...
+  SpeedTreeLib.vcxproj -> C:\Users\ALEXANDER\Desktop\Cliente\COPY_FISH_WON_NEW\Binario\Client\SpeedTreeLib\Distribute\SpeedTreeLib.lib

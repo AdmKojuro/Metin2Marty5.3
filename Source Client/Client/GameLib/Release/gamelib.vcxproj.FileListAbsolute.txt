@@ -1,0 +1,37 @@
+D:\VALABERIUS\ABERIUS\1-marty\martysamav4\martysama0134-s3ll-v5-ex\s3ll_client\Srcs\Client\GameLib\Release\gamelib.lib
+D:\VALABERIUS\ABERIUS\1-marty\martysamav4\Binario\Srcs\Client\GameLib\Release\gamelib.lib
+D:\VALABERIUS\ABERIUS\1-marty\martysamav4\Binario\Client\GameLib\Release\gamelib.lib
+D:\VALABERIUS\ABERIUS\1-marty\copy\bar deciman y target info\Binario\Client\GameLib\Release\gamelib.lib
+D:\VALABERIUS\ABERIUS\1-marty\Binario\Client\GameLib\Release\gamelib.lib
+D:\ZPRUEBAS FINALES\NUEVO\NUEVA BASE 2021\Binario\Client\GameLib\Release\gamelib.lib
+D:\METIN\NUEVO\NUEVA BASE 2021\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Vesta Oficial\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\Base Fixeada\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\Copia alquimia mitica\zUpdate_alquimia\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\Copia_QuestRenewal\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\Copia refine element\Update_Refine_Element_2\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\New_Effect_slot & Swap Item\Binario_New_Effect_Slot_&_Swap_Item\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\Refine Element Final\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\Refine Final y New Interfaz\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\Fog Fix\Binario\Client\GameLib\Release\gamelib.lib
+D:\ServerFiles\Base Proyecto vesta2\COPIAS\New_Pendant\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_Ultimate\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_6&7_bonuses\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_Event_Manager\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_tradable + event\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_event + tradable + multitex\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\Update_Pet_System\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\RUpdate_Pet_System_2\Binario\Client\GameLib\Release\gamelib.lib
+D:\Project lang\Binario\Client\GameLib\Release\gamelib.lib
+D:\Proyecto lang 2\Binario_ultimo full\Binario\Client\GameLib\Release\gamelib.lib
+D:\Proyecto lang 2\Binario\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\RUpdate_Lang_OnOff_environment\1\Client\GameLib\Release\gamelib.lib
+D:\zmetin2\NUEVO\Base VestaII\zBackups\RUpdate_Lang_OnOff_environment\Backups\Backups04-03-2022\Binario\Client\GameLib\Release\gamelib.lib
+D:\Blasfemy2-project\Backups11-03-2022\Binario\Client\GameLib\Release\gamelib.lib
+D:\Blasfemy2-project\Copy 040-02-2022\Binario\Client\GameLib\Release\gamelib.lib
+D:\Blasfemy2-project\COPY SPECIAL INVENTORY\Binario\Client\GameLib\Release\gamelib.lib
+D:\Blasfemy2-project\new copy special\Binario\Client\GameLib\Release\gamelib.lib
+F:\Marty Sama2023\marty sama\Source Client-SIN REINDER TARGET\Client\GameLib\Release\gamelib.lib
+F:\Marty Sama2023\marty sama\Source Client-con REINDER TARGET\Client\GameLib\Release\gamelib.lib
+F:\Marty Sama2023\marty sama\Source Client\Client\GameLib\Release\gamelib.lib
