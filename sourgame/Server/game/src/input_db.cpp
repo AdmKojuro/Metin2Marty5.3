@@ -2369,6 +2369,9 @@ void CInputDB::ItemLoad(LPDESC d, const char * c_pData)
 			{
 				case INVENTORY:
 				case DRAGON_SOUL_INVENTORY:
+#ifdef ENABLE_SWITCHBOT
+				case SWITCHBOT:
+#endif
 #ifdef __SPECIAL_INVENTORY_SYSTEM__
 				case SKILL_BOOK_INVENTORY:
 				case UPGRADE_ITEMS_INVENTORY:

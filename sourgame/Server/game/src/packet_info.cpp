@@ -241,6 +241,9 @@ CPacketInfoCG::CPacketInfoCG()
 	Set(HEADER_CG_HS_ACK, sizeof(TPacketGCHSCheck), "HackShieldResponse", false);
 	Set(HEADER_CG_XTRAP_ACK, sizeof(TPacketXTrapCSVerify), "XTrapResponse", false);
 	Set(HEADER_CG_DRAGON_SOUL_REFINE, sizeof(TPacketCGDragonSoulRefine), "DragonSoulRefine", false);
+#ifdef ENABLE_SWITCHBOT
+	Set(HEADER_CG_SWITCHBOT, sizeof(TPacketGCSwitchbot), "Switchbot", true);
+#endif
 	Set(HEADER_CG_STATE_CHECKER, sizeof(BYTE), "ServerStateCheck", false);
 #if defined(__DUNGEON_INFO_SYSTEM__)
 	Set(DungeonInfo::Packet::HEADER_CG_DUNGEON_INFO, sizeof(DungeonInfo::Packet::CGInfo), "DungeonInfo", true);
@@ -341,6 +344,9 @@ CPacketInfoGG::CPacketInfoGG()
 	Set(HEADER_GG_MONARCH_TRANSFER,		sizeof(TPacketMonarchGGTransfer),	"MonarchTransfer", false);
 	Set(HEADER_GG_PCBANG_UPDATE,		sizeof(TPacketPCBangUpdate),		"PCBangUpdate",		false);
 	Set(HEADER_GG_CHECK_AWAKENESS,		sizeof(TPacketGGCheckAwakeness),	"CheckAwakeness",		false);
+#ifdef ENABLE_SWITCHBOT
+	Set(HEADER_GG_SWITCHBOT, sizeof(TPacketGGSwitchbot), "Switchbot", false);
+#endif
 #ifdef __EVENT_MANAGER__
 	Set(HEADER_GG_EVENT_RELOAD,				sizeof(TPacketGGReloadEvent),		"EventReload",			false);
 	Set(HEADER_GG_EVENT,					sizeof(TPacketGGEvent),				"Event",				false);

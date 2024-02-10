@@ -15,6 +15,7 @@ enum eCommonDefines {
 // #define ENABLE_ITEM_ATTR_COSTUME
 // #define ENABLE_SEQUENCE_SYSTEM
 /* General */
+#define ENABLE_SWITCHBOT
 #define ENABLE_SEARCH_ITEM_DROP_ON_MOB
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER

@@ -235,6 +235,11 @@ void CItem::UpdatePacket()
 	if (!m_pOwner || !m_pOwner->GetDesc())
 		return;
 
+#ifdef ENABLE_SWITCHBOT
+	if (m_bWindow == SWITCHBOT)
+		return;
+#endif
+
 	TPacketGCItemUpdate pack;
 
 	pack.header = HEADER_GC_ITEM_UPDATE;
@@ -368,6 +373,19 @@ LPITEM CItem::RemoveFromCharacter()
 				else
 					pOwner->SetItem(TItemPos(m_bWindow, m_wCell), NULL);
 			}
+#ifdef ENABLE_SWITCHBOT
+			else if (m_bWindow == SWITCHBOT)
+			{
+				if (m_wCell >= SWITCHBOT_SLOT_COUNT)
+				{
+					sys_err("CItem::RemoveFromCharacter: pos >= SWITCHBOT_SLOT_COUNT");
+				}
+				else
+				{
+					pOwner->SetItem(TItemPos(SWITCHBOT, m_wCell), NULL);
+				}
+			}
+#endif
 			else
 			{
 				TItemPos cell(INVENTORY, m_wCell);
@@ -434,6 +452,16 @@ bool CItem::AddToCharacter(LPCHARACTER ch, TItemPos Cell)
 		}
 	}
 
+#ifdef ENABLE_SWITCHBOT
+	else if (SWITCHBOT == window_type)
+	{
+		if (m_wCell >= SWITCHBOT_SLOT_COUNT)
+		{
+			sys_err("CItem::AddToCharacter:switchbot cell overflow: %s to %s cell %d", m_pProto->szName, ch->GetName(), m_wCell);
+			return false;
+		}
+	}
+#endif
 
 	if (ch->GetDesc())
 		m_dwLastOwnerPID = ch->GetPlayerID();

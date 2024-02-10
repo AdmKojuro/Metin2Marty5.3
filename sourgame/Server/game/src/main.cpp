@@ -84,6 +84,10 @@
 #	include "DropItem.h"
 #endif
 
+#ifdef ENABLE_SWITCHBOT
+#include "new_switchbot.h"
+#endif
+
 //#define __FILEMONITOR__
 
 #if defined (__FreeBSD__) && defined(__FILEMONITOR__)
@@ -457,6 +461,10 @@ int main(int argc, char **argv)
 
 	CSpeedServerManager SSManager;
 	DSManager dsManager;
+
+#ifdef ENABLE_SWITCHBOT
+	CSwitchbotManager switchbot;
+#endif
 
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	C67BonusNew bonusnew67;

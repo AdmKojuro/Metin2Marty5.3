@@ -9,8 +9,10 @@
 #include "config.h"
 #endif
 
+#ifndef ENABLE_SWITCHBOT
 const int MAX_NORM_ATTR_NUM = ITEM_MANAGER::MAX_NORM_ATTR_NUM;
 const int MAX_RARE_ATTR_NUM = ITEM_MANAGER::MAX_RARE_ATTR_NUM;
+#endif
 
 int CItem::GetAttributeSetIndex()
 {

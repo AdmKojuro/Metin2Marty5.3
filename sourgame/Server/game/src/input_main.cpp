@@ -65,6 +65,10 @@
 #	include "DropItem.h"
 #endif
 
+#ifdef ENABLE_SWITCHBOT
+#include "new_switchbot.h"
+#endif
+
 #ifdef ENABLE_CHAT_LOGGING
 static char	__escape_string[1024];
 static char	__escape_string2[1024];
@@ -4396,7 +4400,14 @@ int CInputMain::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 			}
 
 			break;
-			
+#ifdef ENABLE_SWITCHBOT
+		case HEADER_CG_SWITCHBOT:
+			if ((iExtraLen = Switchbot(ch, c_pData, m_iBufferLeft)) < 0)
+			{
+				return -1;
+			}
+			break;
+#endif
 #ifdef __MULTI_LANGUAGE_SYSTEM__
 		case HEADER_CG_CHANGE_LANGUAGE:
 		{
@@ -4579,5 +4590,53 @@ void CInputMain::DropItemInfoSend(LPCHARACTER ch, const char* c_pData)
 		}
 		break;
 	}
+}
+#endif
+
+#ifdef ENABLE_SWITCHBOT
+int CInputMain::Switchbot(LPCHARACTER ch, const char* data, size_t uiBytes)
+{
+	const TPacketCGSwitchbot* p = reinterpret_cast<const TPacketCGSwitchbot*>(data);
+
+	if (uiBytes < sizeof(TPacketCGSwitchbot))
+	{
+		return -1;
+	}
+
+	const char* c_pData = data + sizeof(TPacketCGSwitchbot);
+	uiBytes -= sizeof(TPacketCGSwitchbot);
+
+	switch (p->subheader)
+	{
+	case SUBHEADER_CG_SWITCHBOT_START:
+	{
+		size_t extraLen = sizeof(TSwitchbotAttributeAlternativeTable) * SWITCHBOT_ALTERNATIVE_COUNT;
+		if (uiBytes < extraLen)
+		{
+			return -1;
+		}
+
+		std::vector<TSwitchbotAttributeAlternativeTable> vec_alternatives;
+
+		for (BYTE alternative = 0; alternative < SWITCHBOT_ALTERNATIVE_COUNT; ++alternative)
+		{
+			const TSwitchbotAttributeAlternativeTable* pAttr = reinterpret_cast<const TSwitchbotAttributeAlternativeTable*>(c_pData);
+			c_pData += sizeof(TSwitchbotAttributeAlternativeTable);
+
+			vec_alternatives.emplace_back(*pAttr);
+		}
+
+		CSwitchbotManager::Instance().Start(ch->GetPlayerID(), p->slot, vec_alternatives);
+		return extraLen;
+	}
+
+	case SUBHEADER_CG_SWITCHBOT_STOP:
+	{
+		CSwitchbotManager::Instance().Stop(ch->GetPlayerID(), p->slot);
+		return 0;
+	}
+	}
+
+	return 0;
 }
 #endif

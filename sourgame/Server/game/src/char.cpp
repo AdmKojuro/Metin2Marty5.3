@@ -65,6 +65,9 @@
 #include "PetSystem.h"
 #endif
 #include "DragonSoul.h"
+#ifdef ENABLE_SWITCHBOT
+#include "new_switchbot.h"
+#endif
 #include "../../common/CommonDefines.h"
 #ifdef ENABLE_MOUNT_COSTUME_SYSTEM
 #include "MountSystem.h"
@@ -6061,6 +6064,14 @@ bool CHARACTER::WarpSet(long x, long y, long lPrivateMapIndex)
 		p.lAddr = inet_addr(g_stProxyIP.c_str());
 #endif
 	p.wPort	= wPort;
+#ifdef ENABLE_SWITCHBOT
+	CSwitchbotManager::Instance().SetIsWarping(GetPlayerID(), true);
+
+	if (p.wPort != mother_port)
+	{
+		CSwitchbotManager::Instance().P2PSendSwitchbot(GetPlayerID(), p.wPort);
+	}
+#endif
 #if defined(__BL_LOADING_TIP__)
 	p.l_MapIndex = lMapIndex;
 #endif

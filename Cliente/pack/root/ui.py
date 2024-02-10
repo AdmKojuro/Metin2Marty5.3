@@ -526,6 +526,10 @@ class ListBoxEx(Window):
 		if self.scrollBar:
 			self.scrollBar.SetPos(0)
 
+	if app.ENABLE_SWITCHBOT:
+		def GetItems(self):
+			return self.itemList
+
 	def RemoveItem(self, delItem):
 		if delItem==self.selItem:
 			self.selItem=None

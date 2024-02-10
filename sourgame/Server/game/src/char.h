@@ -485,6 +485,9 @@ typedef struct character_point_instant
 
 	LPITEM			pDSItems[DRAGON_SOUL_INVENTORY_MAX_NUM];
 	WORD			wDSItemGrid[DRAGON_SOUL_INVENTORY_MAX_NUM];
+#ifdef ENABLE_SWITCHBOT
+	LPITEM			pSwitchbotItems[SWITCHBOT_SLOT_COUNT];
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	LPITEM			pB67Item;
 #endif

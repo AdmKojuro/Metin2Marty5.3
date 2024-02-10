@@ -160,6 +160,27 @@ enum EMisc
 
 };
 
+#ifdef ENABLE_SWITCHBOT
+
+enum SwitchbotValues
+{
+	SWITCHBOT_SLOT_COUNT = 5,
+	SWITCHBOT_ALTERNATIVE_COUNT = 2,
+	//1 = Switching Item
+	//2 = Yang
+	SWITCHBOT_PRICE_TYPE = 1,
+	//Amount Swtichting Items the Yang-Price
+	SWITCHBOT_PRICE_AMOUNT = 1,
+};
+
+const DWORD c_arSwitchingItems[3] =
+{
+	39028,
+	71084,
+	76014,
+};
+#endif
+
 enum EGrowthPet
 {
 	PET_MAX_LEVEL = 105,
@@ -662,6 +683,9 @@ enum EWindows
 	GIFT_BOX_INVENTORY,
 #endif
 	BELT_INVENTORY,
+#ifdef ENABLE_SWITCHBOT
+	SWITCHBOT,
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	BONUS_NEW_67,
 #endif
@@ -993,6 +1017,10 @@ typedef struct SItemPos
 		case SAFEBOX:
 		case MALL:
 			return false;
+#ifdef ENABLE_SWITCHBOT
+		case SWITCHBOT:
+			return cell < SWITCHBOT_SLOT_COUNT;
+#endif
 		default:
 			return false;
 		}
@@ -1019,6 +1047,13 @@ typedef struct SItemPos
 	{
 		return INVENTORY == window_type && cell < INVENTORY_MAX_NUM;
 	}
+
+#ifdef ENABLE_SWITCHBOT
+	bool IsSwitchbotPosition() const
+	{
+		return SWITCHBOT == window_type && cell < SWITCHBOT_SLOT_COUNT;
+	}
+#endif
 
 #ifdef __SPECIAL_INVENTORY_SYSTEM__
 	bool IsSkillBookInventoryPosition() const

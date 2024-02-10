@@ -1,0 +1,7 @@
+title subImage
+version 2.0
+image "switchbot.tga"
+left 192
+top 69
+right 216
+bottom 93

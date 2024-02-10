@@ -223,6 +223,7 @@ class CMouseController(object):
 				Type == player.SLOT_TYPE_UPGRADE_ITEMS_INVENTORY or\
 				Type == player.SLOT_TYPE_STONE_INVENTORY or\
 				Type == player.SLOT_TYPE_GIFT_BOX_INVENTORY or\
+				Type == player.SLOT_TYPE_SWITCHBOT or\
 				app.ENABLE_AURA_SYSTEM and Type == player.SLOT_TYPE_AURA:
 				# Type == player.SLOT_TYPE_AURA or\
 
@@ -363,6 +364,7 @@ class CMouseController(object):
 				self.AttachedType == player.SLOT_TYPE_UPGRADE_ITEMS_INVENTORY or\
 				self.AttachedType == player.SLOT_TYPE_STONE_INVENTORY or\
 				self.AttachedType == player.SLOT_TYPE_GIFT_BOX_INVENTORY or\
+				self.AttachedType == player.SLOT_TYPE_SWITCHBOT or\
 				app.ENABLE_AURA_SYSTEM and self.AttachedType == player.SLOT_TYPE_AURA:
 
 				item.DeleteIconInstance(self.AttachedIconHandle)

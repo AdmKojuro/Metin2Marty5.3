@@ -1623,6 +1623,50 @@ typedef struct SChannelStatus
 	BYTE bStatus;
 } TChannelStatus;
 
+#ifdef ENABLE_SWITCHBOT
+struct TSwitchbotAttributeAlternativeTable
+{
+	TPlayerItemAttribute attributes[MAX_NORM_ATTR_NUM];
+
+	bool IsConfigured() const
+	{
+		for (const auto& it : attributes)
+		{
+			if (it.bType && it.sValue)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+};
+
+struct TSwitchbotTable
+{
+	DWORD player_id;
+	bool active[SWITCHBOT_SLOT_COUNT];
+	bool finished[SWITCHBOT_SLOT_COUNT];
+	DWORD items[SWITCHBOT_SLOT_COUNT];
+	TSwitchbotAttributeAlternativeTable alternatives[SWITCHBOT_SLOT_COUNT][SWITCHBOT_ALTERNATIVE_COUNT];
+
+	TSwitchbotTable() : player_id(0)
+	{
+		memset(&items, 0, sizeof(items));
+		memset(&alternatives, 0, sizeof(alternatives));
+		memset(&active, false, sizeof(active));
+		memset(&finished, false, sizeof(finished));
+	}
+};
+
+struct TSwitchbottAttributeTable
+{
+	BYTE attribute_set;
+	int apply_num;
+	long max_value;
+};
+#endif
+
 #ifdef OFFLINE_SHOP
 typedef struct SShopPrice
 {

@@ -104,6 +104,10 @@ enum
 	HEADER_CG_SCRIPT_SELECT_ITEM	= 114,
 	// END_OF_SCRIPT_SELECT_ITEM
 
+#ifdef ENABLE_SWITCHBOT
+	HEADER_CG_SWITCHBOT				= 171,
+#endif
+
 	HEADER_CG_LOGIN5_OPENID			= 116,
 #ifdef __EVENT_MANAGER__
 	HEADER_CG_REQUEST_EVENT_DATA	= 117,
@@ -323,7 +327,9 @@ enum
 	// END_OF_SUPPORT_BGM
 
 	HEADER_GC_AUTH_SUCCESS					= 150,
-		
+#ifdef ENABLE_SWITCHBOT
+	HEADER_GC_SWITCHBOT						= 171,
+#endif
 	HEADER_GC_PANAMA_PACK					= 151,
 
 	//HYBRID CRYPT
@@ -423,6 +429,9 @@ enum
 	HEADER_GG_PCBANG_UPDATE			= 28,
 
 	HEADER_GG_CHECK_AWAKENESS		= 29,
+#ifdef ENABLE_SWITCHBOT
+	HEADER_GG_SWITCHBOT					= 35,
+#endif
 #ifdef ENABLE_FULL_NOTICE
 	HEADER_GG_BIG_NOTICE			= 30,
 #endif
@@ -3238,6 +3247,58 @@ typedef struct SPacketGCWhisperDetails
 	BYTE bLanguage;
 #endif
 } TPacketGCWhisperDetails;
+#endif
+
+#ifdef ENABLE_SWITCHBOT
+struct TPacketGGSwitchbot
+{
+	BYTE bHeader;
+	WORD wPort;
+	TSwitchbotTable table;
+
+	TPacketGGSwitchbot() : bHeader(HEADER_GG_SWITCHBOT), wPort(0)
+	{
+		table = {};
+	}
+};
+
+enum ECGSwitchbotSubheader
+{
+	SUBHEADER_CG_SWITCHBOT_START,
+	SUBHEADER_CG_SWITCHBOT_STOP,
+};
+
+struct TPacketCGSwitchbot
+{
+	BYTE header;
+	int size;
+	BYTE subheader;
+	BYTE slot;
+};
+
+enum EGCSwitchbotSubheader
+{
+	SUBHEADER_GC_SWITCHBOT_UPDATE,
+	SUBHEADER_GC_SWITCHBOT_UPDATE_ITEM,
+	SUBHEADER_GC_SWITCHBOT_SEND_ATTRIBUTE_INFORMATION,
+};
+
+struct TPacketGCSwitchbot
+{
+	BYTE header;
+	int size;
+	BYTE subheader;
+	BYTE slot;
+};
+
+struct TSwitchbotUpdateItem
+{
+	BYTE	slot;
+	BYTE	vnum;
+	BYTE	count;
+	long	alSockets[ITEM_SOCKET_MAX_NUM];
+	TPlayerItemAttribute aAttr[ITEM_ATTRIBUTE_MAX_NUM];
+};
 #endif
 
 #pragma pack()

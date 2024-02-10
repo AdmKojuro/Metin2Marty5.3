@@ -69,6 +69,8 @@ if app.ENABLE_GROWTH_PET_SYSTEM:
 	import uiPetInfo 
 if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 	import uiSpecialInventory
+if app.ENABLE_SWITCHBOT:
+	import uiSwitchbot
 
 IsQBHide = 0
 class Interface(object):
@@ -106,6 +108,8 @@ class Interface(object):
 		self.wndMiniMap = None
 		self.wndGuild = None
 		self.wndGuildBuilding = None
+		if app.ENABLE_SWITCHBOT:
+			self.wndSwitchbot = None
 		if app.ENABLE_DUNGEON_INFO_SYSTEM:
 			self.wndDungeonInfo = None
 		if app.ENABLE_EVENT_MANAGER:
@@ -273,6 +277,9 @@ class Interface(object):
 			self.wndDragonSoul.SetDragonSoulRefineWindow(self.wndDragonSoulRefine)
 			self.wndDragonSoulRefine.SetInventoryWindows(self.wndInventory, self.wndDragonSoul)
 			self.wndInventory.SetDragonSoulRefineWindow(self.wndDragonSoulRefine)
+
+		if app.ENABLE_SWITCHBOT:
+			self.wndSwitchbot = uiSwitchbot.SwitchbotWindow()
 
 		if app.ENABLE_AURA_SYSTEM:
 			wndAura = uiaura.AuraWindow()
@@ -467,7 +474,10 @@ class Interface(object):
 		self.wndSafebox.SetItemToolTip(self.tooltipItem)
 		self.wndCube.SetItemToolTip(self.tooltipItem)
 		self.wndCubeResult.SetItemToolTip(self.tooltipItem)
-		
+
+		if app.ENABLE_SWITCHBOT:
+			self.wndSwitchbot.SetItemToolTip(self.tooltipItem)
+
 		if app.ENABLE_ACCE_SYSTEM:
 			self.wndAcceCombine.SetItemToolTip(self.tooltipItem)
 			self.wndAcceAbsorption.SetItemToolTip(self.tooltipItem)
@@ -704,6 +714,10 @@ class Interface(object):
 				self.wndAttr67Add.Close()
 				del self.wndAttr67Add
 
+		if app.ENABLE_SWITCHBOT:
+			if self.wndSwitchbot:
+				self.wndSwitchbot.Destroy()
+
 		if app.ENABLE_DUNGEON_INFO_SYSTEM:
 			if self.wndDungeonInfo:
 				self.wndDungeonInfo.Destroy()
@@ -773,6 +787,9 @@ class Interface(object):
 		del self.tipBoard
 		del self.bigBoard
 		del self.wndItemSelect
+
+		if app.ENABLE_SWITCHBOT:
+			del self.wndSwitchbot	
 
 		if app.ENABLE_AURA_SYSTEM:
 			del self.wndAura
@@ -1244,6 +1261,10 @@ class Interface(object):
 		if self.wndExpandedTaskBar:
 			self.wndExpandedTaskBar.Hide()
 
+		if app.ENABLE_SWITCHBOT:
+			if self.wndSwitchbot:
+				self.wndSwitchbot.Hide()
+
 		if app.ENABLE_GAYA_SYSTEM:
 			if self.wndExpandedMoneyTaskBar:
 				self.wndExpandedMoneyTaskBar.Hide()
@@ -1510,6 +1531,21 @@ class Interface(object):
 		else:
 			self.wndChatLog.Show()
 
+	if app.ENABLE_SWITCHBOT:
+		def ToggleSwitchbotWindow(self):
+			if self.wndSwitchbot.IsShow():
+				self.wndSwitchbot.Close()
+			else:
+				self.wndSwitchbot.Open()
+				
+		def RefreshSwitchbotWindow(self):
+			if self.wndSwitchbot and self.wndSwitchbot.IsShow():
+				self.wndSwitchbot.RefreshSwitchbotWindow()
+
+		def RefreshSwitchbotItem(self, slot):
+			if self.wndSwitchbot and self.wndSwitchbot.IsShow():
+				self.wndSwitchbot.RefreshSwitchbotItem(slot)
+
 	if app.ENABLE_SEARCH_ITEM_DROP_ON_MOB:
 		def OpenDropItem(self):
 			if self.wndDropItem.IsShow():
@@ -1736,6 +1772,9 @@ class Interface(object):
 		if app.ENABLE_DRAGON_SOUL_SYSTEM:
 			hideWindows += self.wndDragonSoul,\
 						self.wndDragonSoulRefine,
+
+		if app.ENABLE_SWITCHBOT and self.wndSwitchbot:
+			hideWindows += self.wndSwitchbot,
 
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			if self.wndSpecialInventory:

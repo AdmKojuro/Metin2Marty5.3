@@ -30,6 +30,9 @@
 #include "log.h"
 #include "horsename_manager.h"
 #include "MarkManager.h"
+#ifdef ENABLE_SWITCHBOT
+#include "new_switchbot.h"
+#endif
 #include "HackShield.h"
 #include "XTrapManager.h"
 #ifdef ENABLE_MOUNT_COSTUME_SYSTEM
@@ -854,6 +857,11 @@ void CInputLogin::Entergame(LPDESC d, const char * data)
 
 		if (pid != 0 && CHorseNameManager::instance().GetHorseName(pid) == NULL)
 			db_clientdesc->DBPacket(HEADER_GD_REQ_HORSE_NAME, 0, &pid, sizeof(DWORD));
+
+		// @fixme182 BEGIN
+		ch->SetHorseLevel(ch->GetHorseLevel());
+		ch->SkillLevelPacket();
+		// @fixme182 END
 	}
 
 
@@ -873,6 +881,9 @@ void CInputLogin::Entergame(LPDESC d, const char * data)
 			ch->ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("본인의 주성 및 부성으로 돌아가시기 바랍니다."));
 		}
 	}
+#ifdef ENABLE_SWITCHBOT
+	CSwitchbotManager::Instance().EnterGame(ch);
+#endif
 }
 
 void CInputLogin::Empire(LPDESC d, const char * c_pData)

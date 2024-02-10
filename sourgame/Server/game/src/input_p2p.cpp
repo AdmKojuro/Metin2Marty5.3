@@ -644,7 +644,11 @@ int CInputP2P::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 		case HEADER_GG_CHECK_AWAKENESS:
 			IamAwake(d, c_pData);
 			break;
-
+#ifdef ENABLE_SWITCHBOT
+		case HEADER_GG_SWITCHBOT:
+			Switchbot(d, c_pData);
+			break;
+#endif
 #ifdef __MULTI_LANGUAGE_SYSTEM__
 		case HEADER_GG_LOCALE_NOTICE:
 			LocaleNotice(c_pData);
@@ -669,3 +673,16 @@ int CInputP2P::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 	return (iExtraLen);
 }
 
+#ifdef ENABLE_SWITCHBOT
+#include "new_switchbot.h"
+void CInputP2P::Switchbot(LPDESC d, const char* c_pData)
+{
+	const TPacketGGSwitchbot* p = reinterpret_cast<const TPacketGGSwitchbot*>(c_pData);
+	if (p->wPort != mother_port)
+	{
+		return;
+	}
+
+	CSwitchbotManager::Instance().P2PReceiveSwitchbot(p->table);
+}
+#endif

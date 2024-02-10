@@ -480,8 +480,10 @@ class ITEM_MANAGER : public singleton<ITEM_MANAGER>
 		std::map<DWORD, TItemTable>&  GetVIDMap() { return m_map_vid; }
 		std::vector<TItemTable>& GetVecProto() { return m_vec_prototype; }
 
-		const static int MAX_NORM_ATTR_NUM = ITEM_ATTRIBUTE_NORM_NUM;
-		const static int MAX_RARE_ATTR_NUM = ITEM_ATTRIBUTE_RARE_NUM;
+#ifndef ENABLE_SWITCHBOT
+		const static int MAX_NORM_ATTR_NUM = 5;
+		const static int MAX_RARE_ATTR_NUM = 2;
+#endif
 		bool ReadItemVnumMaskTable(const char * c_pszFileName);
 	private:
 #ifdef M2_USE_POOL

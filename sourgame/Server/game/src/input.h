@@ -167,6 +167,9 @@ class CInputMain : public CInputProcessor
 		void		Acce(LPCHARACTER pkChar, const char* c_pData);
 #endif
 		void		Roulette(LPCHARACTER ch, const char* c_pData);
+#ifdef ENABLE_SWITCHBOT
+		int			Switchbot(LPCHARACTER ch, const char* data, size_t uiBytes);
+#endif
 #if defined(__DUNGEON_INFO_SYSTEM__)
 		void DungeonInfo(LPCHARACTER ch, const char* c_pData);
 #endif
@@ -428,6 +431,9 @@ class CInputP2P : public CInputProcessor
 		void		BlockChat(const char * c_pData);
 		void		PCBangUpdate(const char* c_pData);
 		void		IamAwake(LPDESC d, const char * c_pData);
+#ifdef ENABLE_SWITCHBOT
+		void		Switchbot(LPDESC d, const char* c_pData);
+#endif
 #ifdef __MULTI_LANGUAGE_SYSTEM__
 		void LocaleNotice(const char* c_pData);
 #endif

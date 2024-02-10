@@ -2861,3 +2861,10 @@ class GameWindow(ui.ScriptWindow):
 		
 	def GetInputEnd(self):
 		constInfo.INPUT_IGNORE = 0
+
+	if app.ENABLE_SWITCHBOT:
+		def RefreshSwitchbotWindow(self):
+			self.interface.RefreshSwitchbotWindow()
+			
+		def RefreshSwitchbotItem(self, slot):
+			self.interface.RefreshSwitchbotItem(slot)
