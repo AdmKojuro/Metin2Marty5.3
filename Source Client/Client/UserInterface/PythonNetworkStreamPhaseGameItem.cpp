@@ -246,6 +246,15 @@ bool CPythonNetworkStream::RecvItemSetPacket()
 	IAbstractPlayer& rkPlayer=IAbstractPlayer::GetSingleton();
 
 	rkPlayer.SetItemData(packet_item_set.Cell, kItemData);
+
+#ifdef ENABLE_SWITCHBOT
+	if (packet_item_set.Cell.window_type == SWITCHBOT)
+	{
+		PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "RefreshSwitchbotWindow", Py_BuildValue("()"));
+		return true;
+	}
+#endif
+
 	__RefreshInventoryWindow();
 	return true;
 }
@@ -276,6 +285,15 @@ bool CPythonNetworkStream::RecvItemSetPacket2()
 
 	IAbstractPlayer& rkPlayer=IAbstractPlayer::GetSingleton();
 	rkPlayer.SetItemData(packet_item_set.Cell, kItemData);
+
+#ifdef ENABLE_SWITCHBOT
+	if (packet_item_set.Cell.window_type == SWITCHBOT)
+	{
+		PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "RefreshSwitchbotWindow", Py_BuildValue("()"));
+		return true;
+	}
+#endif
+
 	if (packet_item_set.highlight)
 		PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_Highlight_Item", Py_BuildValue("(ii)", packet_item_set.Cell.window_type, packet_item_set.Cell.cell));
 

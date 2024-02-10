@@ -9,6 +9,10 @@
 #include "PythonApplication.h"
 #include "PythonCharacterManager.h"
 
+#ifdef ENABLE_SWITCHBOT
+#include "PythonSwitchbot.h"
+#endif
+
 #include "ProcessScanner.h"
 
 #include "HackShield.h"

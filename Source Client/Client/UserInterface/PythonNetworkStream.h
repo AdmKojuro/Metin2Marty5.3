@@ -8,6 +8,10 @@
 
 #include "packet.h"
 
+#ifdef ENABLE_SWITCHBOT
+#include "PythonSwitchbot.h"
+#endif
+
 class CInstanceBase;
 class CNetworkActorManager;
 struct SNetworkActorData;
@@ -936,5 +940,12 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		void __BettingGuildWar_Initialize();
 		void __BettingGuildWar_SetObserverCount(UINT uObserverCount);
 		void __BettingGuildWar_SetBettingMoney(UINT uBettingMoney);
-};
 
+#ifdef ENABLE_SWITCHBOT
+	public:
+		bool RecvSwitchbotPacket();
+
+		bool SendSwitchbotStartPacket(BYTE slot, std::vector<CPythonSwitchbot::TSwitchbotAttributeAlternativeTable> alternatives);
+		bool SendSwitchbotStopPacket(BYTE slot);
+#endif
+};

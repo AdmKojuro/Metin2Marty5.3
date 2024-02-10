@@ -724,6 +724,9 @@ bool RunMainScript(CPythonLauncher& pyLauncher, const char* lpCmdLine)
 #endif
 	initguild();
 	initServerStateChecker();
+#ifdef ENABLE_SWITCHBOT
+	initSwitchbot();
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	int67bonus();
 #endif

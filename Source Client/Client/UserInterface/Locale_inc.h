@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_SWITCHBOT
 #define ENABLE_SEARCH_ITEM_DROP_ON_MOB
 #define ENABLE_RENDER_TARGET
 #define ENABLE_INVENTORY_SIDEBAR

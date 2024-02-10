@@ -330,6 +330,7 @@
     <ClCompile Include="PythonDungeonInfoModule.cpp" />
     <ClCompile Include="CPythonRenderTargetModule.cpp" />
     <ClCompile Include="PythonDropItem.cpp" />
+    <ClCompile Include="PythonSwitchbot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AffectFlagContainer.h">
@@ -541,6 +542,7 @@
     </ClInclude>
     <ClInclude Include="PythonDungeonInfo.h" />
     <ClInclude Include="PythonDropItem.h" />
+    <ClInclude Include="PythonSwitchbot.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\colorInfo.py">

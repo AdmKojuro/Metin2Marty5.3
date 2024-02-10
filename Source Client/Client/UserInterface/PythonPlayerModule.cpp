@@ -3358,6 +3358,10 @@ void initPlayer()
 	PyModule_AddIntConstant(poModule, "SAFEBOX",							SAFEBOX);
 	PyModule_AddIntConstant(poModule, "MALL",								MALL);
 	PyModule_AddIntConstant(poModule, "DRAGON_SOUL_INVENTORY",				DRAGON_SOUL_INVENTORY);
+#ifdef ENABLE_SWITCHBOT
+	PyModule_AddIntConstant(poModule, "SWITCHBOT",							SWITCHBOT);
+	PyModule_AddIntConstant(poModule, "SLOT_TYPE_SWITCHBOT",				SLOT_TYPE_SWITCHBOT);
+#endif
 	PyModule_AddIntConstant(poModule, "GROUND",								GROUND);
 
 	PyModule_AddIntConstant(poModule, "ITEM_MONEY",					-1);

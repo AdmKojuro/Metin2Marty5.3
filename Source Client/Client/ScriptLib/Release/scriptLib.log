@@ -1,8 +1,1 @@
-﻿  StdAfx.cpp
-  PythonDebugModule.cpp
-  PythonLauncher.cpp
-  PythonMarshal.cpp
-  PythonUtils.cpp
-  Resource.cpp
-F:\Marty Sama2023\marty sama\Source Client\Client\eterLib\SkyBox.h(107,2): warning C5208: la clase sin nombre que se usa en el nombre typedef no puede declarar miembros que no sean miembros de datos no estáticos, enumeraciones de miembros o clases de miembros (compilando archivo de origen Resource.cpp)
-  scriptLib.vcxproj -> F:\Marty Sama2023\marty sama\Source Client\Client\scriptLib\Release\scriptLib.lib
+﻿

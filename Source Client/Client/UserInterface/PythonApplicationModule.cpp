@@ -2045,5 +2045,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_SEARCH_ITEM_DROP_ON_MOB", 0);
 #endif
 
+#ifdef ENABLE_SWITCHBOT
+	PyModule_AddIntConstant(poModule, "ENABLE_SWITCHBOT", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_SWITCHBOT", 0);
+#endif
+
 }
 

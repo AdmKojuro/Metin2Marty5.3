@@ -381,9 +381,11 @@ class CPythonApplication : public CMSApplication, public CInputKeyboard, public 
 #ifdef ENABLE_ACCE_SYSTEM
 		CPythonAcce	m_pyAcce;
 #endif
-
 		CPythonSafeBox				m_pySafeBox;
 		CPythonGuild				m_pyGuild;
+#ifdef ENABLE_SWITCHBOT
+		CPythonSwitchbot			m_pySwitchbot;
+#endif
 #if defined(ENABLE_DUNGEON_INFO_SYSTEM)
 	CPythonDungeonInfo m_pyDungeonInfo;
 #endif

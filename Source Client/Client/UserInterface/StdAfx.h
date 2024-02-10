@@ -88,6 +88,9 @@ void initcfg();
 #endif
 void initguild();
 void initMessenger();
+#ifdef ENABLE_SWITCHBOT
+void initSwitchbot();
+#endif
 #if defined(ENABLE_DUNGEON_INFO_SYSTEM)
 void initDungeonInfo();
 #endif

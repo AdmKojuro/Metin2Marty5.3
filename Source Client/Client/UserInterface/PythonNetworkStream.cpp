@@ -190,6 +190,9 @@ class CMainPacketHeaderMap : public CNetworkPacketHeaderMap
 			Set(HEADER_GC_HYBRIDCRYPT_SDB,	CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCHybridSDB), DYNAMIC_SIZE_PACKET));
 			Set(HEADER_GC_SPECIFIC_EFFECT,	CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCSpecificEffect), STATIC_SIZE_PACKET));
 			Set(HEADER_GC_DRAGON_SOUL_REFINE,		CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCDragonSoulRefine), STATIC_SIZE_PACKET));
+#ifdef ENABLE_SWITCHBOT
+			Set(HEADER_GC_SWITCHBOT, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCSwitchbot), DYNAMIC_SIZE_PACKET));
+#endif
 #if defined(ENABLE_DUNGEON_INFO_SYSTEM)
 			Set(DungeonInfo::Packet::EHeader::HEADER_GC_DUNGEON_INFO, CNetworkPacketHeaderMap::TPacketType(sizeof(DungeonInfo::Packet::GCInfo), STATIC_SIZE_PACKET));
 			Set(DungeonInfo::Packet::EHeader::HEADER_GC_DUNGEON_RANKING, CNetworkPacketHeaderMap::TPacketType(sizeof(DungeonInfo::Packet::GCRank), STATIC_SIZE_PACKET));

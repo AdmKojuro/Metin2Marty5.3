@@ -214,6 +214,9 @@ enum ESlotType
 	SLOT_TYPE_PRIVATE_SHOP,
 	SLOT_TYPE_MALL,
 	SLOT_TYPE_DRAGON_SOUL_INVENTORY,
+#ifdef ENABLE_SWITCHBOT
+	SLOT_TYPE_SWITCHBOT,
+#endif
 #ifdef ENABLE_AURA_SYSTEM
 	SLOT_TYPE_AURA,
 #endif
@@ -285,6 +288,9 @@ enum EWindows
 	GIFT_BOX_INVENTORY,
 #endif
 	BELT_INVENTORY,
+#ifdef ENABLE_SWITCHBOT
+	SWITCHBOT,
+#endif
 	GROUND,
 	
 #ifdef ENABLE_GROWTH_PET_SYSTEM
@@ -396,6 +402,29 @@ enum ERefineElement
 #pragma pack (push, 1)
 #define WORD_MAX 0xffff
 
+#ifdef ENABLE_SWITCHBOT
+enum ESwitchbotValues
+{
+	SWITCHBOT_SLOT_COUNT = 5,
+	SWITCHBOT_ALTERNATIVE_COUNT = 2,
+	MAX_NORM_ATTR_NUM = 5,
+};
+
+enum EAttributeSet
+{
+	ATTRIBUTE_SET_WEAPON,
+	ATTRIBUTE_SET_BODY,
+	ATTRIBUTE_SET_WRIST,
+	ATTRIBUTE_SET_FOOTS,
+	ATTRIBUTE_SET_NECK,
+	ATTRIBUTE_SET_HEAD,
+	ATTRIBUTE_SET_SHIELD,
+	ATTRIBUTE_SET_EAR,
+	ATTRIBUTE_SET_MAX_NUM,
+};
+
+#endif
+
 typedef struct SItemPos
 {
 	BYTE window_type;
@@ -430,6 +459,11 @@ typedef struct SItemPos
 		case DRAGON_SOUL_INVENTORY:
 			return cell < (DS_INVENTORY_MAX_NUM);
 			break;
+#ifdef ENABLE_SWITCHBOT
+		case SWITCHBOT:
+			return cell < SWITCHBOT_SLOT_COUNT;
+			break;
+#endif
 		default:
 			return false;
 		}

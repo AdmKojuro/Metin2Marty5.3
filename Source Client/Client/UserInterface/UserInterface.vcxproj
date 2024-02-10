@@ -233,6 +233,7 @@
     <ClCompile Include="PythonMiniMapModule.cpp" />
     <ClCompile Include="PythonSafeBox.cpp" />
     <ClCompile Include="PythonShop.cpp" />
+    <ClCompile Include="PythonSwitchbot.cpp" />
     <ClCompile Include="PythonTextTail.cpp" />
     <ClCompile Include="PythonTextTailModule.cpp" />
     <ClCompile Include="PythonPackModule.cpp" />
@@ -316,6 +317,7 @@
     <ClInclude Include="PythonMiniMap.h" />
     <ClInclude Include="PythonSafeBox.h" />
     <ClInclude Include="PythonShop.h" />
+    <ClInclude Include="PythonSwitchbot.h" />
     <ClInclude Include="PythonTextTail.h" />
     <ClInclude Include="ProcessScanner.h" />
     <ClInclude Include="PythonApplication.h" />
