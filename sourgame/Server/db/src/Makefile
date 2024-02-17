@@ -77,7 +77,7 @@ $(MAIN_TARGET): $(CPPOBJS)
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(LIBDIR) $(CPPOBJS) $(LIBS) -o $(MAIN_TARGET)
 
 $(OBJDIR)/%.o: %.cpp
-	@echo -e "\033[0;32m [Compiling] \033[0m\033[0;33m Fizp II V1.0:\033[0m" $<
+	@echo -e "\033[0;32m [OK] \033[0m	\033[0;33m Compilando:\033[0m" $<
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $@
 ifeq ($(ENABLE_GCC_AUTODEPEND), 1)
 	@$(CXX) -MM -MG -MP $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $(OBJDIR)/$*.d

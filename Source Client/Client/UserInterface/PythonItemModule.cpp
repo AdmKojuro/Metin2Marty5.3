@@ -1384,5 +1384,7 @@ void initItem()
 	PyModule_AddIntConstant(poModule, "PET_NAME_MIN_SIZE",				CItemData::PET_NAME_MIN_SIZE);
 	PyModule_AddIntConstant(poModule, "E_SEAL_DATE_DEFAULT_TIMESTAMP",	CItemData::E_SEAL_DATE_DEFAULT_TIMESTAMP);
 #endif
+// Add upper :
+	PyModule_AddIntConstant(poModule, "ITEM_TYPE_GIFTBOX",					CItemData::ITEM_TYPE_GIFTBOX);		
 }
 

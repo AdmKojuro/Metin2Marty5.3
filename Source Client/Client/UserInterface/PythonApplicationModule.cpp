@@ -2051,5 +2051,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_SWITCHBOT", 0);
 #endif
 
+#ifdef ENABLE_SHOW_CHEST_DROP
+	PyModule_AddIntConstant(poModule, "ENABLE_SHOW_CHEST_DROP",	1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_SHOW_CHEST_DROP",	0);
+#endif
+
 }
 

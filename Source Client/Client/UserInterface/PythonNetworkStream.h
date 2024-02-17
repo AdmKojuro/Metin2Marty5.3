@@ -376,6 +376,11 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		bool CubeRenewalClose();
 		bool RecvCubeRenewalPacket();
 #endif
+// 1. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+		bool 	SendChestDropInfo(WORD wInventoryCell);
+		bool 	RecvChestDropInfo();
+#endif		
 	//////////////////////////////////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////
 	public:

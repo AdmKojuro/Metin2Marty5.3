@@ -740,3 +740,25 @@ bool CActorInstance::TestCollisionWithDynamicSphere(const CDynamicSphereInstance
 	return false;
 }
 
+#ifdef ENABLE_MOBS_WITHOUT_COLLISIONS
+BOOL CActorInstance::IsIgnoreCollision(CActorInstance& rkTarget)
+{
+	if (rkTarget.GetRace() >= 30000 && rkTarget.GetRace() <= 30006)
+		return TRUE;
+
+	// Campfire no collision  - https://board.aeldra.net/threads/disable-collisions-with-campfire.1067/
+	if (rkTarget.GetRace() == 12000)
+		return TRUE;
+
+	if (rkTarget.GetRace() == 35077)
+		return TRUE;
+
+
+	if (rkTarget.IsEnemy())
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}
+#endif

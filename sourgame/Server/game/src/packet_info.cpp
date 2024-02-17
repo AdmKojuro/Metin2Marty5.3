@@ -300,6 +300,10 @@ CPacketInfoCG::CPacketInfoCG()
 #ifdef __EXTENDED_WHISPER_DETAILS__
 	Set(HEADER_CG_WHISPER_DETAILS, sizeof(TPacketCGWhisperDetails), "WhisperDetails", true);
 #endif
+// 1. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+	Set(HEADER_CG_CHEST_DROP_INFO, sizeof(TPacketCGChestDropInfo), "ChestDropInfo", true);
+#endif
 }
 
 CPacketInfoCG::~CPacketInfoCG()

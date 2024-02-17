@@ -322,7 +322,6 @@
     <ClCompile Include="PythonConfig.cpp" />
     <ClCompile Include="PythonConfigModule.cpp" />
     <ClCompile Include="PythonCubeRenewal.cpp" />
-    <ClCompile Include="Python67Bonus.cpp" />
     <ClCompile Include="PythonGameEventManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -536,7 +535,6 @@
     <ClInclude Include="Discord.h" />
     <ClInclude Include="PythonConfig.h" />
     <ClInclude Include="PythonCubeRenewal.h" />
-    <ClInclude Include="Python67Bonus.h" />
     <ClInclude Include="PythonGameEventManager.h">
       <Filter>Game</Filter>
     </ClInclude>

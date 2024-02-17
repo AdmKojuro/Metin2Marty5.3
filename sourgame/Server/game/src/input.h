@@ -217,6 +217,10 @@ class CInputMain : public CInputProcessor
 #ifdef ENABLE_SEARCH_ITEM_DROP_ON_MOB
 		void		DropItemInfoSend(LPCHARACTER ch, const char* c_pData);
 #endif
+// 1. Add after:		
+#ifdef ENABLE_SHOW_CHEST_DROP
+		void		ChestDropInfo(LPCHARACTER ch, const char * c_pData);
+#endif
 };
 
 class CInputDead : public CInputMain

@@ -5,7 +5,10 @@
 #include "pool.h"
 #endif
 
-
+// 1. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+#include "packet.h"
+#endif
 
 
 class CSpecialAttrGroup
@@ -414,7 +417,10 @@ class ITEM_MANAGER : public singleton<ITEM_MANAGER>
 		DWORD			GetRefineFromVnum(DWORD dwVnum);
 
 		static void		CopyAllAttrTo(LPITEM pkOldItem, LPITEM pkNewItem);
-
+// 2. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+		void 			GetChestItemList(DWORD dwChestVnum, std::vector<TChestDropInfoTable>& vec_item);
+#endif
 
 		const CSpecialItemGroup* GetSpecialItemGroup(DWORD dwVnum);
 		const CSpecialAttrGroup* GetSpecialAttrGroup(DWORD dwVnum);

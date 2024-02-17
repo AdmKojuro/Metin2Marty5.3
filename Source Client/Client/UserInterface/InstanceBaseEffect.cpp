@@ -1286,3 +1286,11 @@ bool CInstanceBase::RegisterTitleColor(UINT uIndex, UINT r, UINT g, UINT b)
 	return true;
 }
 
+int CInstanceBase::HasAffect(uint32_t dwIndex)
+{
+	if (dwIndex >= AFFECT_NUM)
+		return 0;
+
+	return m_adwCRCAffectEffect[dwIndex];
+}
+

@@ -2129,6 +2129,17 @@ class InventoryWindow(ui.ScriptWindow):
 
 			constInfo.SET_ITEM_QUESTION_DIALOG_STATUS(1)
 
+## 1. Add:
+		#elif player.GetItemTypeBySlot(slotIndex) == item.ITEM_TYPE_GACHA or player.GetItemTypeBySlot(slotIndex) == item.ITEM_TYPE_GIFTBOX:
+
+		elif player.GetItemTypeBySlot(slotIndex) == item.ITEM_TYPE_GIFTBOX:
+			if app.ENABLE_SHOW_CHEST_DROP:
+				if self.interface:
+					if self.interface.dlgChestDrop:
+						if not self.interface.dlgChestDrop.IsShow():
+							self.interface.dlgChestDrop.Open(slotIndex)
+							net.SendChestDropInfo(slotIndex)	
+
 		else:
 			self.__SendUseItemPacket(slotIndex)
 			#net.SendItemUsePacket(slotIndex)
@@ -2753,7 +2764,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if (arg == 1):
 				self.interface.OpenDropItem()
 			if (arg == 2):
-				self.interface.OpenBiologWindow()
+				self.interface.OpenAttr67BonusNew()
 			if (arg == 3):
 				self.interface.ToggleDungeonInfoWindow()
 			if (arg == 4):

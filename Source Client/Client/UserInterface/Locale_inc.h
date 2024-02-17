@@ -27,6 +27,8 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_NEW_MOUNT_ROTATION_SPEED
+#define ENABLE_SHOW_CHEST_DROP
 #define ENABLE_SWITCHBOT
 #define ENABLE_SEARCH_ITEM_DROP_ON_MOB
 #define ENABLE_RENDER_TARGET
@@ -77,7 +79,7 @@
 #define ENABLE_CHEQUE_SYSTEM
 #define __ENABLE_CHEQUE_OFFLINE_SHOP__
 #define ENABLE_NEW_DROP_DIALOG // New drop dialog with remove item option
-#define ENABLE_6_7_BONUS_NEW_SYSTEM
+//#define ENABLE_6_7_BONUS_NEW_SYSTEM
 #define ENABLE_EVENT_MANAGER
 #define ENABLE_MULTI_TEXTLINE
 #define ENABLE_GROWTH_PET_SYSTEM
@@ -117,6 +119,8 @@
 /* Modification & Correction */
 #define ENABLE_OFFICAL_CHARACTER_SCREEN // Like GF Character Select/Create/Empire Window System
 #define ENABLE_PYTHON_EVENT_FUNCTIONS // Like GF Python Event Functions System
+#define ENABLE_INVISIBLE_WITHOUT_COLLISIONS			//	[InstanceBaseBattle.cpp]				Invisible Players or Ninja Stealth Skill
+#define ENABLE_MOBS_WITHOUT_COLLISIONS			// No colicionar con mobs
 #define REMOVE_MOUNTS_COLLISION // Remove mounts collision
 #define REMOVE_PETS_COLLISION // Remove pets collision
 #define REMOVE_SHOPS_COLLISION // Remove shops collision

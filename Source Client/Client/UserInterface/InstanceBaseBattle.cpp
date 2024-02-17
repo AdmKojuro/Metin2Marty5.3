@@ -513,6 +513,19 @@ BOOL CInstanceBase::CheckAdvancing()
 		if( bUsingSkill && !rkActorEach.IsDoor() )
 			continue;
 
+#ifdef ENABLE_INVISIBLE_WITHOUT_COLLISIONS
+		CInstanceBase* pkInstBase = CPythonCharacterManager::Instance().GetInstancePtr(rkActorEach.GetVirtualID());
+		if (pkInstBase) {
+			if (pkInstBase->HasAffect(AFFECT_INVISIBILITY) && !__MainCanSeeHiddenThing() ||
+				pkInstBase->HasAffect(AFFECT_EUNHYEONG) && !__MainCanSeeHiddenThing())
+				continue;
+		}
+#endif
+#ifdef ENABLE_MOBS_WITHOUT_COLLISIONS
+		if (rkActorSelf.IsIgnoreCollision(rkActorEach))
+			continue;
+#endif
+
 		if (rkActorSelf.TestActorCollision(rkActorEach))
 		{
 			uCollisionCount++;

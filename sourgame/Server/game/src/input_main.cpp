@@ -3367,6 +3367,33 @@ int CInputMain::MyShop(LPCHARACTER ch, const char * c_pData, size_t uiBytes)
 	return (iExtraLen);
 }
 
+// 1. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+void CInputMain::ChestDropInfo(LPCHARACTER ch, const char* c_pData)
+{
+	TPacketCGChestDropInfo* p = (TPacketCGChestDropInfo*) c_pData;
+
+	if(p->wInventoryCell >= INVENTORY_AND_EQUIP_SLOT_MAX)
+		return;
+	
+	LPITEM pkItem = ch->GetInventoryItem(p->wInventoryCell);
+
+	if (!pkItem)
+		return;
+	
+	std::vector<TChestDropInfoTable> vec_ItemList;
+	ITEM_MANAGER::instance().GetChestItemList(pkItem->GetVnum(), vec_ItemList);
+
+	TPacketGCChestDropInfo packet;
+	packet.bHeader = HEADER_GC_CHEST_DROP_INFO;
+	packet.wSize = sizeof(packet) + sizeof(TChestDropInfoTable) * vec_ItemList.size();
+	packet.dwChestVnum = pkItem->GetVnum();
+
+	ch->GetDesc()->BufferedPacket(&packet, sizeof(packet));
+	ch->GetDesc()->Packet(&vec_ItemList[0], sizeof(TChestDropInfoTable) * vec_ItemList.size());
+}
+#endif
+
 void CInputMain::Refine(LPCHARACTER ch, const char* c_pData)
 {
 	const TPacketCGRefine* p = reinterpret_cast<const TPacketCGRefine*>(c_pData);
@@ -4343,6 +4370,12 @@ int CInputMain::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 		case HEADER_CG_REFINE:
 			Refine(ch, c_pData);
 			break;
+
+#ifdef ENABLE_SHOW_CHEST_DROP
+		case HEADER_CG_CHEST_DROP_INFO:
+			ChestDropInfo(ch, c_pData);
+			break;
+#endif
 
 		case HEADER_CG_CLIENT_VERSION:
 			Version(ch, c_pData);

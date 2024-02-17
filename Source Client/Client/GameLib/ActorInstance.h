@@ -354,6 +354,9 @@ class CActorInstance : public IActorInstance, public IFlyTargetableObject
 		bool AvoidObject(const CGraphicObjectInstance& c_rkBGObj);
 		bool IsBlockObject(const CGraphicObjectInstance& c_rkBGObj);
 		void BlockMovement();
+#ifdef ENABLE_MOBS_WITHOUT_COLLISIONS
+		BOOL IsIgnoreCollision(CActorInstance& rkTarget);
+#endif
 		/////////////////////////////////////////////////////////////////////////////////////
 
 	protected:

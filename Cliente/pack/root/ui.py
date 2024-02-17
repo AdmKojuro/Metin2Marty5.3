@@ -3405,6 +3405,9 @@ class ThinBoardCircle(Window):
 		Base.Show()
 		self.Base = Base
 
+		self.ButtonText = None
+		self.BonusId = 0
+
 		self.Lines[self.L].SetPosition(0, self.CORNER_HEIGHT)
 		self.Lines[self.T].SetPosition(self.CORNER_WIDTH, 0)
 
@@ -3430,6 +3433,30 @@ class ThinBoardCircle(Window):
 		self.Lines[self.T].SetRenderingRect(0, 0, horizontalShowingPercentage, 0)
 		self.Lines[self.B].SetRenderingRect(0, 0, horizontalShowingPercentage, 0)
 		self.Base.SetSize(width - self.CORNER_WIDTH*2, height - self.CORNER_HEIGHT*2)
+
+	def SetText(self, text):
+		if not self.ButtonText:
+			textLine = TextLine()
+			textLine.SetParent(self)
+			textLine.SetPosition(self.GetWidth()/2, self.GetHeight()/2)
+			textLine.SetVerticalAlignCenter()
+			textLine.SetHorizontalAlignCenter()
+			textLine.Show()
+			self.ButtonText = textLine
+
+		self.ButtonText.SetText(text)
+		
+	def GetText(self):
+		if not self.ButtonText:
+			return ""
+		return self.ButtonText.GetText()
+		
+	def SetBonusId(self, bnsId):
+		self.BonusId = bnsId
+		
+	def GetBonusId(self):
+		if self.BonusId != 0:
+			return self.BonusId
 
 	def ShowInternal(self):
 		self.Base.Show()

@@ -527,6 +527,8 @@ class CInstanceBase
 		static void SetEmpireNameMode(bool isEnable);
 		static const D3DXCOLOR& GetIndexedNameColor(UINT eNameColor);
 
+		int HasAffect(uint32_t dwIndex);
+
 	public:
 		void SetMainInstance();
 

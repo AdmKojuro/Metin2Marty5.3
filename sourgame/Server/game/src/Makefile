@@ -148,7 +148,7 @@ CPPFILE = BattleArena.cpp FSM.cpp MarkConvert.cpp MarkImage.cpp MarkManager.cpp 
 		  buff_on_attributes.cpp dragon_soul_table.cpp DragonSoul.cpp\
 		  group_text_parse_tree.cpp char_dragonsoul.cpp questlua_dragonsoul.cpp\
 		  shop_manager.cpp shopEx.cpp item_manager_read_tables.cpp shutdown_manager.cpp MountSystem.cpp\
-		  67bonusnew.cpp  dungeon_info.cpp questlua_67bonus.cpp event_manager.cpp growth_pet.cpp CsvReader.cpp EventFunctionHandler.cpp DropItem.cpp new_switchbot.cpp
+		  dungeon_info.cpp event_manager.cpp growth_pet.cpp CsvReader.cpp EventFunctionHandler.cpp DropItem.cpp new_switchbot.cpp
 # PROJECT_SRC_FILES END
 
 # PROJECT_OBJ_FILES BEGIN
@@ -173,7 +173,7 @@ default: $(MAIN_TARGET)
 test: $(TEST_TARGET)
 
 $(OBJDIR)/%.o: %.c
-	@echo -e "\033[0;32m [Compiling] \033[0m	\033[0;33m Fizp II V1.0:\033[0m" $<
+	@echo -e "\033[0;32m [OK] \033[0m	\033[0;33m Compilando:\033[0m" $<
 	@$(CXX) $(CFLAGS) $(INCDIR) -c $< -o $@
 ifeq ($(ENABLE_GCC_AUTODEPEND), 1)
 	@$(CXX) -MM -MG -MP $(CFLAGS) $(INCDIR) -c $< -o $(OBJDIR)/$*.d
@@ -181,7 +181,7 @@ ifeq ($(ENABLE_GCC_AUTODEPEND), 1)
 endif
 
 $(OBJDIR)/%.o: %.cpp
-	@echo -e "\033[0;32m [Compiling] \033[0m	\033[0;33m Fizp II V1.0:\033[0m" $<
+	@echo -e "\033[0;32m [OK] \033[0m	\033[0;33m Compilando:\033[0m" $<
 	@$(CXX) $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $@
 ifeq ($(ENABLE_GCC_AUTODEPEND), 1)
 	@$(CXX) -MM -MG -MP $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $(OBJDIR)/$*.d

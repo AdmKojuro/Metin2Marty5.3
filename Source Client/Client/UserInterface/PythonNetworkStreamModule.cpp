@@ -2241,6 +2241,21 @@ PyObject* netGetTipInfo(PyObject* poSelf, PyObject* poArgs)
 }
 #endif
 
+// 1. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+PyObject* netSendChestDropInfo(PyObject* poSelf, PyObject* poArgs)
+{
+	int iSlotIndex;
+	if (!PyTuple_GetInteger(poArgs, 0, &iSlotIndex))
+		return Py_BadArgument();
+
+	CPythonNetworkStream& rkNetStream = CPythonNetworkStream::Instance();
+	rkNetStream.SendChestDropInfo(iSlotIndex);
+
+	return Py_BuildNone();
+}
+#endif
+
 void initnet()
 {
 	static PyMethodDef s_methods[] =
@@ -2473,6 +2488,11 @@ void initnet()
 #ifdef ENABLE_EXTENDED_WHISPER_DETAILS
 		{ "SendWhisperDetails", netSendWhisperDetails, METH_VARARGS },
 #endif
+// 2. Add after:
+#ifdef ENABLE_SHOW_CHEST_DROP
+		{ "SendChestDropInfo",						netSendChestDropInfo,						METH_VARARGS },
+#endif
+
 		{ NULL,										NULL,										NULL },
 	};
 

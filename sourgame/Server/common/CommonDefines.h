@@ -17,6 +17,7 @@ enum eCommonDefines {
 /* General */
 #define ENABLE_SWITCHBOT
 #define ENABLE_SEARCH_ITEM_DROP_ON_MOB
+#define ENABLE_SHOW_CHEST_DROP
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER
@@ -120,7 +121,7 @@ enum eCommonDefines {
 
 #define __NEW_EVENT_HANDLER__
 
-#define ENABLE_6_7_BONUS_NEW_SYSTEM
+//#define ENABLE_6_7_BONUS_NEW_SYSTEM
 #define WJ_ENABLE_TRADABLE_ICON	//Items en color rojo al comerciar/vender
 
 #endif

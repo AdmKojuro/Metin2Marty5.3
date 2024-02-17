@@ -8636,9 +8636,11 @@ LPITEM CHARACTER::AutoGiveItem(DWORD dwItemVnum, BYTE bCount, int iRarePct, bool
 					if (inv_item->GetSocket(0) == item->GetSocket(0) &&
 							inv_item->GetSocket(1) == item->GetSocket(1) &&
 							inv_item->GetSocket(2) == item->GetSocket(2) &&
-							inv_item->GetCount() < g_bItemCountLimit)
+							inv_item->GetCount() + item->GetCount() <= ITEM_MAX_COUNT)
 					{
 						inv_item->SetCount(inv_item->GetCount() + item->GetCount());
+						// Memory Leak Fix
+						M2_DESTROY_ITEM(item);
 						return inv_item;
 					}
 				}

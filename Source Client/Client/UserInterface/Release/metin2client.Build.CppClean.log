@@ -1,237 +1,232 @@
-f:\marty sama2023\marty sama\source client\client\bin\metin2client.bsc
-f:\metin2marty5.3\source client\client\bin\metin2client.bsc
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.pch
-f:\metin2marty5.3\source client\client\userinterface\release\metin2client.pdb
-f:\metin2marty5.3\source client\client\userinterface\release\stdafx.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\stdafx.obj
-f:\metin2marty5.3\source client\client\userinterface\release\affectflagcontainer.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\affectflagcontainer.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebase.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebase.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasebattle.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasebattle.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebaseevent.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebaseevent.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasemovement.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasemovement.obj
-f:\metin2marty5.3\source client\client\userinterface\release\cameraprocedure.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\cameraprocedure.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonbackground.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonbackground.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncharactermanagermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncharactermanagermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonconfig.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonconfig.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonconfigmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonconfigmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoneventmanager.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoneventmanager.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythongameeventmanagermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythongameeventmanagermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonitem.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonitem.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnonplayermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnonplayermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayer.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayer.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerinputkeyboard.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerinputkeyboard.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerinputmouse.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerinputmouse.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerskill.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerskill.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonchat.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonchat.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonexchange.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonexchange.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonexchangemodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonexchangemodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonflymodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonflymodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonmessenger.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonmessenger.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonminimap.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonminimap.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythontexttail.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythontexttail.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonpackmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonpackmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationcamera.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationcamera.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationcursor.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationcursor.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationlogo.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationlogo.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationprocedure.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationprocedure.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonime.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonime.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonprofilermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonprofilermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsoundmanagermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsoundmanagermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsystemmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsystemmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\guildmarkdownloader.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\guildmarkdownloader.obj
-f:\metin2marty5.3\source client\client\userinterface\release\guildmarkuploader.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\guildmarkuploader.obj
-f:\metin2marty5.3\source client\client\userinterface\release\markimage.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\markimage.obj
-f:\metin2marty5.3\source client\client\userinterface\release\markmanager.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\markmanager.obj
-f:\metin2marty5.3\source client\client\userinterface\release\accountconnector.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\accountconnector.obj
-f:\metin2marty5.3\source client\client\userinterface\release\insultchecker.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\insultchecker.obj
-f:\metin2marty5.3\source client\client\userinterface\release\networkactormanager.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\networkactormanager.obj
-f:\metin2marty5.3\source client\client\userinterface\release\processcrc.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\processcrc.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonexceptionsender.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonexceptionsender.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkdatagram.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkdatagram.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkdatagrammodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkdatagrammodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstream.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstream.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreammodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreammodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasegameactor.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasegameactor.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasehandshake.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasehandshake.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaselogin.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaselogin.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaseselect.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaseselect.obj
-f:\metin2marty5.3\source client\client\userinterface\release\serverstatechecker.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\serverstatechecker.obj
-f:\metin2marty5.3\source client\client\userinterface\release\serverstatecheckermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\serverstatecheckermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\checklatestfiles.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\checklatestfiles.obj
-f:\metin2marty5.3\source client\client\userinterface\release\hackshield.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\hackshield.obj
-f:\metin2marty5.3\source client\client\userinterface\release\nprotectgameguard.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\nprotectgameguard.obj
-f:\metin2marty5.3\source client\client\userinterface\release\wiselogicxtrap.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\wiselogicxtrap.obj
-f:\metin2marty5.3\source client\client\userinterface\release\gametype.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\gametype.obj
-f:\metin2marty5.3\source client\client\userinterface\release\movieman.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\movieman.obj
-f:\metin2marty5.3\source client\client\userinterface\release\cpythonrendertargetmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\cpythonrendertargetmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebaseeffect.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebaseeffect.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasemotion.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasemotion.obj
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasetransform.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\instancebasetransform.obj
-f:\metin2marty5.3\source client\client\userinterface\release\python67bonus.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\python67bonus.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonacce.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonacce.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonbackgroundmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonbackgroundmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncharactermanager.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncharactermanager.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncharactermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncharactermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncuberenewal.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoncuberenewal.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythondropitem.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythondropitem.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythondungeoninfo.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythondungeoninfo.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythondungeoninfomodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythondungeoninfomodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoneffectmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoneffectmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythoneventmanagermoudle.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythoneventmanagermoudle.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythongameeventmanager.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythongameeventmanager.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonitemmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonitemmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnonplayer.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnonplayer.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayereventhandler.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayereventhandler.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerinput.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayerinput.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayermodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonplayermodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonquest.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonquest.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonskill.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonskill.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonchatmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonchatmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonguild.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonguild.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonminimapmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonminimapmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsafebox.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsafebox.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonshop.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonshop.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonswitchbot.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonswitchbot.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythontexttailmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythontexttailmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\processscanner.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\processscanner.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplication.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplication.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationevent.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationevent.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationmodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationmodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationwebpage.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonapplicationwebpage.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonimemodule.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonimemodule.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsystem.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonsystem.obj
-f:\metin2marty5.3\source client\client\userinterface\release\locale.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\locale.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamcommand.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamcommand.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamevent.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamevent.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasegame.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasegame.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasegameitem.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphasegameitem.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaseloading.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaseloading.obj
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaseoffline.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\pythonnetworkstreamphaseoffline.obj
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.obj
-f:\metin2marty5.3\source client\client\userinterface\release\minini.sbr
-f:\metin2marty5.3\source client\client\userinterface\release\minini.obj
-f:\marty sama2023\marty sama\source client\client\bin\metin2client.exe
-f:\marty sama2023\marty sama\source client\client\bin\metin2client.map
-f:\marty sama2023\marty sama\source client\client\bin\metin2client.pdb
-f:\metin2marty5.3\source client\client\bin\metin2client.exe
-f:\metin2marty5.3\source client\client\bin\metin2client.map
-f:\metin2marty5.3\source client\client\bin\metin2client.pdb
-f:\marty sama2023\marty sama\source client\client\userinterface\release\userinterface.res
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.res
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\bscmake.command.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\bscmake.read.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\bscmake.write.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\cl.command.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\cl.items.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\cl.read.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\cl.write.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\link.command.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\link.read.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\link.write.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\rc.command.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\rc.read.1.tlog
-f:\metin2marty5.3\source client\client\userinterface\release\userinterface.tlog\rc.write.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\bin\metin2client.bsc
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\cpythonrendertargetmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\cpythonrendertargetmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebaseeffect.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebaseeffect.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasemotion.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasemotion.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasetransform.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasetransform.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonbackground.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonbackground.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncharactermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncharactermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonconfigmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonconfigmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnonplayermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnonplayermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayer.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayer.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerinputkeyboard.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerinputkeyboard.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerinputmouse.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerinputmouse.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerskill.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerskill.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonchat.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonchat.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonminimap.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonminimap.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationcamera.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationcamera.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationcursor.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationcursor.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationlogo.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationlogo.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationprocedure.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationprocedure.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonimemodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonimemodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsystem.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsystem.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\networkactormanager.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\networkactormanager.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstream.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstream.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasegame.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasegame.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasegameitem.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasegameitem.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaseloading.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaseloading.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\movieman.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\movieman.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebase.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebase.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasebattle.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasebattle.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebaseevent.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebaseevent.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasemovement.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\instancebasemovement.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\python67bonus.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncharactermanager.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncharactermanager.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncharactermanagermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncharactermanagermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoneffectmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoneffectmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythongameeventmanagermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythongameeventmanagermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonitemmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonitemmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnonplayer.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnonplayer.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayereventhandler.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayereventhandler.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerinput.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayerinput.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonplayermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonskill.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonskill.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythontexttail.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythontexttail.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythontexttailmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythontexttailmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplication.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplication.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationevent.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationevent.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationwebpage.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonapplicationwebpage.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsoundmanagermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsoundmanagermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsystemmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsystemmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\guildmarkdownloader.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\guildmarkdownloader.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\locale.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\locale.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamcommand.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamcommand.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasegameactor.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasegameactor.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasehandshake.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphasehandshake.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaseoffline.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaseoffline.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\metin2client.pdb
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\minini.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\minini.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonacce.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonacce.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonbackgroundmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonbackgroundmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncuberenewal.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoncuberenewal.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythondropitem.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythondropitem.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythondungeoninfo.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythondungeoninfo.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythondungeoninfomodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythondungeoninfomodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoneventmanagermoudle.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoneventmanagermoudle.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythongameeventmanager.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythongameeventmanager.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonquest.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonquest.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonchatmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonchatmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonflymodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonflymodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonmessenger.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonmessenger.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonpackmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonpackmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonprofilermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonprofilermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamevent.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamevent.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\affectflagcontainer.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\affectflagcontainer.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\cameraprocedure.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\cameraprocedure.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonconfig.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonconfig.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoneventmanager.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythoneventmanager.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonitem.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonitem.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonexchange.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonexchange.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonexchangemodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonexchangemodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonguild.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonguild.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonminimapmodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonminimapmodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsafebox.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonsafebox.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonshop.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonshop.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonswitchbot.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonswitchbot.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\processscanner.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\processscanner.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonime.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonime.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\guildmarkuploader.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\guildmarkuploader.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\markimage.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\markimage.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\markmanager.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\markmanager.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\accountconnector.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\accountconnector.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\insultchecker.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\insultchecker.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\processcrc.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\processcrc.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonexceptionsender.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonexceptionsender.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkdatagram.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkdatagram.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkdatagrammodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkdatagrammodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreammodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreammodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaselogin.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaselogin.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaseselect.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\pythonnetworkstreamphaseselect.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\serverstatechecker.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\serverstatechecker.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\serverstatecheckermodule.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\serverstatecheckermodule.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\checklatestfiles.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\checklatestfiles.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\hackshield.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\hackshield.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\nprotectgameguard.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\nprotectgameguard.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\wiselogicxtrap.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\wiselogicxtrap.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\gametype.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\gametype.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.pch
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\stdafx.sbr
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\stdafx.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\bin\metin2client.exe
+f:\marty sama2023\marty sama\backup-copias\source client\client\bin\metin2client.map
+f:\marty sama2023\marty sama\backup-copias\source client\client\bin\metin2client.pdb
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.res
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\python67bonus.obj
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\bscmake.command.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\bscmake.read.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\bscmake.write.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\cl.command.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\cl.items.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\cl.read.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\cl.write.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\link.command.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\link.read.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\link.write.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\rc.command.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\rc.read.1.tlog
+f:\marty sama2023\marty sama\backup-copias\source client\client\userinterface\release\userinterface.tlog\rc.write.1.tlog

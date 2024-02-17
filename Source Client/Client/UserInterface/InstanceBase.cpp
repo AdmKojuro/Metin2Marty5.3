@@ -24,7 +24,11 @@ BOOL HAIR_COLOR_ENABLE=FALSE;
 BOOL USE_ARMOR_SPECULAR=FALSE;
 BOOL RIDE_HORSE_ENABLE=TRUE;
 const float c_fDefaultRotationSpeed = 1200.0f;
+#ifdef ENABLE_NEW_MOUNT_ROTATION_SPEED
 const float c_fDefaultHorseRotationSpeed = 1500.0f;
+#else
+const float c_fDefaultHorseRotationSpeed = 300.0f;
+#endif
 // #define ENABLE_NO_MOUNT_CHECK
 
 typedef struct

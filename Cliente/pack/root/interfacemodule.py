@@ -71,6 +71,8 @@ if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 	import uiSpecialInventory
 if app.ENABLE_SWITCHBOT:
 	import uiSwitchbot
+if app.ENABLE_SHOW_CHEST_DROP:
+	import uiChestDrop
 
 IsQBHide = 0
 class Interface(object):
@@ -123,6 +125,8 @@ class Interface(object):
 			self.wndSpecialInventory = None
 		if app.ENABLE_SEARCH_ITEM_DROP_ON_MOB:
 			self.wndDropItem = None
+		if app.ENABLE_SHOW_CHEST_DROP:
+			self.dlgChestDrop = None
 		self.listGMName = {}
 		self.wndQuestWindow = {}
 		self.wndQuestWindowNewKey = 0
@@ -298,6 +302,9 @@ class Interface(object):
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			self.wndSpecialInventory = uiSpecialInventory.SpecialInventoryWindow()
 			self.wndSpecialInventory.BindInterfaceClass(self)
+
+		if app.ENABLE_SHOW_CHEST_DROP:
+			self.dlgChestDrop = uiChestDrop.ChestDropWindow()
 
 	def __MakeDialogs(self):
 		self.dlgExchange = uiExchange.ExchangeDialog()
@@ -504,6 +511,10 @@ class Interface(object):
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			self.wndSpecialInventory.SetItemToolTip(self.tooltipItem)
 
+## 4. Add after:
+		if app.ENABLE_SHOW_CHEST_DROP:
+			self.dlgChestDrop.SetItemToolTip(self.tooltipItem)		
+
 		self.dlgShop.SetItemToolTip(self.tooltipItem)
 		self.dlgExchange.SetItemToolTip(self.tooltipItem)
 		self.privateShopBuilder.SetItemToolTip(self.tooltipItem)
@@ -690,6 +701,12 @@ class Interface(object):
 			if self.wndSpecialInventory:
 				self.wndSpecialInventory.Destroy()
 
+## 5. Add after:
+		if app.ENABLE_SHOW_CHEST_DROP:
+			if self.dlgChestDrop:
+				self.dlgChestDrop.Hide()
+				self.dlgChestDrop.Destroy()
+
 		# ACCESSORY_REFINE_ADD_METIN_STONE
 		if self.wndItemSelect:
 			self.wndItemSelect.Destroy()
@@ -814,7 +831,12 @@ class Interface(object):
 				del self.wndPetInfoWindow
 			self.wndPetInfoWindow = None
 			del self.tooltipPetSkill
-			
+
+## 6. Add after:
+		if app.ENABLE_SHOW_CHEST_DROP:
+			if self.dlgChestDrop:
+				del self.dlgChestDrop		
+
 		self.questButtonList = []
 		self.whisperButtonList = []
 		self.whisperDialogDict = {}
@@ -976,6 +998,14 @@ class Interface(object):
 
 	def RefreshShopDialog(self):
 		self.dlgShop.Refresh()
+
+## 7. Add after:
+	if app.ENABLE_SHOW_CHEST_DROP:
+		def AddChestDropInfo(self, chestVnum, pageIndex, slotIndex, itemVnum, itemCount):
+			self.dlgChestDrop.AddChestDropItem(int(chestVnum), int(pageIndex), int(slotIndex), int(itemVnum), int(itemCount))
+			
+		def RefreshChestDropInfo(self, chestVnum):
+			self.dlgChestDrop.RefreshItems(chestVnum)		
 
 	## Quest
 	def OpenCharacterWindowQuestPage(self):
