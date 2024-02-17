@@ -8,8 +8,8 @@ window = {
 
 	"style" : ("movable", "float",),
 
-	"width" : 184,
-	"height" : 328 + 26,
+	"width" : 345,
+	"height" : 390,
 
 	"children" :
 	(
@@ -21,8 +21,8 @@ window = {
 			"x" : 0,
 			"y" : 0,
 
-			"width" : 184,
-			"height" : 328 + 26,
+			"width" : 345,
+			"height" : 390,
 
 			"children" :
 			(
@@ -35,12 +35,12 @@ window = {
 					"x" : 8,
 					"y" : 8,
 
-					"width" : 169,
+					"width" : 328,
 					"color" : "gray",
 
 					"children" :
 					(
-						{ "name":"TitleName", "type":"text", "x":84, "y":4, "text":uiScriptLocale.PRIVATE_SHOP_TITLE, "text_horizontal_align":"center" },
+						{ "name":"TitleName", "type":"text", "x":164, "y":4, "text":uiScriptLocale.PRIVATE_SHOP_TITLE, "text_horizontal_align":"center" },
 					),
 				},
 
@@ -78,11 +78,11 @@ window = {
 					"type" : "grid_table",
 
 					"x" : 12,
-					"y" : 34 + 26,
+					"y" : 34,
 
 					"start_index" : 0,
-					"x_count" : 5,
-					"y_count" : 8,
+					"x_count" : 10,
+					"y_count" : 10,
 					"x_step" : 32,
 					"y_step" : 32,
 
@@ -94,8 +94,8 @@ window = {
 					"name" : "OkButton",
 					"type" : "button",
 
-					"x" : 21,
-					"y" : 295 + 26,
+					"x" : 100,
+					"y" : 360,
 
 					"width" : 61,
 					"height" : 21,
@@ -112,8 +112,8 @@ window = {
 					"name" : "CloseButton",
 					"type" : "button",
 
-					"x" : 104,
-					"y" : 295 + 26,
+					"x" : 183,
+					"y" : 360,
 
 					"width" : 61,
 					"height" : 21,

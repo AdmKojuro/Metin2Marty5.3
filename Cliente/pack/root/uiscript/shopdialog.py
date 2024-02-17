@@ -3,13 +3,13 @@ import uiScriptLocale
 window = {
 	"name" : "ShopDialog",
 
-	"x" : SCREEN_WIDTH - 400,
+	"x" : SCREEN_WIDTH - 400 -200,
 	"y" : 10,
 
 	"style" : ("movable", "float",),
 
-	"width" : 184,
-	"height" : 328,
+	"width" : 345,
+	"height" : 390,
 
 	"children" :
 	(
@@ -21,8 +21,8 @@ window = {
 			"x" : 0,
 			"y" : 0,
 
-			"width" : 184,
-			"height" : 328,
+			"width" : 345,
+			"height" : 390,
 
 			"children" :
 			(
@@ -35,12 +35,12 @@ window = {
 					"x" : 8,
 					"y" : 8,
 
-					"width" : 169,
+					"width" : 328,
 					"color" : "gray",
 
 					"children" :
 					(
-						{ "name":"TitleName", "type":"text", "x":84, "y":4, "text":uiScriptLocale.SHOP_TITLE, "text_horizontal_align":"center" },
+						{ "name":"TitleName", "type":"text", "x":164, "y":4, "text":uiScriptLocale.SHOP_TITLE, "text_horizontal_align":"center" },
 					),
 				},
 
@@ -53,8 +53,8 @@ window = {
 					"y" : 34,
 
 					"start_index" : 0,
-					"x_count" : 5,
-					"y_count" : 8,
+					"x_count" : 10,
+					"y_count" : 10,
 					"x_step" : 32,
 					"y_step" : 32,
 
@@ -66,8 +66,8 @@ window = {
 					"name" : "BuyButton",
 					"type" : "toggle_button",
 
-					"x" : 21,
-					"y" : 295,
+					"x" : 100,
+					"y" : 360,
 
 					"width" : 61,
 					"height" : 21,
@@ -84,8 +84,8 @@ window = {
 					"name" : "SellButton",
 					"type" : "toggle_button",
 
-					"x" : 104,
-					"y" : 295,
+					"x" : 183,
+					"y" : 360,
 
 					"width" : 61,
 					"height" : 21,
@@ -102,10 +102,13 @@ window = {
 					"name" : "CloseButton",
 					"type" : "button",
 
-					"x" : 0,
-					"y" : 295,
+					"x" : 4,
+					"y" : 360,
 
-					"horizontal_align" : "center",
+					"width" : 61,
+					"height" : 21,
+					
+					#"horizontal_align" : "center",
 
 					"text" : uiScriptLocale.PRIVATE_SHOP_CLOSE_BUTTON,
 
@@ -115,84 +118,85 @@ window = {
 				},
 
 				## MiddleTab1
-				{
-					"name" : "MiddleTab1",
-					"type" : "radio_button",
+                {
+                    "name" : "MiddleTab1",
+                    "type" : "radio_button",
 
-					"x" : 21,
-					"y" : 295,
+                    "x" : 21,
+                    "y" : 295,
 
-					"width" : 61,
-					"height" : 21,
+                    "width" : 61,
+                    "height" : 21,
 
-					"default_image" : "d:/ymir work/ui/public/middle_button_01.sub",
-					"over_image" : "d:/ymir work/ui/public/middle_button_02.sub",
-					"down_image" : "d:/ymir work/ui/public/middle_button_03.sub",
-				},
+                    "default_image" : "d:/ymir work/ui/public/middle_button_01.sub",
+                    "over_image" : "d:/ymir work/ui/public/middle_button_02.sub",
+                    "down_image" : "d:/ymir work/ui/public/middle_button_03.sub",
+                },
 
-				## MiddleTab2
-				{
-					"name" : "MiddleTab2",
-					"type" : "radio_button",
+                ## MiddleTab2
+                {
+                    "name" : "MiddleTab2",
+                    "type" : "radio_button",
 
-					"x" : 104,
-					"y" : 295,
+                    "x" : 104,
+                    "y" : 295,
 
-					"width" : 61,
-					"height" : 21,
+                    "width" : 61,
+                    "height" : 21,
 
-					"default_image" : "d:/ymir work/ui/public/middle_button_01.sub",
-					"over_image" : "d:/ymir work/ui/public/middle_button_02.sub",
-					"down_image" : "d:/ymir work/ui/public/middle_button_03.sub",
-				},
+                    "default_image" : "d:/ymir work/ui/public/middle_button_01.sub",
+                    "over_image" : "d:/ymir work/ui/public/middle_button_02.sub",
+                    "down_image" : "d:/ymir work/ui/public/middle_button_03.sub",
+                },
 
-				## SmallTab1
-				{
-					"name" : "SmallTab1",
-					"type" : "radio_button",
+                ## SmallTab1
+                {
+                    "name" : "SmallTab1",
+                    "type" : "radio_button",
 
-					"x" : 21,
-					"y" : 295,
+                    "x" : 21,
+                    "y" : 295,
 
-					"width" : 43,
-					"height" : 21,
+                    "width" : 43,
+                    "height" : 21,
 
-					"default_image" : "d:/ymir work/ui/public/small_button_01.sub",
-					"over_image" : "d:/ymir work/ui/public/small_button_02.sub",
-					"down_image" : "d:/ymir work/ui/public/small_button_03.sub",
-				},
+                    "default_image" : "d:/ymir work/ui/public/small_button_01.sub",
+                    "over_image" : "d:/ymir work/ui/public/small_button_02.sub",
+                    "down_image" : "d:/ymir work/ui/public/small_button_03.sub",
+                },
 
-				## SmallTab2
-				{
-					"name" : "SmallTab2",
-					"type" : "radio_button",
+                ## SmallTab2
+                {
+                    "name" : "SmallTab2",
+                    "type" : "radio_button",
 
-					"x" : 71,
-					"y" : 295,
+                    "x" : 71,
+                    "y" : 295,
 
-					"width" : 43,
-					"height" : 21,
+                    "width" : 43,
+                    "height" : 21,
 
-					"default_image" : "d:/ymir work/ui/public/small_button_01.sub",
-					"over_image" : "d:/ymir work/ui/public/small_button_02.sub",
-					"down_image" : "d:/ymir work/ui/public/small_button_03.sub",
-				},
+                    "default_image" : "d:/ymir work/ui/public/small_button_01.sub",
+                    "over_image" : "d:/ymir work/ui/public/small_button_02.sub",
+                    "down_image" : "d:/ymir work/ui/public/small_button_03.sub",
+                },
 
-				## SmallTab3
-				{
-					"name" : "SmallTab3",
-					"type" : "radio_button",
+                ## SmallTab3
+                {
+                    "name" : "SmallTab3",
+                    "type" : "radio_button",
 
-					"x" : 120,
-					"y" : 295,
+                    "x" : 120,
+                    "y" : 295,
 
-					"width" : 43,
-					"height" : 21,
+                    "width" : 43,
+                    "height" : 21,
 
-					"default_image" : "d:/ymir work/ui/public/small_button_01.sub",
-					"over_image" : "d:/ymir work/ui/public/small_button_02.sub",
-					"down_image" : "d:/ymir work/ui/public/small_button_03.sub",
-				},
+                    "default_image" : "d:/ymir work/ui/public/small_button_01.sub",
+                    "over_image" : "d:/ymir work/ui/public/small_button_02.sub",
+                    "down_image" : "d:/ymir work/ui/public/small_button_03.sub",
+                },
+
 			),
 		},
 	),
