@@ -94,7 +94,7 @@ window = {
 					"name" : "OkButton",
 					"type" : "button",
 
-					"x" : 100,
+					"x" : 50,
 					"y" : 360,
 
 					"width" : 61,
@@ -112,7 +112,7 @@ window = {
 					"name" : "CloseButton",
 					"type" : "button",
 
-					"x" : 183,
+					"x" : 230,
 					"y" : 360,
 
 					"width" : 61,
