@@ -389,6 +389,11 @@ bool CClientManager::InitializeShopTable()
 		"shop.npc_vnum, "
 		"shop_item.item_vnum, "
 		"shop_item.count "
+		",shop_item.price"
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+		",shop_item.item_vnum_buy "
+		",shop_item.item_count_buy "
+#endif
 		"FROM shop LEFT JOIN shop_item "
 		"ON shop.vnum = shop_item.shop_vnum ORDER BY shop.vnum, shop_item.item_vnum";
 
@@ -440,6 +445,11 @@ bool CClientManager::InitializeShopTable()
 
 		str_to_number(pItem->vnum, data[col++]);
 		str_to_number(pItem->count, data[col++]);
+		str_to_number(pItem->price, data[col++]);
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+		str_to_number(pItem->item_vnum_buy, data[col++]);
+		str_to_number(pItem->item_count_buy, data[col++]);
+#endif
 
 		++shop_table->byItemCount;
 	}

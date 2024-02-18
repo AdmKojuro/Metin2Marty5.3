@@ -738,6 +738,10 @@ typedef struct SShopItemTable
 	DWORD		cheque;
 #endif
 	BYTE		display_pos;
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	DWORD 		item_vnum_buy;
+	BYTE 		item_count_buy;
+#endif
 } TShopItemTable;
 
 typedef struct SShopTable

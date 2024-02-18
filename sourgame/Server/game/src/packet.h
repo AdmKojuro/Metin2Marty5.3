@@ -1454,6 +1454,9 @@ enum EPacketShopSubHeaders
 	SHOP_SUBHEADER_GC_NOT_ENOUGH_CHEQUE,
 	SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY_CHEQUE,
 #endif // __ENABLE_CHEQUE_SYSTEM__
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	SHOP_SUBHEADER_GC_NOT_ENOUGH_COUNT,
+#endif
 };
 
 struct packet_shop_item
@@ -1474,6 +1477,10 @@ struct packet_shop_item
 #endif
 	long	alSockets[ITEM_SOCKET_MAX_NUM];
 	TPlayerItemAttribute aAttr[ITEM_ATTRIBUTE_MAX_NUM];
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	DWORD 		item_vnum_buy;
+	BYTE 		item_count_buy;
+#endif
 };
 
 typedef struct packet_shop_start

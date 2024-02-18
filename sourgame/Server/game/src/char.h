@@ -1314,6 +1314,9 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		int				CountSpecifyItem(DWORD vnum) const;
 		void			RemoveSpecifyItem(DWORD vnum, DWORD count = 1);
 #endif
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+		int				CountSpecifyItemBuy(DWORD vnum) const;	
+#endif
 		LPITEM			FindSpecifyItem(DWORD vnum) const;
 		LPITEM			FindItemByID(DWORD id) const;
 

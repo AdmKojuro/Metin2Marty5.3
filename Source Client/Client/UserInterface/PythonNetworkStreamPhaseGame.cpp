@@ -2217,6 +2217,12 @@ bool CPythonNetworkStream::RecvShopPacket()
 			PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "OnShopError", Py_BuildValue("(s)", "NOT_ENOUGH_MONEY"));
 			break;
 
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+		case SHOP_SUBHEADER_GC_NOT_ENOUGH_COUNT:
+			PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "OnShopError", Py_BuildValue("(s)", "NOT_ENOUGH_COUNT"));
+			break;
+#endif
+
 		case SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY_EX:
 			PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "OnShopError", Py_BuildValue("(s)", "NOT_ENOUGH_MONEY_EX"));
 			break;

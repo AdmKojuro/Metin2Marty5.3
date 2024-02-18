@@ -174,6 +174,12 @@ void CShop::SetShopItems(TShopItemTable * pTable, BYTE bItemCount)
 		{
 			item.vnum = pTable->vnum;
 			item.count = pTable->count;
+			item.price = pTable->price;
+
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+			item.item_vnum_buy = pTable->item_vnum_buy;
+			item.item_count_buy = pTable->item_count_buy;
+#endif
 
 			if (IS_SET(item_table->dwFlags, ITEM_FLAG_COUNT_PER_1GOLD))
 			{
@@ -219,7 +225,11 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 
 	SHOP_ITEM& r_item = m_itemVector[pos];
 
-	if (r_item.price < 0)
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	if (r_item.price < 0 && r_item.item_vnum_buy == 0)
+#else
+	if (r_item.price < 0)	
+#endif
 	{
 		LogManager::instance().HackLog("SHOP_BUY_GOLD_OVERFLOW", ch);
 		return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
@@ -233,7 +243,11 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 #endif // __ENABLE_CHEQUE_SYSTEM__
 
 	LPITEM pkSelectedItem = ITEM_MANAGER::instance().Find(r_item.itemid);
-	
+
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	DWORD 	item_vnum_buy  = r_item.item_vnum_buy;
+	DWORD 	item_count_buy = r_item.item_count_buy;
+#endif
 #ifdef FULL_YANG
 	long long dwPrice = r_item.price;
 #else
@@ -286,6 +300,31 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 		return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
 	}
 #endif
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	if (item_vnum_buy == 0)
+	{
+		if (ch->GetGold() < r_item.price)
+		{
+			sys_log(1, "Shop::Buy : Not enough money : %s has %d, price %lld", ch->GetName(), ch->GetGold(), dwPrice);
+			return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
+		}
+	}
+	else
+	{
+		if (ch->CountSpecifyItemBuy(item_vnum_buy) < (int) item_count_buy){
+			//ch->ChatPacket(CHAT_TYPE_INFO, "Shop::Buy : Not enough count : %s has %d, price %d", ch->GetName(), ch->CountSpecifyItemBuy(item_vnum_buy), item_count_buy);
+			sys_log(1, "Shop::Buy : Not enough count : %s has %d, price %d", ch->GetName(), ch->CountSpecifyItemBuy(item_vnum_buy), item_count_buy);
+			return SHOP_SUBHEADER_GC_NOT_ENOUGH_COUNT;
+		}
+	}
+#else
+	if (ch->GetGold() < r_item.price)
+	{
+		sys_log(1, "Shop::Buy : Not enough money : %s has %d, price %lld", ch->GetName(), ch->GetGold(), dwPrice);
+		return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
+	}
+#endif
+
 	LPITEM item;
 
 	if (m_pkPC) 
@@ -339,8 +378,19 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 			return SHOP_SUBHEADER_GC_INVENTORY_FULL;
 		}
 	}
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	if (item_vnum_buy == 0)
+	{
 #ifdef FULL_YANG_OWN
-	ch->ChangeGold(-dwPrice);
+		ch->ChangeGold(-dwPrice);
+#else
+		ch->PointChange(POINT_GOLD, -dwPrice, false);
+#endif
+	}
+	else
+	{
+		ch->RemoveSpecifyItem(item_vnum_buy, item_count_buy);
+	}
 #else
 	ch->PointChange(POINT_GOLD, -dwPrice, false);
 #endif
@@ -945,6 +995,10 @@ bool CShop::AddGuest(LPCHARACTER ch, DWORD owner_vid, bool bOtherEmpire)
 			pack2.items[i].dwRefineElement = item.pkItem->GetRefineElement();
 #endif		
 		}
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+		pack2.items[i].item_vnum_buy = item.item_vnum_buy;
+		pack2.items[i].item_count_buy = item.item_count_buy;
+#endif
 	}
 
 	pack.size = sizeof(pack) + sizeof(pack2);

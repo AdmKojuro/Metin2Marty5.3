@@ -13,6 +13,7 @@ import app
 import background
 import nonplayer
 import chr
+import extern_wa_shopitem
 import ui
 import mouseModule
 import constInfo
@@ -1076,14 +1077,15 @@ class ItemToolTip(ToolTip):
 			self.AddItemData(itemVnum, metinSlot, attrSlot, refineElement = refineElement)
 		else:
 			self.AddItemData(itemVnum, metinSlot, attrSlot)
+		extern_wa_shopitem.FuncCheckPrice(self,slotIndex,price)
 		self.AppendSpace(8)
 		self.AppendTextLine("|Eemoji/key_ctrl|e + |Eemoji/key_rclick|e - Visualizar")
 
-		if app.ENABLE_CHEQUE_SYSTEM:
-			cheque = shop.GetItemCheque(slotIndex)
-			self.AppendPrice(price, cheque)
-		else:
-			self.AppendPrice(price)
+		#if app.ENABLE_CHEQUE_SYSTEM:
+		#	cheque = shop.GetItemCheque(slotIndex)
+		#	#self.AppendPrice(price, cheque)
+		##else:
+		#	#self.AppendPrice(price)
 
 	def SetShopItemBySecondaryCoin(self, slotIndex):
 		itemVnum = shop.GetItemID(slotIndex)

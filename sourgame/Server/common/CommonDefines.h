@@ -18,6 +18,7 @@ enum eCommonDefines {
 #define ENABLE_SWITCHBOT
 #define ENABLE_SEARCH_ITEM_DROP_ON_MOB
 #define ENABLE_SHOW_CHEST_DROP
+#define ENABLE_BUY_ITEMS_WORLDARD // comprar objetos en tienda con otros objetos
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

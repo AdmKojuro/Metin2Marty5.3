@@ -647,6 +647,10 @@ typedef struct packet_shop_item
 #endif
 	long		alSockets[ITEM_SOCKET_SLOT_MAX_NUM];
 	TPlayerItemAttribute aAttr[ITEM_ATTRIBUTE_SLOT_MAX_NUM];
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	DWORD 		item_vnum_buy;
+	BYTE 		item_count_buy;
+#endif
 } TShopItemData;
 
 #pragma pack(pop)

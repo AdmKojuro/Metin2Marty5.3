@@ -1804,6 +1804,7 @@ SHOP_NOT_ENOUGH_MONEY	No tienes suficiente Won ni Yang
 SHOP_NOT_ENOUGH_MONEY_EX	No tienes suficiente Yang.
 SHOP_NOT_ENOUGH_CHEQUE	No tienes suficientes ganancias.
 SHOP_NOT_ENOUGH_MONEY_CHEQUE	No tienes suficiente Won o Yang
+SHOP_NOT_ENOUGH_COUNT	No tienes los suficientes objetos.
 SHOP_SELL_INFO	Elige el objeto que desees vender en la ventana de tu inventario.
 SHOP_SOLDOUT	Vendido
 SHOT_ERROR_UNKNOWN	Error desconocido durante ataque a larga distancia: %s

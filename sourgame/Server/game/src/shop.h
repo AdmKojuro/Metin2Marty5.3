@@ -27,6 +27,10 @@ class CShop
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 			int		cheque;
 #endif // __ENABLE_CHEQUE_SYSTEM__
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+			DWORD 	item_vnum_buy;
+			DWORD 	item_count_buy;
+#endif
 			shop_item()
 			{
 				vnum = 0;
@@ -37,6 +41,10 @@ class CShop
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 				cheque = 0;
 #endif // __ENABLE_CHEQUE_SYSTEM__
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+				item_vnum_buy = 0;
+				item_count_buy = 0;
+#endif
 				pkItem = NULL;
 			}
 		} SHOP_ITEM;

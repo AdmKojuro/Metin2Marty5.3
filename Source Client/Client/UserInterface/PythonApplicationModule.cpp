@@ -2057,5 +2057,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_SHOW_CHEST_DROP",	0);
 #endif
 
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	PyModule_AddIntConstant(poModule, "ENABLE_BUY_ITEMS_WORLDARD",	1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_BUY_ITEMS_WORLDARD",	0);
+#endif
+
 }
 

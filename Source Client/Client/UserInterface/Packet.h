@@ -1150,6 +1150,7 @@ typedef struct command_dungeon
 	WORD		size;
 } TPacketCGDungeon;
 
+#include "Locale_inc.h"
 // Private Shop
 typedef struct SShopItemTable
 {
@@ -1166,6 +1167,10 @@ typedef struct SShopItemTable
 	DWORD		cheque;
 #endif 
 	BYTE		display_pos;
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+	DWORD 		item_vnum_buy;
+	BYTE 		item_count_buy;
+#endif
 } TShopItemTable;
 
 typedef struct SPacketCGMyShop
@@ -2095,6 +2100,7 @@ enum EPacketShopSubHeaders
 	SHOP_SUBHEADER_GC_NOT_ENOUGH_CHEQUE,
 	SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY_CHEQUE,
 #endif 
+	SHOP_SUBHEADER_GC_NOT_ENOUGH_COUNT,
 };
 
 typedef struct packet_shop

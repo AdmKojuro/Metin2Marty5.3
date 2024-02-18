@@ -7,6 +7,7 @@ import net
 import wndMgr
 import app
 import chat
+import extern_wa_shopitem
 import ui
 import uiCommon
 import mouseModule

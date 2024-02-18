@@ -340,6 +340,36 @@ PyObject * shopGetItemCheque(PyObject * poSelf, PyObject * poArgs)
 }
 #endif 
 
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+
+PyObject * shopGetItemVnumBuy(PyObject * poSelf, PyObject * poArgs)
+{
+	int iIndex;
+	if (!PyTuple_GetInteger(poArgs, 0, &iIndex))
+		return Py_BuildException();
+
+	const TShopItemData * c_pItemData;
+	if (CPythonShop::Instance().GetItemData(iIndex, &c_pItemData))
+		return Py_BuildValue("i", c_pItemData->item_vnum_buy);
+
+	return Py_BuildValue("i", 0);
+}
+
+PyObject * shopGetItemCountBuy(PyObject * poSelf, PyObject * poArgs)
+{
+	int iIndex;
+	if (!PyTuple_GetInteger(poArgs, 0, &iIndex))
+		return Py_BuildException();
+
+	const TShopItemData * c_pItemData;
+	if (CPythonShop::Instance().GetItemData(iIndex, &c_pItemData))
+		return Py_BuildValue("i", c_pItemData->item_count_buy);
+
+	return Py_BuildValue("i", 0);
+}
+
+#endif
+
 PyObject * shopGetItemMetinSocket(PyObject * poSelf, PyObject * poArgs)
 {
 	int iIndex;
@@ -544,6 +574,10 @@ void initshop()
 		{ "BuildPrivateShop",			shopBuildPrivateShop,			METH_VARARGS },
 #ifdef ENABLE_REFINE_ELEMENT
 		{ "GetItemRefineElement", 		shopGetItemRefineElement, 		METH_VARARGS },
+#endif
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+		{ "GetVnumBuy",				shopGetItemVnumBuy,			METH_VARARGS },
+		{ "GetCountBuy",			shopGetItemCountBuy,		METH_VARARGS },
 #endif
 		{ NULL,							NULL,							NULL },
 	};

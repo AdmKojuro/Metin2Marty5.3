@@ -20,6 +20,7 @@ import quest
 import guild
 import skill
 import messenger
+import extern_wa_shopitem
 import localeInfo
 import constInfo
 import exchange
@@ -1014,7 +1015,8 @@ class GameWindow(ui.ScriptWindow):
 
 	def OnShopError(self, type):
 		try:
-			self.PopupMessage(localeInfo.SHOP_ERROR_DICT[type])
+			##self.PopupMessage(localeInfo.SHOP_ERROR_DICT[type])
+			self.PopupMessage(extern_wa_shopitem.ShopErrorDict(type))
 		except KeyError:
 			self.PopupMessage(localeInfo.SHOP_ERROR_UNKNOWN % (type))
 

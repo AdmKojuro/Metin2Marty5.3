@@ -8059,6 +8059,62 @@ LPITEM CHARACTER::FindItemByID(DWORD id) const
 	return NULL;
 }
 
+#ifdef ENABLE_BUY_ITEMS_WORLDARD
+int CHARACTER::CountSpecifyItemBuy(DWORD vnum) const
+{
+	int	count = 0;
+	LPITEM item;
+
+	for (int i = 0; i < INVENTORY_AND_EQUIP_SLOT_MAX; ++i)	
+	{
+		item = GetInventoryItem(i);
+		if (NULL != item && item->GetVnum() == vnum)
+		{
+			count += item->GetCount();
+		}
+	}
+	
+#ifdef __SPECIAL_INVENTORY_SYSTEM__
+	for (int i = SKILL_BOOK_INVENTORY_SLOT_START; i < SKILL_BOOK_INVENTORY_SLOT_END; ++i)
+	{
+		item = GetInventoryItem(i);
+		if (NULL != item && item->GetVnum() == vnum)
+		{
+			count += item->GetCount();
+		}	
+	}
+	
+	for (int i = UPGRADE_ITEMS_INVENTORY_SLOT_START; i < UPGRADE_ITEMS_INVENTORY_SLOT_END; ++i)
+	{
+		item = GetInventoryItem(i);
+		if (NULL != item && item->GetVnum() == vnum)
+		{
+			count += item->GetCount();
+		}			
+	}
+	
+	for (int i = STONE_INVENTORY_SLOT_START; i < STONE_INVENTORY_SLOT_END; ++i)
+	{
+		item = GetInventoryItem(i);
+		if (NULL != item && item->GetVnum() == vnum)
+		{
+			count += item->GetCount();
+		}			
+	}
+	
+	for (int i = GIFT_BOX_INVENTORY_SLOT_START; i < GIFT_BOX_INVENTORY_SLOT_END; ++i)
+	{
+		item = GetInventoryItem(i);
+		if (NULL != item && item->GetVnum() == vnum)
+		{
+			count += item->GetCount();
+		}			
+	}
+#endif
+	return count;
+}
+#endif
+
 #ifdef __PENDANT_SYSTEM__
 int CHARACTER::CountSpecifyItem(DWORD vnum, int iExceptionCell) const
 #else
