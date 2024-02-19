@@ -2967,6 +2967,10 @@ PyObject* playerIsGiftBoxInventorySlot(PyObject* poSelf, PyObject* poArgs)
 }
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+PyObject* playerGetPremiumBattlePassID(PyObject* poSelf, PyObject* poArgs) { return Py_BuildValue("b", CPythonPlayer::Instance().GetStatus(POINT_BATTLE_PASS_PREMIUM_ID)); }
+#endif
+
 void initPlayer()
 {
 	static PyMethodDef s_methods[] =
@@ -3219,6 +3223,10 @@ void initPlayer()
 		{ "GetPetLifeTime",					playerGetPetLifeTime,				METH_VARARGS },
 		
 		{ "CanUseGrowthPetQuickSlot",		playerCanUseGrowthPetQuickSlot,		METH_VARARGS },
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		{ "GetPremiumBattlePassID",		playerGetPremiumBattlePassID,		METH_VARARGS },
 #endif
 
 		{ NULL,							NULL,								NULL },

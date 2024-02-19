@@ -149,6 +149,10 @@ enum
 #ifdef ENABLE_GAYA_SYSTEM
 	HEADER_CG_GAYA_SYSTEM 			= 210,
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	HEADER_CG_EXT_BATTLE_PASS_ACTION			= 213,
+	HEADER_CG_EXT_SEND_BP_PREMIUM_ITEM		= 214,
+#endif
 #ifdef ENABLE_CUBE_RENEWAL_WORLDARD
 	HEADER_CG_CUBE_RENEWAL 			= 216,
 #endif
@@ -395,6 +399,13 @@ enum
 #endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	HEADER_GC_67_BONUS_NEW 					= 220,
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	HEADER_GC_EXT_BATTLE_PASS_OPEN 					= 235,
+	HEADER_GC_EXT_BATTLE_PASS_GENERAL_INFO 		= 236,
+	HEADER_GC_EXT_BATTLE_PASS_MISSION_INFO 		= 237,
+	HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE 	= 238,
+	HEADER_GC_EXT_BATTLE_PASS_SEND_RANKING 		= 239,
 #endif
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -3333,6 +3344,63 @@ typedef struct SPacketGCChestDropInfo {
 	WORD	wSize;
 	DWORD	dwChestVnum;
 } TPacketGCChestDropInfo;
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+typedef struct SPacketCGExtBattlePassAction
+{
+	BYTE bHeader;
+	BYTE bAction;
+} TPacketCGExtBattlePassAction;
+
+typedef struct SPacketCGExtBattlePassSendPremiumItem
+{
+	BYTE bHeader;
+	int iSlotIndex;
+} TPacketCGExtBattlePassSendPremiumItem;
+
+typedef struct SPacketGCExtBattlePassOpen
+{
+	BYTE bHeader;
+} TPacketGCExtBattlePassOpen;
+
+typedef struct SPacketGCExtBattlePassGeneralInfo
+{
+	BYTE bHeader;
+	BYTE bBattlePassType;
+	char	szSeasonName[64+1];
+	DWORD dwBattlePassID;
+	DWORD dwBattlePassStartTime;
+	DWORD dwBattlePassEndTime;
+} TPacketGCExtBattlePassGeneralInfo;
+
+typedef struct SPacketGCExtBattlePassMissionInfo
+{
+	BYTE bHeader;
+	WORD wSize;
+	WORD wRewardSize;
+	BYTE bBattlePassType;
+	DWORD dwBattlePassID;
+} TPacketGCExtBattlePassMissionInfo;
+
+typedef struct SPacketGCExtBattlePassMissionUpdate
+{
+	BYTE bHeader;
+	BYTE bBattlePassType;
+	BYTE bMissionIndex;
+	BYTE bMissionType;
+	DWORD dwNewProgress;
+} TPacketGCExtBattlePassMissionUpdate;
+
+typedef struct SPacketGCExtBattlePassRanking
+{
+	BYTE bHeader;
+	char	szPlayerName[CHARACTER_NAME_MAX_LEN + 1];
+	BYTE bBattlePassType;
+	BYTE	bBattlePassID;
+	DWORD	dwStartTime;
+	DWORD	dwEndTime;
+} TPacketGCExtBattlePassRanking;
 #endif
 
 #pragma pack()

@@ -710,6 +710,9 @@ void CHARACTER::RewardGold(LPCHARACTER pkAttacker)
 				if (isAutoLoot)
 				{
 					pkAttacker->GiveGold(iGold / iSplitCount);
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+					pkAttacker->UpdateExtBattlePassMissionProgress(YANG_COLLECT, iGold / iSplitCount, pkAttacker->GetMapIndex());
+#endif
 				}
 				else if ((item = ITEM_MANAGER::instance().CreateItem(1, iGold / iSplitCount)))
 				{
@@ -793,6 +796,9 @@ void CHARACTER::Reward(bool bItemDrop)
 		pkAttacker->SetQuestNPCID(GetVID());
 		quest::CQuestManager::instance().Kill(pkAttacker->GetPlayerID(), GetRaceNum());
 		CHARACTER_MANAGER::instance().KillLog(GetRaceNum());
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		pkAttacker->UpdateExtBattlePassMissionProgress(KILL_MONSTER, 1, GetRaceNum());
+#endif
 
 		if (!number(0, 9))
 		{
@@ -1345,7 +1351,9 @@ void CHARACTER::Dead(LPCHARACTER pkKiller, bool bImmediateDead)
 		{
 			sys_log(1, "DEAD_BY_PC: %s %p KILLER %s %p", GetName(), this, pkKiller->GetName(), get_pointer(pkKiller));
 			REMOVE_BIT(m_pointsInstant.instant_flag, INSTANT_FLAG_DEATH_PENALTY);
-
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			pkKiller->UpdateExtBattlePassMissionProgress(KILL_PLAYER, 1, GetLevel());
+#endif
 			if (GetEmpire() != pkKiller->GetEmpire())
 			{
 				int iEP = MIN(GetPoint(POINT_EMPIRE_POINT), pkKiller->GetPoint(POINT_EMPIRE_POINT));
@@ -2316,7 +2324,15 @@ bool CHARACTER::Damage(LPCHARACTER pAttacker, int dam, EDamageType type) // retu
 	}
 
 	//
-
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	if (type != DAMAGE_TYPE_POISON)
+	{
+		if (IsPC())
+			pAttacker->UpdateExtBattlePassMissionProgress(DAMAGE_PLAYER, dam, GetLevel());
+		else
+			pAttacker->UpdateExtBattlePassMissionProgress(DAMAGE_MONSTER, dam, GetRaceNum());
+	}
+#endif
 	//
 	if (!cannot_dead)
 	{
@@ -2383,6 +2399,10 @@ void CHARACTER::DistributeHP(LPCHARACTER pkKiller)
 typedef long double rate_t;
 static void GiveExp(LPCHARACTER from, LPCHARACTER to, int iExp)
 {
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	to->UpdateExtBattlePassMissionProgress(EXP_COLLECT, iExp, from->GetRaceNum());
+#endif
+
 	if (test_server && iExp < 0)
 	{
 		to->ChatPacket(CHAT_TYPE_INFO, "exp(%d) overflow", iExp);
@@ -2495,6 +2515,9 @@ static void GiveExp(LPCHARACTER from, LPCHARACTER to, int iExp)
 #else
 static void GiveExp(LPCHARACTER from, LPCHARACTER to, int iExp)
 {
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	to->UpdateExtBattlePassMissionProgress(EXP_COLLECT, iExp, from->GetRaceNum());
+#endif
 
 	iExp = CALCULATE_VALUE_LVDELTA(to->GetLevel(), from->GetLevel(), iExp);
 

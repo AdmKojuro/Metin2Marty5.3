@@ -77,6 +77,9 @@
 #include <iterator>
 using namespace std;
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+#include "battlepass_manager.h"
+#endif
 
 extern const BYTE g_aBuffOnAttrPoints;
 extern bool RaceToJob(unsigned race, unsigned *ret_job);
@@ -535,6 +538,11 @@ void CHARACTER::Initialize()
 	m_growthPetMap.clear();
 
 	m_bCharacterSize = 0;
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	m_listExtBattlePass.clear();
+	m_bIsLoadedExtBattlePass = false;
+	m_dwLastReciveExtBattlePassInfoTime = 0;
 #endif
 }
 
@@ -1549,6 +1557,9 @@ void CHARACTER::CreatePlayerProto(TPlayerTable & tab)
 	// END_OF_REMOVE_REAL_SKILL_LEVLES
 
 	tab.horse = GetHorseData();
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	tab.battle_pass_premium_id = GetExtBattlePassPremiumID();
+#endif
 }
 
 
@@ -1644,6 +1655,20 @@ void CHARACTER::Disconnect(const char * c_pszReason)
 		GetGuild()->LogoutMember(this);
 
 	quest::CQuestManager::instance().LogoutPC(this);
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	ListExtBattlePassMap::iterator itext = m_listExtBattlePass.begin();
+	while (itext != m_listExtBattlePass.end())
+	{
+		TPlayerExtBattlePassMission* pkMission = *itext++;
+
+		if (!pkMission->bIsUpdated)
+			continue;
+
+		db_clientdesc->DBPacket(HEADER_GD_SAVE_EXT_BATTLE_PASS, 0, pkMission, sizeof(TPlayerExtBattlePassMission));
+	}
+	m_bIsLoadedExtBattlePass = false;
+#endif
 
 	if (GetParty())
 		GetParty()->Unlink(this);
@@ -1935,6 +1960,9 @@ void CHARACTER::PointsPacket()
 #ifdef ENABLE_GAYA_SYSTEM
 	pack.points[POINT_GAYA]			= GetGaya();
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	pack.points[POINT_BATTLE_PASS_PREMIUM_ID] = GetExtBattlePassPremiumID();
+#endif
 
 	GetDesc()->Packet(&pack, sizeof(TPacketGCPoints));
 }
@@ -2123,6 +2151,9 @@ void CHARACTER::SetPlayerProto(const TPlayerTable * t)
 #endif
 #ifdef ENABLE_GAYA_SYSTEM
 	SetGaya(t->gaya);
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	SetExtBattlePassPremiumID(t->battle_pass_premium_id);
 #endif
 	SetMapIndex(t->lMapIndex);
 	SetXYZ(t->x, t->y, t->z);
@@ -3780,6 +3811,14 @@ void CHARACTER::PointChange(BYTE type, int amount, bool bAmount, bool bBroadcast
 
 				SetGaya(GetGaya() + amount);
 				val = GetGaya();
+			}
+			break;
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		case POINT_BATTLE_PASS_PREMIUM_ID:
+			{
+				SetExtBattlePassPremiumID(amount);
+				val = GetExtBattlePassPremiumID();
 			}
 			break;
 #endif
@@ -10428,4 +10467,390 @@ void CHARACTER::SortSpecialInventoryItems(BYTE type)
 	ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Your special inventory items have been sorted."));
 }
 #endif
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+void CHARACTER::SetLastReciveExtBattlePassInfoTime(DWORD time)
+{
+	m_dwLastReciveExtBattlePassInfoTime = time;
+}
+
+void CHARACTER::SetLastReciveExtBattlePassOpenRanking(DWORD time)
+{
+	m_dwLastExtBattlePassOpenRankingTime = time;
+}
+
+void CHARACTER::LoadExtBattlePass(DWORD dwCount, TPlayerExtBattlePassMission* data)
+{
+	m_bIsLoadedExtBattlePass = false;
+
+	for (int i = 0; i < dwCount; ++i, ++data)
+	{
+		TPlayerExtBattlePassMission* newMission = new TPlayerExtBattlePassMission;
+		newMission->dwPlayerId = data->dwPlayerId;
+		newMission->dwBattlePassType = data->dwBattlePassType;
+		newMission->dwMissionIndex = data->dwMissionIndex;
+		newMission->dwMissionType = data->dwMissionType;
+		newMission->dwBattlePassId = data->dwBattlePassId;
+		newMission->dwExtraInfo = data->dwExtraInfo;
+		newMission->bCompleted = data->bCompleted;
+		newMission->bIsUpdated = data->bIsUpdated;
+
+		m_listExtBattlePass.push_back(newMission);
+	}
+
+	m_bIsLoadedExtBattlePass = true;
+}
+
+DWORD CHARACTER::GetExtBattlePassMissionProgress(DWORD dwBattlePassType, BYTE bMissionIndex, BYTE bMissionType)
+{
+	DWORD BattlePassID;
+	if (dwBattlePassType == 1)
+		BattlePassID = CBattlePassManager::instance().GetNormalBattlePassID();
+	else if (dwBattlePassType == 2)
+		BattlePassID = CBattlePassManager::instance().GetPremiumBattlePassID();
+	else if (dwBattlePassType == 3)
+		BattlePassID = CBattlePassManager::instance().GetEventBattlePassID();
+	else {
+		sys_err("Unknown BattlePassType (%d)", dwBattlePassType);
+		return 0;
+	}
+	
+	ListExtBattlePassMap::iterator it = m_listExtBattlePass.begin();
+	while (it != m_listExtBattlePass.end())
+	{
+		TPlayerExtBattlePassMission* pkMission = *it++;
+		if (pkMission->dwBattlePassType == dwBattlePassType && pkMission->dwMissionIndex == bMissionIndex && pkMission->dwMissionType == bMissionType && pkMission->dwBattlePassId == BattlePassID)
+			return pkMission->dwExtraInfo;
+	}
+	return 0;
+}
+
+bool CHARACTER::IsExtBattlePassCompletedMission(DWORD dwBattlePassType, BYTE bMissionIndex, BYTE bMissionType)
+{
+	DWORD BattlePassID;
+	if (dwBattlePassType == 1)
+		BattlePassID = CBattlePassManager::instance().GetNormalBattlePassID();
+	else if (dwBattlePassType == 2)
+		BattlePassID = CBattlePassManager::instance().GetPremiumBattlePassID();
+	else if (dwBattlePassType == 3)
+		BattlePassID = CBattlePassManager::instance().GetEventBattlePassID();
+	else {
+		sys_err("Unknown BattlePassType (%d)", dwBattlePassType);
+		return false;
+	}
+	ListExtBattlePassMap::iterator it = m_listExtBattlePass.begin();
+	while (it != m_listExtBattlePass.end())
+	{
+		TPlayerExtBattlePassMission* pkMission = *it++;
+		if (pkMission->dwBattlePassType == dwBattlePassType && pkMission->dwMissionIndex == bMissionIndex && pkMission->dwMissionType == bMissionType && pkMission->dwBattlePassId == BattlePassID)
+			return (pkMission->bCompleted ? true : false);
+	}
+	return false;
+}
+
+bool CHARACTER::IsExtBattlePassRegistered(BYTE bBattlePassType, DWORD dwBattlePassID)
+{
+	std::unique_ptr<SQLMsg> pMsg(DBManager::instance().DirectQuery("SELECT * FROM player.battlepass_playerindex WHERE player_id = %d and battlepass_type = %d and battlepass_id = %d", GetPlayerID(), bBattlePassType, dwBattlePassID));
+	if (pMsg->Get()->uiNumRows != 0)
+		return true;
+
+	return false;
+}
+
+void CHARACTER::UpdateExtBattlePassMissionProgress(DWORD dwMissionType, DWORD dwUpdateValue, DWORD dwCondition, bool isOverride)
+{
+	if (!GetDesc())
+		return;
+
+	if (!m_bIsLoadedExtBattlePass)
+		return;
+
+	DWORD dwSafeCondition = dwCondition;
+	for (BYTE bBattlePassType = 1; bBattlePassType <= 3 ; ++bBattlePassType)
+	{
+		bool foundMission = false;
+		DWORD dwSaveProgress = 0;
+		dwCondition = dwSafeCondition;
+		
+		BYTE bBattlePassID;
+		BYTE bMissionIndex = CBattlePassManager::instance().GetMissionIndex(bBattlePassType, dwMissionType, dwCondition);
+
+		if (bBattlePassType == 1)
+			bBattlePassID = CBattlePassManager::instance().GetNormalBattlePassID();
+		if (bBattlePassType == 2){
+			bBattlePassID = CBattlePassManager::instance().GetPremiumBattlePassID();
+			if (bBattlePassID != GetExtBattlePassPremiumID())
+				continue;
+		}
+		if (bBattlePassType == 3)
+			bBattlePassID = CBattlePassManager::instance().GetEventBattlePassID();
+
+		DWORD dwFirstInfo, dwSecondInfo;
+		if (CBattlePassManager::instance().BattlePassMissionGetInfo(bBattlePassType, bMissionIndex, bBattlePassID, dwMissionType, &dwFirstInfo, &dwSecondInfo))
+		{
+			if (dwFirstInfo == 0)
+				dwCondition = 0;
+			
+			if ((dwMissionType == 2 and dwFirstInfo <= dwCondition) or (dwMissionType == 4 and dwFirstInfo <= dwCondition) or (dwMissionType == 20 and dwFirstInfo <= dwCondition))
+				dwCondition = dwFirstInfo;
+
+			if (dwFirstInfo == dwCondition && GetExtBattlePassMissionProgress(bBattlePassType, bMissionIndex, dwMissionType) < dwSecondInfo)
+			{
+				ListExtBattlePassMap::iterator it = m_listExtBattlePass.begin();
+				while (it != m_listExtBattlePass.end())
+				{
+					TPlayerExtBattlePassMission* pkMission = *it++;
+
+					if (pkMission->dwBattlePassType == bBattlePassType && pkMission->dwMissionIndex == bMissionIndex && pkMission->dwMissionType == dwMissionType && pkMission->dwBattlePassId == bBattlePassID)
+					{
+						pkMission->bIsUpdated = 1;
+
+						if (isOverride)
+							pkMission->dwExtraInfo = dwUpdateValue;
+						else
+							pkMission->dwExtraInfo += dwUpdateValue;
+
+						if (pkMission->dwExtraInfo >= dwSecondInfo)
+						{
+							pkMission->dwExtraInfo = dwSecondInfo;
+							pkMission->bCompleted = 1;
+
+							std::string stMissionName = CBattlePassManager::instance().GetMissionNameByType(pkMission->dwMissionType);
+							std::string stBattlePassName = CBattlePassManager::instance().GetNormalBattlePassNameByID(pkMission->dwBattlePassId);
+
+							CBattlePassManager::instance().BattlePassRewardMission(this, bBattlePassType, bBattlePassID, bMissionIndex);
+							if (bBattlePassType == 1) {
+								EffectPacket(SE_EFFECT_BP_NORMAL_MISSION_COMPLETED);
+								ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_NORMAL_MISSION"));
+							}
+							if (bBattlePassType == 2) {
+								EffectPacket(SE_EFFECT_BP_PREMIUM_MISSION_COMPLETED);
+								ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_PREMIUM_MISSION"));
+							}
+							if (bBattlePassType == 3) {
+								EffectPacket(SE_EFFECT_BP_EVENT_MISSION_COMPLETED);
+								ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_EVENT_MISSION"));
+							}
+							
+							TPacketGCExtBattlePassMissionUpdate packet;
+							packet.bHeader = HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE;
+							packet.bBattlePassType = bBattlePassType;
+							packet.bMissionIndex = bMissionIndex;
+							packet.dwNewProgress = pkMission->dwExtraInfo;
+							GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
+						}
+
+						dwSaveProgress = pkMission->dwExtraInfo;
+						foundMission = true;
+
+						if (pkMission->bCompleted != 1) {
+							TPacketGCExtBattlePassMissionUpdate packet;
+							packet.bHeader = HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE;
+							packet.bBattlePassType = bBattlePassType;
+							packet.bMissionIndex = bMissionIndex;
+							packet.dwNewProgress = dwSaveProgress;
+							GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
+						}
+						break;
+					}
+					
+				}
+
+				if (!foundMission)
+				{
+					if (!IsExtBattlePassRegistered(bBattlePassType, bBattlePassID))
+						DBManager::instance().DirectQuery("INSERT INTO player.battlepass_playerindex SET player_id=%d, player_name='%s', battlepass_type=%d, battlepass_id=%d, start_time=NOW()", GetPlayerID(), GetName(), bBattlePassType, bBattlePassID);
+					
+					TPlayerExtBattlePassMission* newMission = new TPlayerExtBattlePassMission;
+					newMission->dwPlayerId = GetPlayerID();
+					newMission->dwBattlePassType = bBattlePassType;
+					newMission->dwMissionType = dwMissionType;
+					newMission->dwBattlePassId = bBattlePassID;
+
+					if (dwUpdateValue >= dwSecondInfo)
+					{
+						newMission->dwMissionIndex = CBattlePassManager::instance().GetMissionIndex(bBattlePassType, dwMissionType, dwCondition);
+						newMission->dwExtraInfo = dwSecondInfo;
+						newMission->bCompleted = 1;
+
+						CBattlePassManager::instance().BattlePassRewardMission(this, bBattlePassType, bBattlePassID, bMissionIndex);
+						if (bBattlePassType == 1) {
+							EffectPacket(SE_EFFECT_BP_NORMAL_MISSION_COMPLETED);
+							ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_NORMAL_MISSION"));
+						}
+						if (bBattlePassType == 2) {
+							EffectPacket(SE_EFFECT_BP_PREMIUM_MISSION_COMPLETED);
+							ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_PREMIUM_MISSION"));
+						}
+						if (bBattlePassType == 3) {
+							EffectPacket(SE_EFFECT_BP_EVENT_MISSION_COMPLETED);
+							ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_EVENT_MISSION"));
+						}
+
+						dwSaveProgress = dwSecondInfo;
+					}
+					else
+					{
+						newMission->dwMissionIndex = CBattlePassManager::instance().GetMissionIndex(bBattlePassType, dwMissionType, dwCondition);
+						newMission->dwExtraInfo = dwUpdateValue;
+						newMission->bCompleted = 0;
+
+						dwSaveProgress = dwUpdateValue;
+					}
+
+					newMission->bIsUpdated = 1;
+
+					m_listExtBattlePass.push_back(newMission);
+
+					TPacketGCExtBattlePassMissionUpdate packet;
+					packet.bHeader = HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE;
+					packet.bBattlePassType = bBattlePassType;
+					packet.bMissionIndex = bMissionIndex;
+					packet.dwNewProgress = dwSaveProgress;
+					GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
+				}
+			}
+		}
+	}
+}
+void CHARACTER::SetExtBattlePassMissionProgress(BYTE bBattlePassType, DWORD dwMissionIndex, DWORD dwMissionType, DWORD dwUpdateValue)
+{
+	if (!GetDesc())
+		return;
+
+	if (!m_bIsLoadedExtBattlePass)
+		return;
+
+	bool foundMission = false;
+	DWORD dwSaveProgress = 0;
+	
+	BYTE bBattlePassID;
+	if (bBattlePassType == 1)
+		bBattlePassID = CBattlePassManager::instance().GetNormalBattlePassID();
+	else if (bBattlePassType == 2)
+		bBattlePassID = CBattlePassManager::instance().GetPremiumBattlePassID();
+	else if (bBattlePassType == 3)
+		bBattlePassID = CBattlePassManager::instance().GetEventBattlePassID();
+	else {
+		sys_err("Unknown BattlePassType (%d)", bBattlePassType);
+		return;
+	}
+	
+	DWORD dwFirstInfo, dwSecondInfo;
+	if (CBattlePassManager::instance().BattlePassMissionGetInfo(bBattlePassType, dwMissionIndex, bBattlePassID, dwMissionType, &dwFirstInfo, &dwSecondInfo))
+	{
+		ListExtBattlePassMap::iterator it = m_listExtBattlePass.begin();
+		while (it != m_listExtBattlePass.end())
+		{
+			TPlayerExtBattlePassMission* pkMission = *it++;
+
+			if (pkMission->dwBattlePassType == bBattlePassType && pkMission->dwMissionIndex == dwMissionIndex && pkMission->dwMissionType == dwMissionType && pkMission->dwBattlePassId == bBattlePassID)
+			{
+				pkMission->bIsUpdated = 1;
+				pkMission->bCompleted = 0;
+				
+				pkMission->dwExtraInfo = dwUpdateValue;
+
+				if (pkMission->dwExtraInfo >= dwSecondInfo)
+				{
+					pkMission->dwExtraInfo = dwSecondInfo;
+					pkMission->bCompleted = 1;
+
+					std::string stMissionName = CBattlePassManager::instance().GetMissionNameByType(pkMission->dwMissionType);
+					std::string stBattlePassName = CBattlePassManager::instance().GetNormalBattlePassNameByID(pkMission->dwBattlePassId);
+					//ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("New Value : %d"), pkMission->dwExtraInfo);
+
+					CBattlePassManager::instance().BattlePassRewardMission(this, bBattlePassType, bBattlePassID, dwMissionIndex);
+					if (bBattlePassType == 1) {
+						EffectPacket(SE_EFFECT_BP_NORMAL_MISSION_COMPLETED);
+						ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_NORMAL_MISSION"));
+					}
+					if (bBattlePassType == 2) {
+						EffectPacket(SE_EFFECT_BP_PREMIUM_MISSION_COMPLETED);
+						ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_PREMIUM_MISSION"));
+					}
+					if (bBattlePassType == 3) {
+						EffectPacket(SE_EFFECT_BP_EVENT_MISSION_COMPLETED);
+						ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_EVENT_MISSION"));
+					}
+					
+					TPacketGCExtBattlePassMissionUpdate packet;
+					packet.bHeader = HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE;
+					packet.bBattlePassType = bBattlePassType;
+					packet.bMissionIndex = dwMissionIndex;
+					packet.dwNewProgress = pkMission->dwExtraInfo;
+					GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
+				}
+
+				dwSaveProgress = pkMission->dwExtraInfo;
+				foundMission = true;
+
+				if (pkMission->bCompleted != 1) {
+					TPacketGCExtBattlePassMissionUpdate packet;
+					packet.bHeader = HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE;
+					packet.bBattlePassType = bBattlePassType;
+					packet.bMissionIndex = dwMissionIndex;
+					packet.dwNewProgress = dwSaveProgress;
+					GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
+				}
+				break;
+			}
+		}
+
+		if (!foundMission)
+		{
+			if (!IsExtBattlePassRegistered(bBattlePassType, bBattlePassID))
+				DBManager::instance().DirectQuery("INSERT INTO player.battlepass_playerindex SET player_id=%d, player_name='%s', battlepass_type=%d, battlepass_id=%d, start_time=NOW()", GetPlayerID(), GetName(), bBattlePassType, bBattlePassID);
+
+			TPlayerExtBattlePassMission* newMission = new TPlayerExtBattlePassMission;
+			newMission->dwPlayerId = GetPlayerID();
+			newMission->dwBattlePassType = bBattlePassType;
+			newMission->dwMissionType = dwMissionType;
+			newMission->dwBattlePassId = bBattlePassID;
+
+			if (dwUpdateValue >= dwSecondInfo)
+			{
+				newMission->dwMissionIndex = dwMissionIndex;
+				newMission->dwExtraInfo = dwSecondInfo;
+				newMission->bCompleted = 1;
+
+				CBattlePassManager::instance().BattlePassRewardMission(this, bBattlePassType, bBattlePassID, dwMissionIndex);
+				if (bBattlePassType == 1) {
+					EffectPacket(SE_EFFECT_BP_NORMAL_MISSION_COMPLETED);
+					ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_NORMAL_MISSION"));
+				}
+				if (bBattlePassType == 2) {
+					EffectPacket(SE_EFFECT_BP_PREMIUM_MISSION_COMPLETED);
+					ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_PREMIUM_MISSION"));
+				}
+				if (bBattlePassType == 3) {
+					EffectPacket(SE_EFFECT_BP_EVENT_MISSION_COMPLETED);
+					ChatPacket(CHAT_TYPE_NOTICE, LC_TEXT("BATTLEPASS_COMPLETE_EVENT_MISSION"));
+				}
+
+				dwSaveProgress = dwSecondInfo;
+			}
+			else
+			{
+				newMission->dwMissionIndex = dwMissionIndex;
+				newMission->dwExtraInfo = dwUpdateValue;
+				newMission->bCompleted = 0;
+
+				dwSaveProgress = dwUpdateValue;
+			}
+
+			newMission->bIsUpdated = 1;
+
+			m_listExtBattlePass.push_back(newMission);
+
+			TPacketGCExtBattlePassMissionUpdate packet;
+			packet.bHeader = HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE;
+			packet.bBattlePassType = bBattlePassType;
+			packet.bMissionIndex = dwMissionIndex;
+			packet.dwNewProgress = dwSaveProgress;
+			GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
+		}
+	}
+}
 #endif

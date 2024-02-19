@@ -2768,7 +2768,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if (arg == 3):
 				self.interface.ToggleDungeonInfoWindow()
 			if (arg == 4):
-				self.interface.OpenBattlePass()
+				self.interface.ToggleBattlePassExtended()
 			if (arg == 5):
 				self.interface.ToggleSwitchbotWindow()
 			if (arg == 6):

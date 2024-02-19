@@ -5340,3 +5340,183 @@ ACMD(do_pet_set)
 	}
 }
 #endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+#include "battlepass_manager.h"
+ACMD(do_battlepass_get_info)
+{
+	if (CBattlePassManager::instance().GetNormalBattlePassID() == 0) 
+		ch->ChatPacket(CHAT_TYPE_INFO, "No normal Battlepass is currently active");
+	else
+	{
+		std::unique_ptr<SQLMsg> pMsgRegistred(DBManager::instance().DirectQuery("SELECT COUNT(*) FROM `battlepass_playerindex` WHERE battlepass_type = 1 and battlepass_id = %d", CBattlePassManager::instance().GetNormalBattlePassID()));
+		std::unique_ptr<SQLMsg> pMsgCompledet(DBManager::instance().DirectQuery("SELECT COUNT(*) FROM `battlepass_playerindex` WHERE battlepass_type = 1 and battlepass_id = %d and battlepass_completed = 1", CBattlePassManager::instance().GetNormalBattlePassID()));
+		if (!pMsgRegistred->uiSQLErrno and !pMsgCompledet->uiSQLErrno)
+		{
+			MYSQL_ROW row_registred = mysql_fetch_row(pMsgRegistred->Get()->pSQLResult);
+			MYSQL_ROW row_compledet = mysql_fetch_row(pMsgCompledet->Get()->pSQLResult);
+			
+			ch->ChatPacket(CHAT_TYPE_INFO, "---------------------------------------------------------------");
+			ch->ChatPacket(CHAT_TYPE_INFO, "Actual Normal Battlepass ID = %d", CBattlePassManager::instance().GetNormalBattlePassID());
+			ch->ChatPacket(CHAT_TYPE_INFO, "Registred Player for Normal Battlepass = %d", std::atoi(row_registred[0]));
+			ch->ChatPacket(CHAT_TYPE_INFO, "Finish Player for Normal Battlepass = %d / %d", std::atoi(row_compledet[0]), std::atoi(row_registred[0]));
+			ch->ChatPacket(CHAT_TYPE_INFO, "---------------------------------------------------------------");
+		}
+	}
+		
+	if (CBattlePassManager::instance().GetPremiumBattlePassID() == 0) 
+		ch->ChatPacket(CHAT_TYPE_INFO, "No premium Battlepass is currently active");
+	else
+	{
+		std::unique_ptr<SQLMsg> pMsgRegistred(DBManager::instance().DirectQuery("SELECT COUNT(*) FROM `battlepass_playerindex` WHERE battlepass_type = 2 and battlepass_id = %d", CBattlePassManager::instance().GetPremiumBattlePassID()));
+		std::unique_ptr<SQLMsg> pMsgCompledet(DBManager::instance().DirectQuery("SELECT COUNT(*) FROM `battlepass_playerindex` WHERE battlepass_type = 2 and battlepass_id = %d and battlepass_completed = 1", CBattlePassManager::instance().GetPremiumBattlePassID()));
+		if (!pMsgRegistred->uiSQLErrno and !pMsgCompledet->uiSQLErrno)
+		{
+			MYSQL_ROW row_registred = mysql_fetch_row(pMsgRegistred->Get()->pSQLResult);
+			MYSQL_ROW row_compledet = mysql_fetch_row(pMsgCompledet->Get()->pSQLResult);
+			
+			ch->ChatPacket(CHAT_TYPE_INFO, "---------------------------------------------------------------");
+			ch->ChatPacket(CHAT_TYPE_INFO, "Actual Premium Battlepass ID = %d", CBattlePassManager::instance().GetPremiumBattlePassID());
+			ch->ChatPacket(CHAT_TYPE_INFO, "Registred Player for Premium Battlepass = %d",  std::atoi(row_registred[0]));
+			ch->ChatPacket(CHAT_TYPE_INFO, "Finish Player for Premium Battlepass = %d / %d", std::atoi(row_compledet[0]), std::atoi(row_registred[0]));
+			ch->ChatPacket(CHAT_TYPE_INFO, "---------------------------------------------------------------");
+		}
+	}
+		
+	if (CBattlePassManager::instance().GetEventBattlePassID() == 0) 
+		ch->ChatPacket(CHAT_TYPE_INFO, "No event Battlepass is currently active");
+	else
+	{
+		std::unique_ptr<SQLMsg> pMsgRegistred(DBManager::instance().DirectQuery("SELECT COUNT(*) FROM `battlepass_playerindex` WHERE battlepass_type = 3 and battlepass_id = %d", CBattlePassManager::instance().GetEventBattlePassID()));
+		std::unique_ptr<SQLMsg> pMsgCompledet(DBManager::instance().DirectQuery("SELECT COUNT(*) FROM `battlepass_playerindex` WHERE battlepass_type = 3 and battlepass_id = %d and battlepass_completed = 1", CBattlePassManager::instance().GetEventBattlePassID()));
+		if (!pMsgRegistred->uiSQLErrno and !pMsgCompledet->uiSQLErrno)
+		{
+			MYSQL_ROW row_registred = mysql_fetch_row(pMsgRegistred->Get()->pSQLResult);
+			MYSQL_ROW row_compledet = mysql_fetch_row(pMsgCompledet->Get()->pSQLResult);
+			
+			ch->ChatPacket(CHAT_TYPE_INFO, "---------------------------------------------------------------");
+			ch->ChatPacket(CHAT_TYPE_INFO, "Actual Event Battlepass ID = %d", CBattlePassManager::instance().GetEventBattlePassID());
+			ch->ChatPacket(CHAT_TYPE_INFO, "Registred Player for Event Battlepass = %d", std::atoi(row_registred[0]));
+			ch->ChatPacket(CHAT_TYPE_INFO, "Finish Player for Event Battlepass = %d / %d", std::atoi(row_compledet[0]), std::atoi(row_registred[0]));
+			ch->ChatPacket(CHAT_TYPE_INFO, "---------------------------------------------------------------");
+		}
+	}
+}
+
+ACMD(do_battlepass_set_mission)
+{
+	char arg1[256], arg2[256], arg3[256], arg4[256];
+	four_arguments(argument, arg1, sizeof(arg1), arg2, sizeof(arg2), arg3, sizeof(arg3), arg4, sizeof(arg4));
+	
+	if (!*arg1 || !*arg2 || !*arg3)
+	{
+		ch->ChatPacket(CHAT_TYPE_INFO, "Syntax: battlepass_set_mission <battlepass_type> <mission_index> <value> (<playername>)");
+		ch->ChatPacket(CHAT_TYPE_INFO, "battlepass_type: 1 = NORMAL | 2 = PREMIUM | 3 = EVENT");
+		ch->ChatPacket(CHAT_TYPE_INFO, "mission_index: mission index means the number of the mission counted from the top starting with 1");
+		ch->ChatPacket(CHAT_TYPE_INFO, "value: input the value what you will override");
+		return;
+	}
+	
+	int battlepass_type, value;
+	int mission_index = 0;
+	str_to_number(battlepass_type, arg1);
+	str_to_number(mission_index, arg2);
+	str_to_number(value, arg3);
+	
+	value = MAX(0, value);
+	
+	if (battlepass_type == 1 and CBattlePassManager::instance().GetNormalBattlePassID() == 0) {
+		ch->ChatPacket(CHAT_TYPE_INFO, "No normal Battlepass is currently active");
+		return;
+	}
+	if (battlepass_type == 2 and CBattlePassManager::instance().GetPremiumBattlePassID() == 0) {
+		ch->ChatPacket(CHAT_TYPE_INFO, "No premium Battlepass is currently active");
+		return;
+	}
+	if (battlepass_type == 3 and CBattlePassManager::instance().GetEventBattlePassID() == 0) {
+		ch->ChatPacket(CHAT_TYPE_INFO, "No event Battlepass is currently active");
+		return;
+	}
+	
+	LPCHARACTER tch;
+	
+	if (*arg4 && ch->GetName() != arg4)
+		tch = CHARACTER_MANAGER::instance().FindPC(arg4);
+	else
+		tch = CHARACTER_MANAGER::instance().FindPC(ch->GetName());
+
+	if (!tch) {
+		ch->ChatPacket(CHAT_TYPE_INFO, "This player is not online or does not exist.");
+		return;
+	}
+	if (battlepass_type == 2 and CBattlePassManager::instance().GetPremiumBattlePassID() != tch->GetExtBattlePassPremiumID()) {
+		ch->ChatPacket(CHAT_TYPE_INFO, "This player does not have access to the current Premium Battle Pass.");
+		return;
+	}
+	DWORD mission_type = CBattlePassManager::instance().GetMissionTypeByIndex(battlepass_type, mission_index);
+	if (mission_type == 0){
+		ch->ChatPacket(CHAT_TYPE_INFO, "There is no mission index %d in battlepass-typ %d", mission_index, battlepass_type);
+		return;
+	}
+	
+	tch->SetExtBattlePassMissionProgress(battlepass_type, mission_index, mission_type, value);
+}
+
+ACMD(do_battlepass_premium_activate)
+{
+	char arg1[256], arg2[256];
+	two_arguments(argument, arg1, sizeof(arg1), arg2, sizeof(arg2));
+
+	int value;
+	str_to_number(value, arg2);
+	
+	if (!*arg1 || !*arg2 || value > 1)
+	{
+		ch->ChatPacket(CHAT_TYPE_INFO, "Syntax: battlepass_premium_activate <playername> <activate = 1 / deactivate = 0>");
+		return;
+	}
+	
+	if (CBattlePassManager::instance().GetPremiumBattlePassID() == 0) {
+		ch->ChatPacket(CHAT_TYPE_INFO, "No premium Battlepass is currently active");
+		return;
+	}
+		
+	if (ch->GetName() != arg1) {
+		LPCHARACTER tch = CHARACTER_MANAGER::instance().FindPC(arg1);
+		if (!tch)
+		{
+			ch->ChatPacket(CHAT_TYPE_INFO, "This player is not online or does not exist.");
+			return;
+		}	
+			
+		if (value == 1)
+		{
+			tch->PointChange(POINT_BATTLE_PASS_PREMIUM_ID, CBattlePassManager::instance().GetPremiumBattlePassID());
+			CBattlePassManager::instance().BattlePassRequestOpen(tch, false);
+			tch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_NOW_IS_ACTIVATED_PREMIUM_BATTLEPASS"));
+			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_CMDGM_ACTIVATE_PREMIUM_TO_PLAYER"), tch->GetName());
+		}
+		if (value == 0)
+		{
+			tch->PointChange(POINT_BATTLE_PASS_PREMIUM_ID, 0);
+			tch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_CMDGM_DEACTIVATE_PREMIUM_PLAYER"));
+			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_CMDGM_DEACTIVATE_PREMIUM_TO_PLAYER"), tch->GetName());
+		}
+	}
+	else
+	{
+		if (value == 1)
+		{
+			ch->PointChange(POINT_BATTLE_PASS_PREMIUM_ID, CBattlePassManager::instance().GetPremiumBattlePassID());
+			CBattlePassManager::instance().BattlePassRequestOpen(ch, false);
+			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_NOW_IS_ACTIVATED_PREMIUM_BATTLEPASS_OWN"));
+		}
+		if (value == 0)
+		{
+			ch->PointChange(POINT_BATTLE_PASS_PREMIUM_ID, 0);
+			CBattlePassManager::instance().BattlePassRequestOpen(ch, false);
+			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_CMDGM_DEACTIVATE_PREMIUM_OWN"));
+		}
+	}
+}
+#endif

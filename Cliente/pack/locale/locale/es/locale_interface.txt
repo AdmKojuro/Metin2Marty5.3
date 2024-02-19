@@ -127,6 +127,137 @@ EXCHANGE_ACCEPT	Vale
 EXCHANGE_TITLE	Comerciar
 EXIT_BATTLE_FIELD	¿De verdad quieres abandonar la zona de combate?
 EXIT_BATTLE_FIELD_ON_DEAD	¿Quieres abandonar la zona de combate con %d punto(s)?
+EXTENDET_BATTLE_PASS_TITLE	Pase de batalla
+EXTENDET_BATTLE_PASS_RANK_ICON_RANK	Top ranking
+EXTENDET_BATTLE_PASS_RANK_ICON_NAME	Nombre
+EXTENDET_BATTLE_PASS_RANK_ICON_TIME	Tiempo
+EXTENDET_BATTLE_PASS_NO_PLANNED_NORMAL_BATTLEPASS	Ahora no hay pase de batalla.
+EXTENDET_BATTLE_PASS_PLANNED_NEXT_NORMAL_BATTLEPASS	¡Se está haciendo un pase de batalla!
+EXTENDET_BATTLE_PASS_TIME_TO_NEXT_NORMAL_BATTLEPASS	Tiempo para el pase: %s
+EXTENDET_BATTLE_PASS_NO_PLANNED_PREMIUM_BATTLEPASS	Ahora no hay pase de batalla premium.
+EXTENDET_BATTLE_PASS_PLANNED_NEXT_PREMIUM_BATTLEPASS	¡Se está haciendo un pase de batalla premium!
+EXTENDET_BATTLE_PASS_TIME_TO_NEXT_PREMIUM_BATTLEPASS	Tiempo para el pase premium: %s
+EXTENDET_BATTLE_PASS_NO_PLANNED_EVENT_BATTLEPASS	Ahora no hay pase de batalla de evento.
+EXTENDET_BATTLE_PASS_PLANNED_NEXT_EVENT_BATTLEPASS	¡Se está haciendo un pase de batalla!
+EXTENDET_BATTLE_PASS_TIME_TO_NEXT_EVENT_BATTLEPASS	Tiempo para el pase de evento: %s
+EXTENDET_BATTLE_PASS_SEASON_TITLE	Información del pase
+EXTENDET_BATTLE_PASS_SEASON_NAME	Temporada: %s
+EXTENDET_BATTLE_PASS_SEASON_TOTAL_MISSIONS	Misiones de temporada: %d
+EXTENDET_BATTLE_PASS_SEASON_CURRENT_MISSIONS	Misiones completadas: %d / %d
+EXTENDET_BATTLE_PASS_SEASON_DATE_FROM	De
+EXTENDET_BATTLE_PASS_SEASON_DATE_TO	A
+EXTENDET_BATTLE_PASS_SEASON_REST_TIME	Tiempo restante: %s
+EXTENDET_BATTLE_PASS_SEASON_PROGRESS	Progreso de todas las misiones.
+EXTENDET_BATTLE_PASS_MISSION_MISSION_NAME	Nombre de la misión
+EXTENDET_BATTLE_PASS_MISSION_NAME	Nombre de la misión
+EXTENDET_BATTLE_PASS_MISSION_STATUS	Estado
+EXTENDET_BATTLE_PASS_MISSION_INFO	Información
+EXTENDET_BATTLE_PASS_MISSION_STATUS_IN_PROGRESS	|cfffeff7d|H|hAún no cumplido|h|r
+EXTENDET_BATTLE_PASS_MISSION_STATUS_FINISH	|cff82ff7d|H|hTerminado|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION	Información:
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_MONSTER	Monstruo: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_MINLEVEL	Lv mín.: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_ITEM	Ítem: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_ORE	Veta: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_FISH	Pez: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_MAPNAME	Mapa: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_GUILDWARTYPE	Tipo de guerra de gr.: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_PET_MINTYPE	Tipo de pet mín.: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_DUNGEON	Mazmorra: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_MINIGAME	Minijuego: |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_COUNT	Restante: |cfffeff7d|H|h%s|h|r / |cff82ff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_COUNT_GOLD	Restante: |cfffeff7d|H|h%s|h|r
+EXTENDET_BATTLE_PASS_MISSION_INFORMATION_PERCENT	Progreso |cfffeff7d|H|h%.2f%%|h|r
+EXTENDET_BATTLE_PASS_DESCRIPTION	Descripción:
+EXTENDET_BATTLE_PASS_MISSION_COMPLEDET	Misión completada
+EXTENDET_BATTLE_PASS_NONE_COND_TITLE_MOB	Monstruo
+EXTENDET_BATTLE_PASS_NONE_COND_TITLE_ITEM	Objetos
+EXTENDET_BATTLE_PASS_NONE_COND_TITLE_FISH	Pescados
+EXTENDET_BATTLE_PASS_NONE_COND_TITLE_DUNGEON	Mazmorras
+EXTENDET_BATTLE_PASS_NONE_COND_TITLE_MINIGAME	Minijuegos
+EXTENDET_BATTLE_PASS_TYPENAME_1	Matar %s
+EXTENDET_BATTLE_PASS_TYPENAME_1_DESC_1	Matar x%s %s.
+EXTENDET_BATTLE_PASS_TYPENAME_1_DESC_2	Matar x%s monstruos.
+EXTENDET_BATTLE_PASS_TYPENAME_2	Matar %s jugadores
+EXTENDET_BATTLE_PASS_TYPENAME_2_DESC_1	Matar %s jugadores. No importa le reino. ¡Los jugadores deben ser al menos el nivel %s!
+EXTENDET_BATTLE_PASS_TYPENAME_2_DESC_2	Matar %s jugadores. No importa le reino. ¡No hay límite de nivel!
+EXTENDET_BATTLE_PASS_TYPENAME_3	Daño a monstruos
+EXTENDET_BATTLE_PASS_TYPENAME_3_DESC_1	Acumula un daño de %s a %s.
+EXTENDET_BATTLE_PASS_TYPENAME_3_DESC_2	Acumula un daño de %s. Cuenta cualquier monstruo.
+EXTENDET_BATTLE_PASS_TYPENAME_4	Daño a jugadores
+EXTENDET_BATTLE_PASS_TYPENAME_4_DESC_1	Acumula %s de daño total a jugadores de nivel mín. %d. No importa le reino.
+EXTENDET_BATTLE_PASS_TYPENAME_4_DESC_2	Acumula %s de daño total a jugadores. No importa le reino.
+EXTENDET_BATTLE_PASS_TYPENAME_5	Usar %s
+EXTENDET_BATTLE_PASS_TYPENAME_5_DESC_1	Debes usar o abrir x%s %s para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_5_DESC_2	Debes usar o abrir x%s objetos cualquiera para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_6	Vender %s
+EXTENDET_BATTLE_PASS_TYPENAME_6_DESC_1	Vende x%s %s a NPC's para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_6_DESC_2	Vende x%s objetos a NPC's para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_7	Crear %s
+EXTENDET_BATTLE_PASS_TYPENAME_7_DESC_1	Crea/fabrica x%s %s para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_7_DESC_2	Crea/Fabrica x%s objetos cualquiera para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_8	Mejorar %s
+EXTENDET_BATTLE_PASS_TYPENAME_8_DESC_1	Mejora/refina x%s %s al siguiente nivel para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_8_DESC_2	Mejora el objeto %s al siguiente nivel para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_9	Destruye %s
+EXTENDET_BATTLE_PASS_TYPENAME_9_DESC_1	Destruye x%s %s para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_9_DESC_2	Destruye %s para completar esta misión.
+EXTENDET_BATTLE_PASS_TYPENAME_10_1	Recoge %s
+EXTENDET_BATTLE_PASS_TYPENAME_10_2	Baue %s ab
+EXTENDET_BATTLE_PASS_TYPENAME_10_1_DESC_1	Erbeute %sx %s von Monstern um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_10_2_DESC_1	Baue %sx %s ab um diese Mission zu erfüllen
+EXTENDET_BATTLE_PASS_TYPENAME_10_DESC_2	Erbeute %s verschiedene Gegenstände um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_11	Pesca %s
+EXTENDET_BATTLE_PASS_TYPENAME_11_DESC_1	Ziehe %sx %s aus dem Wasser um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_11_DESC_2	Ziehe %sx einen beliebigen Fisch aus dem Wasser um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_12	Asa %s
+EXTENDET_BATTLE_PASS_TYPENAME_12_DESC_1	Grille %sx %s am Lagerfeuer um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_12_DESC_2	Grille %sx einen beliebigen Fisch am Lagerfeuer um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_13	Mata %s
+EXTENDET_BATTLE_PASS_TYPENAME_13_DESC_1	Töte %sx %s um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_13_DESC_2	Töte %s mal einen beliebigen Fisch um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_14	Recoge %s EXP
+EXTENDET_BATTLE_PASS_TYPENAME_14_DESC_1	Sammle %s EXP von %s um diese Mission zu erfüllen. Es zählt die Basis EXP (Levelunabhängig)!
+EXTENDET_BATTLE_PASS_TYPENAME_14_DESC_2	Sammle %s EXP von beliebigen Monstern um diese Mission zu erfüllen. Es zählt die Basis EXP (Levelunabhängig)!
+EXTENDET_BATTLE_PASS_TYPENAME_15	Recoge %s Yang
+EXTENDET_BATTLE_PASS_TYPENAME_15_DESC_1	Sammle %s Yang von Monstern auf der Map %s um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_15_DESC_2	Sammle %s Yang von Monstern um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_16	Pelea en guerras de gremio
+EXTENDET_BATTLE_PASS_TYPENAME_16_DESC_1	Beende %sx einen Gildenkrieg des Typs %s.
+EXTENDET_BATTLE_PASS_TYPENAME_16_DESC_2	Beende %sx einen Gildenkrieg eines Beliebigen Typs.
+EXTENDET_BATTLE_PASS_TYPENAME_17	Donar EXP al gremio
+EXTENDET_BATTLE_PASS_TYPENAME_17_DESC_1	Spende %s EXP in eine Gilde.
+EXTENDET_BATTLE_PASS_TYPENAME_18	Fabricar %s Gaya
+EXTENDET_BATTLE_PASS_TYPENAME_18_DESC_1	Crafte dir %s Gaya.
+EXTENDET_BATTLE_PASS_TYPENAME_19	Compra en la Tienda Gaya
+EXTENDET_BATTLE_PASS_TYPENAME_19_DESC_1	Kaufe im Gaya-Shop Gegenstände im Gesamtwert von %s Gaya.
+EXTENDET_BATTLE_PASS_TYPENAME_20	Encanta una mascota %s veces
+EXTENDET_BATTLE_PASS_TYPENAME_20_DESC_1	Verzaubere ein Pet %sx. Das Pet muss dabei mindestens Pettyp %s erreichen.
+EXTENDET_BATTLE_PASS_TYPENAME_20_DESC_2	Verzaubere ein Pet %sx.
+EXTENDET_BATTLE_PASS_TYPENAME_21	%s
+EXTENDET_BATTLE_PASS_TYPENAME_21_DESC_1	%s: Beende %sx diesen Dungeon um diese Mission zu erfüllen.
+EXTENDET_BATTLE_PASS_TYPENAME_21_DESC_2	Beende %sx einen beliebigen Dungeon.
+EXTENDET_BATTLE_PASS_TYPENAME_22	Juega %s
+EXTENDET_BATTLE_PASS_TYPENAME_22_DESC_1	Spiele und Beende %sx das Mini-Game %s.
+EXTENDET_BATTLE_PASS_TYPENAME_22_DESC_2	Spiele und Beende %sx ein Beliebiges Mini-Game.
+EXTENDET_BATTLE_PASS_MAP_NAME_BY_IDX_64	Valle Seungryong
+EXTENDET_BATTLE_PASS_MAP_NAME_BY_IDX_65	Templo Hwang
+EXTENDET_BATTLE_PASS_MAP_NAME_BY_IDX_72	Gruta de Exilio 1
+EXTENDET_BATTLE_PASS_GUILDWAR_TYPE_NAME_1	Campo
+EXTENDET_BATTLE_PASS_GUILDWAR_TYPE_NAME_2	Arena
+EXTENDET_BATTLE_PASS_GUILDWAR_TYPE_NAME_3	Bandera
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_1	Torre de los demonios
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_2	Sala de Cristal
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_3	Catacumbas del Demonio
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_4	Fortaleza del Dragón Rojo
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_5	Torre de Nemere
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_6	Cueva de la Baronesa
+EXTENDET_BATTLE_PASS_DUNGEON_NAME_7	Guarida de Meley
+EXTENDET_BATTLE_PASS_MINIGAME_NAME_1	Cartas Okey
+EXTENDET_BATTLE_PASS_MINIGAME_NAME_2	Atrapa al Rey
+EXTENDET_BATTLE_PASS_MINIGAME_NAME_3	Yutnori
+EXTENDET_BATTLE_PASS_MINIGAME_NAME_4	Juego de cartas de Vidente
+EXTENDET_BATTLE_PASS_MINIGAME_NAME_5	Rompecabezas de pez
 FRAGMENT_COMB_TITLE	Combinar manuales de habilidad
 GAMEOPTION_TITLE	Opciones del Juego
 GAME_EXIT_OBSERVER	Finalizar Modo Observador

@@ -59,6 +59,7 @@ extern void	skip_spaces(char **string);
 
 extern const char *	one_argument(const char *argument, char *first_arg, size_t first_size);
 extern const char *	two_arguments(const char *argument, char *first_arg, size_t first_size, char *second_arg, size_t second_size);
+extern const char* four_arguments(const char* argument, char* first_arg, size_t first_size, char* second_arg, size_t second_size, char* third_flag, size_t third_size, char* four_flag, size_t four_size);
 extern const char *	first_cmd(const char *argument, char *first_arg, size_t first_arg_size, size_t *first_arg_len_result);
 extern void split_argument(const char *argument, std::vector<std::string> & vecArgs);
 

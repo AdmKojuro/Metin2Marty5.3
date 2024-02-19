@@ -2063,5 +2063,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_BUY_ITEMS_WORLDARD",	0);
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	PyModule_AddIntConstant(poModule, "ENABLE_EXTENDED_BATTLE_PASS", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_EXTENDED_BATTLE_PASS", 0);
+#endif
+
 }
 

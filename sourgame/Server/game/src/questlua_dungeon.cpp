@@ -1763,6 +1763,28 @@ namespace quest
 	}
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	int dungeon_battlepass_update_progress(lua_State* L)
+	{
+		CQuestManager & q = CQuestManager::instance();
+
+		FDungeonUpdateAllBattlepassProcess f;
+		
+		if (!lua_isnumber(L, 1)) {
+			sys_err("arg1 must be number (dungeon_index)");
+			return 0;
+		}
+		
+		f.dungeon_index = (int)lua_tonumber(L, 1);
+
+		LPDUNGEON pDungeon = q.GetCurrentDungeon();
+		
+		if (pDungeon)
+			pDungeon->ForEachMember(f);
+		return 0;
+	}
+#endif
+
 	void RegisterDungeonFunctionTable()
 	{
 		luaL_reg dungeon_functions[] =
@@ -1850,6 +1872,9 @@ namespace quest
 			{ "setqf2",			dungeon_set_quest_flag2	},
 #if defined(__DUNGEON_INFO_SYSTEM__)
 			{ "update_ranking", dungeon_update_ranking },
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			{ "battlepass_update_progress", dungeon_battlepass_update_progress },
 #endif
 			{ NULL,				NULL			}
 		};

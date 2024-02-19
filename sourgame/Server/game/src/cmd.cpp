@@ -315,6 +315,11 @@ ACMD(do_bleeding);
 #ifdef __GROWTH_PET_SYSTEM__
 ACMD (do_pet_set);
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+ACMD(do_battlepass_get_info);
+ACMD(do_battlepass_set_mission);
+ACMD(do_battlepass_premium_activate);
+#endif
 struct command_info cmd_info[] =
 {
 	{ "!RESERVED!",	NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	},
@@ -669,6 +674,11 @@ struct command_info cmd_info[] =
 	{ "pet_set",			do_pet_set, 		0, POS_DEAD,		GM_IMPLEMENTOR },
 #endif
 	{	"stat_val",			do_stat_val,		0,			POS_DEAD,			GM_PLAYER	},
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	{ "battlepass_get_info",	do_battlepass_get_info,	0,	POS_DEAD,	RESTRICT_COMMAND_GET_INFO },
+	{ "battlepass_set_mission",	do_battlepass_set_mission,	0,	POS_DEAD,	RESTRICT_COMMAND_SET_MISSION },
+	{ "battlepass_premium_activate",	do_battlepass_premium_activate,	0,	POS_DEAD,	RESTRICT_COMMAND_PREMIUM_ACTIVATE },
+#endif
 
 	{ "\n",		NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	}
 };

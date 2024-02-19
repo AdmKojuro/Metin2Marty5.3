@@ -615,7 +615,9 @@ void CShopManager::Sell(LPCHARACTER ch, BYTE bCell, BYTE bCount)
 
 
 	sys_log(0, "SHOP: SELL: %s item name: %s(x%d):%u price: %u", ch->GetName(), item->GetName(), bCount, item->GetID(), dwPrice);
-
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	ch->UpdateExtBattlePassMissionProgress(BP_ITEM_SELL, bCount, item->GetVnum());
+#endif
 	if (iVal > 0)
 		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("판매금액의 %d %% 가 세금으로 나가게됩니다"), iVal);
 

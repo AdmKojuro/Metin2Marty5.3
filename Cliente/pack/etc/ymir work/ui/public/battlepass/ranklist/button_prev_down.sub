@@ -1,0 +1,7 @@
+title subImage
+version 1.0
+image "public_battlepass.dds"
+left 501
+top 140
+right 512
+bottom 157

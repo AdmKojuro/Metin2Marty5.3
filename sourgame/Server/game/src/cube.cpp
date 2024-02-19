@@ -568,6 +568,9 @@ bool Cube_make (LPCHARACTER ch)
 
 		ch->ChatPacket(CHAT_TYPE_COMMAND, "cube success %d %d", reward_value->vnum, reward_value->count);
 		new_item = ch->AutoGiveItem(reward_value->vnum, reward_value->count);
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		ch->UpdateExtBattlePassMissionProgress(BP_ITEM_CRAFT, reward_value->count, reward_value->vnum);
+#endif
 
 		LogManager::instance().CubeLog(ch->GetPlayerID(), ch->GetX(), ch->GetY(),
 				reward_value->vnum, new_item->GetID(), reward_value->count, 1);

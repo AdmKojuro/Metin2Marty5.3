@@ -1268,6 +1268,10 @@ bool CHARACTER::DoRefine(LPITEM item, bool bMoneyOnly)
 
 		if (pkNewItem)
 		{
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			UpdateExtBattlePassMissionProgress(BP_ITEM_REFINE, 1, item->GetVnum());
+#endif
+
 			ITEM_MANAGER::CopyAllAttrTo(item, pkNewItem);
 			LogManager::instance().ItemLog(this, pkNewItem, "REFINE SUCCESS", pkNewItem->GetName());
 
@@ -1550,6 +1554,9 @@ bool CHARACTER::DoRefineWithScroll(LPITEM item)
 				ITEM_MANAGER::CopyAllAttrTo(item, pkNewItem);
 #else
 			ITEM_MANAGER::CopyAllAttrTo(item, pkNewItem);
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			UpdateExtBattlePassMissionProgress(BP_ITEM_REFINE, 1, item->GetVnum());
 #endif
 			LogManager::instance().ItemLog(this, pkNewItem, "REFINE SUCCESS", pkNewItem->GetName());
 
@@ -6520,6 +6527,12 @@ bool CHARACTER::UseItem(TItemPos Cell, TItemPos DestCell)
 
 		bool ret = UseItemEx(item, DestCell);
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		if ((ret and item->GetType() == ITEM_USE) or (ret and item->GetType() == ITEM_SKILLBOOK) or (ret and item->GetType() == ITEM_GIFTBOX))
+
+			UpdateExtBattlePassMissionProgress(BP_ITEM_USE, 1, item->GetVnum());
+#endif
+
 		if (NULL == ITEM_MANAGER::instance().FindByVID(vid))
 		{
 			LogManager::instance().ItemLog(this, vid, vnum, "REMOVE", hint);
@@ -6532,7 +6545,18 @@ bool CHARACTER::UseItem(TItemPos Cell, TItemPos DestCell)
 		return (ret);
 	}
 	else
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	{
+		bool ret = UseItemEx(item, DestCell);
+
+		if ((ret and item->GetType() == ITEM_USE) or (ret and item->GetType() == ITEM_SKILLBOOK) or (ret and item->GetType() == ITEM_GIFTBOX))
+			UpdateExtBattlePassMissionProgress(BP_ITEM_USE, 1, item->GetVnum());
+		
+		return (ret);
+	}
+#else
 		return UseItemEx(item, DestCell);
+#endif
 }
 
 bool CHARACTER::DropItem(TItemPos Cell, BYTE bCount)
@@ -6707,6 +6731,10 @@ bool CHARACTER::DestroyItem(TItemPos Cell)
 
 	if (item->GetCount() <= 0)
 		return false;
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	UpdateExtBattlePassMissionProgress(BP_ITEM_DESTROY, 1, item->GetVnum());
+#endif
 
 	SyncQuickslot(QUICKSLOT_TYPE_ITEM, Cell.cell, 255);
 
@@ -7129,6 +7157,10 @@ void CHARACTER::GiveGold(int iAmount)
 
 		PointChange(POINT_GOLD, dwMyAmount, true);
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		UpdateExtBattlePassMissionProgress(YANG_COLLECT, dwMyAmount, GetMapIndex());
+#endif
+
 		if (dwMyAmount > 1000)
 		{
 			LOG_LEVEL_CHECK(LOG_LEVEL_MAX, LogManager::instance().CharLog(this, dwMyAmount, "GET_GOLD", ""));
@@ -7137,6 +7169,10 @@ void CHARACTER::GiveGold(int iAmount)
 	else
 	{
 		PointChange(POINT_GOLD, iAmount, true);
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		UpdateExtBattlePassMissionProgress(YANG_COLLECT, iAmount, GetMapIndex());
+#endif
 
 		if (iAmount > 1000)
 		{
@@ -7222,6 +7258,10 @@ bool CHARACTER::PickupItem(DWORD dwVID)
 
 							if (bCount == 0)
 							{
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+								if (item->IsOwnership(this))
+									UpdateExtBattlePassMissionProgress(BP_ITEM_COLLECT, bCount2, item->GetVnum());
+#endif
 								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
 								M2_DESTROY_ITEM(item);
 								if (item2->GetType() == ITEM_QUEST)
@@ -7264,6 +7304,10 @@ bool CHARACTER::PickupItem(DWORD dwVID)
 
 							if (bCount == 0)
 							{
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+								if (item->IsOwnership(this))
+									UpdateExtBattlePassMissionProgress(BP_ITEM_COLLECT, bCount2, item->GetVnum());
+#endif
 								ChatPacket(CHAT_TYPE_INFO, LC_TEXT("¾ÆÀÌÅÛ È¹µæ: %s"), item2->GetName());
 								M2_DESTROY_ITEM(item);
 								quest::CQuestManager::instance().PickupItem(GetPlayerID(), item2);
@@ -7273,6 +7317,10 @@ bool CHARACTER::PickupItem(DWORD dwVID)
 					}
 
 					item->SetCount(bCount);
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+					if (item->IsOwnership(this))
+						UpdateExtBattlePassMissionProgress(BP_ITEM_COLLECT, bCount, item->GetVnum());
+#endif
 				}
 #endif
 

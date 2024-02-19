@@ -2256,6 +2256,27 @@ PyObject* netSendChestDropInfo(PyObject* poSelf, PyObject* poArgs)
 }
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+PyObject* netSendExtBattlePassAction(PyObject* poSelf, PyObject* poArgs)
+{
+	int iAction = 0;
+	if (!PyTuple_GetInteger(poArgs, 0, &iAction))
+		return Py_BuildException();
+
+	CPythonNetworkStream::Instance().SendExtBattlePassAction(iAction);
+	return Py_BuildNone();
+}
+PyObject* netSendExtBattlePassPremiumItem(PyObject* poSelf, PyObject* poArgs)
+{
+	int slotindex = 0;
+	if (!PyTuple_GetInteger(poArgs, 0, &slotindex))
+		return Py_BuildException();
+
+	CPythonNetworkStream::Instance().SendExtBattlePassPremiumItem(slotindex);
+	return Py_BuildNone();
+}
+#endif
+
 void initnet()
 {
 	static PyMethodDef s_methods[] =
@@ -2491,6 +2512,10 @@ void initnet()
 // 2. Add after:
 #ifdef ENABLE_SHOW_CHEST_DROP
 		{ "SendChestDropInfo",						netSendChestDropInfo,						METH_VARARGS },
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		{ "SendExtBattlePassAction",		netSendExtBattlePassAction,			METH_VARARGS },
+		{ "SendExtBattlePassPremiumItem",	netSendExtBattlePassPremiumItem,	METH_VARARGS },
 #endif
 
 		{ NULL,										NULL,										NULL },

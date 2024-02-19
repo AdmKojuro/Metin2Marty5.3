@@ -982,6 +982,35 @@ class GameWindow(ui.ScriptWindow):
 			self.interface.SetMapName(mapName)
 	# END_OF_SHOW_LOCAL_MAP_NAME
 
+	if app.ENABLE_EXTENDED_BATTLE_PASS:
+		def BINARY_ExtOpenBattlePass(self):
+			if self.interface:
+				self.interface.ReciveOpenExtBattlePass()
+			
+		def BINARY_ExtBattlePassAddGeneralInfo(self, BattlePassType, BattlePassName, BattlePassID, battlePassStartTime, battlePassEndTime):
+			if self.interface:
+				self.interface.AddExtendedBattleGeneralInfo(BattlePassType, BattlePassName, BattlePassID, battlePassStartTime, battlePassEndTime)
+				
+		def BINARY_ExtBattlePassAddMission(self, battlepassType, battlepassID, missionIndex, missionType, missionInfo1, missionInfo2, missionInfo3):
+			if self.interface:
+				self.interface.AddExtendedBattlePassMission(battlepassType, battlepassID, missionIndex, missionType, missionInfo1, missionInfo2, missionInfo3)
+
+		def BINARY_ExtBattlePassAddMissionReward(self, battlepassType, battlepassID, missionIndex, missionType, itemVnum, itemCount):
+			if self.interface:
+				self.interface.AddExtendedBattlePassMissionReward(battlepassType, battlepassID, missionIndex, missionType, itemVnum, itemCount)
+
+		def BINARY_ExtBattlePassUpdate(self, battlepassType, missionIndex, missionType, newProgress):
+			if self.interface:
+				self.interface.UpdateExtendedBattlePassMission(battlepassType, missionIndex, missionType, newProgress)
+
+		def BINARY_ExtBattlePassAddReward(self, battlepassType, battlepassID, itemVnum, itemCount):
+			if self.interface:
+				self.interface.AddExtendedBattlePassReward(battlepassType, battlepassID, itemVnum, itemCount)
+		
+		def BINARY_ExtBattlePassAddRanklistEntry(self, playername, battlepassType, battlepassID, startTime, endTime):
+			if self.interface:
+				self.interface.AddExtBattlePassRanklistEntry(playername, battlepassType, battlepassID, startTime, endTime)
+
 	def BINARY_OpenAtlasWindow(self):
 		self.interface.BINARY_OpenAtlasWindow()
 

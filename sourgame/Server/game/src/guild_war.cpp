@@ -607,9 +607,17 @@ void CGuild::EndWar(DWORD dwOppGID)
 
 		if (!UnderAnyWar())
 		{
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			for (itertype(m_memberOnline) it_char = m_memberOnline.begin(); it_char != m_memberOnline.end(); ++it_char)
+			{
+				LPCHARACTER ch = *it_char;
+				TGuildWar & gw(it->second);
+				ch->UpdateExtBattlePassMissionProgress(GUILD_PLAY_GUILDWAR, 1, gw.type+1);
+#else
 			for (itertype(m_memberOnline) it = m_memberOnline.begin(); it != m_memberOnline.end(); ++it)
 			{
 				LPCHARACTER ch = *it;
+#endif
 				ch->RemoveAffect(GUILD_SKILL_BLOOD);
 				ch->RemoveAffect(GUILD_SKILL_BLESS);
 				ch->RemoveAffect(GUILD_SKILL_SEONGHWI);

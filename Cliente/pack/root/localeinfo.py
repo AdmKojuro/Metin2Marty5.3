@@ -222,6 +222,36 @@ def CutMoneyString(sourceText, startIndex, endIndex, insertingText, backText):
 
 	return text + insertingText + backText
 
+def SecondToDHMS(time):
+	if time < 60:
+		if IsARABIC():
+			return "%.2f %s" % (time, SECOND)
+		else:
+			return "%.2f %s" % (time, SECOND)
+
+	second = int(time % 60)
+	minute = int((time / 60) % 60)
+	hour = int((time / 60) / 60) % 24
+	day = int(int((time / 60) / 60) / 24)
+
+	text = ""
+
+	if day > 0:
+		text += str(day) + DAY
+		text += " "
+
+	if hour > 0:
+		text += str(hour) + HOUR
+		text += " "
+
+	if minute > 0:
+		text += str(minute) + MINUTE
+
+	if second > 0:
+		text += str(second) + SECOND
+
+	return text
+
 def SecondToDHM(time):
 	if time < 60:
 		if IsARABIC():
@@ -695,6 +725,15 @@ def NumberToSecondaryCoinString(n) :
 		return "0 %s" % (MONETARY_UNIT_JUN)
 
 	return "%s %s" % ('.'.join([ i-3<0 and str(n)[:i] or str(n)[i-3:i] for i in range(len(str(n))%3, len(str(n))+1, 3) if i ]), MONETARY_UNIT_JUN)
+
+def MoneyFormat(n):
+	return "%s" % ('.'.join([ i-3<0 and str(n)[:i] or str(n)[i-3:i] for i in range(len(str(n))%3, len(str(n))+1, 3) if i ])) 
+
+def NumberWithPoint(n) :
+	if n <= 0 :
+		return "0"
+
+	return "%s" % ('.'.join([ i-3<0 and str(n)[:i] or str(n)[i-3:i] for i in range(len(str(n))%3, len(str(n))+1, 3) if i ]))
 
 if app.ENABLE_SEND_TARGET_INFO:
 	def NumberToString(n) :

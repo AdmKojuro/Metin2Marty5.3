@@ -44,6 +44,10 @@
 #include "belt_inventory_helper.h" // @fixme119
 #include "../../common/CommonDefines.h"
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+#include "battlepass_manager.h"
+#endif
+
 #include "input.h"
 
 #define ENABLE_CHAT_COLOR_SYSTEM
@@ -3102,6 +3106,9 @@ int CInputMain::Guild(LPCHARACTER ch, const char * data, size_t uiBytes)
 
 					if (pGuild->OfferExp(ch, offer))
 					{
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+						ch->UpdateExtBattlePassMissionProgress(GUILD_SPENT_EXP, offer, 0);
+#endif
 						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("<길드> %u의 경험치를 투자하였습니다."), offer);
 					}
 					else
@@ -4084,6 +4091,106 @@ void CInputMain::DungeonInfo(LPCHARACTER ch, const char* c_pData)
 }
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+int CInputMain::ReciveExtBattlePassActions(LPCHARACTER ch, const char* data, size_t uiBytes)
+{
+	TPacketCGExtBattlePassAction* p = (TPacketCGExtBattlePassAction*)data;
+
+	if (uiBytes < sizeof(TPacketCGExtBattlePassAction))
+		return -1;
+
+//	const char* c_pData = data + sizeof(TPacketCGExtBattlePassAction);
+//	uiBytes -= sizeof(TPacketCGExtBattlePassAction);
+
+	switch (p->bAction)
+	{
+		case 1:
+			CBattlePassManager::instance().BattlePassRequestOpen(ch);
+			return 0;
+
+		case 2:
+			if(get_dword_time() < ch->GetLastReciveExtBattlePassOpenRanking()) {
+				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_NEXT_REFRESH_RANKLIST_TIME"), ((ch->GetLastReciveExtBattlePassOpenRanking() - get_dword_time()) / 1000) + 1 );
+				return 0;
+			}
+			ch->SetLastReciveExtBattlePassOpenRanking(get_dword_time() + 10000);
+			
+			for (BYTE bBattlePassType = 1; bBattlePassType <= 3 ; ++bBattlePassType)
+			{
+				BYTE bBattlePassID;
+				if (bBattlePassType == 1)
+					bBattlePassID = CBattlePassManager::instance().GetNormalBattlePassID();
+				if (bBattlePassType == 2){
+					bBattlePassID = CBattlePassManager::instance().GetPremiumBattlePassID();
+					if (bBattlePassID != ch->GetExtBattlePassPremiumID())
+						continue;
+				}
+				if (bBattlePassType == 3)
+					bBattlePassID = CBattlePassManager::instance().GetEventBattlePassID();
+
+				std::unique_ptr<SQLMsg> pMsg(DBManager::instance().DirectQuery("SELECT player_name, battlepass_type+0, battlepass_id, UNIX_TIMESTAMP(start_time), UNIX_TIMESTAMP(end_time) FROM player.battlepass_playerindex WHERE battlepass_type = %d and battlepass_id = %d and battlepass_completed = 1 and not player_name LIKE '[%%' ORDER BY (UNIX_TIMESTAMP(end_time)-UNIX_TIMESTAMP(start_time)) ASC LIMIT 40", bBattlePassType, bBattlePassID));
+				if (pMsg->uiSQLErrno)
+					return 0;
+
+				MYSQL_ROW row;
+
+				while ((row = mysql_fetch_row(pMsg->Get()->pSQLResult)))
+				{
+					TPacketGCExtBattlePassRanking pack;
+					pack.bHeader = HEADER_GC_EXT_BATTLE_PASS_SEND_RANKING;
+					strlcpy(pack.szPlayerName, row[0], sizeof(pack.szPlayerName));
+					pack.bBattlePassType = std::atoi(row[1]);
+					pack.bBattlePassID = std::atoll(row[2]);
+					pack.dwStartTime = std::atoll(row[3]);
+					pack.dwEndTime = std::atoll(row[4]);
+
+					ch->GetDesc()->Packet(&pack, sizeof(pack));
+				}
+			}
+			break;
+
+		case 10:
+			CBattlePassManager::instance().BattlePassRequestReward(ch, 1);
+			return 0;
+			
+		case 11:
+			CBattlePassManager::instance().BattlePassRequestReward(ch, 2);
+			return 0;
+			
+		case 12:
+			CBattlePassManager::instance().BattlePassRequestReward(ch, 3);
+			return 0;
+
+
+		default:
+			break;
+	}
+
+	return 0;
+}
+
+int CInputMain::ReciveExtBattlePassPremiumItem(LPCHARACTER ch, const char* data, size_t uiBytes)
+{
+	TPacketCGExtBattlePassSendPremiumItem* p = (TPacketCGExtBattlePassSendPremiumItem*)data;
+
+	if (uiBytes < sizeof(TPacketCGExtBattlePassSendPremiumItem))
+		return -1;
+
+//	const char* c_pData = data + sizeof(TPacketCGExtBattlePassSendPremiumItem);
+//	uiBytes -= sizeof(TPacketCGExtBattlePassSendPremiumItem);
+
+	LPITEM item = ch->GetInventoryItem(p->iSlotIndex);
+	if (item != NULL and item->GetVnum() == 93100)
+	{
+		ch->PointChange(POINT_BATTLE_PASS_PREMIUM_ID, CBattlePassManager::instance().GetPremiumBattlePassID());
+		CBattlePassManager::instance().BattlePassRequestOpen(ch);
+		item->SetCount(item->GetCount() - 1);
+		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("BATTLEPASS_NOW_IS_ACTIVATED_PREMIUM_BATTLEPASS_OWN"));
+	}
+	return 0;
+}
+#endif
+
 int CInputMain::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 {
 	LPCHARACTER ch;
@@ -4542,6 +4649,18 @@ int CInputMain::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 #if defined(__DUNGEON_INFO_SYSTEM__)
 		case DungeonInfo::Packet::HEADER_CG_DUNGEON_INFO:
 			DungeonInfo(ch, c_pData);
+			break;
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		case HEADER_CG_EXT_BATTLE_PASS_ACTION:
+			if ((iExtraLen = ReciveExtBattlePassActions(ch, c_pData, m_iBufferLeft)) < 0)
+				return -1;
+			break;
+			
+		case HEADER_CG_EXT_SEND_BP_PREMIUM_ITEM:
+			if ((iExtraLen = ReciveExtBattlePassPremiumItem(ch, c_pData, m_iBufferLeft)) < 0)
+				return -1;
 			break;
 #endif
 

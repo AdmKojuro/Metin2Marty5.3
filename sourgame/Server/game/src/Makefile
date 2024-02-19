@@ -148,7 +148,7 @@ CPPFILE = BattleArena.cpp FSM.cpp MarkConvert.cpp MarkImage.cpp MarkManager.cpp 
 		  buff_on_attributes.cpp dragon_soul_table.cpp DragonSoul.cpp\
 		  group_text_parse_tree.cpp char_dragonsoul.cpp questlua_dragonsoul.cpp\
 		  shop_manager.cpp shopEx.cpp item_manager_read_tables.cpp shutdown_manager.cpp MountSystem.cpp\
-		  dungeon_info.cpp event_manager.cpp growth_pet.cpp CsvReader.cpp EventFunctionHandler.cpp DropItem.cpp new_switchbot.cpp
+		  dungeon_info.cpp event_manager.cpp growth_pet.cpp CsvReader.cpp EventFunctionHandler.cpp DropItem.cpp new_switchbot.cpp battlepass_manager.cpp
 # PROJECT_SRC_FILES END
 
 # PROJECT_OBJ_FILES BEGIN

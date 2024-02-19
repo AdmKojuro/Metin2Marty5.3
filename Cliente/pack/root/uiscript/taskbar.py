@@ -294,6 +294,20 @@ window = {
 			"down_image" : ROOT + "TaskBar/Mouse_Button_Move_03.sub",
 		},
 		{
+			"name" : "BattlePassButton",
+			"type" : "button",
+
+			"x" : 295,
+			"y" : 3 + Y_ADD_POSITION,
+
+			#"tooltip_text" : "Exp ON/OFF",
+
+			#"default_image" : "d:/ymir work/ui/game/TaskBar/anti_exp_01.png",
+			#"over_image" : "d:/ymir work/ui/game/TaskBar/anti_exp_02.png",
+			#"down_image" : "d:/ymir work/ui/game/TaskBar/anti_exp_03.png",
+
+		},
+		{
 			"name" : "RightMouseButton",
 			"type" : "button",
 

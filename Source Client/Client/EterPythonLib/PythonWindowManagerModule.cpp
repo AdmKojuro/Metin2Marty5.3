@@ -2408,6 +2408,33 @@ PyObject * wndMgrShowOverInWindowName(PyObject * poSelf, PyObject * poArgs)
 	return Py_BuildNone();
 }
 
+PyObject* wndSetClipRect(PyObject* poSelf, PyObject* poArgs)
+{
+	UI::CWindow* pWindow;
+	if (!PyTuple_GetWindow(poArgs, 0, &pWindow))
+		return Py_BuildException();
+	float fLeft;
+	if (!PyTuple_GetFloat(poArgs, 1, &fLeft))
+		return Py_BuildException();
+	float fTop;
+	if (!PyTuple_GetFloat(poArgs, 2, &fTop))
+		return Py_BuildException();
+	float fRight;
+	if (!PyTuple_GetFloat(poArgs, 3, &fRight))
+		return Py_BuildException();
+	float fBottom;
+	if (!PyTuple_GetFloat(poArgs, 4, &fBottom))
+		return Py_BuildException();
+	int isVertical;
+	if (!PyTuple_GetInteger(poArgs, 5, &isVertical))
+		return Py_BuildException();
+
+	if (pWindow->IsType(UI::CExpandedImageBox::Type()))
+		((UI::CExpandedImageBox*)pWindow)->SetImageClipRect(fLeft, fTop, fRight, fBottom, isVertical ? true : false);
+
+	return Py_BuildNone();
+}
+
 #ifdef WJ_ENABLE_TRADABLE_ICON
 PyObject * wndMgrSetCanMouseEventSlot(PyObject * poSelf, PyObject * poArgs)
 {
@@ -2996,6 +3023,8 @@ void initwndMgr()
 		{ "SetOutlineFlag",				wndMgrSetOutlineFlag,				METH_VARARGS },
 		{ "ShowOverInWindowName",		wndMgrShowOverInWindowName,			METH_VARARGS },
 		{ "SetSlotID",					wndMgrSetSlotID,					METH_VARARGS },
+
+		{ "SetClipRect",				wndSetClipRect,						METH_VARARGS },
 
 #ifdef WJ_ENABLE_TRADABLE_ICON
 		{ "SetCanMouseEventSlot", 		wndMgrSetCanMouseEventSlot, METH_VARARGS },

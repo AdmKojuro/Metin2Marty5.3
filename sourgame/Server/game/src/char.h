@@ -361,6 +361,9 @@ enum EPointTypes
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	POINT_CHEQUE = 180,
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	POINT_BATTLE_PASS_PREMIUM_ID = 163,
+#endif
 	//POINT_MAX_NUM = 129	common/length.h
 };
 
@@ -454,6 +457,9 @@ typedef struct character_point
 	int				stamina;
 
 	BYTE			skill_group;
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	int	battle_pass_premium_id;
+#endif
 } CHARACTER_POINT;
 
 
@@ -2630,6 +2636,33 @@ public:
     DWORD IncreasePacketAntiFloodCount() noexcept { return ++m_dwPacketAntiFloodCount; }
     void SetPacketAntiFloodPulse(int dwPulse) noexcept { m_dwPacketAntiFloodPulse = dwPulse; }
     void SetPacketAntiFloodCount(DWORD dwCount) noexcept { m_dwPacketAntiFloodCount = dwCount; }
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	typedef std::list<TPlayerExtBattlePassMission*> ListExtBattlePassMap;
+	public:
+		void LoadExtBattlePass(DWORD dwCount, TPlayerExtBattlePassMission* data);
+		DWORD GetExtBattlePassMissionProgress(DWORD dwBattlePassType, BYTE bMissionIndex, BYTE bMissionType);
+		bool IsExtBattlePassCompletedMission(DWORD dwBattlePassType, BYTE bMissionIndex, BYTE bMissionType);
+		bool IsExtBattlePassRegistered(BYTE bBattlePassType, DWORD dwBattlePassID);
+		void UpdateExtBattlePassMissionProgress(DWORD dwMissionID, DWORD dwUpdateValue, DWORD dwCondition, bool isOverride = false);
+		void SetExtBattlePassMissionProgress(BYTE bBattlePassType, DWORD dwMissionIndex, DWORD dwMissionType, DWORD dwUpdateValue);
+		
+		bool		IsLoadedExtBattlePass()		const	{ return m_bIsLoadedExtBattlePass; }
+		int			GetExtBattlePassPremiumID()	const	{ return m_points.battle_pass_premium_id;	}
+		void		SetExtBattlePassPremiumID(int battle_pass_premium_id)	{ m_points.battle_pass_premium_id = battle_pass_premium_id;}
+
+		void				SetLastReciveExtBattlePassInfoTime(DWORD time);
+		DWORD			GetLastReciveExtBattlePassInfoTime() const	{ return m_dwLastReciveExtBattlePassInfoTime; }
+		void				SetLastReciveExtBattlePassOpenRanking(DWORD time);
+		DWORD			GetLastReciveExtBattlePassOpenRanking() const	{ return m_dwLastExtBattlePassOpenRankingTime; }
+	protected:
+		DWORD	m_dwLastReciveExtBattlePassInfoTime;
+		DWORD	m_dwLastExtBattlePassOpenRankingTime;
+		
+	private:
+		bool m_bIsLoadedExtBattlePass;
+		ListExtBattlePassMap m_listExtBattlePass;
 #endif
 
 };

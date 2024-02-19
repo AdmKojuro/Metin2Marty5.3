@@ -67,6 +67,14 @@ namespace quest
 		}
 	}
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	void FDungeonUpdateAllBattlepassProcess::operator() (LPCHARACTER ch)
+	{
+		if (ch->IsPC())
+			ch->UpdateExtBattlePassMissionProgress(COMPLETE_DUNGEON, 1, dungeon_index);
+	}
+#endif
+
 	void FSetQuestFlag::operator() (LPCHARACTER ch)
 	{
 		if (!ch->IsPC())

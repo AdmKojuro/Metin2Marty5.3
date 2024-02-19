@@ -152,6 +152,9 @@ size_t CreatePlayerSaveQuery(char * pszQuery, size_t querySize, TPlayerTable * p
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 			"cheque = %d, "
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			"battle_pass_premium_id = %d, "
+#endif
 			,
 		GetTablePostfix(),
 		pkTab->job,
@@ -201,6 +204,9 @@ size_t CreatePlayerSaveQuery(char * pszQuery, size_t querySize, TPlayerTable * p
 		pkTab->horse_skill_point
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 		, pkTab->cheque
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		,pkTab->battle_pass_premium_id
 #endif
 		);
 
@@ -463,6 +469,9 @@ void CClientManager::QUERY_PLAYER_LOAD(CPeer * peer, DWORD dwHandle, TPlayerLoad
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 				" ,cheque "
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+				",battle_pass_premium_id "
+#endif
 				" FROM player%s WHERE id=%d",
 				GetTablePostfix(), packet->player_id);
 
@@ -540,6 +549,13 @@ void CClientManager::QUERY_PLAYER_LOAD(CPeer * peer, DWORD dwHandle, TPlayerLoad
 			peer->GetHandle(),
 			new ClientHandleInfo(dwHandle, packet->player_id));
 	}
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	// Load all missions from table
+	char queryStrBP[QUERY_MAX_LEN];
+	snprintf(queryStrBP, sizeof(queryStrBP),
+		"SELECT player_id, battlepass_type+0, mission_index, mission_type+0, battle_pass_id, extra_info, completed FROM battlepass_missions WHERE player_id = %d", packet->player_id);
+	CDBManager::instance().ReturnQuery(queryStrBP, QID_EXT_BATTLE_PASS, peer->GetHandle(), new ClientHandleInfo(dwHandle, packet->player_id));
 #endif
 
 }
@@ -671,6 +687,9 @@ bool CreatePlayerTableFromRes(MYSQL_RES * res, TPlayerTable * pkTab)
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	str_to_number(pkTab->cheque, row[col++]);
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	str_to_number(pkTab->battle_pass_premium_id, row[col++]);
+#endif
 	// reset sub_skill_point
 	{
 		pkTab->skills[123].bLevel = 0; // SKILL_CREATE
@@ -752,6 +771,12 @@ void CClientManager::RESULT_COMPOSITE_PLAYER(CPeer * peer, SQLMsg * pMsg, DWORD 
 			// @fixme402 RESULT_AFFECT_LOAD+info->player_id
 			RESULT_AFFECT_LOAD(peer, pSQLResult, info->dwHandle, info->player_id);
 			break;
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		case QID_EXT_BATTLE_PASS:
+			sys_log(0, "QID_EXT_BATTLE_PASS %u", info->dwHandle);
+			RESULT_EXT_BATTLE_PASS_LOAD(peer, pSQLResult, info->dwHandle, info->player_id);
+			break;
+#endif
 			/*
 			   case QID_PLAYER_ITEM_QUEST_AFFECT:
 			   sys_log(0, "QID_PLAYER_ITEM_QUEST_AFFECT %u", info->dwHandle);
@@ -965,6 +990,76 @@ void CClientManager::RESULT_QUEST_LOAD(CPeer * peer, MYSQL_RES * pRes, DWORD dwH
 	peer->Encode(&dwCount, sizeof(DWORD));
 	peer->Encode(&s_table[0], sizeof(TQuestTable) * dwCount);
 }
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+void CClientManager::RESULT_EXT_BATTLE_PASS_LOAD(CPeer* peer, MYSQL_RES* pRes, DWORD dwHandle, DWORD dwRealPID)
+{
+	int iNumRows;
+
+	if ((iNumRows = mysql_num_rows(pRes)) == 0)
+	{
+		DWORD dwCount = 0;
+		TPlayerExtBattlePassMission pbpTable = { 0 };
+
+		sys_log(0, "EXT_BATTLE_PASS_LOAD: count %u PID %u", dwCount, dwRealPID);
+
+		peer->EncodeHeader(HEADER_DG_EXT_BATTLE_PASS_LOAD, dwHandle, sizeof(DWORD) + sizeof(DWORD) + sizeof(TPlayerExtBattlePassMission) * dwCount);
+		peer->Encode(&dwRealPID, sizeof(DWORD));
+		peer->Encode(&dwCount, sizeof(DWORD));
+		peer->Encode(&pbpTable, sizeof(TPlayerExtBattlePassMission) * dwCount);
+		return;
+	}
+
+	static std::vector<TPlayerExtBattlePassMission> s_mission;
+	s_mission.resize(iNumRows);
+
+	MYSQL_ROW row;
+
+	for (int i = 0; i < iNumRows; ++i)
+	{
+		int col = 0;
+		TPlayerExtBattlePassMission& r = s_mission[i];
+		row = mysql_fetch_row(pRes);
+
+		str_to_number(r.dwPlayerId, row[col++]);
+		str_to_number(r.dwBattlePassType, row[col++]);
+		str_to_number(r.dwMissionIndex, row[col++]);
+		str_to_number(r.dwMissionType, row[col++]);
+		str_to_number(r.dwBattlePassId, row[col++]);
+		str_to_number(r.dwExtraInfo, row[col++]);
+		str_to_number(r.bCompleted, row[col++]);
+
+		r.bIsUpdated = 0;
+	}
+
+	sys_log(0, "EXT_BATTLE_PASS_LOAD: count %d PID %u", s_mission.size(), dwRealPID);
+
+	DWORD dwCount = s_mission.size();
+
+	peer->EncodeHeader(HEADER_DG_EXT_BATTLE_PASS_LOAD, dwHandle, sizeof(DWORD) + sizeof(DWORD) + sizeof(TPlayerExtBattlePassMission) * dwCount);
+	peer->Encode(&dwRealPID, sizeof(DWORD));
+	peer->Encode(&dwCount, sizeof(DWORD));
+	peer->Encode(&s_mission[0], sizeof(TPlayerExtBattlePassMission) * dwCount);
+}
+
+void CClientManager::QUERY_SAVE_EXT_BATTLE_PASS(CPeer* peer, DWORD dwHandle, TPlayerExtBattlePassMission* battlePass)
+{
+	if (g_test_server)
+		sys_log(0, "QUERY_SAVE_EXT_BATTLE_PASS: %lu", battlePass->dwPlayerId);
+
+	char szQuery[QUERY_MAX_LEN];
+	snprintf(szQuery, sizeof(szQuery),
+		"REPLACE INTO battlepass_missions (player_id, battlepass_type, mission_index, mission_type, battle_pass_id, extra_info, completed) VALUES (%u, %d, %d, %d, %d, %d, %d)",
+		battlePass->dwPlayerId,
+		battlePass->dwBattlePassType,
+		battlePass->dwMissionIndex,
+		battlePass->dwMissionType,
+		battlePass->dwBattlePassId,
+		battlePass->dwExtraInfo,
+		battlePass->bCompleted ? 1 : 0);
+	CDBManager::instance().AsyncQuery(szQuery);
+}
+#endif
 
 /*
  * PLAYER SAVE

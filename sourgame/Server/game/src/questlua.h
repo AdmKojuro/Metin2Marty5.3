@@ -154,6 +154,14 @@ namespace quest
 		FBuildLuaGuildWarList(lua_State * L);
 		void operator() (DWORD g1, DWORD g2);
 	};
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	struct FDungeonUpdateAllBattlepassProcess
+	{
+		int dungeon_index;
+
+		void operator () (LPCHARACTER ch);
+	};
+#endif
 }
 #endif /*__HEADER_QUEST_LUA__*/
 

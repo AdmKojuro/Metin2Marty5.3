@@ -653,6 +653,29 @@ typedef struct packet_shop_item
 #endif
 } TShopItemData;
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+typedef struct SExtBattlePassRewardItem
+{
+	DWORD dwVnum;
+	BYTE bCount;
+} TExtBattlePassRewardItem;
+
+typedef struct SExtBattlePassMissionInfo
+{
+	BYTE bMissionIndex;
+	BYTE bMissionType;
+	DWORD dwMissionInfo[3];
+	TExtBattlePassRewardItem aRewardList[3];
+} TExtBattlePassMissionInfo;
+
+typedef struct SExtBattlePassRanking
+{
+	BYTE bPos;
+	char playerName[24 + 1];
+	DWORD dwFinishTime;
+} TExtBattlePassRanking;
+#endif
+
 #pragma pack(pop)
 
 inline float GetSqrtDistance(int ix1, int iy1, int ix2, int iy2) // By sqrt

@@ -42,6 +42,11 @@ enum QID
     QID_GROWTH_PET_SAVE,
     QID_GROWTH_PET_DELETE,
 #endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	QID_EXT_BATTLE_PASS,
+#endif
+
 };
 
 #endif

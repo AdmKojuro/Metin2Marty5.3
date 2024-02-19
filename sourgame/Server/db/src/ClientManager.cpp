@@ -3029,6 +3029,11 @@ void CClientManager::ProcessPackets(CPeer * peer)
 					QUERY_SKILL_COLOR_SAVE(data);
 					break;
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			case HEADER_GD_SAVE_EXT_BATTLE_PASS:
+				QUERY_SAVE_EXT_BATTLE_PASS(peer, dwHandle, (TPlayerExtBattlePassMission*)data);
+				break;
+#endif
 			default:
 				sys_err("Unknown header (header: %d handle: %d length: %d)", header, dwHandle, dwLength);
 				break;
@@ -3216,6 +3221,9 @@ int CClientManager::AnalyzeQueryResult(SQLMsg * msg)
 #endif
 #ifdef __GROWTH_PET_SYSTEM__
 		case QID_GROWTH_PET:
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		case QID_EXT_BATTLE_PASS:
 #endif
 			RESULT_COMPOSITE_PLAYER(peer, msg, qi->iType);
 			break;

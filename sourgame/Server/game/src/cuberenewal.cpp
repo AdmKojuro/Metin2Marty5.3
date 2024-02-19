@@ -616,6 +616,9 @@ void Cube_Make(LPCHARACTER ch, int index, int count_item, int index_item_improve
 				{
 					iEmptyPos = ch->GetEmptyDragonSoulInventory(pItem);
 					pItem->AddToCharacter(ch, TItemPos(DRAGON_SOUL_INVENTORY, iEmptyPos));
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+					ch->UpdateExtBattlePassMissionProgress(BP_ITEM_CRAFT, pItem->GetCount(), pItem->GetVnum());
+#endif
 				}
 
 #ifdef __SPECIAL_INVENTORY_SYSTEM__

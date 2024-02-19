@@ -304,6 +304,10 @@ CPacketInfoCG::CPacketInfoCG()
 #ifdef ENABLE_SHOW_CHEST_DROP
 	Set(HEADER_CG_CHEST_DROP_INFO, sizeof(TPacketCGChestDropInfo), "ChestDropInfo", true);
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	Set(HEADER_CG_EXT_BATTLE_PASS_ACTION, sizeof(TPacketCGExtBattlePassAction), "ReciveExtBattlePassActions", true);
+	Set(HEADER_CG_EXT_SEND_BP_PREMIUM_ITEM, sizeof(TPacketCGExtBattlePassSendPremiumItem), "ReciveExtBattlePassPremiumItem", true);
+#endif
 }
 
 CPacketInfoCG::~CPacketInfoCG()

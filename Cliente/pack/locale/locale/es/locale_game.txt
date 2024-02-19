@@ -580,6 +580,9 @@ EXCHANGE_TITLE	Comerciar con %s (%d)
 EXINVEN_USE_ITEM_FAIL_FALL_SHORT	Todavía necesitas %d Ampliación(es) de inventario más.
 EXINVEN_USE_ITEM_FAIL_FOURTH_PAGE_STAGE_MAX	Tu inventario ha alcanzado el número máximo de ampliaciones.
 EXINVEN_USE_ITEM_QUESTION	¿Quieres agrandar tu inventario con %d Ampliaciones de inventario?
+EXTENDET_BATTLE_PASS_ITS_NOT_BATTLEPASS_ITEM	¡Este no es un boleto de pase de batalla premium! No puedes dejar esto.
+EXTENDET_BATTLE_PASS_RANKLIST_REFRESH	La lista de clasificación ha sido actualizada.
+EXTENDET_BATTLE_PASS_RANKLIST_WAIT_TO_REFRESH	Todavía tiene que esperar %d segundos para actualizar la lista de clasificación nuevamente.
 FISHING_FAILURE	Perdiste el cebo.
 FISHING_NOTIFY1	Parece que hay %s enganchado.
 FISHING_NOTIFY2	Parece que %s ha sido capturado.

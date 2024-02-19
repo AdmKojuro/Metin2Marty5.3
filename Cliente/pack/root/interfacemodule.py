@@ -46,7 +46,7 @@ import miniMap
 import uiSelectItem
 # END_OF_ACCESSORY_REFINE_ADD_METIN_STONE
 import uiScriptLocale
-
+import net
 import event
 import localeInfo
 
@@ -73,6 +73,8 @@ if app.ENABLE_SWITCHBOT:
 	import uiSwitchbot
 if app.ENABLE_SHOW_CHEST_DROP:
 	import uiChestDrop
+if app.ENABLE_EXTENDED_BATTLE_PASS:
+	import uiBattlePassExtended
 
 IsQBHide = 0
 class Interface(object):
@@ -127,6 +129,9 @@ class Interface(object):
 			self.wndDropItem = None
 		if app.ENABLE_SHOW_CHEST_DROP:
 			self.dlgChestDrop = None
+		if app.ENABLE_EXTENDED_BATTLE_PASS:
+			self.wndBattlePassExtended = None
+			self.isFirstOpeningExtBattlePass = False
 		self.listGMName = {}
 		self.wndQuestWindow = {}
 		self.wndQuestWindowNewKey = 0
@@ -182,6 +187,8 @@ class Interface(object):
 		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_MESSENGER, ui.__mem_func__(self.ToggleMessenger))
 		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_SYSTEM, ui.__mem_func__(self.ToggleSystemDialog))
 		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_EXPAND_MONEY, ui.__mem_func__(self.ToggleExpandedMoneyButton))
+		#if app.ENABLE_EXTENDED_BATTLE_PASS:
+		self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_BATTLEPASS, ui.__mem_func__(self.ToggleBattlePassExtended))
 		if uiTaskBar.TaskBar.IS_EXPANDED:
 			self.wndTaskBar.SetToggleButtonEvent(uiTaskBar.TaskBar.BUTTON_EXPAND, ui.__mem_func__(self.ToggleExpandedButton))
 			self.wndExpandedTaskBar = uiTaskBar.ExpandedTaskBar()
@@ -305,6 +312,9 @@ class Interface(object):
 
 		if app.ENABLE_SHOW_CHEST_DROP:
 			self.dlgChestDrop = uiChestDrop.ChestDropWindow()
+
+		if app.ENABLE_EXTENDED_BATTLE_PASS:
+			self.wndBattlePassExtended = uiBattlePassExtended.BattlePassWindow()
 
 	def __MakeDialogs(self):
 		self.dlgExchange = uiExchange.ExchangeDialog()
@@ -707,6 +717,10 @@ class Interface(object):
 				self.dlgChestDrop.Hide()
 				self.dlgChestDrop.Destroy()
 
+		if app.ENABLE_EXTENDED_BATTLE_PASS:
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.Destroy()
+
 		# ACCESSORY_REFINE_ADD_METIN_STONE
 		if self.wndItemSelect:
 			self.wndItemSelect.Destroy()
@@ -836,6 +850,9 @@ class Interface(object):
 		if app.ENABLE_SHOW_CHEST_DROP:
 			if self.dlgChestDrop:
 				del self.dlgChestDrop		
+
+		if app.ENABLE_EXTENDED_BATTLE_PASS:
+			del self.wndBattlePassExtended
 
 		self.questButtonList = []
 		self.whisperButtonList = []
@@ -1317,6 +1334,10 @@ class Interface(object):
 			if self.wndSpecialInventory:
 				self.wndSpecialInventory.Hide()
 
+		if app.ENABLE_EXTENDED_BATTLE_PASS:
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.Hide()
+
 	def ShowMouseImage(self):
 		self.wndTaskBar.ShowMouseImage()
 
@@ -1422,6 +1443,49 @@ class Interface(object):
 			else:
 				self.wndInventory.OverOutItem()
 				self.wndInventory.Close()
+
+	if app.ENABLE_EXTENDED_BATTLE_PASS:
+		def ReciveOpenExtBattlePass(self):
+			if False == self.isFirstOpeningExtBattlePass:
+				self.isFirstOpeningExtBattlePass = True
+				self.wndBattlePassExtended.SetPage("NORMAL")
+			if False == self.wndBattlePassExtended.IsShow():
+				self.ToggleBattlePassExtended()
+			else:
+				self.wndBattlePassExtended.SetPage(self.wndBattlePassExtended.GetPage())
+
+		def ToggleBattlePassExtended(self):
+			if False == self.isFirstOpeningExtBattlePass:
+				net.SendExtBattlePassAction(1)
+			if False == self.wndBattlePassExtended.IsShow():
+				self.wndBattlePassExtended.Show()
+				self.wndBattlePassExtended.SetTop()
+			else:
+				self.wndBattlePassExtended.Close()
+		
+		def AddExtendedBattleGeneralInfo(self, BattlePassType, BattlePassName, BattlePassID, battlePassStartTime, battlePassEndTime):
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.RecvGeneralInfo(BattlePassType, BattlePassName, BattlePassID, battlePassStartTime, battlePassEndTime)
+		
+		def AddExtendedBattlePassMission(self, battlepassType, battlepassID, missionIndex, missionType, missionInfo1, missionInfo2, missionInfo3):
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.AddMission(battlepassType, battlepassID, missionIndex, missionType, missionInfo1, missionInfo2, missionInfo3)
+
+		def UpdateExtendedBattlePassMission(self, battlepassType, missionIndex, missionType, newProgress):
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.UpdateMission(battlepassType, missionIndex, missionType, newProgress)
+
+		def AddExtendedBattlePassMissionReward(self, battlepassType, battlepassID, missionIndex, missionType, itemVnum, itemCount):
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.AddMissionReward(battlepassType, battlepassID, missionIndex, missionType, itemVnum, itemCount)
+
+		def AddExtendedBattlePassReward(self, battlepassType, battlepassID, itemVnum, itemCount):
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.AddReward(battlepassType, battlepassID, itemVnum, itemCount)
+
+		def AddExtBattlePassRanklistEntry(self, playername, battlepassType, battlepassID, startTime, endTime):
+			if self.wndBattlePassExtended:
+				self.wndBattlePassExtended.AddRankingEntry(playername, battlepassType, battlepassID, startTime, endTime)
 
 	def ToggleExpandedButton(self):
 		if False == player.IsObserverMode():
@@ -1817,6 +1881,10 @@ class Interface(object):
 		if app.ENABLE_DUNGEON_INFO_SYSTEM:
 			if self.wndDungeonInfo:
 				hideWindows += self.wndDungeonInfo,
+
+		if app.ENABLE_EXTENDED_BATTLE_PASS:
+			if self.wndBattlePassExtended:
+				hideWindows += self.wndBattlePassExtended,
 
 		hideWindows = filter(lambda x:x.IsShow(), hideWindows)
 		map(lambda x:x.Hide(), hideWindows)

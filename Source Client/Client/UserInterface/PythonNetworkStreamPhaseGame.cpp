@@ -970,6 +970,28 @@ void CPythonNetworkStream::GamePhase()
 				break;
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			case HEADER_GC_EXT_BATTLE_PASS_OPEN:
+				ret = RecvExtBattlePassOpenPacket();
+				break;
+
+			case HEADER_GC_EXT_BATTLE_PASS_GENERAL_INFO:
+				ret = RecvExtBattlePassGeneralInfoPacket();
+				break;
+
+			case HEADER_GC_EXT_BATTLE_PASS_MISSION_INFO:
+				ret = RecvExtBattlePassMissionInfoPacket();
+				break;
+
+			case HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE:
+				ret = RecvExtBattlePassMissionUpdatePacket();
+				break;
+
+			case HEADER_GC_EXT_BATTLE_PASS_SEND_RANKING:
+				ret = RecvExtBattlePassRankingPacket();
+				break;
+#endif
+
 			default:
 				ret = RecvDefaultPacket(header);
 				break;
@@ -6703,6 +6725,129 @@ bool CPythonNetworkStream::RecvChestDropInfo()
 	}
 
 	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_RefreshChestDropInfo", Py_BuildValue("(i)", packet.dwChestVnum));
+
+	return true;
+}
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+bool CPythonNetworkStream::SendExtBattlePassAction(BYTE bAction)
+{
+	if (!__CanActMainInstance())
+		return true;
+
+	TPacketCGExtBattlePassAction packet;
+	packet.bHeader = HEADER_CG_EXT_BATTLE_PASS_ACTION;
+	packet.bAction = bAction;
+
+	if (!Send(sizeof(TPacketCGExtBattlePassAction), &packet))
+	{
+		Tracef("SendExtBattlePassAction Send Packet Error\n");
+		return false;
+	}
+
+	return SendSequence();
+}
+
+bool CPythonNetworkStream::SendExtBattlePassPremiumItem(int slotindex)
+{
+	if (!__CanActMainInstance())
+		return true;
+
+	TPacketCGExtBattlePassSendPremiumItem packet;
+	packet.bHeader = HEADER_CG_EXT_SEND_BP_PREMIUM_ITEM;
+	packet.iSlotIndex = slotindex;
+
+	if (!Send(sizeof(TPacketCGExtBattlePassSendPremiumItem), &packet))
+	{
+		Tracef("SendExtBattlePassPremiumItem Send Packet Error\n");
+		return false;
+	}
+
+	return SendSequence();
+}
+
+bool CPythonNetworkStream::RecvExtBattlePassOpenPacket()
+{
+	SPacketGCExtBattlePassOpen packet;
+	if (!Recv(sizeof(packet), &packet))
+		return false;
+
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtOpenBattlePass", Py_BuildValue("()"));
+
+	return true;
+}
+
+bool CPythonNetworkStream::RecvExtBattlePassGeneralInfoPacket()
+{
+	TPacketGCExtBattlePassGeneralInfo packet;
+	if (!Recv(sizeof(packet), &packet))
+		return false;
+
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassAddGeneralInfo", Py_BuildValue("(isiii)", packet.bBattlePassType, packet.szSeasonName, packet.dwBattlePassID, packet.dwBattlePassStartTime, packet.dwBattlePassEndTime));
+
+	return true;
+}
+
+bool CPythonNetworkStream::RecvExtBattlePassMissionInfoPacket()
+{
+	TPacketGCExtBattlePassMissionInfo packet;
+	if (!Recv(sizeof(packet), &packet))
+		return false;
+
+	packet.wSize -= sizeof(packet);
+
+	while (packet.wSize > 0)
+	{
+		TExtBattlePassMissionInfo missionInfo;
+		if (!Recv(sizeof(missionInfo), &missionInfo))
+			return false;
+
+		PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassAddMission", Py_BuildValue("(iiiiiii)",
+			packet.bBattlePassType, packet.dwBattlePassID, missionInfo.bMissionIndex, missionInfo.bMissionType, missionInfo.dwMissionInfo[0], missionInfo.dwMissionInfo[1], missionInfo.dwMissionInfo[2]));
+
+		for (int i = 0; i < 3; ++i)
+			PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassAddMissionReward", Py_BuildValue("(iiiiii)",
+				packet.bBattlePassType, packet.dwBattlePassID, missionInfo.bMissionIndex, missionInfo.bMissionType, missionInfo.aRewardList[i].dwVnum, missionInfo.aRewardList[i].bCount));
+
+		packet.wSize -= sizeof(missionInfo);
+	}
+
+	while (packet.wRewardSize > 0)
+	{
+		TExtBattlePassRewardItem rewardInfo;
+		if (!Recv(sizeof(rewardInfo), &rewardInfo))
+			return false;
+
+		PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassAddReward", Py_BuildValue("(iiii)", packet.bBattlePassType, packet.dwBattlePassID, rewardInfo.dwVnum, rewardInfo.bCount));
+
+		packet.wRewardSize -= sizeof(rewardInfo);
+	}
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtOpenBattlePass", Py_BuildValue("()"));
+
+	return true;
+}
+
+bool CPythonNetworkStream::RecvExtBattlePassMissionUpdatePacket()
+{
+	TPacketGCExtBattlePassMissionUpdate packet;
+	if (!Recv(sizeof(packet), &packet))
+		return false;
+
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassUpdate", Py_BuildValue("(iiii)", packet.bBattlePassType, packet.bMissionIndex, packet.bMissionType, packet.dwNewProgress));
+
+	return true;
+}
+
+bool CPythonNetworkStream::RecvExtBattlePassRankingPacket()
+{
+	TPacketGCExtBattlePassRanking packet;
+	if (!Recv(sizeof(packet), &packet))
+		return false;
+
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassAddRanklistEntry", Py_BuildValue("(siiii)",
+		packet.szPlayerName, packet.bBattlePassType, packet.bBattlePassID, packet.dwStartTime, packet.dwEndTime
+	));
 
 	return true;
 }

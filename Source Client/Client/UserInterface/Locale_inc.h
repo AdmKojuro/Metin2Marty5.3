@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_EXTENDED_BATTLE_PASS
 #define ENABLE_BUY_ITEMS_WORLDARD // sistema compra items tienda con otros items
 #define ENABLE_NEW_MOUNT_ROTATION_SPEED
 #define ENABLE_SHOW_CHEST_DROP

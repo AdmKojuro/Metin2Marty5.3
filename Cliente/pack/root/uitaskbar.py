@@ -372,6 +372,9 @@ class TaskBar(ui.ScriptWindow):
 		BUTTON_EXPAND_MONEY = 5
 	IS_EXPANDED = False
 
+	if app.ENABLE_EXTENDED_BATTLE_PASS:
+		BUTTON_BATTLEPASS = 6
+
 	MOUSE_BUTTON_LEFT = 0
 	MOUSE_BUTTON_RIGHT = 1
 	NONE = 255
@@ -581,6 +584,8 @@ class TaskBar(ui.ScriptWindow):
 		toggleButtonDict[TaskBar.BUTTON_INVENTORY]=self.GetChild("InventoryButton")
 		toggleButtonDict[TaskBar.BUTTON_MESSENGER]=self.GetChild("MessengerButton")
 		toggleButtonDict[TaskBar.BUTTON_SYSTEM]=self.GetChild("SystemButton")
+		#if app.ENABLE_EXTENDED_BATTLE_PASS:
+		toggleButtonDict[TaskBar.BUTTON_BATTLEPASS]=self.GetChild("BattlePassButton")
 
 		# ChatButton, ExpandButton �� �� �ϳ��� �ݵ�� �����Ѵ�.
 		try:

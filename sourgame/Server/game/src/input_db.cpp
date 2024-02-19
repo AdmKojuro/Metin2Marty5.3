@@ -56,6 +56,10 @@
 #include "event_manager.h"
 #endif
 #include "safebox.h"
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+#include "battlepass_manager.h"
+#endif
+
 #define MAPNAME_DEFAULT	"none"
 
 bool GetServerLocation(TAccountTable & rTab, BYTE bEmpire)
@@ -1778,6 +1782,10 @@ void CInputDB::Boot(const char* data)
 
 	// END_OF_LOCALE_SERVICE
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	if (!CBattlePassManager::instance().InitializeBattlePass())
+		sys_err("Failure to Initialize Extended BattlePass!");
+#endif
 
 	building::CManager::instance().FinalizeBoot();
 
@@ -2459,6 +2467,29 @@ void CInputDB::ItemLoad(LPDESC d, const char * c_pData)
 
 	ch->SetItemLoaded();
 }
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+void CInputDB::ExtBattlePassLoad(LPDESC d, const char* c_pData)
+{
+	if (!d || !d->GetCharacter())
+		return;
+
+	LPCHARACTER ch = d->GetCharacter();
+	if (!ch)
+		return;
+
+	DWORD dwPID = decode_4bytes(c_pData);
+	c_pData += sizeof(DWORD);
+
+	DWORD dwCount = decode_4bytes(c_pData);
+	c_pData += sizeof(DWORD);
+
+	if (ch->GetPlayerID() != dwPID)
+		return;
+
+	ch->LoadExtBattlePass(dwCount, (TPlayerExtBattlePassMission*)c_pData);
+}
+#endif
 
 void CInputDB::AffectLoad(LPDESC d, const char * c_pData)
 {
@@ -3441,6 +3472,12 @@ int CInputDB::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 #ifdef __GROWTH_PET_SYSTEM__
 	case HEADER_DG_GROWTH_PET_LOAD:
 		GrowthPetLoad(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);
+		break;
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	case HEADER_DG_EXT_BATTLE_PASS_LOAD:
+		ExtBattlePassLoad(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);
 		break;
 #endif
 

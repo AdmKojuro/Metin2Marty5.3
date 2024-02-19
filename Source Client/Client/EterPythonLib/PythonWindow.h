@@ -422,6 +422,8 @@ namespace UI
 			void SetRenderingRectWithScale(float fLeft, float fTop, float fRight, float fBottom);
 			void SetRenderingMode(int iMode);
 
+		void SetImageClipRect(float fLeft, float fTop, float fRight, float fBottom, bool bIsVertical = false);
+
 		protected:
 			void OnCreateInstance();
 			void OnDestroyInstance();

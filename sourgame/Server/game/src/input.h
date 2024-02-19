@@ -161,7 +161,10 @@ class CInputMain : public CInputProcessor
 		void		ItemGive(LPCHARACTER ch, const char* c_pData);
 		void		Hack(LPCHARACTER ch, const char * c_pData);
 		int			MyShop(LPCHARACTER ch, const char * c_pData, size_t uiBytes);
-
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		int			ReciveExtBattlePassActions(LPCHARACTER ch, const char* data, size_t uiBytes);
+		int			ReciveExtBattlePassPremiumItem(LPCHARACTER ch, const char* data, size_t uiBytes);
+#endif
 		void		Refine(LPCHARACTER ch, const char* c_pData);
 #ifdef ENABLE_ACCE_SYSTEM
 		void		Acce(LPCHARACTER pkChar, const char* c_pData);
@@ -262,6 +265,9 @@ protected:
 	void		AffectLoad(LPDESC d, const char * c_pData);
 #ifdef __SKILL_COLOR_SYSTEM__
 	void		SkillColorLoad(LPDESC d, const char * c_pData);
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	void		ExtBattlePassLoad(LPDESC d, const char* c_pData);
 #endif
 
 	void		GuildLoad(const char * c_pData);

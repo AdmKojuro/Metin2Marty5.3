@@ -107,6 +107,10 @@
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 #include "67bonusnew.h"
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+#include "battlepass_manager.h"
+#endif
+
 extern void WriteVersion();
 //extern const char * _malloc_options;
 #if defined(__FreeBSD__) && defined(DEBUG_ALLOC)
@@ -344,6 +348,13 @@ void heartbeat(LPHEART ht, int pulse)
 		DESC_MANAGER::instance().UpdateLocalUserCount();
 	}
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	if (!(pulse % (passes_per_sec * 1)))
+	{
+		CBattlePassManager::instance().CheckBattlePassTimes();
+	}
+#endif
+
 	s_dwProfiler[PROF_HEARTBEAT] += (get_dword_time() - t);
 
 	DBManager::instance().Process();
@@ -475,6 +486,10 @@ int main(int argc, char **argv)
 
 #ifdef __GROWTH_PET_SYSTEM__
 	CGrowthPetManager growth_pet_manager;
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	CBattlePassManager battlepass_manager;
 #endif
 
 	if (!start(argc, argv)) {

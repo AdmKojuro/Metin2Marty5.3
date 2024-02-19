@@ -951,6 +951,28 @@ bool CPythonNetworkStream::RecvSpecialEffect()
 			break;
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+		case SE_EFFECT_BP_NORMAL_MISSION_COMPLETED:
+			effect = CInstanceBase::EFFECT_BP_NORMAL_MISSION_COMPLETED;
+			break;
+		case SE_EFFECT_BP_PREMIUM_MISSION_COMPLETED:
+			effect = CInstanceBase::EFFECT_BP_PREMIUM_MISSION_COMPLETED;
+			break;
+		case SE_EFFECT_BP_EVENT_MISSION_COMPLETED:
+			effect = CInstanceBase::EFFECT_BP_EVENT_MISSION_COMPLETED;
+			break;
+
+		case SE_EFFECT_BP_NORMAL_BATTLEPASS_COMPLETED:
+			effect = CInstanceBase::EFFECT_BP_NORMAL_BATTLEPASS_COMPLETED;
+			break;
+		case SE_EFFECT_BP_PREMIUM_BATTLEPASS_COMPLETED:
+			effect = CInstanceBase::EFFECT_BP_PREMIUM_BATTLEPASS_COMPLETED;
+			break;
+		case SE_EFFECT_BP_EVENT_BATTLEPASS_COMPLETED:
+			effect = CInstanceBase::EFFECT_BP_EVENT_BATTLEPASS_COMPLETED;
+			break;
+#endif
+
 		default:
 			TraceError("%d is not a special effect number. TPacketGCSpecialEffect",kSpecialEffect.type);
 			break;

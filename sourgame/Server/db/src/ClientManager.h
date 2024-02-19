@@ -289,6 +289,11 @@ class CClientManager : public CNetBase, public singleton<CClientManager>
 	void RESULT_SKILL_COLOR_LOAD(CPeer* peer, MYSQL_RES* pRes, DWORD dwHandle);
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	void		RESULT_EXT_BATTLE_PASS_LOAD(CPeer* peer, MYSQL_RES* pRes, DWORD dwHandle, DWORD dwRealPID);
+	void		QUERY_SAVE_EXT_BATTLE_PASS(CPeer* peer, DWORD dwHandle, TPlayerExtBattlePassMission* battlePass);
+#endif
+
 	// PLAYER_INDEX_CREATE_BUG_FIX
 	void		RESULT_PLAYER_INDEX_CREATE(CPeer *pkPeer, SQLMsg *msg);
 	// END_PLAYER_INDEX_CREATE_BUG_FIX

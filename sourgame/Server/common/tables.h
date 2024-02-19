@@ -168,6 +168,9 @@ enum
 #ifdef __MULTI_LANGUAGE_SYSTEM__
 	HEADER_GD_REQUEST_CHANGE_LANGUAGE = 149,
 #endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	HEADER_GD_SAVE_EXT_BATTLE_PASS = 150,
+#endif
 
 	HEADER_GD_SETUP			= 0xff,
 
@@ -314,6 +317,9 @@ enum
 
 #ifdef __SKILL_COLOR_SYSTEM__
 	HEADER_DG_SKILL_COLOR_LOAD = 186,
+#endif
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	HEADER_DG_EXT_BATTLE_PASS_LOAD = 187,
 #endif
 
 	HEADER_DG_MAP_LOCATIONS		= 0xfe,
@@ -536,6 +542,11 @@ typedef struct SPlayerTable
 	DWORD	logoff_interval;
 
 	int		aiPremiumTimes[PREMIUM_MAX_NUM];
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	int	battle_pass_premium_id;
+#endif
+
 } TPlayerTable;
 
 typedef struct SPetSkill
@@ -1712,6 +1723,41 @@ typedef struct SRequestChangeLanguage
 	DWORD dwAID;
 	BYTE bLanguage;
 } TRequestChangeLanguage;
+#endif
+
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+typedef struct SPlayerExtBattlePassMission
+{
+	DWORD dwPlayerId;
+	DWORD dwBattlePassType;
+	DWORD dwMissionIndex;
+	DWORD dwMissionType;
+	DWORD dwBattlePassId;
+	DWORD dwExtraInfo;
+	BYTE bCompleted;
+	BYTE bIsUpdated;
+} TPlayerExtBattlePassMission;
+
+typedef struct SExtBattlePassRewardItem
+{
+	DWORD dwVnum;
+	BYTE bCount;
+} TExtBattlePassRewardItem;
+
+typedef struct SExtBattlePassMissionInfo
+{
+	BYTE bMissionIndex;
+	BYTE bMissionType;
+	DWORD dwMissionInfo[3];
+	TExtBattlePassRewardItem aRewardList[3];
+} TExtBattlePassMissionInfo;
+
+typedef struct SExtBattlePassTimeTable
+{
+	BYTE	bBattlePassId;
+	DWORD	dwStartTime;
+	DWORD	dwEndTime;
+} TExtBattlePassTimeTable;
 #endif
 
 #pragma pack()

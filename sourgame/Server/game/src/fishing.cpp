@@ -630,6 +630,10 @@ void Take(fishing_event_info* info, LPCHARACTER ch)
 					ch->GetDesc()->Packet(&p, sizeof(TPacketGCFishing));
 
 					LPITEM item = ch->AutoGiveItem(item_vnum, 1, -1, false);
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+					ch->UpdateExtBattlePassMissionProgress(FISH_FISHING, 1, item_vnum);
+#endif
+
 					if (item)
 					{
 						item->SetSocket(0,GetFishLength(info->fish_id));
@@ -744,6 +748,9 @@ void Simulation(int level, int count, int prob_idx, LPCHARACTER ch)
 
 void UseFish(LPCHARACTER ch, LPITEM item)
 {
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	ch->UpdateExtBattlePassMissionProgress(FISH_CATCH, 1, item->GetVnum());
+#endif
 	int idx = item->GetVnum() - fish_info[2].vnum+2;
 
 
@@ -819,6 +826,10 @@ void Grill(LPCHARACTER ch, LPITEM item)
 	ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s를 구웠습니다."), item->GetName());
 	item->SetCount(0);
 	ch->AutoGiveItem(fish_info[idx].grill_vnum, count);
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	ch->UpdateExtBattlePassMissionProgress(FISH_GRILL, count, item->GetVnum());
+#endif
+
 }
 
 bool RefinableRod(LPITEM rod)

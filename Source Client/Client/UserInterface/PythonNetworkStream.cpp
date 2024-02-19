@@ -248,6 +248,13 @@ class CMainPacketHeaderMap : public CNetworkPacketHeaderMap
 #ifdef ENABLE_SHOW_CHEST_DROP
 			Set(HEADER_GC_CHEST_DROP_INFO, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCChestDropInfo), DYNAMIC_SIZE_PACKET));
 #endif			
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+			Set(HEADER_GC_EXT_BATTLE_PASS_OPEN, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassOpen), STATIC_SIZE_PACKET));
+			Set(HEADER_GC_EXT_BATTLE_PASS_GENERAL_INFO, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassGeneralInfo), STATIC_SIZE_PACKET));
+			Set(HEADER_GC_EXT_BATTLE_PASS_MISSION_INFO, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassMissionInfo), DYNAMIC_SIZE_PACKET));
+			Set(HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassMissionUpdate), STATIC_SIZE_PACKET));
+			Set(HEADER_GC_EXT_BATTLE_PASS_SEND_RANKING, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassRanking), STATIC_SIZE_PACKET));
+#endif
 		}
 };
 

@@ -713,6 +713,19 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		bool RecvRefineElementPacket();
 #endif
 
+#ifdef ENABLE_EXTENDED_BATTLE_PASS
+	public:
+		bool SendExtBattlePassAction(BYTE bAction);
+		bool SendExtBattlePassPremiumItem(int slotindex);
+
+	protected:
+		bool RecvExtBattlePassOpenPacket();
+		bool RecvExtBattlePassGeneralInfoPacket();
+		bool RecvExtBattlePassMissionInfoPacket();
+		bool RecvExtBattlePassMissionUpdatePacket();
+		bool RecvExtBattlePassRankingPacket();
+#endif
+
 	protected:
 		bool CheckPacket(TPacketHeader * pRetHeader);
 

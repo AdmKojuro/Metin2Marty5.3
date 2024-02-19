@@ -3946,6 +3946,7 @@
 90010	Piedra Fundación	Material de construcción para los edificios del gremio
 90011	Tronco	Material de construcción para los edificios del gremio
 90012	Chapeado	Material de construcción para los edificios del gremio
+93100	Premium Battle-Pass	Mit diesem Ticket kannst du im Battle-Pass Premium Menü dein Zugang zum Premium Battle-Pass für die aktuelle Season freischalten.
 90013		
 9506	Espada+3	
 9507	Daga+3	

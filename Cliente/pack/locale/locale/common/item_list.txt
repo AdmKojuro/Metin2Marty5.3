@@ -12305,6 +12305,7 @@
 90011	ETC	icon/item/90011.tga
 90012	ETC	icon/item/90012.tga
 90013	ETC	icon/item/itemmallb.tga
+93100	ETC	icon/item/93100.tga
 100000	ETC	icon/item/100000.tga
 100001	ETC	icon/item/100001.tga
 100002	ETC	icon/item/100002.tga
