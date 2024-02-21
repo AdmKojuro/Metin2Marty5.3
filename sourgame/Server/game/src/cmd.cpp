@@ -320,6 +320,10 @@ ACMD(do_battlepass_get_info);
 ACMD(do_battlepass_set_mission);
 ACMD(do_battlepass_premium_activate);
 #endif
+#ifdef ENABLE_BIYOLOG
+ACMD(do_bio);
+ACMD(do_open_shop);
+#endif
 struct command_info cmd_info[] =
 {
 	{ "!RESERVED!",	NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	},
@@ -678,6 +682,10 @@ struct command_info cmd_info[] =
 	{ "battlepass_get_info",	do_battlepass_get_info,	0,	POS_DEAD,	RESTRICT_COMMAND_GET_INFO },
 	{ "battlepass_set_mission",	do_battlepass_set_mission,	0,	POS_DEAD,	RESTRICT_COMMAND_SET_MISSION },
 	{ "battlepass_premium_activate",	do_battlepass_premium_activate,	0,	POS_DEAD,	RESTRICT_COMMAND_PREMIUM_ACTIVATE },
+#endif
+#ifdef ENABLE_BIYOLOG
+	{ "bio_dra",	do_bio,		0,		POS_DEAD,	GM_PLAYER },
+	{ "open_shop",	do_open_shop,		0,		POS_DEAD,	GM_PLAYER },
 #endif
 
 	{ "\n",		NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	}

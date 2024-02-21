@@ -8363,6 +8363,10 @@
 30227	ETC	icon/item/30227.tga
 30228	ETC	icon/item/30228.tga
 30229	ETC	icon/item/30229.tga
+30230	ETC	icon/item/30230.tga
+30231	ETC	icon/item/30231.tga
+30232	ETC	icon/item/30232.tga
+30250	ETC	icon/item/30250.tga
 30265	ETC	icon/item/30265.tga
 30266	ETC	icon/item/30266.tga
 30267	ETC	icon/item/30267.tga
@@ -12611,3 +12615,16 @@
 72066	ETC	icon/item/72064.tga
 72067	ETC	icon/item/72064.tga
 72346	ETC	icon/item/72346.tga
+300000	ETC	icon/item/30006.tga
+300001	ETC	icon/item/30047.tga
+300002	ETC	icon/item/30015.tga
+300003	ETC	icon/item/30050.tga
+300004	ETC	icon/item/30165.tga
+300005	ETC	icon/item/30166.tga
+300006	ETC	icon/item/30167.tga
+300007	ETC	icon/item/30168.tga
+300008	ETC	icon/item/30251.tga
+300009	ETC	icon/item/30252.tga
+300010	ETC	icon/item/300010.tga
+300011	ETC	icon/item/300011.tga
+300012	ETC	icon/item/300012.tga

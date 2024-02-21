@@ -75,6 +75,8 @@ if app.ENABLE_SHOW_CHEST_DROP:
 	import uiChestDrop
 if app.ENABLE_EXTENDED_BATTLE_PASS:
 	import uiBattlePassExtended
+if app.ENABLE_BIYOLOG:
+	import uiBiyolog
 
 IsQBHide = 0
 class Interface(object):
@@ -93,6 +95,8 @@ class Interface(object):
 		self.wndGiftBox = None
 		if app.ENABLE_OFFSHOP_DECO:
 			self.shopDecoration = None
+		if app.ENABLE_BIYOLOG:
+			self.wndBio = None
 		# ITEM_MALL
 		self.mallPageDlg = None
 		# END_OF_ITEM_MALL
@@ -753,6 +757,12 @@ class Interface(object):
 			if self.wndDungeonInfo:
 				self.wndDungeonInfo.Destroy()
 				del self.wndDungeonInfo
+
+		if app.ENABLE_BIYOLOG:
+			if self.wndBio:
+				self.wndBio.Hide()
+				self.wndBio.Destroy()
+				del self.wndBio
 
 		self.wndChatLog.Destroy()
 		for btn in self.questButtonList:
@@ -2640,6 +2650,37 @@ class Interface(object):
 		def PetWindowTypeResult(self, result):
 			if self.wndPetInfoWindow:
 				self.wndPetInfoWindow.PetWindowTypeResult(result)
+
+	if app.ENABLE_BIYOLOG:
+		def MakeBioWindow(self):
+			if self.wndBio == None:
+				self.wndBio = uiBiyolog.BiologWindow()
+				self.wndBio.LoadEmpty()
+				return True
+			return False
+		def OpenBiologWindow(self):
+			if constInfo.GetServerID() == 1:
+				self.MakeBioWindow()
+				if self.wndBio.IsShow():
+					self.wndBio.Close()
+				else:
+					self.wndBio.Open()
+			elif constInfo.GetServerID() == 2:
+				import chat
+				chat.AppendChat(chat.CHAT_TYPE_INFO, "En Furia no estᠤisponible el Bi󬯧o")
+
+		def SetBioData(self, level, count, time):
+			self.MakeBioWindow()
+			self.wndBio.LoadData(int(level), int(count), int(time))
+		def SetBioStone(self, level):
+			self.MakeBioWindow()
+			self.wndBio.LoadStone(int(level))
+		def SetBioGift(self, level):
+			self.MakeBioWindow()
+			self.wndBio.LoadGift(int(level))
+		def SetBioEmpty(self):
+			if self.MakeBioWindow() == False:
+				self.wndBio.LoadEmpty()
 
 if __name__ == "__main__":
 

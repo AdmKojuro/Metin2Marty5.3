@@ -80,6 +80,42 @@ EXTRA_UI_FEATURE = 1
 NEW_678TH_SKILL_ENABLE = 1
 # EXTRA END
 
+_game_instance = None
+def GetGameInstance():
+	global _game_instance
+	return _game_instance
+def SetGameInstance(instance):
+	global _game_instance
+	if _game_instance:
+		del _game_instance
+	_game_instance = instance
+def GetInterfaceInstance():
+	global _game_instance
+	if _game_instance:
+		return _game_instance.interface
+	return None
+
+def GetServerID():
+	try:
+		file=open("channel.inf")
+		lines=file.readlines()
+		
+		if len(lines)>0:
+			tokens=lines[0].split()
+
+			return int(tokens[0])
+	except:
+		pass
+
+def minutetoday(time):
+	return int(int((time / 60) / 60) / 24)
+def minutetohour(time):
+	return int((time / 60) / 60) % 24
+def minutetominute(time):
+	return int((time / 60) % 60)
+def minutetosecond(time):
+	return int(time % 60)
+
 INPUT_IGNORE = 0
 
 # OFFLINE_SHOPS

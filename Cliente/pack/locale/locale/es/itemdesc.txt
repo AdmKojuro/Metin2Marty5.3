@@ -757,6 +757,11 @@
 30224	Piedra Alma de Gyimok	Una piedra legendaria, contiene el alma de un aristócrata Gyimoks.
 30225	Piedra Alma de Tugyi	Una piedra legendaria, contiene el alma de un aristócrata Tugyis.
 30228	Piedra Alma de Beran-S.	El aura sombría del Dios caído te toca en lo más profundo de tu alma e intenta penetrar en tu corazón.
+30229	Piedra Alma de Beran-S.	Usada para terminar la misión del biólogo
+30230	Piedra Alma de Beran-S.	Usada para terminar la misión del biólogo
+30231	Piedra Alma de Beran-S.	Usada para terminar la misión del biólogo
+30232	Piedra Alma de Beran-S.	Usada para terminar la misión del biólogo
+30250	Piedra Alma de Beran-S.	Usa este elixir para eliminar por completo el tiempo de entrega de un objeto del biólogo.
 30251	Joya de la Envidia	Un diamante impregnado de maldad.
 30252	Joya de la Sabiduría	Este diamante está envuelto por un aura serena y noble.
 30253	Joya de la lealtad	Este diamante está envuelto por un aura honesta y combativa.
@@ -3969,4 +3974,16 @@
 72066	Large Additive	Increases the chance of adding a bonus by up to 20%. Required for maximum increase: | 5x Large Additive | 10x Powershard
 72067	Power Additive	Increases the chance of adding a bonus by up to 50%. Required for maximum increase: | 5x Power Additive | 10x Powershard
 72346	Orison	Removes the bonuses from one of your items and adds new ones. Only applies to bonuses 6 and 7.
-
+300000	2	Un diente amarillo y pestilente de un Orco. En los bordes hay residuos crujientes indefinibles.
+300001	2	Un libro esotérico usado para maldecir a la gente.
+300002	2	Un grotesco recuerdo de un Demonio que rezuma aire frío.
+300003	2	Una bola hecha de hielo. No se derrite en agua caliente ni con el calor.
+300004	2	Una rama verde usada para crear brebajes de magia.
+300005	2	Un trozo de panel con poderes mágicos usado por los magos.
+300006	2	Un trozo de rama de un árbol rojo fantasma que vaga por el mundo.
+300007	2	Un trozo de la legendaria palabra de un líder hacia sus fieles súbditos.
+300008	2	Un diente impregnado de maldad y codicia.
+300009	2	Este diamante está envuelto por un aura serena y noble.
+300010	2	Una pluma muy ligera, arrancada a un fénix.
+300011	2	Usado para la investigación por el biólogo para mejorar su técnica.
+300012	2	Unas recetas muy antiguas que esconden apuntes valiosos de biología.

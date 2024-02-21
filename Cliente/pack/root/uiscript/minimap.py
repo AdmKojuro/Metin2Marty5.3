@@ -135,6 +135,16 @@ window = {
 
 					"text" : "",
 				},
+				{
+					"name" : "bio",
+					"type" : "button",
+					"x" : -9,
+					"y" : 38,
+					#"default_image" : "d:/ymir work/ui/game/minimapa/biolog_0.tga",
+					#"over_image" : "d:/ymir work/ui/game/minimapa/biolog_2.tga",
+					#"down_image" : "d:/ymir work/ui/game/minimapa/biolog_1.tga",
+					##"tooltip_text": localeInfo.BIO_TITLE,
+				},
 			],
 		},
 		{

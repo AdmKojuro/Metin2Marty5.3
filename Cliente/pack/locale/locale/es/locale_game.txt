@@ -55,6 +55,17 @@ AUTO_TOOLTIP_LINE4	Atención: Las pociones de HP y de SP se activan cuando se sob
 AUTO_TOOLTIP_LINE5	Consejo: En la tienda de objetos se puede activar el uso automático de habilidades, pociones y resurrección.
 AUTO_TOOLTIP_TITLE	Ayuda de la autocaza
 BATTLE_POINT	Puntos de combate
+BIO_CAN_GIVE_ITEM	¡Ya puedes entregar el siguiente objeto!
+BIO_CHOOSE_GIFT	Elige un bonus:
+BIO_DONT_HAVE_MISSION	No tienes ninguna misión disponible.
+BIO_EMPTY_BONUS	No tiene ningún bonus.
+BIO_FIND_STONE	¡Encuentra la piedra de la misión!
+BIO_GIFT	Recompensa
+BIO_GIVE_MISSION	Entregar
+BIO_MISSION_TITLE	Nivel %d: %s
+BIO_NEED_LEVEL	Tu nivel es demasiado bajo. Nivel necesario: %d
+BIO_TIME_TEXT	%d D %d H %d Min. %d Seg.
+BIO_TITLE	[F7] Biólogo
 CANNOT_ATTACK_DEST_IN_SAFE	El combatiente está demasiado lejos.
 CANNOT_ATTACK_SELF_IN_SAFE	No puedo atacar.
 CANNOT_DOING_PRIVATE_SHOP_OPEN	No puedes realizar ninguna otra acción mientras tengas abierta una tienda privada.

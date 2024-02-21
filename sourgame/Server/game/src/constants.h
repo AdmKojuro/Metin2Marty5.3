@@ -3,6 +3,12 @@
 
 #include "../../common/tables.h"
 
+#ifdef ENABLE_BIYOLOG
+extern const DWORD bio_data[][17];
+extern const BYTE bio_max;
+extern BYTE pointToApply(BYTE p);
+#endif
+
 enum EMonsterChatState
 {
 	MONSTER_CHAT_WAIT,

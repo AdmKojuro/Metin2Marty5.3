@@ -765,6 +765,14 @@ class SpecialInventoryWindow(ui.ScriptWindow):
 
 			constInfo.SET_ITEM_QUESTION_DIALOG_STATUS(1)
 
+		elif player.GetItemTypeBySlot(slotIndex) == item.ITEM_TYPE_GIFTBOX:
+			if app.ENABLE_SHOW_CHEST_DROP:
+				if self.interface:
+					if self.interface.dlgChestDrop:
+						if not self.interface.dlgChestDrop.IsShow():
+							self.interface.dlgChestDrop.Open(slotIndex)
+							net.SendChestDropInfo(slotIndex)
+
 		# elif app.IsPressed(app.DIK_LSHIFT):
 			# if player.GetItemTypeBySlot(slotIndex) == item.ITEM_TYPE_GIFTBOX and\
 				# ItemVNum != 31374 and ItemVNum != 50255 and\

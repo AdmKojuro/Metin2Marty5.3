@@ -2069,5 +2069,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_EXTENDED_BATTLE_PASS", 0);
 #endif
 
+#ifdef ENABLE_BIYOLOG
+	PyModule_AddIntConstant(poModule, "ENABLE_BIYOLOG", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_BIYOLOG", 0);
+#endif
+
 }
 

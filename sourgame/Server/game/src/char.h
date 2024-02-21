@@ -2664,7 +2664,10 @@ public:
 		bool m_bIsLoadedExtBattlePass;
 		ListExtBattlePassMap m_listExtBattlePass;
 #endif
-
+#ifdef ENABLE_BIYOLOG
+	public:
+		void			CheckBio();
+#endif
 };
 
 ESex GET_SEX(LPCHARACTER ch);

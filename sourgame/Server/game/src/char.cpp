@@ -3448,7 +3448,9 @@ void CHARACTER::PointChange(BYTE type, int amount, bool bAmount, bool bBroadcast
 			if (amount)
 			{
 				quest::CQuestManager::instance().LevelUp(GetPlayerID());
-
+#ifdef ENABLE_BIYOLOG
+				CheckBio();
+#endif
 				LogManager::instance().LevelLog(this, val, GetRealPoint(POINT_PLAYTIME) + (get_dword_time() - m_dwPlayStartTime) / 60000);
 
 				if (GetGuild())
@@ -10851,6 +10853,40 @@ void CHARACTER::SetExtBattlePassMissionProgress(BYTE bBattlePassType, DWORD dwMi
 			packet.dwNewProgress = dwSaveProgress;
 			GetDesc()->Packet(&packet, sizeof(TPacketGCExtBattlePassMissionUpdate));
 		}
+	}
+}
+#endif
+
+#ifdef ENABLE_BIYOLOG
+void CHARACTER::CheckBio()
+{
+	int level = GetQuestFlag("bio.level");
+	if (level == 0)
+	{
+		level += 1;
+		SetQuestFlag("bio.level", level);
+	}
+	else if (level >= bio_max)
+		return;
+
+	DWORD count = GetQuestFlag("bio.count");
+	if (count >= bio_data[level][2])
+	{
+		if (count == bio_data[level][2])
+		{
+			if (bio_data[level][5] != 0)
+				ChatPacket(CHAT_TYPE_COMMAND, "biostone %d", level);
+			else
+				if (bio_data[level][14] == 1)
+					ChatPacket(CHAT_TYPE_COMMAND, "bioodul %d", level);
+		}
+		else
+			if (bio_data[level][14] == 1)
+				ChatPacket(CHAT_TYPE_COMMAND, "bioodul %d", level);
+	}
+	else
+	{
+		ChatPacket(CHAT_TYPE_COMMAND, "biodata %d %d %d", level, count, GetQuestFlag("bio.time"));
 	}
 }
 #endif

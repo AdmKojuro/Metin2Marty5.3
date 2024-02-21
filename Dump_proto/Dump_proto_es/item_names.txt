@@ -6164,6 +6164,11 @@ VNUM	LOCALE_NAME
 30226	Piedra Espíritu Bosque
 30227	Piedra Alma del Líder
 30228	Piedra Alma de Beran-S.
+30229	Piedra biólogo lv.94
+30230	Piedra biólogo lv.98
+30231	Piedra biólogo lv.100
+30232	Piedra biólogo lv.105
+30250	Elixir del Biólogo
 30251	Joya de la Envidia
 30252	Joya de la Sabiduría
 30253	Loyalty Jewel
@@ -9915,3 +9920,16 @@ VNUM	LOCALE_NAME
 165200	Ónice dragón mítico
 165300	Ónice dragón mítico
 165400	Ónice dragón mítico
+300000	Diente de Orco
+300001	Libro Maldición
+300002	Recuerdo del Demonio
+300003	Bola de Hielo
+300004	Rama de Zelkova
+300005	Panel de Tugyi
+300006	Rama Arbol Rojo Fant.
+300007	Notas de Líder
+300008	Joya de la Envidia
+300009	Joya de la Sabiduría
+300010	Pluma de Fénix
+300011	Monóculo Rojo
+300012	Recetas Antiguas

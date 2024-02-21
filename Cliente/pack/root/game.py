@@ -370,6 +370,7 @@ class GameWindow(ui.ScriptWindow):
 		onPressKeyDict[app.DIK_F3]	= lambda : self.__PressQuickSlot(6)
 		onPressKeyDict[app.DIK_F4]	= lambda : self.__PressQuickSlot(7)
 		#onPressKeyDict[app.DIK_F6]	= lambda : self.BINARY_DROP_ITEM_OPEN()
+		onPressKeyDict[app.DIK_F7]	= lambda : self.interface.OpenBiologWindow()
 
 		#if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			#onPressKeyDict[app.DIK_K]	= lambda : self.interface.ToggleSpecialInventoryWindow()
@@ -2285,6 +2286,12 @@ class GameWindow(ui.ScriptWindow):
 		if app.ENABLE_6_7_BONUS_NEW_SYSTEM:
 			serverCommandList["OpenSkillbookCombinationDialog"] = self.OpenSkillbookCombinationDialog
 			serverCommandList["OpenAttr67BonusNew"] 			= self.OpenAttr67BonusNew
+
+		if app.ENABLE_BIYOLOG:
+			serverCommandList.update({"biodata" : self.interface.SetBioData})
+			serverCommandList.update({"biostone" : self.interface.SetBioStone})
+			serverCommandList.update({"bioodul" : self.interface.SetBioGift})
+			serverCommandList.update({"bioempty" : self.interface.SetBioEmpty})
 
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			serverCommandList.update({

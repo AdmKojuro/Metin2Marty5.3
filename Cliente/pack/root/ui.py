@@ -1284,18 +1284,18 @@ class ImageBox(Window):
 					self.eventDict["MOUSE_OVER_OUT"]()
 				except KeyError:
 					pass
-	else:
-		def OnMouseOverIn(self):
-			try:
-				self.eventDict["MOUSE_OVER_IN"]()
-			except KeyError:
-				pass
-
-		def OnMouseOverOut(self):
-			try:
-				self.eventDict["MOUSE_OVER_OUT"]()
-			except KeyError:
-				pass
+#	else:
+#		def OnMouseOverIn(self):
+#			try:
+#				self.eventDict["MOUSE_OVER_IN"]()
+#			except KeyError:
+#				pass
+#
+#		def OnMouseOverOut(self):
+#			try:
+#				self.eventDict["MOUSE_OVER_OUT"]()
+#			except KeyError:
+#				pass
 
 class ExpandedImageBox(ImageBox):
 	def __init__(self, layer = "UI"):

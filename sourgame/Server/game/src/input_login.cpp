@@ -687,7 +687,9 @@ void CInputLogin::Entergame(LPDESC d, const char * data)
 	d->Packet(&p2, sizeof(p2));
 
 	ch->SendGreetMessage();
-
+#ifdef ENABLE_BIYOLOG
+	ch->CheckBio();
+#endif
 	_send_bonus_info(ch);
 #if defined(__WJ_SORT_LASTPLAYTIME__)
 	std::unique_ptr<SQLMsg> play(DBManager::instance().DirectQuery("UPDATE player%s SET last_play = NOW() WHERE name = '%s'", get_table_postfix(), ch->GetName()));

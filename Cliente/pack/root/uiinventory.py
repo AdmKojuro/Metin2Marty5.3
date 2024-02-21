@@ -2764,7 +2764,7 @@ class InventoryWindow(ui.ScriptWindow):
 			if (arg == 1):
 				self.interface.OpenDropItem()
 			if (arg == 2):
-				self.interface.OpenAttr67BonusNew()
+				self.interface.OpenBiologWindow()
 			if (arg == 3):
 				self.interface.ToggleDungeonInfoWindow()
 			if (arg == 4):
