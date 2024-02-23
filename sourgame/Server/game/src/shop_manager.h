@@ -1,6 +1,10 @@
 #ifndef __INC_METIN_II_GAME_SHOP_MANAGER_H__
 #define __INC_METIN_II_GAME_SHOP_MANAGER_H__
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+#include "packet.h"
+#endif
+
 class CShop;
 typedef class CShop * LPSHOP;
 
@@ -28,6 +32,11 @@ public:
 	LPSHOP	CreatePCShop(LPCHARACTER ch, TShopItemTable * pTable, BYTE bItemCount);
 	LPSHOP	FindPCShop(DWORD dwVID);
 	void	DestroyPCShop(LPCHARACTER ch);
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	void ShopSearchBuy(LPCHARACTER ch, const TPacketCGPrivateShopSearchBuyItem* p);
+	void ShopSearchProcess(LPCHARACTER ch, const TPacketCGPrivateShopSearch* p);
+#endif
 
 #ifdef OFFLINE_SHOP
 public:

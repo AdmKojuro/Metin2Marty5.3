@@ -671,6 +671,9 @@ class ItemToolTip(ToolTip):
 		if app.ENABLE_DS_SET:
 			self.interface = None
 
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			self.isPrivateSearchItem = False
+
 		self.bCannotUseItemForceSetDisableColor = True
 
 	def __del__(self):
@@ -746,6 +749,9 @@ class ItemToolTip(ToolTip):
 			self.bRefineElementType = -1
 		self.toolTipWidth = self.TOOL_TIP_WIDTH
 		ToolTip.ClearToolTip(self)
+
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			self.isPrivateSearchItem = False
 
 	def SetInventoryItem(self, slotIndex, window_type = player.INVENTORY):
 		if app.ENABLE_DS_SET:
@@ -1270,8 +1276,40 @@ class ItemToolTip(ToolTip):
 	def __AppendAttackGradeInfo(self):
 		atkGrade = item.GetValue(1)
 		self.AppendTextLine(localeInfo.TOOLTIP_ITEM_ATT_GRADE % atkGrade, self.GetChangeTextLineColor(atkGrade))
+
+	if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+		def SetPrivateSearchItem(self, slotIndex):
+			itemVnum = shop.GetPrivateShopSelectItemVnum(slotIndex)
+
+			if 0 == itemVnum:
+				return
+
+			self.ClearToolTip()
+			self.isPrivateSearchItem = True
+		
+			metinSlot = []
+			for i in xrange(player.METIN_SOCKET_MAX_NUM):
+				metinSlot.append(shop.GetPrivateShopSelectItemMetinSocket(slotIndex, i))
+			attrSlot = []
+			for i in xrange(player.ATTRIBUTE_SLOT_MAX_NUM):
+				attrSlot.append(shop.GetPrivateShopSelectItemAttribute(slotIndex, i))
 	
-	
+			self.AddItemData(itemVnum, metinSlot, attrSlot)
+			
+			# if app.ENABLE_CHANGE_LOOK_SYSTEM:
+				# self.AppendChangeLookInfoPrivateShopWIndow(slotIndex)
+
+		def __AppendPrivateSearchItemicon(self, itemVnum):
+			itemImage = ui.ImageBox()
+			itemImage.SetParent(self)
+			itemImage.Show()
+			item.SelectItem(itemVnum)
+			itemImage.LoadImage(item.GetIconImageFileName())
+			itemImage.SetPosition((self.toolTipWidth/2)-16, self.toolTipHeight)
+			self.toolTipHeight += itemImage.GetHeight()
+			self.childrenList.append(itemImage)
+			self.ResizeToolTip()
+
 	if app.ENABLE_ACCE_SYSTEM:
 		# def CalcAcceValue(self, value, abs):
 			# if not value:
@@ -1643,6 +1681,11 @@ class ItemToolTip(ToolTip):
 
 		if self.__IsHair(itemVnum):
 			self.__AppendHairIcon(itemVnum)
+
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			if self.isPrivateSearchItem:
+				if not self.__IsHair(itemVnum):
+					self.__AppendPrivateSearchItemicon(itemVnum)
 
 		### Description ###
 		self.AppendDescription(itemDesc, 26)
@@ -2532,7 +2575,13 @@ class ItemToolTip(ToolTip):
 		elif self.__IsNewHair2(itemVnum):
 			itemImage.LoadImage("icon/hair/%d.sub" % (itemVnum))
 
-		itemImage.SetPosition(itemImage.GetWidth()/2, self.toolTipHeight)
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			if self.isPrivateSearchItem:
+				itemImage.SetPosition((self.toolTipWidth/2)-48, self.toolTipHeight)
+			else:
+				itemImage.SetPosition((self.toolTipWidth/2)-48, self.toolTipHeight)
+		else:
+			itemImage.SetPosition(itemImage.GetWidth()/2, self.toolTipHeight)
 		self.toolTipHeight += itemImage.GetHeight()
 		#self.toolTipWidth += itemImage.GetWidth()/2
 		self.childrenList.append(itemImage)

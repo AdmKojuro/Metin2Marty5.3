@@ -22,7 +22,7 @@ class CExchange
 		bool		Accept(bool bIsAccept = true);
 		void		Cancel();
 
-		bool		AddGold(long lGold);
+		bool		AddGold(long long lGold);
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 		bool		AddCheque(long Cheque);
 #endif // __ENABLE_CHEQUE_SYSTEM__
@@ -51,7 +51,7 @@ class CExchange
 		BYTE		m_abItemDisplayPos[EXCHANGE_ITEM_MAX_NUM];
 
 		bool 		m_bAccept;
-		long		m_lGold;
+		long long		m_lGold;
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 		DWORD		m_lCheque;
 #endif // __ENABLE_CHEQUE_SYSTEM__

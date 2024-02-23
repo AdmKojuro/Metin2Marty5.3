@@ -21,6 +21,10 @@
 
 std::string g_strEffectName = "d:/ymir work/effect/etc/direction/direction_land.mse";
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+static const std::string g_strShopSearchEffectName = "d:/ymir work/effect/etc/direction/direction_land2.mse";
+#endif
+
 DWORD CPythonBackground::GetRenderShadowTime()
 {
 	return m_dwRenderShadowTime;
@@ -522,6 +526,30 @@ void CPythonBackground::Update(float fCenterX, float fCenterY, float fCenterZ)
 			itor = m_kMap_dwID_kReserveTargetEffect.erase(itor);
 		}
 	}
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	for (const auto& itor : m_kMap_dwTargetID_dwChrIDShopSearch)
+	{
+		CInstanceBase* pInstance = CPythonCharacterManager::Instance().GetInstancePtr(itor.second);
+		if (!pInstance)
+			continue;
+		TPixelPosition kPixelPosition;
+		pInstance->NEW_GetPixelPosition(&kPixelPosition);
+		CreateSpecialEffect(itor.first, +kPixelPosition.x, -kPixelPosition.y, +kPixelPosition.z, g_strShopSearchEffectName.c_str());
+	}
+	for (auto itor = m_kMap_dwID_kReserveTargetEffectShopSearch.begin(); itor != m_kMap_dwID_kReserveTargetEffectShopSearch.end();)
+	{
+		const SReserveTargetEffect& rReserveTargetEffect = itor->second;
+		const auto ilx = static_cast<float>(rReserveTargetEffect.ilx);
+		const auto ily = static_cast<float>(rReserveTargetEffect.ily);
+		const auto fHeight = rkMap.GetHeight(ilx, ily);
+		if (0.0f == fHeight) {
+			++itor;
+			continue;
+		}
+		CreateSpecialEffect(itor->first, ilx, ily, fHeight, g_strShopSearchEffectName.c_str());
+		itor = m_kMap_dwID_kReserveTargetEffectShopSearch.erase(itor);
+	}
+#endif
 }
 
 bool CPythonBackground::__IsSame(std::set<int> & rleft, std::set<int> & rright)
@@ -879,6 +907,10 @@ void CPythonBackground::Warp(DWORD dwX, DWORD dwY)
 	m_kSet_iShowingPortalID.clear();
 	m_kMap_dwTargetID_dwChrID.clear();
 	m_kMap_dwID_kReserveTargetEffect.clear();
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	m_kMap_dwTargetID_dwChrIDShopSearch.clear();
+	m_kMap_dwID_kReserveTargetEffectShopSearch.clear();
+#endif
 }
 
 void CPythonBackground::VisibleGuildArea()
@@ -1014,7 +1046,12 @@ void CPythonBackground::DeleteTargetEffect(DWORD dwID)
 	{
 		m_kMap_dwTargetID_dwChrID.erase(dwID);
 	}
-
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	if (m_kMap_dwID_kReserveTargetEffectShopSearch.end() != m_kMap_dwID_kReserveTargetEffectShopSearch.find(dwID))
+		m_kMap_dwID_kReserveTargetEffectShopSearch.erase(dwID);
+	if (m_kMap_dwTargetID_dwChrIDShopSearch.end() != m_kMap_dwTargetID_dwChrIDShopSearch.find(dwID))
+		m_kMap_dwTargetID_dwChrIDShopSearch.erase(dwID);
+#endif
 	DeleteSpecialEffect(dwID);
 }
 
@@ -1082,5 +1119,33 @@ const char * CPythonBackground::GetMapName()
 	//etc
 	else
 		return "-";
+}
+#endif
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+void CPythonBackground::CreateShopSearchTargetEffect(DWORD dwID, DWORD dwChrVID)
+{
+	m_kMap_dwTargetID_dwChrIDShopSearch.emplace(dwID, dwChrVID);
+}
+void CPythonBackground::CreateShopSearchTargetEffect(DWORD dwID, long lx, long ly)
+{
+	if (m_kMap_dwTargetID_dwChrIDShopSearch.end() != m_kMap_dwTargetID_dwChrIDShopSearch.find(dwID))
+		return;
+
+	CMapOutdoor& rkMap = GetMapOutdoorRef();
+	DWORD dwBaseX, dwBaseY;
+	rkMap.GetBaseXY(&dwBaseX, &dwBaseY);
+
+	const auto ilx = +static_cast<float>(lx - static_cast<decltype(lx)>(dwBaseX));
+	const auto ily = -static_cast<float>(ly - static_cast<decltype(ly)>(dwBaseY));
+	const auto fHeight = rkMap.GetHeight(ilx, ily);
+
+	if (0.0f == fHeight) {
+		SReserveTargetEffect ReserveTargetEffect{ static_cast<int>(ilx), static_cast<int>(ily) };
+		m_kMap_dwID_kReserveTargetEffectShopSearch.emplace(dwID, ReserveTargetEffect);
+		return;
+	}
+
+	CreateSpecialEffect(dwID, ilx, ily, fHeight, g_strShopSearchEffectName.c_str());
 }
 #endif

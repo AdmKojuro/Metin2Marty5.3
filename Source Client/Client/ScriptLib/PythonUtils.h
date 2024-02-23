@@ -9,7 +9,7 @@ bool PyTuple_GetInteger(PyObject* poArgs, int pos, WORD* ret);
 bool PyTuple_GetByte(PyObject* poArgs, int pos, unsigned char* ret);
 bool PyTuple_GetUnsignedInteger(PyObject* poArgs, int pos, unsigned int* ret);
 bool PyTuple_GetLong(PyObject* poArgs, int pos, long* ret);
-bool PyTuple_GetUnsignedLong(PyObject* poArgs, int pos, unsigned long* ret);
+bool PyTuple_GetLongLong(PyObject* poArgs, int pos, long long* ret);
 bool PyTuple_GetFloat(PyObject* poArgs, int pos, float* ret);
 bool PyTuple_GetDouble(PyObject* poArgs, int pos, double* ret);
 bool PyTuple_GetObject(PyObject* poArgs, int pos, PyObject** ret);

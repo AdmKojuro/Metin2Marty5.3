@@ -441,6 +441,10 @@ void CHARACTER::Initialize()
 
 	m_dwMountTime = 0;
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	bPrivateShopSearchState = SHOP_SEARCH_OFF;
+#endif
+
 	m_dwLastGoldDropTime = 0;
 #ifdef ENABLE_NEWSTUFF
 	m_dwLastItemDropTime = 0;
@@ -838,19 +842,19 @@ void CHARACTER::OpenMyShop(const char * c_pszSign, TShopItemTable * pTable, BYTE
 	if (bItemCount == 0)
 		return;
 
-	int64_t nTotalMoney = 0;
+	long long nTotalMoney = 0;
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	int64_t nTotalCheque = 0;
 #endif
 	for (int n = 0; n < bItemCount; ++n)
 	{
-		nTotalMoney += static_cast<int64_t>((pTable+n)->price);
+		nTotalMoney += static_cast<long long>((pTable+n)->price);
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 		nTotalCheque += static_cast<int64_t>((pTable + n)->cheque);
 #endif
 	}
 
-	nTotalMoney += static_cast<int64_t>(GetGold());
+	nTotalMoney += static_cast<long long>(GetGold());
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	nTotalCheque += static_cast<int64_t>(GetCheque());
 #endif
@@ -1016,6 +1020,9 @@ void CHARACTER::CloseMyShop()
 		// SetPolymorph(0, true);
 #else
 		SetPolymorph(GetJob(), true);
+#endif
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		CTargetManager::instance().DeleteShopSearchTarget(static_cast<DWORD>(GetVID()));
 #endif
 	}
 }
@@ -3288,7 +3295,7 @@ int CHARACTER::GetPolymorphPoint(BYTE type) const
 	return GetPoint(type);
 }
 
-int CHARACTER::GetPoint(BYTE type) const
+long long CHARACTER::GetPoint(BYTE type) const
 {
 	if (type >= POINT_MAX_NUM)
 	{
@@ -3296,8 +3303,8 @@ int CHARACTER::GetPoint(BYTE type) const
 		return 0;
 	}
 
-	int val = m_pointsInstant.points[type];
-	int max_val = INT_MAX;
+	long long val = m_pointsInstant.points[type];
+	long long max_val = INT_MAX;
 
 	switch (type)
 	{
@@ -3305,10 +3312,13 @@ int CHARACTER::GetPoint(BYTE type) const
 		case POINT_STEAL_SP:
 			max_val = 50;
 			break;
+		case POINT_GOLD:
+			max_val = GOLD_MAX;
+			break;		
 	}
 
 	if (val > max_val)
-		sys_err("POINT_ERROR: %s type %d val %d (max: %d)", GetName(), val, max_val);
+		sys_err("POINT_ERROR: %s type %d val %lld (max: %lld)", GetName(), val, max_val);
 
 	return (val);
 }
@@ -3371,7 +3381,7 @@ int CHARACTER::GetLimitPoint(BYTE type) const
 	return (val);
 }
 
-void CHARACTER::SetPoint(BYTE type, int val)
+void CHARACTER::SetPoint(BYTE type, long long val)
 {
 	if (type >= POINT_MAX_NUM)
 	{
@@ -3387,7 +3397,7 @@ void CHARACTER::SetPoint(BYTE type, int val)
 	}
 }
 
-INT CHARACTER::GetAllowedGold() const
+long long CHARACTER::GetAllowedGold() const
 {
 	if (GetLevel() <= 10)
 		return 100000;
@@ -3406,9 +3416,9 @@ void CHARACTER::CheckMaximumPoints()
 		PointChange(POINT_SP, GetMaxSP() - GetSP());
 }
 
-void CHARACTER::PointChange(BYTE type, int amount, bool bAmount, bool bBroadcast)
+void CHARACTER::PointChange(BYTE type, long long amount, bool bAmount, bool bBroadcast)
 {
-	int val = 0;
+	long long val = 0;
 
 	//sys_log(0, "PointChange %d %d | %d -> %d cHP %d mHP %d", type, amount, GetPoint(type), GetPoint(type)+amount, GetHP(), GetMaxHP());
 
@@ -3734,11 +3744,14 @@ void CHARACTER::PointChange(BYTE type, int amount, bool bAmount, bool bBroadcast
 
 		case POINT_GOLD:
 			{
-				const int64_t nTotalMoney = static_cast<int64_t>(GetGold()) + static_cast<int64_t>(amount);
+				long long nTotalMoney = MINMAXLL(0, static_cast<long long>(GetGold()) + static_cast<long long>(amount), GOLD_MAX);
+				//const long long nTotalMoney = static_cast<long long>(GetGold()) + static_cast<long long>(amount);
+				
+				//ChatPacket(CHAT_TYPE_INFO, "POINT GOLD amount(%lld)", nTotalMoney);
 
 				if (GOLD_MAX <= nTotalMoney)
 				{
-					sys_err("[OVERFLOW_GOLD] OriGold %d AddedGold %d id %u Name %s ", GetGold(), amount, GetPlayerID(), GetName());
+					sys_err("[OVERFLOW_GOLD] OriGold %lld AddedGold %lld id %u Name %s ", GetGold(), amount, GetPlayerID(), GetName());
 					LogManager::instance().CharLog(this, GetGold() + amount, "OVERFLOW_GOLD", "");
 					return;
 				}
@@ -5554,6 +5567,10 @@ void CHARACTER::OnClick(LPCHARACTER pkChrCauser)
 
 				GetMyShop()->AddGuest(pkChrCauser, GetVID(), false);
 				pkChrCauser->SetShopOwner(this);
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+				if (CTargetManager::instance().GetTargetInfo(pkChrCauser->GetPlayerID(), TARGET_TYPE_VID_SHOP_SEARCH, static_cast<DWORD>(GetVID())))
+					CTargetManager::instance().DeleteTarget(pkChrCauser->GetPlayerID(), SHOP_SEARCH_INDEX, "__SHOPSEARCH_TARGET__");
+#endif
 				return;
 			}
 
@@ -9401,13 +9418,13 @@ void CHARACTER::OpenMyShop(const char * c_pszSign, TShopItemTable * pTable, BYTE
 		return;
 	}
 #ifndef FULL_YANG
-	int64_t nTotalMoney = 0;
+	long long nTotalMoney = 0;
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	int64_t nTotalCheque = 0;
 #endif
 	for (int n = 0; n < bItemCount; ++n)
 	{
-		nTotalMoney += static_cast<int64_t> ((pTable + n)->price);
+		nTotalMoney += static_cast<long long>((pTable+n)->price);
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 		nTotalCheque += static_cast<int64_t>((pTable + n)->cheque);
 #endif // __ENABLE_CHEQUE_SYSTEM__
@@ -9416,12 +9433,12 @@ void CHARACTER::OpenMyShop(const char * c_pszSign, TShopItemTable * pTable, BYTE
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	nTotalCheque += static_cast<int64_t>(GetCheque());
 #endif // __ENABLE_CHEQUE_SYSTEM__
-	nTotalMoney += static_cast<int64_t> (GetGold());
+	nTotalMoney += static_cast<long long>(GetGold());
 
 	if (GOLD_MAX <= nTotalMoney)
 	{
 		sys_err("[OVERFLOW_GOLD] Overflow (GOLD_MAX) id %u name %s", GetPlayerID(), GetName());
-		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("20?? ©©E?¡í ??¡ÆuC??¨Ï ¡íoA¢§?¡í ?¡©?o¡Æ¢§ ??¢©?¢¥?¢¥?"));
+		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("20? ?? ???? ??? ??? ????"));
 		return;
 	}
 #ifdef __ENABLE_CHEQUE_SYSTEM__
@@ -10888,5 +10905,28 @@ void CHARACTER::CheckBio()
 	{
 		ChatPacket(CHAT_TYPE_COMMAND, "biodata %d %d %d", level, count, GetQuestFlag("bio.time"));
 	}
+}
+#endif
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+void CHARACTER::OpenPrivateShopSearch(DWORD dwVnum)
+{
+	if (GetDesc() == NULL)
+		return;
+	
+	if (GetPrivateShopSearchState() != SHOP_SEARCH_OFF)
+		return;
+		
+	if (GetExchange() || GetMyShop() || GetShopOwner() || IsOpenSafebox() || IsCubeOpen())
+	{
+		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("SHOP_SEARCH_CLOSE_TABS"));
+		return;
+	}
+
+	TPacketGCPrivateShopSearchOpen p;
+	p.header = HEADER_GC_PRIVATE_SHOP_SEARCH_OPEN;
+	GetDesc()->Packet(&p, sizeof(p));
+
+	bPrivateShopSearchState = (dwVnum == PRIVATE_SHOP_SEARCH_LOOKING_GLASS) ? SHOP_SEARCH_LOOKING : SHOP_SEARCH_TRADING;
 }
 #endif

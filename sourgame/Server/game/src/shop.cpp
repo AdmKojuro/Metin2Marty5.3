@@ -205,7 +205,11 @@ void CShop::SetShopItems(TShopItemTable * pTable, BYTE bItemCount)
 
 #ifdef OFFLINE_SHOP
 #include "char.h"
-int CShop::Buy(LPCHARACTER ch, BYTE pos)
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+long long CShop::Buy(LPCHARACTER ch, BYTE pos, bool bIsShopSearch)
+#else
+long long CShop::Buy(LPCHARACTER ch, BYTE pos)
+#endif
 {
 	if (IsLocked())
 		return SHOP_SUBHEADER_GC_END;
@@ -220,8 +224,13 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 
 	GuestMapType::iterator it = m_map_guest.find(ch);
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	if (bIsShopSearch == false && it == m_map_guest.end())
+		return SHOP_SUBHEADER_GC_END;
+#else
 	if (it == m_map_guest.end())
 		return SHOP_SUBHEADER_GC_END;
+#endif
 
 	SHOP_ITEM& r_item = m_itemVector[pos];
 
@@ -407,7 +416,7 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 		DWORD mpid = (m_pkPC->IsPrivShop() ? m_pkPC->GetPrivShopOwner() : m_pkPC->GetPlayerID());
 		if (item->GetVnum() >= 80003 && item->GetVnum() <= 80007)
 		{
-			snprintf(buf, sizeof(buf), "%s FROM: %u TO: %u PRICE: %u", item->GetName(), ch->GetPlayerID(), mpid, dwPrice);
+			snprintf(buf, sizeof(buf), "%s FROM: %u TO: %u PRICE: %lld", item->GetName(), ch->GetPlayerID(), mpid, dwPrice);
 			LogManager::instance().GoldBarLog(ch->GetPlayerID(), item->GetID(), SHOP_BUY, buf);
 			LogManager::instance().GoldBarLog(mpid, item->GetID(), SHOP_SELL, buf);
 		}
@@ -522,7 +531,7 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 	}
 
 	if (item)
-		sys_log(0, "SHOP: BUY: name %s %s(x %d):%u price %u", ch->GetName(), item->GetName(), item->GetCount(), item->GetID(), dwPrice);
+		sys_log(0, "SHOP: BUY: name %s %s(x %d):%u price %lld", ch->GetName(), item->GetName(), item->GetCount(), item->GetID(), dwPrice);
 	ch->Save();
 #if defined(SHOP_AUTO_CLOSE) && defined(OFFLINE_SHOP)
 	if (m_pkPC && m_pkPC->IsPrivShop())
@@ -704,7 +713,7 @@ void CShop::SetPrivShopItems(std::vector<TShopItemTable *> map_shop)
 }
 #else
 extern bool FN_check_item_socket(LPITEM item);
-int CShop::Buy(LPCHARACTER ch, BYTE pos)
+long long CShop::Buy(LPCHARACTER ch, BYTE pos)
 {
 	if (pos >= m_itemVector.size())
 	{
@@ -731,35 +740,39 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 	LPITEM pkSelectedItem = ITEM_MANAGER::instance().Find(r_item.itemid);
 
 	if (IsPCShop())
-	 {
-		
-			 if (!pkSelectedItem)
-			 {
-				 sys_log(0, "Shop::Buy : Critical: This user seems to be a hacker : invalid pcshop item id %d : BuyerPID:%d SellerPID:%d",
-						 r_item.itemid,
-						 ch->GetPlayerID(),
-						 m_pkPC->GetPlayerID());
+	{
+		if (!pkSelectedItem)
+		{
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+			if (bIsShopSearch == true)
+				return SHOP_SUBHEADER_GC_SOLDOUT;
+#endif
+			sys_log(0, "Shop::Buy : Critical: This user seems to be a hacker : invalid pcshop item : BuyerPID:%d SellerPID:%d",
+					ch->GetPlayerID(),
+					m_pkPC->GetPlayerID());
+			return false;
+		}
 
-				 return false;
-			 }
+		if ((pkSelectedItem->GetOwner() != m_pkPC))
+		{
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+			if (bIsShopSearch == true)
+				return SHOP_SUBHEADER_GC_SOLDOUT;
+#endif
+			sys_log(0, "Shop::Buy : Critical: This user seems to be a hacker : invalid pcshop item : BuyerPID:%d SellerPID:%d",
+					ch->GetPlayerID(),
+					m_pkPC->GetPlayerID());
 
-			 if ((pkSelectedItem->GetOwner() != m_pkPC))
-			{
-				 sys_log(0, "Shop::Buy : Critical: This user seems to be a hacker : invalid pcshop item owner: BuyerPID:%d SellerPID:%d",
-						 ch->GetPlayerID(),
-						 m_pkPC->GetPlayerID());
-
-				 return false;
-			 }
-		
-	 }
+			return false;
+		}
+	}
 
 	long long  dwPrice = r_item.price;
 
 
-	if (ch->GetGold() < dwPrice)
+	if (ch->GetGold() < (long long) dwPrice)
 	{
-		sys_log(1, "Shop::Buy : Not enough money : %s has %d, price %d", ch->GetName(), ch->GetGold(), dwPrice);
+		sys_log(1, "Shop::Buy : Not enough money : %s has %lld, price %lld", ch->GetName(), ch->GetGold(), dwPrice);
 		return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
 	}
 
@@ -825,7 +838,7 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 
 		if (item->GetVnum() >= 80003 && item->GetVnum() <= 80007)
 		{
-			snprintf(buf, sizeof(buf), "%s FROM: %u TO: %u PRICE: %u", item->GetName(), ch->GetPlayerID(), m_pkPC->GetPlayerID(), dwPrice);
+			snprintf(buf, sizeof(buf), "%s FROM: %u TO: %u PRICE: %lld", item->GetName(), ch->GetPlayerID(), m_pkPC->GetPlayerID(), dwPrice);
 			LogManager::instance().GoldBarLog(ch->GetPlayerID(), item->GetID(), SHOP_BUY, buf);
 			LogManager::instance().GoldBarLog(m_pkPC->GetPlayerID(), item->GetID(), SHOP_SELL, buf);
 		}
@@ -838,12 +851,12 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 		ITEM_MANAGER::instance().FlushDelayedSave(item);
 		
 
-		snprintf(buf, sizeof(buf), "%s %u(%s) %u %u", item->GetName(), m_pkPC->GetPlayerID(), m_pkPC->GetName(), dwPrice, item->GetCount());
+		snprintf(buf, sizeof(buf), "%s %u(%s) %lld %u", item->GetName(), m_pkPC->GetPlayerID(), m_pkPC->GetName(), dwPrice, item->GetCount());
 		LogManager::instance().ItemLog(ch, item, "SHOP_BUY", buf);
 		// BUY EVENT
 		
 
-		snprintf(buf, sizeof(buf), "%s %u(%s) %u %u", item->GetName(), ch->GetPlayerID(), ch->GetName(), dwPrice, item->GetCount());
+		snprintf(buf, sizeof(buf), "%s %u(%s) %lld %u", item->GetName(), ch->GetPlayerID(), ch->GetName(), dwPrice, item->GetCount());
 		LogManager::instance().ItemLog(m_pkPC, item, "SHOP_SELL", buf);
 	
 
@@ -916,7 +929,7 @@ int CShop::Buy(LPCHARACTER ch, BYTE pos)
 	}
 
 	if (item)
-		sys_log(0, "SHOP: BUY: name %s %s(x %d):%u price %u", ch->GetName(), item->GetName(), item->GetCount(), item->GetID(), dwPrice);
+		sys_log(0, "SHOP: BUY: name %s %s(x %d):%u price %lld", ch->GetName(), item->GetName(), item->GetCount(), item->GetID(), dwPrice);
 
 	ch->Save();
 	return (SHOP_SUBHEADER_GC_OK);

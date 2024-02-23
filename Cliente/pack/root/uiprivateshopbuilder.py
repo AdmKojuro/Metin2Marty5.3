@@ -917,7 +917,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 			if not text.isdigit() or not cheque_text.isdigit():
 				return True
 
-			if int(text) <= 0 and int(cheque_text) <= 0:
+			if long(text) <= 0 and int(cheque_text) <= 0:
 				return True
 		else:
 			text = self.priceInputBoard.GetText()
@@ -926,7 +926,7 @@ class PrivateShopBuilder(ui.ScriptWindow):
 				return True
 			if not text.isdigit():
 				return True
-			if int(text) <= 0:
+			if long(text) <= 0:
 				return True
 
 		attachedInvenType = self.priceInputBoard.sourceWindowType

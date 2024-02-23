@@ -2046,7 +2046,7 @@ ACMD(do_set)
 	{
 		case DoSetTypes::GOLD:	// gold
 			{
-				int gold = 0;
+				long long gold = 0;
 				str_to_number(gold, arg3);
 				DBManager::instance().SendMoneyLog(MONEY_LOG_MISC, 3, gold);
 				tch->PointChange(POINT_GOLD, gold, true);
@@ -2197,9 +2197,9 @@ ACMD(do_set)
 
 	if (set_fields[i].type == NUMBER)
 	{
-		int	amount = 0;
+		long long	amount = 0;
 		str_to_number(amount, arg3);
-		ch->ChatPacket(CHAT_TYPE_INFO, "%s's %s set to [%d]", tch->GetName(), set_fields[i].cmd, amount);
+		ch->ChatPacket(CHAT_TYPE_INFO, "%s's %s set to [%lld]", tch->GetName(), set_fields[i].cmd, amount);
 	}
 }
 
@@ -3696,7 +3696,7 @@ ACMD(do_build)
 
 				{
 
-					ch->PointChange(POINT_GOLD, -t->dwPrice);
+					ch->PointChange(POINT_GOLD, -static_cast<long long>(t->dwPrice));
 
 
 					{

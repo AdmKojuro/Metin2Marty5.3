@@ -117,7 +117,11 @@ bool CShopEx::AddGuest(LPCHARACTER ch,DWORD owner_vid, bool bOtherEmpire)
 	return true;
 }
 
-int CShopEx::Buy(LPCHARACTER ch, BYTE pos)
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+long long CShopEx::Buy(LPCHARACTER ch, BYTE pos, bool bIsShopSearch)
+#else
+long long CShopEx::Buy(LPCHARACTER ch, BYTE pos)
+#endif
 {
 	BYTE tabIdx = pos / SHOP_HOST_ITEM_MAX_NUM;
 	BYTE slotPos = pos % SHOP_HOST_ITEM_MAX_NUM;
@@ -143,7 +147,7 @@ int CShopEx::Buy(LPCHARACTER ch, BYTE pos)
 		return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
 	}
 
-	DWORD dwPrice = r_item.price;
+	long long dwPrice = r_item.price;
 
 	switch (shopTab.coinType)
 	{
@@ -151,9 +155,9 @@ int CShopEx::Buy(LPCHARACTER ch, BYTE pos)
 		if (it->second)	// if other empire, price is triple
 			dwPrice *= 3;
 
-		if (ch->GetGold() < (int) dwPrice)
+		if (ch->GetGold() < (long long) dwPrice)
 		{
-			sys_log(1, "ShopEx::Buy : Not enough money : %s has %d, price %d", ch->GetName(), ch->GetGold(), dwPrice);
+			sys_log(1, "ShopEx::Buy : Not enough money : %s has %lld, price %lld", ch->GetName(), ch->GetGold(), dwPrice);
 			return SHOP_SUBHEADER_GC_NOT_ENOUGH_MONEY;
 		}
 		break;

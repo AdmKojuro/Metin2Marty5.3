@@ -93,7 +93,7 @@ class DBManager : public singleton<DBManager>
 		void			Process();
 		void			AnalyzeReturnQuery(SQLMsg * pmsg);
 
-		void			SendMoneyLog(BYTE type, DWORD vnum, int gold);
+		void			SendMoneyLog(BYTE type, DWORD vnum, long long gold);
 
 		void			LoginPrepare(BYTE bBillType, DWORD dwBillID, long lRemainSecs, LPDESC d, DWORD * pdwClientKey, int * paiPremiumTimes = NULL);
 		void			SendAuthLogin(LPDESC d);

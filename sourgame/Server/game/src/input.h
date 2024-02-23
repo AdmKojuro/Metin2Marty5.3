@@ -147,6 +147,12 @@ class CInputMain : public CInputProcessor
 		void		SafeboxItemMove(LPCHARACTER ch, const char * data);
 		int			Messenger(LPCHARACTER ch, const char* c_pData, size_t uiBytes);
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		void		PrivateShopSearch(LPCHARACTER ch, const char* data);
+		void		PrivateShopSearchClose(LPCHARACTER ch, const char* data);
+		void		PrivateShopSearchBuyItem(LPCHARACTER ch, const char* data);
+#endif
+
 		void 		PartyInvite(LPCHARACTER ch, const char * c_pData);
 		void 		PartyInviteAnswer(LPCHARACTER ch, const char * c_pData);
 		void		PartyRemove(LPCHARACTER ch, const char * c_pData);

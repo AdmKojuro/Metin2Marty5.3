@@ -5,6 +5,9 @@ enum ETargetTypes
 {
 	TARGET_TYPE_POS	= (1 << 0),
 	TARGET_TYPE_VID	= (1 << 1),
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	TARGET_TYPE_VID_SHOP_SEARCH	= (1 << 2),
+#endif
 };
 
 EVENTINFO(TargetInfo)
@@ -57,6 +60,9 @@ class CTargetManager : public singleton<CTargetManager>
 		void DeleteTarget(DWORD dwPID, DWORD dwQuestIndex, const char * c_pszTargetName);
 
 		void Logout(DWORD dwPID);
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		void DeleteShopSearchTarget(DWORD dwPID);
+#endif
 		TargetInfo * GetTargetInfo(DWORD dwPID, int iType, int iArg1);
 
 		LPEVENT GetTargetEvent(DWORD dwPID, DWORD dwQuestIndex, const char * c_pszTargetName);

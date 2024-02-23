@@ -43,6 +43,10 @@ extern "C"
     extern int MIN(int a, int b);
     extern int MINMAX(int min, int value, int max);
 
+	extern long long MAXLL(long long a, long long b);
+	extern long long MINLL(long long a, long long b);
+	extern long long MINMAXLL(long long min, long long val, long long max);
+
     extern int		number_ex(int from, int to, const char *file, int line);
 #define number(from, to) number_ex(from, to, __FILE__, __LINE__)
 

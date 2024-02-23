@@ -125,7 +125,7 @@ size_t CreatePlayerSaveQuery(char * pszQuery, size_t querySize, TPlayerTable * p
 			"ht = %d, "
 			"dx = %d, "
 			"iq = %d, "
-			"gold = %d, "
+			"gold = %lld, "
 #ifdef ENABLE_GAYA_SYSTEM
 			"gaya = %d, "
 #endif
@@ -352,7 +352,7 @@ void CClientManager::QUERY_PLAYER_LOAD(CPeer * peer, DWORD dwHandle, TPlayerLoad
 
 		TItemCacheSet * pSet = GetItemCacheSet(pTab->id);
 
-		sys_log(0, "[PLAYER_LOAD] ID %s pid %d gold %d ", pTab->name, pTab->id, pTab->gold);
+		sys_log(0, "[PLAYER_LOAD] ID %s pid %d gold %lld ", pTab->name, pTab->id, pTab->gold);
 
 		//--------------------------------------------
 
@@ -1183,7 +1183,7 @@ void CClientManager::__QUERY_PLAYER_CREATE(CPeer *peer, DWORD dwHandle, TPlayerC
 			packet->player_table.job, packet->player_table.voice, packet->player_table.dir, packet->player_table.x, packet->player_table.y, packet->player_table.z,
 			packet->player_table.hp, packet->player_table.sp, packet->player_table.sRandomHP, packet->player_table.sRandomSP, packet->player_table.stat_point, packet->player_table.stamina, packet->player_table.part_base, packet->player_table.part_base, packet->player_table.gold);
 
-	sys_log(0, "PlayerCreate accountid %d name %s level %d gold %d, st %d ht %d job %d",
+	sys_log(0, "PlayerCreate accountid %d name %s level %d gold %lld, st %d ht %d job %d",
 			packet->account_id,
 			packet->player_table.name,
 			packet->player_table.level,

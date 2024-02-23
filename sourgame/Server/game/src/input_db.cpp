@@ -442,7 +442,7 @@ void CInputDB::PlayerLoad(LPDESC d, const char * data)
 		P2P_MANAGER::instance().Send(&p, sizeof(TPacketGGLogin));
 
 		char buf[51];
-		snprintf(buf, sizeof(buf), "%s %d %d %ld %d",
+		snprintf(buf, sizeof(buf), "%s %lld %d %ld %d",
 				inet_ntoa(ch->GetDesc()->GetAddr().sin_addr), ch->GetGold(), g_bChannel, ch->GetMapIndex(), ch->GetAlignment());
 		LogManager::instance().CharLog(ch, 0, "LOGIN", buf);
 

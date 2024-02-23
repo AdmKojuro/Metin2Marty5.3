@@ -23,14 +23,14 @@ enum
 	MAIN_RACE_MAX_NUM,
 };
 
-const DWORD POINT_MAGIC_NUMBER = 0xe73ac1da;
+const long long POINT_MAGIC_NUMBER = 0xe73ac1da;
 
-void CPythonPlayer::SPlayerStatus::SetPoint(UINT ePoint, long lPoint)
+void CPythonPlayer::SPlayerStatus::SetPoint(UINT ePoint, long long lPoint)
 {
 	m_alPoint[ePoint]=lPoint ^ POINT_MAGIC_NUMBER;
 }
 
-long CPythonPlayer::SPlayerStatus::GetPoint(UINT ePoint)
+long long CPythonPlayer::SPlayerStatus::GetPoint(UINT ePoint)
 {
 	return m_alPoint[ePoint] ^ POINT_MAGIC_NUMBER;
 }
@@ -483,7 +483,7 @@ void CPythonPlayer::__UpdateBattleStatus()
 	m_playerStatus.SetPoint(POINT_MAX_ATK, __GetTotalAtk(m_dwWeaponMaxPower, m_dwWeaponAddPower));
 }
 
-void CPythonPlayer::SetStatus(DWORD dwType, long lValue)
+void CPythonPlayer::SetStatus(DWORD dwType, long long lValue)
 {
 	if (dwType >= POINT_MAX_NUM)
 	{
@@ -527,7 +527,7 @@ void CPythonPlayer::SetStatus(DWORD dwType, long lValue)
 	}
 }
 
-int CPythonPlayer::GetStatus(DWORD dwType)
+long long CPythonPlayer::GetStatus(DWORD dwType)
 {
 	if (dwType >= POINT_MAX_NUM)
 	{

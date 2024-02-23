@@ -33,6 +33,9 @@ int		ping_event_second_cycle = passes_per_sec * 60;
 bool	g_bNoMoreClient = false;
 bool	g_bNoRegen = false;
 bool	g_bNoPasspod = false;
+
+long long    g_llMaxGold = 20000000000001LL;
+
 // #ifdef ENABLE_NEWSTUFF
 bool	g_bEmpireShopPriceTripleDisable = false;
 bool	g_bShoutAddonEnable = false;
@@ -893,6 +896,14 @@ static bool __LoadGeneralConfigFile(const char* configName)
 			str_to_number(b_value, value_string);
 			g_bEmpireWhisper = !!b_value;
 			continue;
+		}
+
+		TOKEN("max_gold")
+		{
+			long long money = 0;
+			str_to_number(money, value_string);
+			g_llMaxGold = MINMAXLL(2000000000, money, 20000000000001LL);
+			fprintf(stderr, "PLAYER_MAX_GOLD: %lld\n", g_llMaxGold);
 		}
 
 		TOKEN("mark_server")

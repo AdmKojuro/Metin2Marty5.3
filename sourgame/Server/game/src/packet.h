@@ -170,6 +170,11 @@ enum
 #ifdef __MULTI_LANGUAGE_SYSTEM__
 	HEADER_CG_CHANGE_LANGUAGE = 221,
 #endif
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	HEADER_CG_PRIVATE_SHOP_SEARCH = 223,
+	HEADER_CG_PRIVATE_SHOP_SEARCH_CLOSE = 224,
+	HEADER_CG_PRIVATE_SHOP_SEARCH_BUY_ITEM = 225,
+#endif
 
 	/********************************************************/
 	HEADER_GC_KEY_AGREEMENT_COMPLETED 		= 0xfa, // _IMPROVED_PACKET_ENCRYPTION_
@@ -399,6 +404,10 @@ enum
 #endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	HEADER_GC_67_BONUS_NEW 					= 220,
+#endif
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	HEADER_GC_PRIVATE_SHOP_SEARCH = 221,
+	HEADER_GC_PRIVATE_SHOP_SEARCH_OPEN = 222,
 #endif
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	HEADER_GC_EXT_BATTLE_PASS_OPEN 					= 235,
@@ -871,7 +880,7 @@ typedef struct command_item_drop
 {
 	BYTE 	header;
 	TItemPos 	Cell;
-	DWORD	gold;
+	long long	gold;
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	DWORD	cheque;
 #endif // __ENABLE_CHEQUE_SYSTEM__
@@ -881,7 +890,7 @@ typedef struct command_item_drop2
 {
 	BYTE 	header;
 	TItemPos 	Cell;
-	DWORD	gold;
+	long long	gold;
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	DWORD	cheque;
 #endif // __ENABLE_CHEQUE_SYSTEM__
@@ -978,7 +987,7 @@ typedef struct command_exchange
 {
 	BYTE	header;
 	BYTE	sub_header;
-	DWORD	arg1;
+	long long	arg1;
 	BYTE	arg2;
 	TItemPos	Pos;
 } TPacketCGExchange;
@@ -1305,7 +1314,7 @@ typedef struct packet_main_character4_bgm_vol
 typedef struct packet_points
 {
 	BYTE	header;
-	INT		points[POINT_MAX_NUM];
+	long long		points[POINT_MAX_NUM];
 } TPacketGCPoints;
 
 typedef struct packet_skill_level
@@ -1316,11 +1325,11 @@ typedef struct packet_skill_level
 
 typedef struct packet_point_change
 {
-	int		header;
-	DWORD	dwVID;
-	BYTE	type;
-	long	amount;
-	long	value;
+	int			header;
+	DWORD		dwVID;
+	BYTE		type;
+	long long	amount;
+	long long	value;
 } TPacketGCPointChange;
 
 typedef struct packet_stun
@@ -1520,7 +1529,7 @@ typedef struct packet_shop_update_item
 
 typedef struct packet_shop_update_price
 {
-	int				iPrice;
+	long long				iPrice;
 } TPacketGCShopUpdatePrice;
 
 typedef struct packet_shop
@@ -1535,7 +1544,7 @@ struct packet_exchange
 	BYTE	header;
 	BYTE	sub_header;
 	BYTE	is_me;
-	DWORD	arg1;	// vnum
+	long long	arg1;	// vnum
 	TItemPos	arg2;	// cell
 	DWORD	arg3;	// count
 #ifdef WJ_ENABLE_TRADABLE_ICON
@@ -2379,6 +2388,9 @@ typedef struct
 	BYTE	bHeader;
 	long	lID;
 	long	lX, lY;
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	bool	bIsShopSearch;
+#endif
 } TPacketGCTargetUpdate;
 
 typedef struct
@@ -2412,6 +2424,56 @@ typedef struct packet_love_point_update
 	BYTE header;
 	BYTE love_point;
 } TPacketGCLovePointUpdate;
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+typedef struct command_privateshop_searchcg
+{
+	BYTE 	header;
+	BYTE 	bJob;
+	BYTE 	bMaskType;
+	int 	iMaskSub;
+	int 	iMinRefine;
+	int 	iMaxRefine;
+	int 	iMinLevel;
+	int 	iMaxLevel;
+	int 	iMinGold;
+	int 	iMaxGold;
+	char	szItemName[ITEM_NAME_MAX_LEN + 1];
+#if defined(ENABLE_CHEQUE_SYSTEM)
+	int 	iMinCheque;
+	int 	iMaxCheque;
+#endif
+} TPacketCGPrivateShopSearch;
+
+typedef struct command_privateshopsearch_item
+{
+	packet_shop_item item;
+	char 	szSellerName[CHARACTER_NAME_MAX_LEN + 1];
+	DWORD 	dwShopPID;
+} TPacketGCPrivateShopSearchItem;
+
+typedef struct command_privateshop_searchgc
+{
+	BYTE		header;
+	WORD		size;
+} TPacketGCPrivateShopSearch;
+
+typedef struct command_privateshop_searchopengc
+{
+	BYTE		header;
+} TPacketGCPrivateShopSearchOpen;
+
+typedef struct command_privateshop_closecg
+{
+	BYTE		header;
+} TPacketCGPrivateShopSearchClose;
+typedef struct command_privateshop_buy_item
+{
+	BYTE		header;
+	BYTE		bPos;
+	DWORD		dwShopPID;
+} TPacketCGPrivateShopSearchBuyItem;
+#endif
 
 // MINING
 typedef struct packet_dig_motion

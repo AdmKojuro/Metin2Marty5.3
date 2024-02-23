@@ -63,7 +63,13 @@ class CShop
 		void	RemoveGuest(LPCHARACTER ch);
 
 
-		virtual int	Buy(LPCHARACTER ch, BYTE pos);
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		const std::vector<SHOP_ITEM>& GetItemVector() const { return m_itemVector; }
+		LPCHARACTER GetShopOwner() { return m_pkPC; }
+		virtual long long	Buy(LPCHARACTER ch, BYTE pos, bool bIsShopSearch = false);
+#else
+		virtual long long	Buy(LPCHARACTER ch, BYTE pos);
+#endif
 
 
 		void	BroadcastUpdateItem(BYTE pos);

@@ -320,7 +320,7 @@ namespace quest
 			return 0;
 		}
 
-		int iAmount = (int) lua_tonumber(L, 1);
+		long long iAmount = (long long) lua_tonumber(L, 1);
 
 		if (iAmount <= 0)
 		{
@@ -1070,12 +1070,12 @@ namespace quest
 
 	ALUA(pc_change_money)
 	{
-		int gold = (int)lua_tonumber(L, -1);
+		long long gold = (long long)lua_tonumber(L, -1);
 
 		LPCHARACTER ch = CQuestManager::instance().GetCurrentCharacterPtr();
 
 		if (gold + ch->GetGold() < 0)
-			sys_err("QUEST wrong ChangeGold %d (now %d)", gold, ch->GetGold());
+			sys_err("QUEST wrong ChangeGold %d (now %lld)", gold, ch->GetGold());
 		else
 		{
 			DBManager::instance().SendMoneyLog(MONEY_LOG_QUEST, ch->GetPlayerID(), gold);

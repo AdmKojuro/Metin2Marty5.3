@@ -1316,7 +1316,7 @@ const std::vector<std::string>& DBManager::GetGreetMessage()
 	return m_vec_GreetMessage;
 }
 
-void DBManager::SendMoneyLog(BYTE type, DWORD vnum, int gold)
+void DBManager::SendMoneyLog(BYTE type, DWORD vnum, long long gold)
 {
 	if (!gold)
 		return;

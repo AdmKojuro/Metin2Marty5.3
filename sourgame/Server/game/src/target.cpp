@@ -27,13 +27,20 @@ strlcpy(pck.szName, info->szTargetDesc, sizeof(pck.szName));
 d->Packet(&pck, sizeof(TPacketGCTargetCreate));
 }
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+void SendTargetUpdatePacket(LPDESC d, int iID, int x, int y, bool bIsShopSearch)
+#else
 void SendTargetUpdatePacket(LPDESC d, int iID, int x, int y)
+#endif
 {
 TPacketGCTargetUpdate pck;
 pck.bHeader = HEADER_GC_TARGET_UPDATE;
 pck.lID = iID;
 pck.lX = x;
 pck.lY = y;
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+pck.bIsShopSearch = bIsShopSearch;
+#endif
 d->Packet(&pck, sizeof(TPacketGCTargetUpdate));
 sys_log(0, "SendTargetUpdatePacket %d %dx%d", iID, x, y);
 }
@@ -85,7 +92,9 @@ EVENTFUNC(target_event)
 			iDist = DISTANCE_APPROX(pkChr->GetX() - x, pkChr->GetY() - y);
 			break;
 
-		case TARGET_TYPE_VID:
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		case TARGET_TYPE_VID_SHOP_SEARCH:
+#endif
 			{
 				tch = CHARACTER_MANAGER::instance().Find(info->iArg1);
 
@@ -104,7 +113,11 @@ EVENTFUNC(target_event)
 	if (iDist <= 500)
 		bRet = quest::CQuestManager::instance().Target(pkChr->GetPlayerID(), info->dwQuestIndex, info->szTargetName, "arrive");
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	if (!tch && (info->iType == TARGET_TYPE_VID || info->iType == TARGET_TYPE_VID_SHOP_SEARCH))
+#else
 	if (!tch && info->iType == TARGET_TYPE_VID)
+#endif
 	{
 		quest::CQuestManager::instance().Target(pkChr->GetPlayerID(), info->dwQuestIndex, info->szTargetName, "die");
 		CTargetManager::instance().DeleteTarget(pkChr->GetPlayerID(), info->dwQuestIndex, info->szTargetName);
@@ -118,8 +131,14 @@ EVENTFUNC(target_event)
 
 	if (x != info->iOldX || y != info->iOldY)
 	{
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		const bool IsShopSearch = (info->iType == TARGET_TYPE_VID_SHOP_SEARCH);
+		if (info->bSendToClient)
+			SendTargetUpdatePacket(pkChr->GetDesc(), info->iID, x, y, IsShopSearch);
+#else
 		if (info->bSendToClient)
 			SendTargetUpdatePacket(pkChr->GetDesc(), info->iID, x, y);
+#endif
 
 		info->iOldX = x;
 		info->iOldY = y;
@@ -362,3 +381,24 @@ void CTargetManager::Logout(DWORD dwPID)
 	m_map_kListEvent.erase(it);
 }
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+void CTargetManager::DeleteShopSearchTarget(DWORD dwPID)
+{
+	std::vector<DWORD> vPID;
+	for (std::map<DWORD, std::list<LPEVENT>>::const_iterator it = m_map_kListEvent.begin(); it != m_map_kListEvent.end(); ++it)
+	{
+		for (std::list<LPEVENT>::const_iterator it2 = it->second.begin(); it2 != it->second.end(); ++it2)
+		{
+			LPEVENT event = *(it2);
+			if (event == NULL)
+				continue;
+
+			TargetInfo* eventInfo = dynamic_cast<TargetInfo*>(event->info);
+			if (eventInfo != NULL && eventInfo->iArg1 == static_cast<int>(dwPID))
+				vPID.push_back(it->first);
+		}
+	}
+	for (std::vector<DWORD>::const_iterator it = vPID.begin(); it != vPID.end(); ++it)
+		DeleteTarget(*(it), SHOP_SEARCH_INDEX, "__SHOPSEARCH_TARGET__");
+}
+#endif

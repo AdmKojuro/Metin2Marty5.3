@@ -497,7 +497,7 @@ typedef struct SPlayerTable
 	short	st, ht, dx, iq;
 
 	DWORD	exp;
-	INT		gold;
+	long long		gold;
 	INT 	gaya;
 	BYTE	dir;
 	INT		x, y, z;
@@ -810,8 +810,8 @@ typedef struct SItemTable : public SEntityTable
 	DWORD	dwWearFlags;
 	DWORD	dwImmuneFlag;
 
-	DWORD       dwGold;
-	DWORD       dwShopBuyPrice;
+	long long	dwGold;
+	long long	dwShopBuyPrice;
 
 	TItemLimit	aLimits[ITEM_LIMIT_MAX_NUM];
 	TItemApply	aApplies[ITEM_APPLY_MAX_NUM];
@@ -1296,7 +1296,7 @@ typedef struct SPacketMoneyLog
 {
 	BYTE type;
 	DWORD vnum;
-	INT gold;
+	long long gold;
 } TPacketMoneyLog;
 
 typedef struct SPacketGDGuildMoney
@@ -1475,7 +1475,7 @@ typedef struct SPacketMyshopPricelistHeader
 typedef struct SItemPriceInfo
 {
 	DWORD	dwVnum;
-	DWORD	dwPrice;
+	long long	dwPrice;	///< 가격
 } TItemPriceInfo;
 
 

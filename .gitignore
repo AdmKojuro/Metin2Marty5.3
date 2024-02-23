@@ -20,7 +20,8 @@ __trash
 bin
 
 OBJDIR
-.obj
+*.obj
+*.log
 
 Depend
 Depend.bak
@@ -67,68 +68,68 @@ pre_qc
 cryptlib-Debug.lib
 
 
-Binario/Client/.vs
-Binario/Client/bin
-Binario/Client/CWebBrowser/Release
-Binario/Client/EffectLib/Release
-Binario/Client/EterBase/Release
-Binario/Client/EterGrnLib/Release
-Binario/Client/EterImageLib/Release
-Binario/Client/EterLib/Release
-Binario/Client/EterLocale/Release
-Binario/Client/EterPack/Release
-Binario/Client/EterPythonLib/Release
-Binario/Client/GameLib/Release
-Binario/Client/MilesLib/Release
-Binario/Client/PRTerrainLib/Release
-Binario/Client/ScriptLib/Release
-Binario/Client/SpeedTreeLib/Release
-Binario/Client/SphereLib/Release
-Binario/Client/UserInterface/Release
-Binario/Client/CWebBrowser/Debug
-Binario/Client/EffectLib/Debug
-Binario/Client/EterBase/Debug
-Binario/Client/EterGrnLib/Debug
-Binario/Client/EterImageLib/Debug
-Binario/Client/EterLib/Debug
-Binario/Client/EterLocale/Debug
-Binario/Client/EterPack/Debug
-Binario/Client/EterPythonLib/Debug
-Binario/Client/GameLib/Debug
-Binario/Client/MilesLib/Debug
-Binario/Client/PRTerrainLib/Debug
-Binario/Client/ScriptLib/Debug
-Binario/Client/SpeedTreeLib/Debug
-Binario/Client/SphereLib/Debug
-Binario/Client/UserInterface/Debug
+Source Client/Client/.vs
+Source Client/Client/bin
+Source Client/Client/CWebBrowser/Release
+Source Client/Client/EffectLib/Release
+Source Client/Client/EterBase/Release
+Source Client/Client/EterGrnLib/Release
+Source Client/Client/EterImageLib/Release
+Source Client/Client/EterLib/Release
+Source Client/Client/EterLocale/Release
+Source Client/Client/EterPack/Release
+Source Client/Client/EterPythonLib/Release
+Source Client/Client/GameLib/Release
+Source Client/Client/MilesLib/Release
+Source Client/Client/PRTerrainLib/Release
+Source Client/Client/ScriptLib/Release
+Source Client/Client/SpeedTreeLib/Release
+Source Client/Client/SphereLib/Release
+Source Client/Client/UserInterface/Release
+Source Client/Client/CWebBrowser/Debug
+Source Client/Client/EffectLib/Debug
+Source Client/Client/EterBase/Debug
+Source Client/Client/EterGrnLib/Debug
+Source Client/Client/EterImageLib/Debug
+Source Client/Client/EterLib/Debug
+Source Client/Client/EterLocale/Debug
+Source Client/Client/EterPack/Debug
+Source Client/Client/EterPythonLib/Debug
+Source Client/Client/GameLib/Debug
+Source Client/Client/MilesLib/Debug
+Source Client/Client/PRTerrainLib/Debug
+Source Client/Client/ScriptLib/Debug
+Source Client/Client/SpeedTreeLib/Debug
+Source Client/Client/SphereLib/Debug
+Source Client/Client/UserInterface/Debug
 *.exe
-Binario/Extern/cryptopp/.vs
-Binario/Extern/cryptopp/Win32
-Binario/Extern/cryptopp/adhoc.cpp.copied
-Binario/Extern/lib/cryptlib-Debug.lib
-Binario/Extern/lib/cryptlib-Debug.pdb
+Source Client/Extern/cryptopp/.vs
+Source Client/Extern/cryptopp/Win32
+Source Client/Extern/cryptopp/adhoc.cpp.copied
+Source Client/Extern/lib/cryptlib-Debug.lib
+Source Client/Extern/lib/cryptlib-Debug.pdb
 
-Binario/Tools/DumpProto/Release
-Binario/Tools/DumpProto/Debug
-Binario/Tools/DumpProto/dump_proto/Release
-Binario/Tools/DumpProto/dump_proto/Debug
-Binario/Tools/DumpProto/lzo/Release
-Binario/Tools/DumpProto/lzo/i386
+Source Client/Tools/DumpProto/Release
+Source Client/Tools/DumpProto/Debug
+Source Client/Tools/DumpProto/dump_proto/Release
+Source Client/Tools/DumpProto/dump_proto/Debug
+Source Client/Tools/DumpProto/lzo/Release
+Source Client/Tools/DumpProto/lzo/i386
 
-Binario/Tools/Mysql2Proto/Release
-Binario/Tools/Mysql2Proto/Debug
-Binario/Tools/Mysql2Proto/lzo/Release
-Binario/Tools/Mysql2Proto/lzo/i386
-Binario/Tools/Mysql2Proto/Mysql2Proto/Release
-Binario/Tools/Mysql2Proto/Mysql2Proto/Debug
+Source Client/Tools/Mysql2Proto/Release
+Source Client/Tools/Mysql2Proto/Debug
+Source Client/Tools/Mysql2Proto/lzo/Release
+Source Client/Tools/Mysql2Proto/lzo/i386
+Source Client/Tools/Mysql2Proto/Mysql2Proto/Release
+Source Client/Tools/Mysql2Proto/Mysql2Proto/Debug
 
 Vdi/Freebsd 12.2 32bit (clean)-disk001.vdi
 
 Client/syserr.txt
 Client/log.txt
 Client/lib/Kroni_brave_cape
-Binario/Srcs/Client/UserInterface/syserr.txt
-Binario/Srcs/Client/UserInterface/metin2.cfg
+Source Client/Srcs/Client/UserInterface/syserr.txt
+Source Client/Srcs/Client/UserInterface/metin2.cfg
 *.dmp
 Client/lib/Dungeons_brave_cape
 *.chat

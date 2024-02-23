@@ -1341,7 +1341,7 @@ bool CClientManager::MirrorItemTableIntoDB()
 				"applytype0, applyvalue0, applytype1, applyvalue1, applytype2, applyvalue2, "
 				"value0, value1, value2, value3, value4, value5 ) "
 				"values ("
-				"%u, %u, %u, \"%s\", \"%s\", %u, %u, %u, %u, " //11
+				"%u, %u, %u, \"%s\", \"%s\", %lld, %lld, %u, %u, " //11
 				"%u, %u, %u, %u, " //15
 				"%u, %d, %u, %u, %d, " //20
 				"%u, %ld, %u, %ld, " //24
@@ -1369,7 +1369,7 @@ bool CClientManager::MirrorItemTableIntoDB()
 				"applytype0, applyvalue0, applytype1, applyvalue1, applytype2, applyvalue2, "
 				"value0, value1, value2, value3, value4, value5 ) "
 				"values ("
-				"%d, %d, %d, \"%s\", %d, %d, %d, %d, "
+				"%d, %d, %d, \"%s\", %lld, %lld, %d, %d, "
 				"%d, %d, %d, %d, "
 				"%d, %d, %d, %d, %d, "
 				"%d, %ld, %d, %ld, "

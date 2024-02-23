@@ -130,6 +130,11 @@ class CMainPacketHeaderMap : public CNetworkPacketHeaderMap
 			Set(HEADER_GC_MESSENGER,	CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCMessenger), DYNAMIC_SIZE_PACKET));
 			Set(HEADER_GC_GUILD,		CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCGuild), DYNAMIC_SIZE_PACKET));
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+			Set(HEADER_GC_PRIVATE_SHOP_SEARCH, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCPrivateShopSearch), DYNAMIC_SIZE_PACKET));
+			Set(HEADER_GC_PRIVATE_SHOP_SEARCH_OPEN, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCPrivateShopSearchOpen), STATIC_SIZE_PACKET));
+#endif
+
 			Set(HEADER_GC_PARTY_INVITE,	CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCPartyInvite), STATIC_SIZE_PACKET));
 			Set(HEADER_GC_PARTY_ADD,	CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCPartyAdd), STATIC_SIZE_PACKET));
 			Set(HEADER_GC_PARTY_UPDATE,	CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCPartyUpdate), STATIC_SIZE_PACKET));

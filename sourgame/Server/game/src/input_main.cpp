@@ -1452,11 +1452,11 @@ void CInputMain::Exchange(LPCHARACTER ch, const char * data)
 						return;
 					}
 
-					if (ch->GetGold() >= GOLD_MAX)
+					if (ch->GetGold() > GOLD_MAX)
 					{
 						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("액수가 20억 냥을 초과하여 거래를 할수가 없습니다.."));
 
-						sys_err("[OVERFLOG_GOLD] START (%u) id %u name %s ", ch->GetGold(), ch->GetPlayerID(), ch->GetName());
+						sys_err("[OVERFLOG_GOLD] START (%lld) id %u name %s ", ch->GetGold(), ch->GetPlayerID(), ch->GetName());
 						return;
 					}
 
@@ -1504,13 +1504,13 @@ void CInputMain::Exchange(LPCHARACTER ch, const char * data)
 		case EXCHANGE_SUBHEADER_CG_ELK_ADD:	// arg1 == amount of gold
 			if (ch->GetExchange())
 			{
-				const int64_t nTotalGold = static_cast<int64_t>(ch->GetExchange()->GetCompany()->GetOwner()->GetGold()) + static_cast<int64_t>(pinfo->arg1);
+				const long long nTotalGold = static_cast<long long>(ch->GetExchange()->GetCompany()->GetOwner()->GetGold()) + static_cast<long long>(pinfo->arg1);
 
 				if (GOLD_MAX <= nTotalGold)
 				{
 					ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("상대방의 총금액이 20억 냥을 초과하여 거래를 할수가 없습니다.."));
 
-					sys_err("[OVERFLOW_GOLD] ELK_ADD (%u) id %u name %s ",
+					sys_err("[OVERFLOW_GOLD] ELK_ADD (%lld) id %u name %s ",
 							ch->GetExchange()->GetCompany()->GetOwner()->GetGold(),
 							ch->GetExchange()->GetCompany()->GetOwner()->GetPlayerID(),
 						   	ch->GetExchange()->GetCompany()->GetOwner()->GetName());
@@ -3348,7 +3348,7 @@ int CInputMain::MyShop(LPCHARACTER ch, const char * c_pData, size_t uiBytes)
 	if (ch->GetGold() >= GOLD_MAX)
 	{
 		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("소유 돈이 20억냥을 넘어 거래를 핼수가 없습니다."));
-		sys_log(0, "MyShop ==> OverFlow Gold id %u name %s ", ch->GetPlayerID(), ch->GetName());
+		sys_log(0, "MyShop ==> OverFlow Gold id %lld name %s ", ch->GetPlayerID(), ch->GetName());
 		return (iExtraLen);
 	}
 	#endif
@@ -4191,6 +4191,23 @@ int CInputMain::ReciveExtBattlePassPremiumItem(LPCHARACTER ch, const char* data,
 }
 #endif
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+void CInputMain::PrivateShopSearchClose(LPCHARACTER ch, const char* data)
+{
+	ch->SetPrivateShopSearchState(SHOP_SEARCH_OFF);
+}
+void CInputMain::PrivateShopSearchBuyItem(LPCHARACTER ch, const char* data)
+{
+	const TPacketCGPrivateShopSearchBuyItem* p = reinterpret_cast<const TPacketCGPrivateShopSearchBuyItem*>(data);
+	CShopManager::Instance().ShopSearchBuy(ch, p);
+}
+void CInputMain::PrivateShopSearch(LPCHARACTER ch, const char* data)
+{
+	const TPacketCGPrivateShopSearch* p = reinterpret_cast<const TPacketCGPrivateShopSearch*>(data);
+	CShopManager::Instance().ShopSearchProcess(ch, p);
+}
+#endif
+
 int CInputMain::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 {
 	LPCHARACTER ch;
@@ -4413,6 +4430,18 @@ int CInputMain::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 		case HEADER_CG_SAFEBOX_ITEM_MOVE:
 			SafeboxItemMove(ch, c_pData);
 			break;
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		case HEADER_CG_PRIVATE_SHOP_SEARCH:
+			PrivateShopSearch(ch, c_pData);
+			break;
+		case HEADER_CG_PRIVATE_SHOP_SEARCH_CLOSE:
+			PrivateShopSearchClose(ch, c_pData);
+			break;
+		case HEADER_CG_PRIVATE_SHOP_SEARCH_BUY_ITEM:
+			PrivateShopSearchBuyItem(ch, c_pData);
+			break;
+#endif
 
 		case HEADER_CG_MALL_CHECKOUT:
 			SafeboxCheckout(ch, c_pData, true);

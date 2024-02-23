@@ -55,7 +55,7 @@ struct SCubeMaterialInfo
 
 	CUBE_VALUE			reward;
 	TCubeValueVector	material;
-	DWORD				gold;
+	long long			gold;							// 돈은 얼마드냐
 	TCubeValueVector	complicateMaterial;
 
 
@@ -379,6 +379,7 @@ bool Cube_load (const char *file)
 	FILE	*fp;
 	char	one_line[256];
 	int		value1, value2;
+	long long value3;
 	const char	*delim = " \t\r\n";
 	char	*v, *token_string;
 	CUBE_DATA	*cube_data = NULL;
@@ -546,7 +547,7 @@ bool Cube_make (LPCHARACTER ch)
 		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("제조 재료가 부족합니다"));
 		return false;
 	}
-	int cube_gold = cube_proto->gold;
+	long long cube_gold = cube_proto->gold;
 	if (cube_gold < 0 || ch->GetGold() < cube_gold)
 	{
 		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("돈이 부족하거나 아이템이 제자리에 없습니다."));
@@ -560,7 +561,7 @@ bool Cube_make (LPCHARACTER ch)
 
 
 	if (0 < cube_proto->gold)
-		ch->PointChange(POINT_GOLD, -(cube_proto->gold), false);
+		ch->PointChange(POINT_GOLD, -static_cast<long long>(cube_proto->gold), false);
 
 	percent_number = number(1,100);
 	if ( percent_number<=cube_proto->percent)

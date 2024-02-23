@@ -676,6 +676,15 @@ typedef struct SExtBattlePassRanking
 } TExtBattlePassRanking;
 #endif
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+struct ShopSearchData 
+{
+	TShopItemData item;
+	std::string name;
+	DWORD dwShopPID;
+};
+#endif
+
 #pragma pack(pop)
 
 inline float GetSqrtDistance(int ix1, int iy1, int ix2, int iy2) // By sqrt

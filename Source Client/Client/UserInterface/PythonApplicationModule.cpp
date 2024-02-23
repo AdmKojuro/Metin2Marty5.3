@@ -2075,5 +2075,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_BIYOLOG", 0);
 #endif
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	PyModule_AddIntConstant(poModule, "BL_PRIVATESHOP_SEARCH_SYSTEM", true);
+#else
+	PyModule_AddIntConstant(poModule, "BL_PRIVATESHOP_SEARCH_SYSTEM", false);
+#endif
+
 }
 

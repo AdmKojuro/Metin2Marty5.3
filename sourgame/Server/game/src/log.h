@@ -54,7 +54,7 @@ class LogManager : public singleton<LogManager>
 		void		CharLog(LPCHARACTER ch, DWORD dw, const char * c_pszText, const char * c_pszHint);
 
 		void		LoginLog(bool isLogin, DWORD dwAccountID, DWORD dwPID, BYTE bLevel, BYTE bJob, DWORD dwPlayTime);
-		void		MoneyLog(BYTE type, DWORD vnum, int gold);
+		void		MoneyLog(BYTE type, DWORD vnum, long long gold);
 		void		HackLog(const char * c_pszHackName, const char * c_pszLogin, const char * c_pszName, const char * c_pszIP);
 		void		HackLog(const char * c_pszHackName, LPCHARACTER ch);
 		void		HackCRCLog(const char * c_pszHackName, const char * c_pszLogin, const char * c_pszName, const char * c_pszIP, DWORD dwCRC);

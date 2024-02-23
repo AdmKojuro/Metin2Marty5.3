@@ -2,6 +2,7 @@
 #include "PythonWindow.h"
 #include "PythonSlotWindow.h"
 #include "PythonGridSlotWindow.h"
+#include "../UserInterface/Locale_inc.h"
 
 bool PyTuple_GetWindow(PyObject* poArgs, int pos, UI::CWindow ** ppRetWindow)
 {
@@ -2331,6 +2332,17 @@ PyObject * wndButtonDisable(PyObject * poSelf, PyObject * poArgs)
 
 	return Py_BuildNone();
 }
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+PyObject* wndIsDisable(PyObject* poSelf, PyObject* poArgs)
+{
+	UI::CWindow* pWindow;
+	if (!PyTuple_GetWindow(poArgs, 0, &pWindow))
+		return Py_BuildException();
+
+	const BOOL IsDisable = dynamic_cast<UI::CButton*>(pWindow)->IsDisable();
+	return Py_BuildValue("i", IsDisable);
+}
+#endif
 PyObject * wndButtonDown(PyObject * poSelf, PyObject * poArgs)
 {
 	UI::CWindow * pWindow;
@@ -3015,6 +3027,9 @@ void initwndMgr()
 		{ "Down",						wndButtonDown,						METH_VARARGS },
 		{ "SetUp",						wndButtonSetUp,						METH_VARARGS },
 		{ "IsDown",						wndButtonIsDown,					METH_VARARGS },
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		{ "IsDisable",					wndIsDisable,						METH_VARARGS },
+#endif
 
 		// DragButton
 		{ "SetRestrictMovementArea",	wndButtonSetRestrictMovementArea,	METH_VARARGS },

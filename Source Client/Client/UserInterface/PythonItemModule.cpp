@@ -163,7 +163,7 @@ PyObject * itemGetIBuyItemPrice(PyObject * poSelf, PyObject * poArgs)
 	if (!pItemData)
 		return Py_BuildException("no selected item data");
 
-	return Py_BuildValue("i", pItemData->GetIBuyItemPrice());
+	return PyLong_FromLongLong(pItemData->GetIBuyItemPrice());
 }
 
 PyObject * itemGetISellItemPrice(PyObject * poSelf, PyObject * poArgs)
@@ -173,7 +173,7 @@ PyObject * itemGetISellItemPrice(PyObject * poSelf, PyObject * poArgs)
 	if (!pItemData)
 		return Py_BuildException("no selected item data");
 
-	return Py_BuildValue("i", pItemData->GetISellItemPrice());
+	return PyLong_FromLongLong(pItemData->GetISellItemPrice());
 }
 
 
@@ -538,64 +538,64 @@ PyObject * itemGetRefineLevel(PyObject * poSelf, PyObject * poArgs)
 }
 #endif
 
-PyObject* itemIsWeddingItem(PyObject* poSelf, PyObject* poArgs)
-{
-	DWORD dwItemIndex;
-	switch (PyTuple_Size(poArgs))
-	{
-	case 0:
-	{
-		CItemData* pItemData = CItemManager::Instance().GetSelectedItemDataPointer();
-		if (!pItemData)
-			return Py_BuildException("No item selected!");
-		dwItemIndex = pItemData->GetIndex();
-		break;
-	}
-	case 1:
-	{
-		if (!PyTuple_GetUnsignedLong(poArgs, 0, &dwItemIndex))
-			return Py_BuildException();
-		break;
-	}
-	default:
-		return Py_BuildException();
-	}
-	//if ((dwItemIndex == 50201 || dwItemIndex == 50202) || (dwItemIndex >= 11901 && dwItemIndex <= 11914))
-	//	return Py_BuildValue("i", TRUE);
+//PyObject* itemIsWeddingItem(PyObject* poSelf, PyObject* poArgs)
+//{
+//	DWORD dwItemIndex;
+//	switch (PyTuple_Size(poArgs))
+//	{
+//	case 0:
+//	{
+//		CItemData* pItemData = CItemManager::Instance().GetSelectedItemDataPointer();
+//		if (!pItemData)
+//			return Py_BuildException("No item selected!");
+//		dwItemIndex = pItemData->GetIndex();
+//		break;
+//	}
+//	case 1:
+//	{
+//		if (!PyTuple_GetUnsignedLong(poArgs, 0, &dwItemIndex))
+//			return Py_BuildException();
+//		break;
+//	}
+//	default:
+//		return Py_BuildException();
+//	}
+//	//if ((dwItemIndex == 50201 || dwItemIndex == 50202) || (dwItemIndex >= 11901 && dwItemIndex <= 11914))
+//	//	return Py_BuildValue("i", TRUE);
+//
+//	switch (dwItemIndex)
+//	{
+//		case CItemData::WEDDING_TUXEDO1:
+//		case CItemData::WEDDING_TUXEDO2:
+//		case CItemData::WEDDING_TUXEDO3:
+//		case CItemData::WEDDING_TUXEDO4:
+//		case CItemData::WEDDING_BRIDE_DRESS1:
+//		case CItemData::WEDDING_BRIDE_DRESS2:
+//		case CItemData::WEDDING_BRIDE_DRESS3:
+//		case CItemData::WEDDING_BRIDE_DRESS4:
+//		case CItemData::WEDDING_BOUQUET1:
+//		case CItemData::WEDDING_BOUQUET2:
+//			return Py_BuildValue("i", TRUE);
+//			break;
+//	}
+//
+//	return Py_BuildValue("i", FALSE);
+//}
 
-	switch (dwItemIndex)
-	{
-		case CItemData::WEDDING_TUXEDO1:
-		case CItemData::WEDDING_TUXEDO2:
-		case CItemData::WEDDING_TUXEDO3:
-		case CItemData::WEDDING_TUXEDO4:
-		case CItemData::WEDDING_BRIDE_DRESS1:
-		case CItemData::WEDDING_BRIDE_DRESS2:
-		case CItemData::WEDDING_BRIDE_DRESS3:
-		case CItemData::WEDDING_BRIDE_DRESS4:
-		case CItemData::WEDDING_BOUQUET1:
-		case CItemData::WEDDING_BOUQUET2:
-			return Py_BuildValue("i", TRUE);
-			break;
-	}
-
-	return Py_BuildValue("i", FALSE);
-}
-
-PyObject* itemGetItemNameByVnum(PyObject* poSelf, PyObject* poArgs)
-{
-	DWORD dwItemIndex;
-	if (!PyTuple_GetUnsignedLong(poArgs, 0, &dwItemIndex))
-		return Py_BadArgument();
-
-	if (!CItemManager::Instance().SelectItemData(dwItemIndex))
-	{
-		TraceError("Cannot find item by vnum %lu", dwItemIndex);
-		return Py_BuildValue("s", "");
-	}
-
-	return Py_BuildValue("s", CItemManager::Instance().GetSelectedItemDataPointer()->GetName());
-}
+//PyObject* itemGetItemNameByVnum(PyObject* poSelf, PyObject* poArgs)
+//{
+//	DWORD dwItemIndex;
+//	if (!PyTuple_GetUnsignedLong(poArgs, 0, &dwItemIndex))
+//		return Py_BadArgument();
+//
+//	if (!CItemManager::Instance().SelectItemData(dwItemIndex))
+//	{
+//		TraceError("Cannot find item by vnum %lu", dwItemIndex);
+//		return Py_BuildValue("s", "");
+//	}
+//
+//	return Py_BuildValue("s", CItemManager::Instance().GetSelectedItemDataPointer()->GetName());
+//}
 
 #ifdef ENABLE_DS_SET
 PyObject * itemGetDSSetWeight(PyObject * poSelf, PyObject * poArgs) {
@@ -914,8 +914,8 @@ void initItem()
 #ifdef ENABLE_REFINE_ELEMENT
 		{ "GetRefineLevel",							itemGetRefineLevel,						METH_VARARGS },
 #endif
-		{ "IsWeddingItem",					itemIsWeddingItem,						METH_VARARGS },
-		{ "GetItemNameByVnum",				itemGetItemNameByVnum,					METH_VARARGS },
+//		{ "IsWeddingItem",					itemIsWeddingItem,						METH_VARARGS },
+//		{ "GetItemNameByVnum",				itemGetItemNameByVnum,					METH_VARARGS },
 #ifdef ENABLE_NEW_SOUL_FUNCTION
 		{ "IsItemUsedForDragonSoul",		itemIsItemUsedForDragonSoul,			METH_VARARGS },
 #endif
@@ -1072,6 +1072,18 @@ void initItem()
 	PyModule_AddIntConstant(poModule, "MATERIAL_DS_REFINE_NORMAL",	CItemData::MATERIAL_DS_REFINE_NORMAL);
 	PyModule_AddIntConstant(poModule, "MATERIAL_DS_REFINE_BLESSED",	CItemData::MATERIAL_DS_REFINE_BLESSED);
 	PyModule_AddIntConstant(poModule, "MATERIAL_DS_REFINE_HOLLY",	CItemData::MATERIAL_DS_REFINE_HOLLY);
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	PyModule_AddIntConstant(poModule, "DS_SLOT1",					CItemData::DS_SLOT1);
+	PyModule_AddIntConstant(poModule, "DS_SLOT2",					CItemData::DS_SLOT2);
+	PyModule_AddIntConstant(poModule, "DS_SLOT3",					CItemData::DS_SLOT3);
+	PyModule_AddIntConstant(poModule, "DS_SLOT4",					CItemData::DS_SLOT4);
+	PyModule_AddIntConstant(poModule, "DS_SLOT5",					CItemData::DS_SLOT5);
+	PyModule_AddIntConstant(poModule, "DS_SLOT6",					CItemData::DS_SLOT6);
+	PyModule_AddIntConstant(poModule, "USE_CLEAN_SOCKET",			CItemData::USE_CLEAN_SOCKET);
+	PyModule_AddIntConstant(poModule, "ITEM_TYPE_SKILLFORGET",		CItemData::ITEM_TYPE_SKILLFORGET);
+	PyModule_AddIntConstant(poModule, "MATERIAL_LEATHER",			CItemData::MATERIAL_LEATHER);
+#endif
 
 	PyModule_AddIntConstant(poModule, "METIN_NORMAL",				CItemData::METIN_NORMAL);
 	PyModule_AddIntConstant(poModule, "METIN_GOLD",					CItemData::METIN_GOLD);

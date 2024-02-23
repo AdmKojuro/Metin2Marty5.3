@@ -212,6 +212,11 @@ enum
 #ifdef ENABLE_MULTI_LANGUAGE_SYSTEM
 	HEADER_CG_CHANGE_LANGUAGE = 221,
 #endif
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	HEADER_CG_PRIVATE_SHOP_SEARCH = 223,
+	HEADER_CG_PRIVATE_SHOP_SEARCH_CLOSE = 224,
+	HEADER_CG_PRIVATE_SHOP_SEARCH_BUY_ITEM = 225,
+#endif
 	HEADER_CG_KEY_AGREEMENT						= 0xfb, // _IMPROVED_PACKET_ENCRYPTION_
 	HEADER_CG_TIME_SYNC							= 0xfc,
 	HEADER_CG_CLIENT_VERSION					= 0xfd,
@@ -418,7 +423,7 @@ enum
 	HEADER_GC_NEWCIBN_PASSPOD_FAILURE			= 203,
 
 	HEADER_GC_SPECIFIC_EFFECT					= 208,
-	HEADER_GC_DRAGON_SOUL_REFINE						= 209,
+	HEADER_GC_DRAGON_SOUL_REFINE				= 209,
 	HEADER_GC_RESPOND_CHANNELSTATUS				= 210,
 #ifdef ENABLE_DS_SET
 	HEADER_GC_DS_TABLE							= 212,
@@ -439,6 +444,10 @@ enum
 #endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	HEADER_GC_67_BONUS_NEW 						= 220,
+#endif
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	HEADER_GC_PRIVATE_SHOP_SEARCH = 221,
+	HEADER_GC_PRIVATE_SHOP_SEARCH_OPEN = 222,
 #endif
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	HEADER_GC_EXT_BATTLE_PASS_OPEN 				= 235,
@@ -774,7 +783,7 @@ typedef struct command_item_drop
 {
 	BYTE  header;
 	TItemPos pos;
-	DWORD elk;
+	long long elk;
 #ifdef ENABLE_CHEQUE_SYSTEM
 	DWORD cheque;
 #endif 
@@ -784,7 +793,7 @@ typedef struct command_item_drop2
 {
     BYTE        header;
     TItemPos pos;
-    DWORD       gold;
+    long long       gold;
 #ifdef ENABLE_CHEQUE_SYSTEM
 	DWORD		cheque;
 #endif 
@@ -871,7 +880,7 @@ typedef struct command_exchange
 {
 	BYTE		header;
 	BYTE		subheader;
-	DWORD		arg1;
+	long long		arg1;
 	BYTE		arg2;
 	TItemPos	Pos;
 } TPacketCGExchange;
@@ -1280,6 +1289,55 @@ typedef struct command_script_select_item
     DWORD selection;
 } TPacketCGScriptSelectItem;
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+typedef struct command_privateshop_searchcg
+{
+	BYTE 	header;
+	BYTE 	bJob;
+	BYTE 	bMaskType;
+	int 	iMaskSub;
+	int 	iMinRefine;
+	int 	iMaxRefine;
+	int 	iMinLevel;
+	int 	iMaxLevel;
+	int 	iMinGold;
+	int 	iMaxGold;
+	char	szItemName[CItemData::ITEM_NAME_MAX_LEN + 1];
+#if defined(ENABLE_CHEQUE_SYSTEM)
+	int 	iMinCheque;
+	int 	iMaxCheque;
+#endif
+} TPacketCGPrivateShopSearch;
+
+typedef struct command_privateshopsearch_item
+{
+	packet_shop_item item;
+	char	szSellerName[CHARACTER_NAME_MAX_LEN + 1];
+	DWORD	dwShopPID;
+} TPacketGCPrivateShopSearchItem;
+
+typedef struct command_privateshop_searchgc
+{
+	BYTE		header;
+	WORD		size;
+} TPacketGCPrivateShopSearch;
+
+typedef struct command_privateshop_searchopengc
+{
+	BYTE		header;
+} TPacketGCPrivateShopSearchOpen;
+
+typedef struct command_privateshop_closecg
+{
+	BYTE		header;
+} TPacketCGPrivateShopSearchClose;
+typedef struct command_privateshop_buy_item
+{
+	BYTE		header;
+	BYTE		pos;
+	DWORD		dwShopPID;
+} TPacketCGPrivateShopSearchBuyItem;
+#endif
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // From Server
 enum EPhase
@@ -1944,7 +2002,7 @@ enum EPointTypes
 typedef struct packet_points
 {
     BYTE        header;
-    long        points[POINT_MAX_NUM];
+    long long        points[POINT_MAX_NUM];
 } TPacketGCPoints;
 
 typedef struct packet_point_change
@@ -1954,8 +2012,8 @@ typedef struct packet_point_change
 	DWORD		dwVID;
 	BYTE		Type;
 
-	long        amount;
-    long        value;
+	long long        amount; // 바뀐 값
+    long long        value;  // 현재 값
 } TPacketGCPointChange;
 
 typedef struct packet_motion
@@ -2093,7 +2151,7 @@ typedef struct packet_shop_update_item
 
 typedef struct packet_shop_update_price
 {
-	int iElkAmount;
+	long long iElkAmount;
 } TPacketGCShopUpdatePrice;
 
 enum EPacketShopSubHeaders
@@ -2129,7 +2187,7 @@ typedef struct packet_exchange
 	BYTE		header;
 	BYTE		subheader;
 	BYTE		is_me;
-	DWORD		arg1;
+	long long       arg1;
 	TItemPos		arg2;
 	DWORD		arg3;
 #ifdef WJ_ENABLE_TRADABLE_ICON
@@ -2835,6 +2893,9 @@ enum
 	CREATE_TARGET_TYPE_NONE,
 	CREATE_TARGET_TYPE_LOCATION,
 	CREATE_TARGET_TYPE_CHARACTER,
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	CREATE_TARGET_TYPE_SHOP_SEARCH = 1 << 2,
+#endif
 };
 
 typedef struct
@@ -2851,6 +2912,9 @@ typedef struct
     BYTE        bHeader;
     long        lID;
     long        lX, lY;
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	bool		bIsShopSearch;
+#endif
 } TPacketGCTargetUpdate;
 
 typedef struct

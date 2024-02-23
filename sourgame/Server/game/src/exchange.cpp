@@ -15,10 +15,10 @@
 #include "DragonSoul.h"
 #include "questmanager.h" // @fixme150
 
-void exchange_packet(LPCHARACTER ch, BYTE sub_header, bool is_me, DWORD arg1, TItemPos arg2, DWORD arg3, void * pvData = NULL);
+void exchange_packet(LPCHARACTER ch, BYTE sub_header, bool is_me, long long arg1, TItemPos arg2, DWORD arg3, void * pvData = NULL);
 
 
-void exchange_packet(LPCHARACTER ch, BYTE sub_header, bool is_me, DWORD arg1, TItemPos arg2, DWORD arg3, void * pvData)
+void exchange_packet(LPCHARACTER ch, BYTE sub_header, bool is_me, long long arg1, TItemPos arg2, DWORD arg3, void * pvData)
 {
 	if (!ch->GetDesc())
 		return;
@@ -321,7 +321,7 @@ bool CExchange::AddCheque(long cheque)
 	return true;
 }
 #endif // __ENABLE_CHEQUE_SYSTEM__
-bool CExchange::AddGold(long gold)
+bool CExchange::AddGold(long long gold)
 {
 	if (gold <= 0)
 		return false;

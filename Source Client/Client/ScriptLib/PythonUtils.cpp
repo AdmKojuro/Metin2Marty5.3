@@ -138,17 +138,31 @@ bool PyTuple_GetInteger(PyObject* poArgs, int pos, int* ret)
 	return true;
 }
 
-bool PyTuple_GetUnsignedLong(PyObject* poArgs, int pos, unsigned long* ret)
+//bool PyTuple_GetUnsignedLong(PyObject* poArgs, int pos, unsigned long* ret)
+//{
+//	if (pos >= PyTuple_Size(poArgs))
+//		return false;
+//
+//	PyObject * poItem = PyTuple_GetItem(poArgs, pos);
+//
+//	if (!poItem)
+//		return false;
+//
+//	*ret = PyLong_AsUnsignedLong(poItem);
+//	return true;
+//}
+
+bool PyTuple_GetLongLong(PyObject* poArgs, int pos, long long* ret)
 {
 	if (pos >= PyTuple_Size(poArgs))
 		return false;
 
 	PyObject * poItem = PyTuple_GetItem(poArgs, pos);
-
+	
 	if (!poItem)
 		return false;
-
-	*ret = PyLong_AsUnsignedLong(poItem);
+	
+	*ret = PyLong_AsLongLong(poItem);
 	return true;
 }
 

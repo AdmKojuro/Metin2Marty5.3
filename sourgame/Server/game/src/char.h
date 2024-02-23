@@ -434,14 +434,14 @@ struct DynamicCharacterPtr {
 
 typedef struct character_point
 {
-	long			points[POINT_MAX_NUM];
+	long long			points[POINT_MAX_NUM];
 
 	BYTE			job;
 	BYTE			voice;
 
 	BYTE			level;
 	DWORD			exp;
-	long			gold;
+	long long			gold;
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	int				cheque;
 #endif
@@ -465,7 +465,7 @@ typedef struct character_point
 
 typedef struct character_point_instant
 {
-	long			points[POINT_MAX_NUM];
+	long long			points[POINT_MAX_NUM];
 
 	float			fRot;
 
@@ -831,8 +831,8 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		void			SetRealPoint(BYTE idx, int val);
 		int				GetRealPoint(BYTE idx) const;
 
-		void			SetPoint(BYTE idx, int val);
-		int				GetPoint(BYTE idx) const;
+		void			SetPoint(BYTE idx, long long val);
+		long long		GetPoint(BYTE idx) const;
 		int				GetLimitPoint(BYTE idx) const;
 		int				GetPolymorphPoint(BYTE idx) const;
 
@@ -877,7 +877,7 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 
 		void			ComputePoints();
 		void			ComputeBattlePoints();
-		void			PointChange(BYTE type, int amount, bool bAmount = false, bool bBroadcast = false);
+		void			PointChange(BYTE type, long long amount, bool bAmount = false, bool bBroadcast = false);
 		void			PointsPacket();
 		void			ApplyPoint(BYTE bApplyType, int iVal);
 		void			CheckMaximumPoints();
@@ -1343,7 +1343,7 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 
 
 
-		void			SendMyShopPriceListCmd(DWORD dwItemVnum, DWORD dwItemPrice);
+		void			SendMyShopPriceListCmd(DWORD dwItemVnum, long long dwItemPrice);
 
 		bool			m_bNoOpenedShop;
 
@@ -1361,11 +1361,11 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 	public:
 		////////////////////////////////////////////////////////////////////////////////////////
 		// Money related
-		INT				GetGold() const		{ return m_points.gold;	}
-		void			SetGold(INT gold)	{ m_points.gold = gold;	}
-		bool			DropGold(INT gold);
-		INT				GetAllowedGold() const;
-		void			GiveGold(INT iAmount);
+		long long		GetGold() const		{ return m_points.gold;	}
+		void			SetGold(long long gold)	{ m_points.gold = gold;	}
+		bool			DropGold(long long gold);
+		long long		GetAllowedGold() const;
+		void			GiveGold(long long iAmount);	// 파티가 있으면 파티 분배, 로그 등의 처리
 		// End of Money
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -1768,6 +1768,15 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		int					m_iMallLoadTime;
 
 		PIXEL_POSITION		m_posSafeboxOpen;
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	protected:
+		BYTE				bPrivateShopSearchState;
+	public:
+		BYTE				GetPrivateShopSearchState() const { return bPrivateShopSearchState; }
+		void				SetPrivateShopSearchState(BYTE bState) { bPrivateShopSearchState = bState; }
+		void				OpenPrivateShopSearch(DWORD dwVnum);
+#endif
 
 		////////////////////////////////////////////////////////////////////////////////////////
 

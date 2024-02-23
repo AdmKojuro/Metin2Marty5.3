@@ -1920,6 +1920,12 @@ class GameWindow(ui.ScriptWindow):
 	def Gift_Show(self):
 		self.interface.ShowGift()
 
+	if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+		def OpenPShopSearchDialogCash(self):
+			self.interface.OpenPShopSearchDialogCash()
+		def RefreshPShopSearchDialog(self):
+			self.interface.RefreshPShopSearchDialog()
+
 	# CUBE
 	def BINARY_Cube_Open(self, npcVNUM):
 		self.currentCubeNPC = npcVNUM

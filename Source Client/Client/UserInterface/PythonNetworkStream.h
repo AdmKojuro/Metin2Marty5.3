@@ -180,8 +180,8 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		bool SendItemDropPacket(TItemPos pos, DWORD elk, DWORD cheque);
 		bool SendItemDropPacketNew(TItemPos pos, DWORD elk, DWORD count, DWORD cheque);
 #else
-		bool SendItemDropPacket(TItemPos pos, DWORD elk);
-		bool SendItemDropPacketNew(TItemPos pos, DWORD elk, DWORD count);
+		bool SendItemDropPacket(TItemPos pos, long long elk);
+		bool SendItemDropPacketNew(TItemPos pos, long long elk, DWORD count);
 #endif
 #ifdef ENABLE_NEW_DROP_DIALOG
 		bool SendItemDestroyPacket(TItemPos pos);
@@ -204,7 +204,7 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		// Exchange
 		bool SendExchangeStartPacket(DWORD vid);
 		bool SendExchangeItemAddPacket(TItemPos ItemPos, BYTE byDisplayPos);
-		bool SendExchangeElkAddPacket(DWORD elk);
+		bool SendExchangeElkAddPacket(long long elk);
 #ifdef ENABLE_CHEQUE_SYSTEM
 		bool SendExchangeChequeAddPacket(DWORD elk);
 #endif 
@@ -333,6 +333,17 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 
 		// Client Version
 		bool SendClientVersionPacket();
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		bool SendPrivateShopSearchClose();
+		bool SendPrivateShopSearchBuyItem(int iIndex);
+		void PrivateShopSearchChangePage(int iPage);
+		bool SendPrivateShopSearchInfoPacket(BYTE, BYTE, int, int, int, int, int, int, int, const char*
+#if defined(ENABLE_CHEQUE_SYSTEM)
+			, int, int
+#endif
+		);
+#endif
 
 		// CRC Report
 		bool __SendCRCReportPacket();
@@ -553,6 +564,10 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		bool RecvItemGroundAddPacket();
 		bool RecvItemGroundDelPacket();
 		bool RecvItemOwnership();
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		bool RecvPrivateShopSearch();
+		bool RecvPrivateShopSearchOpen();
+#endif
 
 		bool RecvQuickSlotAddPacket();				// Alarm to python
 		bool RecvQuickSlotDelPacket();				// Alarm to python

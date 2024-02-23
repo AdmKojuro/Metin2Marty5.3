@@ -51,7 +51,7 @@ void CMoneyLog::Save()
 	*/
 }
 
-void CMoneyLog::AddLog(BYTE bType, DWORD dwVnum, int iGold)
+void CMoneyLog::AddLog(BYTE bType, DWORD dwVnum, long long iGold)
 {
 	m_MoneyLogContainer[bType][dwVnum] += iGold;
 }

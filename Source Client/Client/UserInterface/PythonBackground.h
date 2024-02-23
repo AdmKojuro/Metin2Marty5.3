@@ -136,6 +136,10 @@ public:
 
 	void CreateTargetEffect(DWORD dwID, DWORD dwChrVID);
 	void CreateTargetEffect(DWORD dwID, long lx, long ly);
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	void CreateShopSearchTargetEffect(DWORD dwID, long lx, long ly);
+	void CreateShopSearchTargetEffect(DWORD dwID, DWORD dwChrVID);
+#endif
 	void DeleteTargetEffect(DWORD dwID);
 
 	void CreateSpecialEffect(DWORD dwID, float fx, float fy, float fz, const char * c_szFileName);
@@ -199,6 +203,11 @@ private:
 		int ily;
 	};
 	std::map<DWORD, SReserveTargetEffect> m_kMap_dwID_kReserveTargetEffect;
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+	std::map<DWORD, DWORD> m_kMap_dwTargetID_dwChrIDShopSearch;
+	std::map<DWORD, SReserveTargetEffect> m_kMap_dwID_kReserveTargetEffectShopSearch;
+#endif
 
 	struct FFindWarpMapName
 	{

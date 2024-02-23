@@ -77,6 +77,8 @@ if app.ENABLE_EXTENDED_BATTLE_PASS:
 	import uiBattlePassExtended
 if app.ENABLE_BIYOLOG:
 	import uiBiyolog
+if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+	import uiPrivateShopSearch
 
 IsQBHide = 0
 class Interface(object):
@@ -266,6 +268,9 @@ class Interface(object):
 		wndMall = uiSafebox.MallWindow()
 		self.wndMall = wndMall
 		# END_OF_ITEM_MALL
+
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			self.wndPrivateShopSearch = uiPrivateShopSearch.PrivateShopSeachWindow()
 
 		wndChatLog = uiChat.ChatLogWindow()
 		wndChatLog.BindInterface(self)
@@ -508,6 +513,9 @@ class Interface(object):
 
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			self.wndCube.SetSpecialInven(self.wndSpecialInventory)
+
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			self.wndPrivateShopSearch.SetItemToolTip(self.tooltipItem)
 
 		# ITEM_MALL
 		self.wndMall.SetItemToolTip(self.tooltipItem)
@@ -764,6 +772,11 @@ class Interface(object):
 				self.wndBio.Destroy()
 				del self.wndBio
 
+		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+			if self.wndPrivateShopSearch:
+				self.wndPrivateShopSearch.Destroy()
+				del self.wndPrivateShopSearch
+
 		self.wndChatLog.Destroy()
 		for btn in self.questButtonList:
 			btn.SetEvent(0)
@@ -896,6 +909,12 @@ class Interface(object):
 
 	def SelectMouseButtonEvent(self, dir, event):
 		self.wndTaskBar.SelectMouseButtonEvent(dir, event)
+
+	if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
+		def OpenPShopSearchDialogCash(self):
+			self.wndPrivateShopSearch.Open(1)
+		def RefreshPShopSearchDialog(self):
+			self.wndPrivateShopSearch.RefreshList()
 
 	## Refresh
 	def RefreshAlignment(self):

@@ -333,6 +333,24 @@ int MINMAX(int min, int value, int max)
     return (max < tv) ? max : tv;
 }
 
+long long MAXLL(long long a, long long b)
+{
+	return a < b ? a : b;
+}
+
+long long MINLL(long long a, long long b)
+{
+	return a > b ? a : b;
+}
+
+long long MINMAXLL(long long min, long long val, long long max)
+{
+	register long long tv;
+
+	tv = (min > val ? min : val);
+	return (max < tv) ? max : tv;
+}
+
 DWORD thecore_random()
 {
 #ifdef __WIN32__

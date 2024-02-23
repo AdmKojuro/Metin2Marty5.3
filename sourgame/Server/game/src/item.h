@@ -46,8 +46,8 @@ class CItem : public CEntity
 		void			SetProto(const TItemTable * table);
 		TItemTable const *	GetProto()	{ return m_pProto; }
 
-		int		GetGold();
-		int		GetShopBuyPrice();
+		long long		GetGold();
+		long long		GetShopBuyPrice();
 #ifdef __MULTI_LANGUAGE_SYSTEM__
 		const char* GetName();
 #else

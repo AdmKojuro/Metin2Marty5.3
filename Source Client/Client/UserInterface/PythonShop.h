@@ -23,6 +23,16 @@ class CPythonShop : public CSingleton<CPythonShop>
 		void SetItemData(BYTE tabIdx, DWORD dwSlotPos, const TShopItemData & c_rShopItemData);
 		BOOL GetItemData(BYTE tabIdx, DWORD dwSlotPos, const TShopItemData ** c_ppItemData);
 
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		void SetShopSearchItemData(ShopSearchData* sShopData);
+		ShopSearchData* GetShopSearchItemData(DWORD dwIndex);
+		void ClearShopSearchData();
+		void SortShopSearchData();
+		void ShopSearchChangePage(int iPage);
+		size_t GetShopSearchResultCount() const { return vShopSearch.size(); }
+		int GetShopSearchPage() const { return iShopSearchPage; }
+#endif
+
 		void SetTabCount(BYTE bTabCount) { m_bTabCount = bTabCount; }
 		BYTE GetTabCount() { return m_bTabCount; }
 
@@ -49,6 +59,7 @@ class CPythonShop : public CSingleton<CPythonShop>
 #endif
 #ifdef ENABLE_FULL_YANG
 		// void AddPrivateShopItemStock(TItemPos ItemPos, BYTE dwDisplayPos, long long dwPrice);
+		void AddPrivateShopItemStock(TItemPos ItemPos, BYTE dwDisplayPos, long long dwPrice);
 		long long GetPrivateShopItemPrice(TItemPos ItemPos);
 #else
 		void AddPrivateShopItemStock(TItemPos ItemPos, BYTE dwDisplayPos, DWORD dwPrice);
@@ -89,5 +100,9 @@ class CPythonShop : public CSingleton<CPythonShop>
 
 		typedef std::map<TItemPos, TShopItemTable> TPrivateShopItemStock;
 		TPrivateShopItemStock	m_PrivateShopItemStock;
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+		std::vector<ShopSearchData*> vShopSearch;
+		int iShopSearchPage;
+#endif
 };
 

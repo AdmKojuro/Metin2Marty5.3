@@ -112,16 +112,16 @@ void LogManager::LoginLog(bool isLogin, DWORD dwAccountID, DWORD dwPID, BYTE bLe
 			get_table_postfix(), isLogin ? "'LOGIN'" : "'LOGOUT'", g_bChannel, dwAccountID, dwPID, bLevel, bJob, dwPlayTime);
 }
 
-void LogManager::MoneyLog(BYTE type, DWORD vnum, int gold)
+void LogManager::MoneyLog(BYTE type, DWORD vnum, long long gold)
 {
 	LOG_LEVEL_CHECK_N_RET(LOG_LEVEL_MAX);
 	if (type == MONEY_LOG_RESERVED || type >= MONEY_LOG_TYPE_MAX_NUM)
 	{
-		sys_err("TYPE ERROR: type %d vnum %u gold %d", type, vnum, gold);
+		sys_err("TYPE ERROR: type %d vnum %u gold %lld", type, vnum, gold);
 		return;
 	}
 
-	Query("INSERT DELAYED INTO money_log%s VALUES (NOW(), %d, %d, %d)", get_table_postfix(), type, vnum, gold);
+	Query("INSERT DELAYED INTO money_log%s VALUES (NOW(), %d, %d, %lld)", get_table_postfix(), type, vnum, gold);
 }
 
 void LogManager::HackLog(const char * c_pszHackName, const char * c_pszLogin, const char * c_pszName, const char * c_pszIP)

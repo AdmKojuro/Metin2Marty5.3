@@ -120,7 +120,7 @@ enum EMisc
 	WEAR_MAX_NUM				= 32,
 
 	//LIMIT_GOLD
-	GOLD_MAX = 2000000000,
+	//GOLD_MAX = 2000000000,
 #ifdef __ENABLE_CHEQUE_SYSTEM__
 	CHEQUE_MAX = 1000,
 #endif // __ENABLE_CHEQUE_SYSTEM__
@@ -180,6 +180,8 @@ const DWORD c_arSwitchingItems[3] =
 	76014,
 };
 #endif
+
+const long long GOLD_MAX = 20000000000001LL;
 
 enum EGrowthPet
 {
@@ -940,6 +942,16 @@ enum ETeenFlags
 	TEENFLAG_4HOUR,
 	TEENFLAG_5HOUR,
 };
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+enum EPrivateShopSearchState
+{
+	SHOP_SEARCH_OFF,
+	SHOP_SEARCH_LOOKING,
+	SHOP_SEARCH_TRADING,
+	SHOP_SEARCH_INDEX = 61000,
+};
+#endif
 
 #include "item_length.h"
 

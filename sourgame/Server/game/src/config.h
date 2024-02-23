@@ -12,6 +12,8 @@ void config_init(const std::string& st_localeServiceName); // default "" is CONF
 
 extern char sql_addr[256];
 
+extern long long    g_llMaxGold;
+
 extern WORD mother_port;
 extern WORD p2p_port;
 

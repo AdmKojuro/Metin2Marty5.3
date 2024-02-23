@@ -1970,10 +1970,10 @@ void CHARACTER::__OpenPrivateShop()
 }
 
 // MYSHOP_PRICE_LIST
-void CHARACTER::SendMyShopPriceListCmd(DWORD dwItemVnum, DWORD dwItemPrice)
+void CHARACTER::SendMyShopPriceListCmd(DWORD dwItemVnum, long long dwItemPrice)
 {
 	char szLine[256];
-	snprintf(szLine, sizeof(szLine), "MyShopPriceList %u %u", dwItemVnum, dwItemPrice);
+	snprintf(szLine, sizeof(szLine), "MyShopPriceList %u %lld", dwItemVnum, dwItemPrice);
 	ChatPacket(CHAT_TYPE_COMMAND, szLine);
 	sys_log(0, szLine);
 }
@@ -3328,8 +3328,16 @@ bool CHARACTER::UseItemEx(LPITEM item, TItemPos DestCell)
 							case 70057:
 							case REWARD_BOX_UNIQUE_ITEM_CAPE_OF_COURAGE:
 								AggregateMonster();
-								item->SetCount(item->GetCount()-1);
+								//Cabos infinitos
+								//item->SetCount(item->GetCount()-1);
 								break;
+
+#if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
+							case PRIVATE_SHOP_SEARCH_LOOKING_GLASS:
+							case PRIVATE_SHOP_SEARCH_TRADING_GLASS:
+								OpenPrivateShopSearch(item->GetVnum());
+								break;
+#endif
 
 							case UNIQUE_ITEM_WHITE_FLAG:
 								ForgetMyAttacker();
@@ -6745,7 +6753,7 @@ bool CHARACTER::DestroyItem(TItemPos Cell)
 }
 #endif
 
-bool CHARACTER::DropGold(int gold)
+bool CHARACTER::DropGold(long long gold)
 {
 	if (gold <= 0 || gold > GetGold())
 		return false;
@@ -7127,20 +7135,20 @@ void CHARACTER::GiveCheque(int iAmount) // No hay soporte de cheque para grupos.
 	PointChange(POINT_CHEQUE, iAmount, true);
 }
 #endif // __ENABLE_CHEQUE_SYSTEM__
-void CHARACTER::GiveGold(int iAmount)
+void CHARACTER::GiveGold(long long iAmount)
 {
 	if (iAmount <= 0)
 		return;
 
-	sys_log(0, "GIVE_GOLD: %s %d", GetName(), iAmount);
+	sys_log(0, "GIVE_GOLD: %s %lld", GetName(), iAmount);
 
 	if (GetParty())
 	{
 		LPPARTY pParty = GetParty();
 
 
-		DWORD dwTotal = iAmount;
-		DWORD dwMyAmount = dwTotal;
+		long long dwTotal = iAmount;
+		long long dwMyAmount = dwTotal;
 
 		NPartyPickupDistribute::FCountNearMember funcCountNearMember(this);
 		pParty->ForEachOnlineMember(funcCountNearMember);
