@@ -725,15 +725,36 @@ class TargetBoard(ui.ThinBoard):
 		self.SetTargetVID(vid)
 		if app.ENABLE_SEND_TARGET_INFO:
 			vnum = nonplayer.GetRaceNumByVID(vid)
+
+		self.vnum = 0
+
 		name = chr.GetNameByVID(vid)
+
 		level = nonplayer.GetLevelByVID(vid)
 		grade = nonplayer.GetGradeByVID(vid)
+
+		vnum = nonplayer.GetRaceNumByVID(vid)
 
 		nameFront = ""
 		if -1 != level:
 			nameFront += "Lv." + str(level) + " "
 		if self.GRADE_NAME.has_key(grade):
 			nameFront += "(" + self.GRADE_NAME[grade] + ") "
+
+		if vnum == 691 or vnum == 9208 or vnum == 3391 or vnum == 3891  or vnum == 3791 or vnum == 3191 or vnum == 3391:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_ORC + "|r - "
+		if vnum == 292 or vnum == 3691 or vnum == 6091 or vnum == 2492 or vnum == 2493 or vnum == 2598 or vnum == 64057:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_DEVIL + "|r - "
+		if vnum == 3591:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_HUMAN + "|r - "
+		if vnum == 3091 or vnum == 6191 or vnum == 5163 or vnum == 2092 or vnum == 2841 or vnum == 2772 or vnum == 2750 or vnum == 2830 or vnum == 2831 or vnum == 2790 or vnum == 266 or vnum == 236:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_ANIMAL + "|r - "
+		if vnum == 2291:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_FIRE + "|r - "		
+		if vnum == 3964:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_MILGYO + "|r - "
+		if vnum == 1093 or vnum == 1191:
+			nameFront += "|cFF75FF33Bonus: " + localeInfo.TARGET_INFO_RACE_UNDEAD + "|r - "
 
 		self.SetTargetName(nameFront + name)
 		if app.ENABLE_SEND_TARGET_INFO:
