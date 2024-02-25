@@ -27,7 +27,8 @@
 /* Wolfman */
 
 /* System Enable */
-#define BL_PRIVATESHOP_SEARCH_SYSTEM
+#define ENABLE_ATLAS_BOSS
+//#define BL_PRIVATESHOP_SEARCH_SYSTEM----------------------en reparacion
 #define ENABLE_BIYOLOG										// Biologo
 #define ENABLE_EXTENDED_BATTLE_PASS
 #define ENABLE_BUY_ITEMS_WORLDARD // sistema compra items tienda con otros items

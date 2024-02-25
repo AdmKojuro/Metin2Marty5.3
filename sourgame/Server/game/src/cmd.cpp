@@ -324,6 +324,8 @@ ACMD(do_battlepass_premium_activate);
 ACMD(do_bio);
 ACMD(do_open_shop);
 #endif
+ACMD(do_gotoxy);
+
 struct command_info cmd_info[] =
 {
 	{ "!RESERVED!",	NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	},
@@ -687,6 +689,7 @@ struct command_info cmd_info[] =
 	{ "bio_dra",	do_bio,		0,		POS_DEAD,	GM_PLAYER },
 	{ "open_shop",	do_open_shop,		0,		POS_DEAD,	GM_PLAYER },
 #endif
+	{"gotoxy", do_gotoxy, 0, POS_DEAD, GM_PLAYER},
 
 	{ "\n",		NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	}
 };

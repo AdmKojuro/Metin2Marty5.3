@@ -405,6 +405,9 @@ enum
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	HEADER_GC_67_BONUS_NEW 					= 220,
 #endif
+#ifdef ENABLE_ATLAS_BOSS
+	HEADER_GC_BOSS_POSITION = 222,
+#endif
 #if defined(BL_PRIVATESHOP_SEARCH_SYSTEM)
 	HEADER_GC_PRIVATE_SHOP_SEARCH = 221,
 	HEADER_GC_PRIVATE_SHOP_SEARCH_OPEN = 222,
@@ -3463,6 +3466,26 @@ typedef struct SPacketGCExtBattlePassRanking
 	DWORD	dwStartTime;
 	DWORD	dwEndTime;
 } TPacketGCExtBattlePassRanking;
+#endif
+
+#ifdef ENABLE_ATLAS_BOSS
+typedef struct SPacketGCBossPosition
+{
+	BYTE	bHeader;
+	WORD	wSize;
+	WORD	wCount;
+} TPacketGCBossPosition;
+
+struct TBossPosition
+{
+	BYTE	bType;
+
+	char	szName[CHARACTER_NAME_MAX_LEN + 1];
+
+	long	lX;
+	long	lY;
+	long	lTime;
+};
 #endif
 
 #pragma pack()

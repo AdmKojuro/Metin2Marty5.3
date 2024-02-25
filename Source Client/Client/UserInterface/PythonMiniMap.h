@@ -26,6 +26,9 @@ class CPythonMiniMap : public CScreen, public CSingleton<CPythonMiniMap>
 			TYPE_EMPIRE,
 			TYPE_EMPIRE_END = TYPE_EMPIRE + EMPIRE_NUM,
 			TYPE_TARGET,
+#ifdef ENABLE_ATLAS_BOSS
+			TYPE_BOSS,
+#endif
 			TYPE_COUNT,
 		};
 
@@ -61,8 +64,11 @@ class CPythonMiniMap : public CScreen, public CSingleton<CPythonMiniMap>
 		void RenderAtlas(float fScreenX, float fScreenY);
 		void ShowAtlas();
 		void HideAtlas();
-
+#ifdef ENABLE_ATLAS_BOSS
+		bool GetAtlasInfo(float fScreenX, float fScreenY, std::string & rReturnString, float * pReturnPosX, float * pReturnPosY, DWORD * pdwTextColor, DWORD * pdwGuildID, long * lTime);
+#else
 		bool GetAtlasInfo(float fScreenX, float fScreenY, std::string & rReturnString, float * pReturnPosX, float * pReturnPosY, DWORD * pdwTextColor, DWORD * pdwGuildID);
+#endif
 		bool GetAtlasSize(float * pfSizeX, float * pfSizeY);
 
 		void AddObserver(DWORD dwVID, float fSrcX, float fSrcY);
@@ -81,6 +87,11 @@ class CPythonMiniMap : public CScreen, public CSingleton<CPythonMiniMap>
 		void UnregisterAtlasWindow();
 		void OpenAtlasWindow();
 		void SetAtlasCenterPosition(int x, int y);
+
+#ifdef ENABLE_ATLAS_BOSS
+		void ClearAtlasMarkInfoBoss();
+		void RegisterAtlasMarkBoss(BYTE byType, const char * c_szName, long lx, long ly, long lTime);
+#endif
 
 		// NPC List
 		void ClearAtlasMarkInfo();
@@ -112,16 +123,19 @@ class CPythonMiniMap : public CScreen, public CSingleton<CPythonMiniMap>
 		// Atlas
 		typedef struct
 		{
-			BYTE m_byType;
-			DWORD m_dwID; // For WayPoint
-			float m_fX;
-			float m_fY;
-			float m_fScreenX;
-			float m_fScreenY;
-			float m_fMiniMapX;
-			float m_fMiniMapY;
-			DWORD m_dwChrVID;
+			BYTE		m_byType;
+			DWORD		m_dwID; // For WayPoint
+			float		m_fX;
+			float		m_fY;
+			float		m_fScreenX;
+			float		m_fScreenY;
+			float		m_fMiniMapX;
+			float		m_fMiniMapY;
+			DWORD		m_dwChrVID;
 			std::string m_strText;
+#ifdef ENABLE_ATLAS_BOSS
+			long		lTime;
+#endif
 		} TAtlasMarkInfo;
 
 		// GuildArea
@@ -231,6 +245,10 @@ class CPythonMiniMap : public CScreen, public CSingleton<CPythonMiniMap>
 		TAtlasMarkInfoVectorIterator			m_AtlasMarkInfoVectorIterator;
 		TAtlasMarkInfoVector					m_AtlasNPCInfoVector;
 		TAtlasMarkInfoVector					m_AtlasWarpInfoVector;
+#ifdef ENABLE_ATLAS_BOSS
+		TAtlasMarkInfoVector					m_AtlasBossInfoVector;
+		CGraphicImageInstance					m_BossMark;
+#endif
 
 		// WayPoint
 		CGraphicExpandedImageInstance			m_MiniWayPointGraphicImageInstances[MINI_WAYPOINT_IMAGE_COUNT];

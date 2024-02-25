@@ -600,7 +600,11 @@ EVENTFUNC(regen_event)
 	return PASSES_PER_SEC(regen->time);
 }
 
+#ifdef ENABLE_ATLAS_BOSS
+bool regen_load(const char* filename, long lMapIndex, int base_x, int base_y, bool bossFile)
+#else
 bool regen_load(const char* filename, long lMapIndex, int base_x, int base_y)
+#endif
 {
 	if (g_bNoRegen)
 		return true;
@@ -675,6 +679,21 @@ bool regen_load(const char* filename, long lMapIndex, int base_x, int base_y)
 							(regen->sy+regen->ey) / 2 - base_y);
 				}
 			}
+
+#ifdef ENABLE_ATLAS_BOSS
+			if ((bossFile) && (tmp.type == REGEN_TYPE_MOB)) {
+				const CMob * p = CMobManager::instance().Get(regen->vnum);
+				if (!p)
+					sys_err("In %s, No mob data by vnum %u", filename, regen->vnum);
+				else {
+					SECTREE_MANAGER::instance().InsertBossPosition(lMapIndex, p->m_table.bType, 
+
+					p->m_table.szLocaleName
+
+					, (regen->sx+regen->ex) / 2 - base_x, (regen->sy+regen->ey) / 2 - base_y, tmp.time);
+				}
+			}
+#endif
 
 			//NO_REGEN
 

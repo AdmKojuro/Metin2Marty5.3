@@ -260,6 +260,9 @@ class CMainPacketHeaderMap : public CNetworkPacketHeaderMap
 			Set(HEADER_GC_EXT_BATTLE_PASS_MISSION_UPDATE, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassMissionUpdate), STATIC_SIZE_PACKET));
 			Set(HEADER_GC_EXT_BATTLE_PASS_SEND_RANKING, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCExtBattlePassRanking), STATIC_SIZE_PACKET));
 #endif
+#ifdef ENABLE_ATLAS_BOSS
+			Set(HEADER_GC_BOSS_POSITION, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCBossPosition), DYNAMIC_SIZE_PACKET));
+#endif
 		}
 };
 

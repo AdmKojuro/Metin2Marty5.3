@@ -83,7 +83,11 @@ EVENTINFO(dungeon_regen_event_info)
 	}
 };
 
+#ifdef ENABLE_ATLAS_BOSS
+extern bool	regen_load(const char *filename, long lMapIndex, int base_x, int base_y, bool bossFile = false);
+#else
 extern bool	regen_load(const char *filename, long lMapIndex, int base_x, int base_y);
+#endif
 extern bool	regen_do(const char* filename, long lMapIndex, int base_x, int base_y, LPDUNGEON pDungeon, bool bOnce = true );
 extern bool	regen_load_in_file(const char* filename, long lMapIndex, int base_x, int base_y );
 extern void	regen_free();

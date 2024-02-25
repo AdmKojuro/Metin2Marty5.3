@@ -54,6 +54,25 @@ LOGIN_FAILURE_SHUTDOWN_TIME = "ASDF"
 if __IS_CANADA:
 	__IS_EUROPE = True
 
+def SecondToMS(time):
+	if time < 60:
+		return "%d%s" % (time, SECOND)
+
+	second = int(time % 60)
+	minute = int((time / 60) % 60)
+
+	text = ""
+
+	if minute > 0:
+		text += str(minute) + MINUTE
+		if minute > 0:
+			text += " "
+
+	if second > 0:
+		text += str(second) + SECOND
+
+	return text
+
 def IsYMIR():
 	return "locale/ymir" == app.GetLocalePath()
 

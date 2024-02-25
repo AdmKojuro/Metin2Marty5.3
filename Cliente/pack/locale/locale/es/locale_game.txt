@@ -47,6 +47,8 @@ ATTR_6TH_7TH_ADD_QUESTION2	¿Seguro que quieres añadir la bonificación?
 ATTR_6TH_7TH_CHANGE_FAIL	No puedes modificar la bonificación.
 ATTR_6TH_7TH_POSSIBILITY	Puedes añadir una bonificación adicional.
 ATTR_6TH_7TH_TOTAL_SUCCESS_PERCENT	Probabilidad de éxito: %.1f%%
+ATLASINFO_QUESTIONDIALOG1	¿Quieres teletransportarte a %s?
+ATLASINFO_QUESTIONDIALOG2	Precio: 10.000.000 Yang
 AUTO_TOOLTIP_CLEAR	Reiniciar
 AUTO_TOOLTIP_LINE1	Habilidades: selecciona habilidades para el combate y arrástralas a las casillas. (Premium)
 AUTO_TOOLTIP_LINE2	Atención: Debajo de cada habilidad puedes editar su intervalo de activación (en segundos).
@@ -1448,6 +1450,7 @@ MINI_GAME_RUMI_DISCARD_QUESTION	¿Seguro que quieres descartar esta carta?
 MINI_GAME_RUMI_EXIT_QUESTION	¿Quieres terminar la ronda y recibir tu premio?\nLos puntos y las cartas restantes se restaurarán.
 MINI_GAME_RUMI_START_QUESTION	Tienes que pagar una tasa de %d Yang para jugar. También necesitas %d Set(s) de cartas.\n¿Quieres iniciar la partida?
 MINUTE	min
+MINIMAP_BOSS_RESPAWN_TIME	Reaparecer: %d min.
 MONETARY_UNIT0	Yang
 MONETARY_UNIT1	Diez Mil
 MONETARY_UNIT2	Cien billones

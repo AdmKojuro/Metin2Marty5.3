@@ -9,6 +9,9 @@ import app
 import colorInfo
 import constInfo
 import background
+import uicommon
+if app.ENABLE_ATLAS_BOSS:
+	import grp
 
 class MapTextToolTip(ui.Window):
 	def __init__(self):
@@ -16,11 +19,24 @@ class MapTextToolTip(ui.Window):
 
 		textLine = ui.TextLine()
 		textLine.SetParent(self)
-		textLine.SetHorizontalAlignCenter()
+		if not app.ENABLE_ATLAS_BOSS:
+			textLine.SetHorizontalAlignCenter()
+
 		textLine.SetOutline()
-		textLine.SetHorizontalAlignRight()
+		if not app.ENABLE_ATLAS_BOSS:
+			textLine.SetHorizontalAlignRight()
+		else:
+			textLine.SetHorizontalAlignLeft()
+
 		textLine.Show()
 		self.textLine = textLine
+		if app.ENABLE_ATLAS_BOSS:
+			textLine2 = ui.TextLine()
+			textLine2.SetParent(self)
+			textLine2.SetOutline()
+			textLine2.SetHorizontalAlignLeft()
+			textLine2.Show()
+			self.textLine2 = textLine2
 
 	def __del__(self):
 		ui.Window.__del__(self)
@@ -28,20 +44,40 @@ class MapTextToolTip(ui.Window):
 	def SetText(self, text):
 		self.textLine.SetText(text)
 
+	if app.ENABLE_ATLAS_BOSS:
+		def SetText2(self, text):
+			self.textLine2.SetText(text)
+
+		def ShowText2(self):
+			self.textLine2.Show()
+
+		def HideText2(self):
+			self.textLine2.Hide()
+
 	def SetTooltipPosition(self, PosX, PosY):
+		if app.ENABLE_ATLAS_BOSS:
+			PosY -= 24
+
 		if localeInfo.IsARABIC():
 			w, h = self.textLine.GetTextSize()
 			self.textLine.SetPosition(PosX - w - 5, PosY)
+			if app.ENABLE_ATLAS_BOSS:
+				self.textLine2.SetPosition(PosX - w - 5, PosY + 10)
 		else:
 			self.textLine.SetPosition(PosX - 5, PosY)
+			if app.ENABLE_ATLAS_BOSS:
+				self.textLine2.SetPosition(PosX - 5, PosY + 10)
 
 	def SetTextColor(self, TextColor):
 		self.textLine.SetPackedFontColor(TextColor)
+		if app.ENABLE_ATLAS_BOSS:
+			self.textLine2.SetPackedFontColor(TextColor)
 
 	def GetTextSize(self):
 		return self.textLine.GetTextSize()
 
 class AtlasWindow(ui.ScriptWindow):
+	BOSS_COLOR = grp.GenerateColor(1.0, 1.0, 1.0, 1.0)
 
 	class AtlasRenderer(ui.Window):
 		def __init__(self):
@@ -73,7 +109,7 @@ class AtlasWindow(ui.ScriptWindow):
 		self.AtlasMainWindow = None
 		self.mapName = ""
 		self.board = 0
-		self.IsShowWindowValue = False
+		self.questionDialog = None
 
 		ui.ScriptWindow.__init__(self)
 
@@ -108,8 +144,17 @@ class AtlasWindow(ui.ScriptWindow):
 		self.AtlasMainWindow.SetPosition(7, 30)
 		self.tooltipInfo.SetParent(self.board)
 		self.infoGuildMark.SetParent(self.board)
-		# self.SetPosition(wndMgr.GetScreenWidth() - 136 - 256 - 10 - 165, 78)
 		self.SetPosition(wndMgr.GetScreenWidth() - 136 - 256 - 10, 0)
+		self.board.SetOnMouseLeftButtonUpEvent(ui.__mem_func__(self.EventMouseLeftButtonUp))
+		if self.questionDialog != None:
+			del self.questionDialog
+		
+		self.questionDialog = uicommon.QuestionDialog2()
+		self.questionDialog.SetCancelEvent(ui.__mem_func__(self.OnCancelQuestion))
+		self.questionDialog.SetAcceptEvent(ui.__mem_func__(self.OnAcceptQuestion))
+		self.questionDialog.iPosX = 0
+		self.questionDialog.iPosY = 0
+		self.questionDialog.Hide()
 		self.Hide()
 
 		miniMap.RegisterAtlasWindow(self)
@@ -122,7 +167,51 @@ class AtlasWindow(ui.ScriptWindow):
 		self.tooltipInfo = None
 		self.infoGuildMark = None
 		self.board = None
+		if self.questionDialog != None:
+			del self.questionDialog
+		
+		self.questionDialog = None
 
+	def OnCancelQuestion(self):
+		if self.questionDialog == None:
+			return
+		elif not self.questionDialog.IsShow():
+			return
+		
+		self.questionDialog.iPosX = 0
+		self.questionDialog.iPosY = 0
+		self.questionDialog.Close()
+
+	def OnAcceptQuestion(self):
+		if self.questionDialog == None:
+			return
+		
+		net.SendChatPacket("/gotoxy %d %d" % (self.questionDialog.iPosX, self.questionDialog.iPosY))
+		self.OnCancelQuestion()
+
+	def OnMoveWindow(self, x, y):
+		self.OnCancelQuestion()
+
+	def EventMouseLeftButtonUp(self):
+		(mouseX, mouseY) = wndMgr.GetMousePosition()
+		if app.ENABLE_ATLAS_BOSS:
+			(bFind, sName, iPosX, iPosY, dwTextColor, dwGuildID, time) = miniMap.GetAtlasInfo(mouseX, mouseY)
+		else:
+			(bFind, sName, iPosX, iPosY, dwTextColor, dwGuildID) = miniMap.GetAtlasInfo(mouseX, mouseY)
+		
+		if self.questionDialog.IsShow():
+			self.questionDialog.SetTop()
+		
+		if False == bFind:
+			return 1
+		
+		self.questionDialog.SetText1(localeInfo.ATLASINFO_QUESTIONDIALOG1 % (sName))
+		self.questionDialog.SetText2(localeInfo.ATLASINFO_QUESTIONDIALOG2)
+		self.questionDialog.iPosX = iPosX
+		self.questionDialog.iPosY = iPosY
+		self.questionDialog.SetWidth(170 + len(sName * 5))
+		self.questionDialog.Open()
+		return 1
 	def OnUpdate(self):
 
 		if not self.tooltipInfo:
@@ -138,7 +227,10 @@ class AtlasWindow(ui.ScriptWindow):
 			return
 
 		(mouseX, mouseY) = wndMgr.GetMousePosition()
-		(bFind, sName, iPosX, iPosY, dwTextColor, dwGuildID) = miniMap.GetAtlasInfo(mouseX, mouseY)
+		if app.ENABLE_ATLAS_BOSS:
+			(bFind, sName, iPosX, iPosY, dwTextColor, dwGuildID, time) = miniMap.GetAtlasInfo(mouseX, mouseY)
+		else:
+			(bFind, sName, iPosX, iPosY, dwTextColor, dwGuildID) = miniMap.GetAtlasInfo(mouseX, mouseY)
 
 		if False == bFind:
 			return
@@ -148,12 +240,24 @@ class AtlasWindow(ui.ScriptWindow):
 
 		if localeInfo.IsARABIC() and sName[-1].isalnum():
 			self.tooltipInfo.SetText("(%s)%d, %d" % (sName, iPosX, iPosY))
+			if app.ENABLE_ATLAS_BOSS:
+				self.tooltipInfo.SetText2(localeInfo.MINIMAP_BOSS_RESPAWN_TIME % (time / 60))
 		else:
 			self.tooltipInfo.SetText("%s(%d, %d)" % (sName, iPosX, iPosY))
+			if app.ENABLE_ATLAS_BOSS:
+				self.tooltipInfo.SetText2(localeInfo.MINIMAP_BOSS_RESPAWN_TIME % (time / 60))
 
 		(x, y) = self.GetGlobalPosition()
 		self.tooltipInfo.SetTooltipPosition(mouseX - x, mouseY - y)
-		self.tooltipInfo.SetTextColor(dwTextColor)
+		if app.ENABLE_ATLAS_BOSS:
+			if time > 0:
+				self.tooltipInfo.SetTextColor(self.BOSS_COLOR)
+				self.tooltipInfo.ShowText2()
+			else:
+				self.tooltipInfo.SetTextColor(dwTextColor)
+				self.tooltipInfo.HideText2()
+		else:
+			self.tooltipInfo.SetTextColor(dwTextColor)
 		self.tooltipInfo.Show()
 		self.tooltipInfo.SetTop()
 
@@ -167,6 +271,8 @@ class AtlasWindow(ui.ScriptWindow):
 		if self.AtlasMainWindow:
 			self.AtlasMainWindow.HideAtlas()
 			self.AtlasMainWindow.Hide()
+		
+		self.OnCancelQuestion()
 		ui.ScriptWindow.Hide(self)
 
 	def Show(self):
@@ -179,19 +285,13 @@ class AtlasWindow(ui.ScriptWindow):
 					self.board.SetPosition(iSizeX+15, 0)
 
 				self.board.SetSize(iSizeX + 15, iSizeY + 38)
-				# self.SetPosition(wndMgr.GetScreenWidth() - 136 - iSizeX - 25 - 200, 78)
 				#self.AtlasMainWindow.SetSize(iSizeX, iSizeY)
 				self.AtlasMainWindow.ShowAtlas()
 				self.AtlasMainWindow.Show()
+
 		ui.ScriptWindow.Show(self)
-		# self.IsShowWindowValue = True
+		self.SetCenterPosition()
 
-	# def Close(self):
-		# self.IsShowWindowValue = False
-		# self.Hide()
-
-	# def IsShowWindow(self):
-		# return self.IsShowWindowValue
 	def SetCenterPositionAdjust(self, x, y):
 		self.SetPosition((wndMgr.GetScreenWidth() - self.GetWidth()) / 2 + x, (wndMgr.GetScreenHeight() - self.GetHeight()) / 2 + y)
 

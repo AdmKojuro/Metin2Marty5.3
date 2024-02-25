@@ -2677,6 +2677,12 @@ public:
 	public:
 		void			CheckBio();
 #endif
+	public:
+		int		GetGoToXYTime() const { return m_iGoToXYTime; }
+		void	SetGoToXYTime() { m_iGoToXYTime = thecore_pulse(); }
+
+	protected:
+		int		m_iGoToXYTime;
 };
 
 ESex GET_SEX(LPCHARACTER ch);

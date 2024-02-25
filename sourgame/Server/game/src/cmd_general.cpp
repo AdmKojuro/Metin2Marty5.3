@@ -4559,3 +4559,57 @@ ACMD(do_bio)
 	}
 }
 #endif
+
+ACMD(do_gotoxy)
+{
+	char arg1[256], arg2[256];
+	int x = 0, y = 0, z = 0;
+	two_arguments(argument, arg1, sizeof(arg1), arg2, sizeof(arg2));
+
+	if (!*arg1 && !*arg2) {
+		return;
+	}
+	else if (!isnhdigit(*arg1) || !isnhdigit(*arg2)) {
+		return;
+	}
+
+	int iPulse = thecore_pulse();
+	if (iPulse - ch->GetGoToXYTime() < PASSES_PER_SEC(10)) {
+//#ifdef TEXTS_IMPROVEMENT
+		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("최대 10초마다 이 작업을 수행할 수 있습니다."));
+		//ch->ChatPacketNew(CHAT_TYPE_INFO, 1285, "");
+//#endif
+		return;
+	}
+
+	if (!ch->CanWarp() || ch->IsObserverMode() || ch->IsDead() || ch->IsStun() || ch->GetMapIndex() >= 10000) {
+//#ifdef TEXTS_IMPROVEMENT
+		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("지금은 텔레포트할 수 없습니다."));
+		//ch->ChatPacketNew(CHAT_TYPE_INFO, 528, "");
+//#endif
+		return;
+	}
+
+	str_to_number(x, arg1);
+	str_to_number(y, arg2);
+	PIXEL_POSITION p;
+	if (!SECTREE_MANAGER::instance().GetMapBasePosition(ch->GetX(), ch->GetY(), p))
+		return;
+
+	if (ch->GetGold() < 10000000) {
+//#ifdef TEXTS_IMPROVEMENT
+		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("양이 부족해요."));
+		//ch->ChatPacketNew(CHAT_TYPE_INFO, 232, "");
+//#endif
+		return;
+	} else {
+		ch->PointChange(POINT_GOLD, -10000000);
+		x += p.x / 100;
+		y += p.y / 100;
+		x *= 100;
+		y *= 100;
+		ch->Show(ch->GetMapIndex(), x, y, z);
+		ch->Stop();
+		ch->SetGoToXYTime();
+	}
+}

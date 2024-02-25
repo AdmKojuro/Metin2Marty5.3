@@ -626,6 +626,9 @@ void CInputLogin::Entergame(LPDESC d, const char * data)
 #if !defined(__BINARY_ATLAS_MARK_INFO__) && !defined(__MULTI_LANGUAGE_SYSTEM__)
 	SECTREE_MANAGER::instance().SendNPCPosition(ch);
 #endif
+#ifdef ENABLE_ATLAS_BOSS
+	SECTREE_MANAGER::instance().SendBossPosition(ch);
+#endif
 	ch->ReviveInvisible(5);
 
 	d->SetPhase(PHASE_GAME);

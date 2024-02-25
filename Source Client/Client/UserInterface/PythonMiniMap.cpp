@@ -549,6 +549,9 @@ bool CPythonMiniMap::Create()
 	const std::string strPlayerMark = strImageRoot + "minimap/playermark.sub";
 	const std::string strWhiteMark = strImageRoot + "minimap/whitemark.sub";
 #endif
+#ifdef ENABLE_ATLAS_BOSS
+	const std::string strBossMark = strImageRoot + "minimap/bossmark.sub";
+#endif
 
 	CGraphicImage * pImage = (CGraphicImage *) CResourceManager::Instance().GetResourcePointer(strImageFilter.c_str());
 	m_MiniMapFilterGraphicImageInstance.SetImagePointer(pImage);
@@ -564,6 +567,11 @@ bool CPythonMiniMap::Create()
 
 	pSubImage = (CGraphicSubImage *) CResourceManager::Instance().GetResourcePointer(strWhiteMark.c_str());
 	m_WhiteMark.SetImagePointer(pSubImage);
+
+#ifdef ENABLE_ATLAS_BOSS
+	pSubImage = (CGraphicSubImage *) CResourceManager::Instance().GetResourcePointer(strBossMark.c_str());
+	m_BossMark.SetImagePointer(pSubImage);
+#endif
 
 	char buf[256];
 	for (int i = 0; i < MINI_WAYPOINT_IMAGE_COUNT; ++i)
@@ -702,6 +710,26 @@ void CPythonMiniMap::__SetPosition()
 		m_MiniMapCameraraphicImageInstance.SetPosition( ( m_fWidth - (float)m_MiniMapCameraraphicImageInstance.GetWidth() ) / 2.0f + m_fScreenX,
 		( m_fHeight - (float)m_MiniMapCameraraphicImageInstance.GetHeight() ) / 2.0f  + m_fScreenY );
 }
+
+#ifdef ENABLE_ATLAS_BOSS
+void CPythonMiniMap::ClearAtlasMarkInfoBoss()
+{
+	m_AtlasBossInfoVector.clear();
+}
+
+void CPythonMiniMap::RegisterAtlasMarkBoss(BYTE byType, const char * c_szName, long lx, long ly, long lTime)
+{
+	TAtlasMarkInfo aAtlasMarkInfo;
+	aAtlasMarkInfo.m_fX = float(lx);
+	aAtlasMarkInfo.m_fY = float(ly);
+	aAtlasMarkInfo.m_strText = c_szName;
+	aAtlasMarkInfo.m_fScreenX = aAtlasMarkInfo.m_fX / m_fAtlasMaxX * m_fAtlasImageSizeX - (float)m_BossMark.GetWidth() / 2.0f;
+	aAtlasMarkInfo.m_fScreenY = aAtlasMarkInfo.m_fY / m_fAtlasMaxY * m_fAtlasImageSizeY - (float)m_BossMark.GetHeight() / 2.0f;
+	aAtlasMarkInfo.m_byType = TYPE_BOSS;
+	aAtlasMarkInfo.lTime = lTime;
+	m_AtlasBossInfoVector.push_back(aAtlasMarkInfo);
+}
+#endif
 
 //////////////////////////////////////////////////////////////////////////
 // Atlas
@@ -1067,6 +1095,18 @@ void CPythonMiniMap::RenderAtlas(float fScreenX, float fScreenY)
 		++m_AtlasMarkInfoVectorIterator;
 	}
 
+#ifdef ENABLE_ATLAS_BOSS
+	STATEMANAGER.SetRenderState(D3DRS_TEXTUREFACTOR, CInstanceBase::GetIndexedNameColor(CInstanceBase::NAMECOLOR_MOB));
+	m_AtlasMarkInfoVectorIterator = m_AtlasBossInfoVector.begin();
+	while (m_AtlasMarkInfoVectorIterator != m_AtlasBossInfoVector.end())
+	{
+		TAtlasMarkInfo & rAtlasMarkInfo = *m_AtlasMarkInfoVectorIterator;
+		m_BossMark.SetPosition(rAtlasMarkInfo.m_fScreenX, rAtlasMarkInfo.m_fScreenY);
+		m_BossMark.Render();
+		++m_AtlasMarkInfoVectorIterator;
+	}
+#endif
+
 	STATEMANAGER.SetTextureStageState(0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
 	STATEMANAGER.SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
 	STATEMANAGER.SetRenderState(D3DRS_TEXTUREFACTOR, CInstanceBase::GetIndexedNameColor(CInstanceBase::NAMECOLOR_WAYPOINT));
@@ -1178,8 +1218,11 @@ bool CPythonMiniMap::GetPickedInstanceInfo(float fScreenX, float fScreenY, std::
 	return false;
 }
 
-
+#ifdef ENABLE_ATLAS_BOSS
+bool CPythonMiniMap::GetAtlasInfo(float fScreenX, float fScreenY, std::string & rReturnString, float * pReturnPosX, float * pReturnPosY, DWORD * pdwTextColor, DWORD * pdwGuildID, long * lTime)
+#else
 bool CPythonMiniMap::GetAtlasInfo(float fScreenX, float fScreenY, std::string & rReturnString, float * pReturnPosX, float * pReturnPosY, DWORD * pdwTextColor, DWORD * pdwGuildID)
+#endif
 {
 	float fRealX = (fScreenX - m_fAtlasScreenX) * (m_fAtlasMaxX / m_fAtlasImageSizeX);
 	float fRealY = (fScreenY - m_fAtlasScreenY) * (m_fAtlasMaxY / m_fAtlasImageSizeY);
@@ -1256,6 +1299,28 @@ bool CPythonMiniMap::GetAtlasInfo(float fScreenX, float fScreenY, std::string & 
 		}
 		++m_AtlasMarkInfoVectorIterator;
 	}
+
+#ifdef ENABLE_ATLAS_BOSS
+	m_AtlasMarkInfoVectorIterator = m_AtlasBossInfoVector.begin();
+	while (m_AtlasMarkInfoVectorIterator != m_AtlasBossInfoVector.end())
+	{
+		TAtlasMarkInfo & rAtlasMarkInfo = *m_AtlasMarkInfoVectorIterator;
+		if (rAtlasMarkInfo.m_fScreenX > 0.0f)
+		if (rAtlasMarkInfo.m_fScreenY > 0.0f)
+		if (rAtlasMarkInfo.m_fX-fCheckWidth / 2 < fRealX && rAtlasMarkInfo.m_fX + fCheckWidth > fRealX &&
+			rAtlasMarkInfo.m_fY-fCheckWidth / 2< fRealY && rAtlasMarkInfo.m_fY + fCheckHeight > fRealY)
+		{
+			rReturnString = rAtlasMarkInfo.m_strText;
+			*pReturnPosX = rAtlasMarkInfo.m_fX;
+			*pReturnPosY = rAtlasMarkInfo.m_fY;
+			*pdwTextColor = CInstanceBase::GetIndexedNameColor(CInstanceBase::NAMECOLOR_WARP);
+			*lTime = rAtlasMarkInfo.lTime;
+			return true;
+		}
+		
+		++m_AtlasMarkInfoVectorIterator;
+	}
+#endif
 
 	TGuildAreaInfoVector::iterator itor = m_GuildAreaInfoVector.begin();
 	for (; itor!=m_GuildAreaInfoVector.end(); ++itor)
@@ -1542,7 +1607,9 @@ void CPythonMiniMap::Destroy()
 	m_AtlasImageInstance.Destroy();
 	m_AtlasPlayerMark.Destroy();
 	m_WhiteMark.Destroy();
-
+#ifdef ENABLE_ATLAS_BOSS
+	m_BossMark.Destroy();
+#endif
 	for (int i = 0; i < MINI_WAYPOINT_IMAGE_COUNT; ++i)
 		m_MiniWayPointGraphicImageInstances[i].Destroy();
 	for (int j = 0; j < WAYPOINT_IMAGE_COUNT; ++j)

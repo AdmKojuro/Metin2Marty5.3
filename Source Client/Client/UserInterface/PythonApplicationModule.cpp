@@ -2081,5 +2081,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "BL_PRIVATESHOP_SEARCH_SYSTEM", false);
 #endif
 
+#ifdef ENABLE_ATLAS_BOSS
+	PyModule_AddIntConstant(poModule, "ENABLE_ATLAS_BOSS", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_ATLAS_BOSS", 0);
+#endif
+
 }
 

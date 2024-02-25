@@ -682,6 +682,9 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 
 		// MiniMap Info
 		bool RecvNPCList();
+#ifdef ENABLE_ATLAS_BOSS
+		bool RecvBossList();
+#endif
 		bool RecvLandPacket();
 		bool RecvTargetCreatePacket();
 		bool RecvTargetCreatePacketNew();

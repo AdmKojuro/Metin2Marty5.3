@@ -200,13 +200,22 @@ PyObject * miniMapGetAtlasInfo(PyObject * poSelf, PyObject * poArgs)
 	float fPosY = 0.0f;
 	DWORD dwTextColor = 0;
 	DWORD dwGuildID = 0;
+#ifdef ENABLE_ATLAS_BOSS
+	long lTime = 0;
+	bool bFind = CPythonMiniMap::Instance().GetAtlasInfo(fScrrenX, fScrrenY, aString, &fPosX, &fPosY, &dwTextColor, &dwGuildID, &lTime);
+#else
 	bool bFind = CPythonMiniMap::Instance().GetAtlasInfo(fScrrenX, fScrrenY, aString, &fPosX, &fPosY, &dwTextColor, &dwGuildID);
+#endif
 	int iPosX, iPosY;
 	PR_FLOAT_TO_INT(fPosX, iPosX);
 	PR_FLOAT_TO_INT(fPosY, iPosY);
 	iPosX /= 100;
 	iPosY /= 100;
+#ifdef ENABLE_ATLAS_BOSS
+	return Py_BuildValue("isiilii", (int)bFind, aString.c_str(), iPosX, iPosY, (signed) dwTextColor, dwGuildID, lTime);
+#else
 	return Py_BuildValue("isiili", (int)bFind, aString.c_str(), iPosX, iPosY, (signed) dwTextColor, dwGuildID);
+#endif
 }
 
 PyObject * miniMapGetAtlasSize(PyObject * poSelf, PyObject * poArgs)

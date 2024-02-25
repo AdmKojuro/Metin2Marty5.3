@@ -743,7 +743,11 @@ int SECTREE_MANAGER::Build(const char * c_pszListFileName, const char* c_pszMapB
 			regen_load(szFilename, setting.iIndex, setting.iBaseX, setting.iBaseY);
 
 			snprintf(szFilename, sizeof(szFilename), "%s/%s/boss.txt", c_pszMapBasePath, szMapName);
+#ifdef ENABLE_ATLAS_BOSS
+			regen_load(szFilename, setting.iIndex, setting.iBaseX, setting.iBaseY, true);
+#else
 			regen_load(szFilename, setting.iIndex, setting.iBaseX, setting.iBaseY);
+#endif
 
 			snprintf(szFilename, sizeof(szFilename), "%s/%s/stone.txt", c_pszMapBasePath, szMapName);
 			regen_load(szFilename, setting.iIndex, setting.iBaseX, setting.iBaseY);
@@ -1114,6 +1118,56 @@ void SECTREE_MANAGER::InsertNPCPosition(long lMapIndex, BYTE bType, const char* 
 {
 	m_mapNPCPosition[lMapIndex].push_back(npc_info(bType, szName, x, y));
 }
+
+#ifdef ENABLE_ATLAS_BOSS
+void SECTREE_MANAGER::SendBossPosition(LPCHARACTER ch)
+{
+	LPDESC d = ch->GetDesc();
+	if (!d)
+		return;
+	
+	long lMapIndex = ch->GetMapIndex();
+	
+	TEMP_BUFFER buf;
+	TPacketGCBossPosition p;
+	p.bHeader = HEADER_GC_BOSS_POSITION;
+	p.wCount = m_mapBossPosition[lMapIndex].size();
+	
+	TBossPosition bp;
+	
+	itertype(m_mapBossPosition[lMapIndex]) it;
+	for (it = m_mapBossPosition[lMapIndex].begin(); it != m_mapBossPosition[lMapIndex].end(); ++it)
+	{
+		bp.bType = it->bType;
+
+		strlcpy(bp.szName, it->szName, sizeof(bp.szName));
+		
+		bp.lX = it->lX;
+		bp.lY = it->lY;
+		bp.lTime = it->lTime;
+		buf.write(&bp, sizeof(bp));
+	}
+	
+	p.wSize = sizeof(p) + buf.size();
+	
+	if (buf.size())
+	{
+		d->BufferedPacket(&p, sizeof(TPacketGCBossPosition));
+		d->Packet(buf.read_peek(), buf.size());
+	}
+	else
+		d->Packet(&p, sizeof(TPacketGCBossPosition));
+}
+
+void SECTREE_MANAGER::InsertBossPosition(long lMapIndex, BYTE bType,
+
+const char* szName
+
+, long lX, long lY, long lTime)
+{
+	m_mapBossPosition[lMapIndex].push_back(boss_info(bType, szName, lX, lY, lTime));
+}
+#endif
 
 BYTE SECTREE_MANAGER::GetEmpireFromMapIndex(long lMapIndex)
 {

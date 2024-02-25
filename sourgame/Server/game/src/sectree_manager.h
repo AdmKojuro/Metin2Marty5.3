@@ -34,6 +34,26 @@ struct npc_info
 		{}
 };
 
+#ifdef ENABLE_ATLAS_BOSS
+struct boss_info
+{
+	BYTE 		bType;
+
+	const char*	szName;
+
+	long 		lX;
+	long		lY;
+	long		lTime;
+	boss_info(BYTE bType,
+
+	const char* szName
+
+	, long lX, long lY, long lTime)
+		: bType(bType), szName(szName), lX(lX), lY(lY), lTime(lTime)
+		{}
+};
+#endif
+
 typedef std::map<std::string, TAreaInfo> TAreaMap;
 
 typedef struct SSetting
@@ -157,6 +177,15 @@ class SECTREE_MANAGER : public singleton<SECTREE_MANAGER>
 		void		SendNPCPosition(LPCHARACTER ch);
 		void		InsertNPCPosition(long lMapIndex, BYTE bType, const char* szName, long x, long y);
 
+#ifdef ENABLE_ATLAS_BOSS
+		void		SendBossPosition(LPCHARACTER ch);
+		void		InsertBossPosition(long lMapIndex, BYTE bType,
+
+		const char* szName
+
+		, long lX, long lY, long lTime);
+#endif
+
 		BYTE		GetEmpireFromMapIndex(long lMapIndex);
 
 		void		PurgeMonstersInMap(long lMapIndex);
@@ -190,7 +219,9 @@ class SECTREE_MANAGER : public singleton<SECTREE_MANAGER>
 		std::map<int, TAreaMap>	m_map_pkArea;
 		std::vector<TMapRegion>		m_vec_mapRegion;
 		std::map<DWORD, std::vector<npc_info> > m_mapNPCPosition;
-
+#ifdef ENABLE_ATLAS_BOSS
+		std::map<DWORD, std::vector<boss_info> > m_mapBossPosition;
+#endif
 		// <Factor> Circular private map indexing
 		typedef TR1_NS::unordered_map<long, int> PrivateIndexMapType;
 		PrivateIndexMapType next_private_index_map_;

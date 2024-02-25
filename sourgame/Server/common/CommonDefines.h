@@ -26,7 +26,8 @@ enum eCommonDefines {
 	#define RESTRICT_COMMAND_PREMIUM_ACTIVATE	GM_IMPLEMENTOR	
 #endif
 #define ENABLE_BIYOLOG
-#define BL_PRIVATESHOP_SEARCH_SYSTEM
+//#define BL_PRIVATESHOP_SEARCH_SYSTEM--------------------------- en reparacion
+#define ENABLE_ATLAS_BOSS
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

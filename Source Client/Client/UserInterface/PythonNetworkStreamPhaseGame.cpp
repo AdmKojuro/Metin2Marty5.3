@@ -881,6 +881,11 @@ void CPythonNetworkStream::GamePhase()
 				ret = RecvAccePacket();
 				break;
 #endif
+#ifdef ENABLE_ATLAS_BOSS
+			case HEADER_GC_BOSS_POSITION:
+				ret = RecvBossList();
+				break;
+#endif
 #ifdef ENABLE_SEND_TARGET_INFO
 			case HEADER_GC_TARGET_INFO:
 				ret = RecvTargetInfoPacket();
@@ -6978,6 +6983,30 @@ bool CPythonNetworkStream::RecvExtBattlePassRankingPacket()
 	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_ExtBattlePassAddRanklistEntry", Py_BuildValue("(siiii)",
 		packet.szPlayerName, packet.bBattlePassType, packet.bBattlePassID, packet.dwStartTime, packet.dwEndTime
 	));
+
+	return true;
+}
+#endif
+
+#ifdef ENABLE_ATLAS_BOSS
+bool CPythonNetworkStream::RecvBossList()
+{
+	TPacketGCBossPosition packet1;
+	if (!Recv(sizeof(packet1), &packet1))
+		return false;
+
+	assert(int(packet1.wSize) - sizeof(packet1) == packet1.wCount * sizeof(TBossPosition) && "HEADER_GC_BOSS_POSITION");
+	CPythonMiniMap::Instance().ClearAtlasMarkInfoBoss();
+	for (int i = 0; i < packet1.wCount; ++i)
+	{
+
+		TBossPosition packet2;
+		if (!Recv(sizeof(TBossPosition), &packet2))
+			return false;
+
+		CPythonMiniMap::Instance().RegisterAtlasMarkBoss(CActorInstance::TYPE_NPC, packet2.szName, packet2.lX, packet2.lY, packet2.lTime);
+
+	}
 
 	return true;
 }
