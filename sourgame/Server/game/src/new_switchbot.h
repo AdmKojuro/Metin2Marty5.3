@@ -38,7 +38,7 @@ public:
 
 	void SwitchItems();
 	bool CheckItem(LPITEM pkItem, BYTE slot);
-
+	void ItemAlKnk(LPCHARACTER pkOwner);
 	void SendItemUpdate(LPCHARACTER ch, BYTE slot, LPITEM item);
 
 protected:

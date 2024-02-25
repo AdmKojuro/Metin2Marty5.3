@@ -16,7 +16,7 @@ bool ValidPosition(DWORD wCell)
 	return wCell < SWITCHBOT_SLOT_COUNT;
 }
 
-const float c_fSpeed = 0.08f;
+const float c_fSpeed = 0.15f;
 
 bool SwitchbotHelper::IsValidItem(LPITEM pkItem)
 {
@@ -120,7 +120,7 @@ void CSwitchbot::SetAttributes(BYTE slot, std::vector<TSwitchbotAttributeAlterna
 
 	for (BYTE alternative = 0; alternative < SWITCHBOT_ALTERNATIVE_COUNT; ++alternative)
 	{
-		for (BYTE attrIdx = 0; attrIdx < MAX_NORM_ATTR_NUM; ++attrIdx)
+		for (BYTE attrIdx = 0; attrIdx < ITEM_ATTRIBUTE_NORM_NUM; ++attrIdx)
 		{
 			m_table.alternatives[slot][alternative].attributes[attrIdx].bType = vec_alternatives[alternative].attributes[attrIdx].bType;
 			m_table.alternatives[slot][alternative].attributes[attrIdx].sValue = vec_alternatives[alternative].attributes[attrIdx].sValue;
@@ -270,13 +270,13 @@ void CSwitchbot::SwitchItems()
 			if (desc)
 			{
 				char buf[255];
-				int len = snprintf(buf, sizeof(buf), LC_TEXT("Bonuschange of %s (Slot: %d) successfully finished."), pkItem->GetName(), bSlot + 1);
+				int len = snprintf(buf, sizeof(buf), LC_TEXT("El bonus del articulo %s (Slot: %d) ha sido encontrado!"), pkItem->GetName(), bSlot + 1);
 
 				TPacketGCWhisper pack;
 				pack.bHeader = HEADER_GC_WHISPER;
 				pack.bType = WHISPER_TYPE_SYSTEM;
 				pack.wSize = sizeof(TPacketGCWhisper) + len;
-				strlcpy(pack.szNameFrom, "[Switchbot]", sizeof(pack.szNameFrom));
+				strlcpy(pack.szNameFrom, "[Auto Dopador]", sizeof(pack.szNameFrom));
 				pkOwner->GetDesc()->BufferedPacket(&pack, sizeof(pack));
 				pkOwner->GetDesc()->Packet(buf, len);
 			}
@@ -297,6 +297,7 @@ void CSwitchbot::SwitchItems()
 		else
 		{
 			bool stop = true;
+			bool efsunal = false;
 			if (SWITCHBOT_PRICE_TYPE == 1)
 			{
 				for (const auto& itemVnum : c_arSwitchingItems)
@@ -326,10 +327,12 @@ void CSwitchbot::SwitchItems()
 						}
 					}
 					//CHECK_LIMITED_ITEM END
-					
 					if (pkOwner->CountSpecifyItem(itemVnum) >= SWITCHBOT_PRICE_AMOUNT)
 					{
 						stop = false;
+					}
+					if (pkOwner->CountSpecifyItem(71084) <= SWITCHBOT_PRICE_AMOUNT){
+						efsunal = true;
 					}
 				}
 			}
@@ -341,17 +344,30 @@ void CSwitchbot::SwitchItems()
 				}
 			}
 
+			if (efsunal){
+				if (pkOwner->IsOpenSafebox() || pkOwner->GetShop() || pkOwner->IsCubeOpen() || pkOwner->IsDead() || pkOwner->GetExchange() || pkOwner->GetMyShop())
+				{
+					pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("[Auto Dopador] Cierra esta ventana!"));
+					Stop();
+					return;
+				}
+				else{
+				ItemAlKnk(pkOwner);
+				break;
+				}
+			}
+
 			if (stop)
 			{
 				Stop();
 
 				if (SWITCHBOT_PRICE_TYPE == 1)
 				{
-					pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Switchbot stopped. Out of switchers."));
+					pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("[Auto Dopador] Ya no tienes cambios."));
 				}
 				else
 				{
-					pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Switchbot stopped. Not enough money."));
+					pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("[Auto Dopador] Ya no tienes yang."));
 				}
 
 				return;
@@ -371,7 +387,7 @@ void CSwitchbot::SwitchItems()
 			}
 			else if (SWITCHBOT_PRICE_TYPE == 2)
 			{
-				pkOwner->GiveGold(-SWITCHBOT_PRICE_AMOUNT);
+				pkOwner->PointChange(POINT_GOLD, -SWITCHBOT_PRICE_AMOUNT);
 			}
 
 			pkItem->ChangeAttribute();
@@ -379,6 +395,47 @@ void CSwitchbot::SwitchItems()
 		}
 	}
 }
+
+void CSwitchbot::ItemAlKnk(LPCHARACTER pkOwner){
+	if (!pkOwner)
+		return;
+
+/* begins */
+	LPITEM item = item = ITEM_MANAGER::instance().CreateItem(39028,200); // item vnumu ve adeti
+	auto price = 700; // fiyat
+	int iEmptyPos = pkOwner->GetEmptyInventory(item->GetSize());
+
+	if ( pkOwner->GetGold() < (int) price ){
+		pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("[Auto Dopador] Ya no tienes yang."));
+		Stop();
+		return;
+	}
+
+	if (iEmptyPos < 0){
+		pkOwner->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("[Auto Dopador] Ya no tienes espacio en tu inventario."));
+		Stop();
+		return;
+	}
+		BYTE type = 1; // burasi k envanter icin kafaniza gore duzenlersiniz parametreye baglayabilirsiniz
+		switch(type){
+			case 1:
+			{
+				item->AddToCharacter(pkOwner, TItemPos(INVENTORY, iEmptyPos));
+				pkOwner->PointChange(POINT_GOLD, -item->GetGold(), false);
+				break;
+			}
+			case 2:
+			{
+				item->AddToCharacter(pkOwner, TItemPos(INVENTORY, iEmptyPos));
+				pkOwner->PointChange(POINT_GOLD, -price, false);
+				break;
+			}
+			default:
+			M2_DESTROY_ITEM(item);
+				break;
+		}
+}
+
 
 bool CSwitchbot::CheckItem(LPITEM pkItem, BYTE slot)
 {
@@ -413,7 +470,7 @@ bool CSwitchbot::CheckItem(LPITEM pkItem, BYTE slot)
 
 			++configuredAttrCount;
 
-			for (BYTE attrIdx = 0; attrIdx < MAX_NORM_ATTR_NUM; ++attrIdx)
+			for (BYTE attrIdx = 0; attrIdx < ITEM_ATTRIBUTE_NORM_NUM; ++attrIdx)
 			{
 				const TPlayerItemAttribute& curAttr = pkItem->GetAttribute(attrIdx);
 
