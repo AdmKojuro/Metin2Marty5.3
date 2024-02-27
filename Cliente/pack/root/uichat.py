@@ -629,6 +629,28 @@ class ChatWindow(ui.Window):
 		btnChatLog.Hide()
 		self.btnChatLog = btnChatLog
 
+		self.btnEmojiInfo = ui.Button()
+		self.btnEmojiInfo.SetParent(self)
+		self.btnEmojiInfo.SetUpVisual("d:/ymir work/ui/game/taskbar/emoji.png")
+		self.btnEmojiInfo.SetOverVisual("d:/ymir work/ui/game/taskbar/emoji_over_in.png")
+		self.btnEmojiInfo.SetDownVisual("d:/ymir work/ui/game/taskbar/emoji_over_out.png")
+		self.btnEmojiInfo.SetToolTipText("Emoji")
+		self.btnEmojiInfo.SetEvent(lambda : self.__OpenInfoEmoji())
+		self.btnEmojiInfo.Hide()
+
+		self.InfoEmojiThinBoard = ui.ThinBoard()
+		self.InfoEmojiThinBoard.SetSize(690, 110)
+		self.InfoEmojiThinBoard.SetParent(self)
+		self.InfoEmojiThinBoard.SetPosition(0, 0)
+		self.InfoEmojiThinBoard.AddFlag('attach')
+		self.InfoEmojiThinBoard.Hide()
+		
+		self.InfoEmojiImage = ui.ImageBox()
+		self.InfoEmojiImage.SetParent(self.InfoEmojiThinBoard)
+		self.InfoEmojiImage.SetPosition(5, 5)
+		self.InfoEmojiImage.LoadImage("icon\emoji\yahoo\emoji_page_all.png")
+		self.InfoEmojiImage.Show()
+
 		btnChatSizing = self.ChatButton()
 		btnChatSizing.SetOwner(self)
 		btnChatSizing.SetMoveEvent(ui.__mem_func__(self.Refresh))
@@ -665,6 +687,15 @@ class ChatWindow(ui.Window):
 	def __del__(self):
 		ui.Window.__del__(self)
 
+	def __OpenInfoEmoji(self):
+		if systemSetting.IsHideEmojiInfo():
+			if self.InfoEmojiThinBoard.IsShow():
+				self.InfoEmojiThinBoard.Hide()
+			else:
+				self.InfoEmojiThinBoard.Show()
+		else:
+			chat.AppendChat(chat.CHAT_TYPE_INFO, "[Zoira2] Para usar esta opcion debes activar los emoticones en opciones de juego.")
+
 	def __RegisterChatColorDict(self):
 		CHAT_COLOR_DICT = {
 			chat.CHAT_TYPE_TALKING : colorInfo.CHAT_RGB_TALK,
@@ -687,7 +718,8 @@ class ChatWindow(ui.Window):
 	def Destroy(self):
 		self.chatInputSet.Destroy()
 		self.chatInputSet = None
-
+		self.btnEmojiInfo = 0
+		self.InfoEmojiThinBoard = 0
 		self.btnSendWhisper = 0
 		self.btnChatLog = 0
 		self.btnChatSizing = 0
@@ -720,6 +752,11 @@ class ChatWindow(ui.Window):
 		self.btnChatLog.SetPosition(self.GetWidth() - 25, 2)
 		self.btnChatLog.Show()
 
+		self.btnEmojiInfo.SetPosition(self.GetWidth() - 105, -5)
+		self.btnEmojiInfo.Show() #Show
+
+		if not systemSetting.IsHideEmojiInfo():
+			self.InfoEmojiThinBoard.Show()
 		self.chatInputSet.Open()
 		self.chatInputSet.SetTop()
 		self.SetTop()
@@ -741,6 +778,8 @@ class ChatWindow(ui.Window):
 		self.btnSendWhisper.Hide()
 		self.btnChatLog.Hide()
 		self.btnChatSizing.Hide()
+		self.btnEmojiInfo.Hide()
+		self.InfoEmojiThinBoard.Hide()
 		self.Refresh()
 
 	if app.ENABLE_GOOGLE_TRANSLATE_INGAME:
@@ -812,7 +851,7 @@ class ChatWindow(ui.Window):
 
 		chat.SetHeight(self.chatID, y - btnY - self.EDIT_LINE_HEIGHT)
 		chat.ArrangeShowingChat(self.chatID)
-
+		self.InfoEmojiThinBoard.SetPosition(10, (y - btnY - self.EDIT_LINE_HEIGHT+126)*-1)
 		if btnY > y:
 			self.btnChatSizing.SetPosition(btnX, y)
 			self.heightBar = self.EDIT_LINE_HEIGHT

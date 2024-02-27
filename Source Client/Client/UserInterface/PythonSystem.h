@@ -80,6 +80,7 @@ class CPythonSystem : public CSingleton<CPythonSystem>
 			bool			bAlwaysShowName;
 			bool			bShowDamage;
 			bool			bShowSalesText;
+			bool			bHideEmojiInfo;
 #if defined(WJ_SHOW_MOB_INFO) && defined(ENABLE_SHOW_MOBAIFLAG)
 			bool			bShowMobAIFlag;
 #endif
@@ -149,6 +150,8 @@ class CPythonSystem : public CSingleton<CPythonSystem>
 		void							SetAlwaysShowNameFlag(int iFlag);
 		void							SetShowDamageFlag(int iFlag);
 		void							SetShowSalesTextFlag(int iFlag);
+		bool							IsHideEmojiInfo();
+		void							SetHideEmojiInfo(int iFlag);
 #if defined(WJ_SHOW_MOB_INFO) && defined(ENABLE_SHOW_MOBAIFLAG)
 		bool							IsShowMobAIFlag();
 		void							SetShowMobAIFlagFlag(int iFlag);

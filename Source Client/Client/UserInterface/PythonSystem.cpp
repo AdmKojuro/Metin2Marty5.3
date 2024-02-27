@@ -355,6 +355,7 @@ void CPythonSystem::SetDefaultConfig()
 	m_Config.bAlwaysShowName	= DEFAULT_VALUE_ALWAYS_SHOW_NAME;
 	m_Config.bShowDamage		= true;
 	m_Config.bShowSalesText		= true;
+	m_Config.bHideEmojiInfo 	= false;
 #if defined(WJ_SHOW_MOB_INFO) && defined(ENABLE_SHOW_MOBAIFLAG)
 	m_Config.bShowMobAIFlag		= true;
 #endif
@@ -624,6 +625,16 @@ void CPythonSystem::SetSoftwareTiling(bool isEnable)
 		m_Config.bSoftwareTiling=2;
 }
 
+bool CPythonSystem::IsHideEmojiInfo()
+{
+	return m_Config.bHideEmojiInfo;
+}
+
+void CPythonSystem::SetHideEmojiInfo(int iFlag)
+{
+	m_Config.bHideEmojiInfo = iFlag == 1 ? true : false;
+}
+
 bool CPythonSystem::IsSoftwareTiling()
 {
 	if (m_Config.bSoftwareTiling==1)
@@ -713,6 +724,8 @@ bool CPythonSystem::LoadConfig()
 			m_Config.bShowDamage = atoi(value) == 1 ? true : false;
 		else if (!stricmp(command, "SHOW_SALESTEXT"))
 			m_Config.bShowSalesText = atoi(value) == 1 ? true : false;
+		else if (!stricmp(command, "HIDE_EMOJI_INFO"))
+			m_Config.bHideEmojiInfo = atoi(value) == 1 ? true : false;
 #ifdef ENABLE_GOOGLE_TRANSLATE_INGAME
 		else if (!stricmp(command, "TRANS_LANG_KEY"))
 			strncpy(m_Config.TransLangKey, value, 5);
@@ -850,6 +863,7 @@ bool CPythonSystem::SaveConfig()
 		fprintf(fp, "SHOW_DAMAGE		%d\n", m_Config.bShowDamage);
 	if (m_Config.bShowSalesText == 0)
 		fprintf(fp, "SHOW_SALESTEXT		%d\n", m_Config.bShowSalesText);
+		fprintf(fp, "HIDE_EMOJI_INFO			%d\n", m_Config.bHideEmojiInfo);
 #ifdef ENABLE_GRAPHIC_ON_OFF
 		fprintf(fp, "EFFECT_LEVEL			%d\n", m_Config.iEffectLevel);
 		fprintf(fp, "PRIVATE_SHOP_LEVEL		%d\n", m_Config.iPrivateShopLevel);
