@@ -2087,5 +2087,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_ATLAS_BOSS", 0);
 #endif
 
+#if defined(__BL_KILL_BAR__)
+	PyModule_AddIntConstant(poModule, "BL_KILL_BAR", true);
+#else
+	PyModule_AddIntConstant(poModule, "BL_KILL_BAR", false);
+#endif
+
 }
 

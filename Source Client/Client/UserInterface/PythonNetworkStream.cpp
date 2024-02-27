@@ -263,6 +263,9 @@ class CMainPacketHeaderMap : public CNetworkPacketHeaderMap
 #ifdef ENABLE_ATLAS_BOSS
 			Set(HEADER_GC_BOSS_POSITION, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCBossPosition), DYNAMIC_SIZE_PACKET));
 #endif
+#if defined(__BL_KILL_BAR__)
+			Set(HEADER_GC_KILLBAR, CNetworkPacketHeaderMap::TPacketType(sizeof(TPacketGCKillBar), STATIC_SIZE_PACKET));
+#endif
 		}
 };
 

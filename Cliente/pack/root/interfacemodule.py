@@ -1464,6 +1464,10 @@ class Interface(object):
 	def ToggleCharacterWindowStatusPage(self):
 		self.ToggleCharacterWindow("STATUS")
 
+	if app.BL_KILL_BAR:
+		def AddKillInfo(self, killer, victim, killer_race, victim_race, weapon_type):
+			self.wndMiniMap.AddKillInfo(killer, victim, killer_race, victim_race, weapon_type)
+
 	def ToggleInventoryWindow(self):
 		if False == player.IsObserverMode():
 			if False == self.wndInventory.IsShow():

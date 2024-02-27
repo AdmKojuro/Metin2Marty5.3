@@ -452,6 +452,9 @@ enum
 	HEADER_GC_PRIVATE_SHOP_SEARCH = 221,
 	HEADER_GC_PRIVATE_SHOP_SEARCH_OPEN = 222,
 #endif
+#if defined(__BL_KILL_BAR__)
+	HEADER_GC_KILLBAR 							= 224,
+#endif
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	HEADER_GC_EXT_BATTLE_PASS_OPEN 				= 235,
 	HEADER_GC_EXT_BATTLE_PASS_GENERAL_INFO 		= 236,
@@ -1503,6 +1506,18 @@ typedef struct packet_player_delete_success
 	BYTE        header;
 	BYTE        account_index;
 } TPacketGCDestroyCharacterSuccess;
+
+#if defined(__BL_KILL_BAR__)
+typedef struct command_kill_bar
+{
+	BYTE	bHeader;
+	BYTE	bKillerRace;
+	BYTE	bKillerWeaponType;
+	BYTE	bVictimRace;
+	char	szKiller[CHARACTER_NAME_MAX_LEN + 1];
+	char	szVictim[CHARACTER_NAME_MAX_LEN + 1];
+} TPacketGCKillBar;
+#endif
 
 enum
 {

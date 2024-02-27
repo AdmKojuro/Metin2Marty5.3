@@ -297,6 +297,10 @@ class CPythonNetworkStream : public CNetworkStream, public CSingleton<CPythonNet
 		// Dig
 		bool RecvDigMotionPacket();
 
+#if defined(__BL_KILL_BAR__)
+		bool RecvKillBar();
+#endif
+
 		// Fishing
 		bool SendFishingPacket(int iRotation);
 		bool SendGiveItemPacket(DWORD dwTargetVID, TItemPos ItemPos, int iItemCount);
