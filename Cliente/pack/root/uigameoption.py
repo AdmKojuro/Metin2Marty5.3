@@ -32,6 +32,7 @@ class OptionDialog(ui.ScriptWindow):
 			self.RefreshNamesType()
 		self.RefreshShowDamage()
 		self.RefreshShowSalesText()
+		self.refreshemojiTarget()
 		if app.WJ_SHOW_MOB_INFO:
 			self.RefreshShowMobInfo()
 
@@ -51,6 +52,7 @@ class OptionDialog(ui.ScriptWindow):
 			self.namesTypeButtonList = []
 		self.showDamageButtonList = []
 		self.showsalesTextButtonList = []
+		self.showemoji = []
 		if app.WJ_SHOW_MOB_INFO:
 			self.showMobInfoButtonList = []
 		if app.ENABLE_GOOGLE_TRANSLATE_INGAME:
@@ -99,6 +101,8 @@ class OptionDialog(ui.ScriptWindow):
 				self.namesTypeButtonList.append(GetObject("name_type2_button"))
 			self.showsalesTextButtonList.append(GetObject("salestext_on_button"))
 			self.showsalesTextButtonList.append(GetObject("salestext_off_button"))
+			self.showemoji.append(GetObject("emoji_effect_on"))
+			self.showemoji.append(GetObject("emoji_effect_off"))
 			if app.ENABLE_GOOGLE_TRANSLATE_INGAME:
 				self.transLangBox = GetObject("trans_lang_box")
 			if app.WJ_SHOW_MOB_INFO:
@@ -165,6 +169,8 @@ class OptionDialog(ui.ScriptWindow):
 
 		self.showsalesTextButtonList[0].SAFE_SetEvent(self.__OnClickSalesTextOnButton)
 		self.showsalesTextButtonList[1].SAFE_SetEvent(self.__OnClickSalesTextOffButton)
+		self.showemoji[0].SAFE_SetEvent(self.__emojion)
+		self.showemoji[1].SAFE_SetEvent(self.__emojioff)
 
 		if app.WJ_SHOW_MOB_INFO:
 			self.showMobInfoButtonList[0].SetToggleUpEvent(self.__OnClickShowMobLevelButton)
@@ -205,6 +211,26 @@ class OptionDialog(ui.ScriptWindow):
 	def __SetNameColorMode(self, index):
 		constInfo.SET_CHRNAME_COLOR_INDEX(index)
 		self.__ClickRadioButton(self.nameColorModeButtonList, index)
+
+	def __emojion(self):
+		systemSetting.SetHideEmojiInfo(True)
+		systemSetting.SaveConfig()
+		chat.AppendChat(chat.CHAT_TYPE_INFO, "[Zoira2] Emoticones activados.")
+		self.refreshemojiTarget()
+
+	def __emojioff(self):
+		systemSetting.SetHideEmojiInfo(False)
+		systemSetting.SaveConfig()
+		chat.AppendChat(chat.CHAT_TYPE_INFO, "[Zoira] Emoticones desactivados.")
+		self.refreshemojiTarget()
+				
+	def refreshemojiTarget(self):
+		if systemSetting.IsHideEmojiInfo():
+			self.showemoji[0].Down()
+			self.showemoji[1].SetUp()
+		else:
+			self.showemoji[0].SetUp()
+			self.showemoji[1].Down()
 
 	def __SetTargetBoardViewMode(self, flag):
 		constInfo.SET_VIEW_OTHER_EMPIRE_PLAYER_TARGET_BOARD(flag)
