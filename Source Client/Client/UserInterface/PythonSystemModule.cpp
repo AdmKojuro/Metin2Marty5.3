@@ -649,22 +649,6 @@ PyObject* systemIsNpcNameStatus(PyObject* poSelf, PyObject* poArgs)
 }
 #endif
 
-PyObject * systemIsHideEmojiInfo(PyObject * poSelf, PyObject * poArgs)
-{
-	return Py_BuildValue("i", CPythonSystem::Instance().IsHideEmojiInfo());
-}
-
-PyObject * systemSetHideEmojiInfo(PyObject * poSelf, PyObject * poArgs)
-{
-	int iFlag;
-	if (!PyTuple_GetInteger(poArgs, 0, &iFlag))
-		return Py_BuildException();
-
-	CPythonSystem::Instance().SetHideEmojiInfo(iFlag);
-
-	return Py_BuildNone();
-}
-
 void initsystemSetting()
 {
 	static PyMethodDef s_methods[] =
@@ -772,8 +756,6 @@ void initsystemSetting()
 		{ "SetNpcNameStatusFlag", systemSetNpcNameStatusFlag, METH_VARARGS },
 		{ "IsNpcNameStatus", systemIsNpcNameStatus, METH_VARARGS },
 #endif
-		{ "IsHideEmojiInfo",			systemIsHideEmojiInfo,			METH_VARARGS },
-		{ "SetHideEmojiInfo",			systemSetHideEmojiInfo,			METH_VARARGS },
 
 		{ NULL,							NULL,							NULL }
 	};
