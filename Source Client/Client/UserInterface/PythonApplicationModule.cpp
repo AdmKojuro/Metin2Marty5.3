@@ -2099,5 +2099,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "FAST_EQUIP_WORLDARD",	0);
 #endif
 
+#ifdef __CHANNEL_CHANGE_SYSTEM__
+	PyModule_AddIntConstant(poModule, "CHANNEL_CHANGE_SYSTEM", 1);
+#else
+	PyModule_AddIntConstant(poModule, "CHANNEL_CHANGE_SYSTEM", 0);
+#endif
+
 }
 

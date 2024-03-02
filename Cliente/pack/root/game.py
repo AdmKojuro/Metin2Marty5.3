@@ -2304,6 +2304,11 @@ class GameWindow(ui.ScriptWindow):
 				"OpenSpecialInventoryWindow" : self.OpenSpecialInventoryWindow,
 			})
 
+		if app.CHANNEL_CHANGE_SYSTEM:
+			serverCommandList.update({
+			"channel" : self.BINARY_OnChannelPacket,
+		})
+
 		serverCommandList.update({
 			"OpenCostumeWindow" : self.OpenCostumeWindow,
 		})
@@ -2385,6 +2390,40 @@ class GameWindow(ui.ScriptWindow):
 	def __PrivateShop_PriceList(self, itemVNum, itemPrice):
 		uiPrivateShopBuilder.SetPrivateShopItemPrice(itemVNum, itemPrice)
 	# END_OF_PRIVATE_SHOP_PRICE_LIST
+
+	if app.CHANNEL_CHANGE_SYSTEM:
+		def BINARY_OnChannelPacket(self, channelID):
+			import serverInfo
+			import net
+			
+			regionID = 0
+			channelID = int(channelID)
+			if channelID == 0:
+				return
+				
+			dict = {'name' : 'Andra Global'} #Server Name
+			if channelID == 99:
+				net.SetServerInfo((localeInfo.CH_99_NAME % (dict['name'])).strip())
+			else:
+				net.SetServerInfo((localeInfo.TEXT_CHANNEL % (dict['name'], channelID)).strip())
+			
+			if self.interface:
+				self.interface.wndMiniMap.serverInfo.SetText(net.GetServerInfo())
+
+			
+			for serverID in serverInfo.REGION_DICT[regionID].keys():
+				if serverInfo.REGION_DICT[regionID][serverID]["name"] == net.GetServerInfo().split(",")[0]:
+					try:
+						serverName = serverInfo.REGION_DICT[regionID][serverID]["name"]
+						channelName = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["name"]
+						markKey = regionID * 1000 + serverID * 10
+						markAddrValue=serverInfo.MARKADDR_DICT[markKey]
+						net.SetMarkServer(markAddrValue["ip"], markAddrValue["tcp_port"])
+						app.SetGuildMarkPath(markAddrValue["mark"])
+						app.SetGuildSymbolPath(markAddrValue["symbol_path"])
+						net.SetServerInfo("%s, %s" % (serverName, channelName))
+					except:
+						pass
 
 	if app.ENABLE_SEARCH_ITEM_DROP_ON_MOB:
 		def BINARY_DROP_ITEM_OPEN(self):

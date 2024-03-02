@@ -27,6 +27,21 @@ window = {
 			"children" :
 			(
 				{
+					"name" : "movechannel_button",
+					"type" : "button",
+
+					"x" : 10,
+					"y" : 17,
+
+					"text" : "Schimba Canalul",
+					"text_color" : 0xffF8BF24,
+
+					"default_image" : ROOT + "XLarge_Button_01.sub",
+					"over_image" : ROOT + "XLarge_Button_02.sub",
+					"down_image" : ROOT + "XLarge_Button_03.sub",
+				},
+
+				{
 					"name" : "help_button",
 					"type" : "button",
 

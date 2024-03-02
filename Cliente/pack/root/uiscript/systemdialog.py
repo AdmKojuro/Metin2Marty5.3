@@ -10,7 +10,7 @@ window = {
 	"y" : (SCREEN_HEIGHT - 288) /2,
 
 	"width" : 200,
-	"height" : 288+20,
+	"height" : 288+55,
 
 	"children" :
 	(
@@ -22,7 +22,7 @@ window = {
 			"y" : 0,
 
 			"width" : 200,
-			"height" : 288+20,
+			"height" : 288+55,
 
 			"children" :
 			(
@@ -88,6 +88,19 @@ window = {
 					"y" : 147,
 
 					"text" : uiScriptLocale.SYSTEM_CHANGE,
+
+					"default_image" : ROOT + "XLarge_Button_01.sub",
+					"over_image" : ROOT + "XLarge_Button_02.sub",
+					"down_image" : ROOT + "XLarge_Button_03.sub",
+				},
+				{
+					"name" : "movechannel_button",
+					"type" : "button",
+
+					"x" : 10,
+					"y" : 290+20,
+
+					"text" : "Cambiar Canal",
 
 					"default_image" : ROOT + "XLarge_Button_01.sub",
 					"over_image" : ROOT + "XLarge_Button_02.sub",

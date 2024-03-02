@@ -5,920 +5,449 @@ import ui
 import ime
 import snd
 import wndMgr
-import musicInfo
-import serverInfo
-import systemSetting
+import musicinfo
 import ServerStateChecker
-import localeInfo
-import constInfo
-import uiCommon
+import serverinfo
+import systemSetting
+import constinfo
+import uicommon
 import time
-import serverCommandParser
-import ime
-import uiScriptLocale
+import servercommandparser
+import uiscriptlocale
 import os
-import linecache
+import uiweb
+import localeinfo
+from _weakref import proxy
 
-LOGIN_DELAY_SEC = 0.0
-SKIP_LOGIN_PHASE = FALSE
-SKIP_LOGIN_PHASE_SUPPORT_CHANNEL = FALSE
-FULL_BACK_IMAGE = FALSE
+g_ip = serverinfo.host
 
-VIRTUAL_KEYBOARD_NUM_KEYS = 46
-VIRTUAL_KEYBOARD_RAND_KEY = TRUE
+# DISCORDBUTTON = "https://discord.gg/UhwueCdukU/"
+# WEBBUTTON = "https://andra.global/"
+# BOARDBUTTON = "https://andra.global/"
 
-def Suffle(src):
-	if VIRTUAL_KEYBOARD_RAND_KEY:
-		items = [item for item in src]
+import _winreg
+REG_PATH = r"SOFTWARE\ISRAEL"
 
-		itemCount = len(items)
-		for oldPos in xrange(itemCount):
-			newPos = app.GetRandom(0, itemCount-1)
-			items[newPos], items[oldPos] = items[oldPos], items[newPos]
+def set_reg(name, value):
+	try:
+		_winreg.CreateKey(_winreg.HKEY_CURRENT_USER, REG_PATH)
+		registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, REG_PATH, 0, _winreg.KEY_WRITE)
+		_winreg.SetValueEx(registry_key, name, 0, _winreg.REG_SZ, value)
+		_winreg.CloseKey(registry_key)
+		return True
+	except WindowsError:
+		return False
 
-		return "".join(items)
-	else:
-		return src
+def get_reg(name):
+	try:
+		registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, REG_PATH, 0, _winreg.KEY_READ)
+		value, regtype = _winreg.QueryValueEx(registry_key, name)
+		_winreg.CloseKey(registry_key)
+		return str(value)
+	except WindowsError:
+		return None
 		
-def IsFullBackImage():
-	global FULL_BACK_IMAGE
-	return FULL_BACK_IMAGE
-
-def IsLoginDelay():
-	global LOGIN_DELAY_SEC
-	if LOGIN_DELAY_SEC > 0.0:
-		return TRUE
-	else:
-		return FALSE
-
-def GetLoginDelay():
-	global LOGIN_DELAY_SEC
-	return LOGIN_DELAY_SEC
-
-app.SetGuildMarkPath("test")
-
-class ConnectingDialog(ui.ScriptWindow):
-
-	def __init__(self):
-		ui.ScriptWindow.__init__(self)
-		self.__LoadDialog()
-		self.eventTimeOver = lambda *arg: None
-		self.eventExit = lambda *arg: None
-
-	def __del__(self):
-		ui.ScriptWindow.__del__(self)
-
-	def __LoadDialog(self):
-		try:
-			PythonScriptLoader = ui.PythonScriptLoader()
-			PythonScriptLoader.LoadScriptFile(self, "UIScript/ConnectingDialog.py")
-
-			self.board = self.GetChild("board")
-			self.message = self.GetChild("message")
-			self.countdownMessage = self.GetChild("countdown_message")
-
-		except:
-			import exception
-			exception.Abort("ConnectingDialog.LoadDialog.BindObject")
-
-	def Open(self, waitTime):
-		curTime = time.clock()
-		self.endTime = curTime + waitTime
-
-		self.Lock()
-		self.SetCenterPosition()
-		self.SetTop()
-		self.Show()		
-
-	def Close(self):
-		self.Unlock()
-		self.Hide()
-
-	def Destroy(self):
-		self.Hide()
-		self.ClearDictionary()
-
-	def SetText(self, text):
-		self.message.SetText(text)
-
-	def SetCountDownMessage(self, waitTime):
-		self.countdownMessage.SetText("%.0f%s" % (waitTime, localeInfo.SECOND))
-
-	def SAFE_SetTimeOverEvent(self, event):
-		self.eventTimeOver = ui.__mem_func__(event)
-
-	def SAFE_SetExitEvent(self, event):
-		self.eventExit = ui.__mem_func__(event)
-
-	def OnUpdate(self):
-		lastTime = max(0, self.endTime - time.clock())
-		if 0 == lastTime:
-			self.Close()
-			self.eventTimeOver()
-		else:
-			self.SetCountDownMessage(self.endTime - time.clock())
-
-	def OnPressExitKey(self):
-		#self.eventExit()
-		return TRUE
-		
-	def __LoadChannelInfo(self):
-		try:
-			file=old_open("channel.inf")
-			lines=file.readlines()
-
-			if len(lines)>0:
-				tokens=lines[0].split()
-
-				selServerID=int(tokens[0])
-				if app.ENABLE_CHANNEL_SWITCHER:
-					if(int(tokens[1]) <= constInfo.CHANNELS):
-						selChannelID=int(tokens[1])
-					else:
-						selChannelID=1
-				else:
-					selChannelID=int(tokens[1])
-
-				if len(tokens) == 3:
-					regionID = int(tokens[2])
-
-				return regionID, selServerID, selChannelID
-
-		except:
-			print "LoginWindow.__LoadChannelInfo - OpenError"
-			return -1, -1, -1	
-
 class LoginWindow(ui.ScriptWindow):
-
-	IS_TEST = net.IsTest()
-
 	def __init__(self, stream):
-		print "NEW LOGIN WINDOW  ----------------------------------------------------------------------------"
 		ui.ScriptWindow.__init__(self)
 		net.SetPhaseWindow(net.PHASE_WINDOW_LOGIN, self)
 		net.SetAccountConnectorHandler(self)
-
-		self.lastLoginTime = 0
-		self.inputDialog = None
-		self.connectingDialog = None
-		self.stream=stream
-		self.isNowCountDown=FALSE
-		self.isStartError=FALSE
-
-		self.xServerBoard = 0
-		self.yServerBoard = 0
-		self.passs = 0
-		self.loadingImage = None
-
-		self.virtualKeyboard = None
-		self.virtualKeyboardMode = "ALPHABET"
-		self.virtualKeyboardIsUpper = FALSE
-##select language system
-		self.Languages = [None, None, None, None, None, None, None, ]
-
-		self.LanguageButtonGroup = None
-##select language system
+		if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
+			self.languageList = [ None, None, None, None, None, None, None, None, None, None ] #x10 languages
+		self.popupX = 520
+		self.popupY = 420
+		self.stream = stream
+		self.isHide = 1
+		
 	def __del__(self):
+		ui.ScriptWindow.__del__(self)
+		
 		net.ClearPhaseWindow(net.PHASE_WINDOW_LOGIN, self)
 		net.SetAccountConnectorHandler(0)
-		ui.ScriptWindow.__del__(self)
-		print "---------------------------------------------------------------------------- DELETE LOGIN WINDOW"
+
+	
 
 	def Open(self):
+		# dracaryS-28042020
+		ServerStateChecker.Initialize()
 		ServerStateChecker.Create(self)
-
-		print "LOGIN WINDOW OPEN ----------------------------------------------------------------------------"
+		ServerStateChecker.AddChannel(1, serverinfo.host, 30003)
+		ServerStateChecker.AddChannel(2, serverinfo.host, 30257)
+		ServerStateChecker.AddChannel(3, serverinfo.host, 30251)
+		ServerStateChecker.AddChannel(4, serverinfo.host, 30255)
+		ServerStateChecker.Request()
 
 		self.loginFailureMsgDict={
-			"ALREADY"	: localeInfo.LOGIN_FAILURE_ALREAY,
-			"NOID"		: localeInfo.LOGIN_FAILURE_NOT_EXIST_ID,
-			"WRONGPWD"	: localeInfo.LOGIN_FAILURE_WRONG_PASSWORD,
-			"FULL"		: localeInfo.LOGIN_FAILURE_TOO_MANY_USER,
-			"SHUTDOWN"	: localeInfo.LOGIN_FAILURE_SHUTDOWN,
-			"REPAIR"	: localeInfo.LOGIN_FAILURE_REPAIR_ID,
-			"BLOCK"		: localeInfo.LOGIN_FAILURE_BLOCK_ID,
-			"BESAMEKEY"	: localeInfo.LOGIN_FAILURE_BE_SAME_KEY,
-			"NOTAVAIL"	: localeInfo.LOGIN_FAILURE_NOT_AVAIL,
-			"NOBILL"	: localeInfo.LOGIN_FAILURE_NOBILL,
-			"BLKLOGIN"	: localeInfo.LOGIN_FAILURE_BLOCK_LOGIN,
-			"WEBBLK"	: localeInfo.LOGIN_FAILURE_WEB_BLOCK,
+			"ALREADY"	: localeinfo.LOGIN_FAILURE_ALREAY,
+			"NOID"		: localeinfo.LOGIN_FAILURE_NOT_EXIST_ID,
+			"WRONGPWD"	: localeinfo.LOGIN_FAILURE_WRONG_PASSWORD,
+			"FULL"		: localeinfo.LOGIN_FAILURE_TOO_MANY_USER,
+			"SHUTDOWN"	: localeinfo.LOGIN_FAILURE_SHUTDOWN,
+			"REPAIR"	: localeinfo.LOGIN_FAILURE_REPAIR_ID,
+			"BLOCK"		: localeinfo.LOGIN_FAILURE_BLOCK_ID,
+			"WRONGMAT"	: localeinfo.LOGIN_FAILURE_WRONG_MATRIX_CARD_NUMBER,
+			"QUIT"		: localeinfo.LOGIN_FAILURE_WRONG_MATRIX_CARD_NUMBER_TRIPLE,
+			"BESAMEKEY"	: localeinfo.LOGIN_FAILURE_BE_SAME_KEY,
+			"NOTAVAIL"	: localeinfo.LOGIN_FAILURE_NOT_AVAIL,
+			"NOBILL"	: localeinfo.LOGIN_FAILURE_NOBILL,
+			"BLKLOGIN"	: localeinfo.LOGIN_FAILURE_BLOCK_LOGIN,
+			"WEBBLK"	: localeinfo.LOGIN_FAILURE_WEB_BLOCK,
 		}
 
+		# self.loginFailureMsgDict["WRONGHWI"] = localeinfo.LOGIN_FAILURE_WRONG_HWID
+
 		self.loginFailureFuncDict = {
-			"WRONGPWD"	: self.__DisconnectAndInputPassword,
+			"WRONGPWD"	: localeinfo.LOGIN_FAILURE_WRONG_PASSWORD,
+			"WRONGMAT"	: localeinfo.LOGIN_FAILURE_WRONG_MATRIX_CARD_NUMBER,
 			"QUIT"		: app.Exit,
 		}
 
 		self.SetSize(wndMgr.GetScreenWidth(), wndMgr.GetScreenHeight())
 		self.SetWindowName("LoginWindow")
 
-		if not self.__LoadScript("UIscript/LoginWindow.py"):
-			dbg.TraceError("LoginWindow.Open - __LoadScript Error")
-			return
+		self.__LoadScript("israel/loginwindow/loginwindow.py")
 		
-		self.__LoadLoginInfo("loginInfo.xml")
-		
-		if app.loggined:
-			self.loginFailureFuncDict = {
-			"WRONGPWD"	: app.Exit,
-			"QUIT"		: app.Exit,
-			}
-
-		if musicInfo.loginMusic != "":
+		if musicinfo.loginMusic != "":
 			snd.SetMusicVolume(systemSetting.GetMusicVolume())
-			snd.FadeInMusic("BGM/"+musicInfo.loginMusic)
+			snd.FadeInMusic("BGM/" + musicinfo.loginMusic)
 
 		snd.SetSoundVolume(systemSetting.GetSoundVolume())
+		self.CheckAccount()
 
-		# pevent key "[" "]"
 		ime.AddExceptKey(91)
 		ime.AddExceptKey(93)
-			
+		self.SetChannel(0)
+		if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
+			self.RefreshLanguagesBtn()
 		self.Show()
-
-		global SKIP_LOGIN_PHASE
-		if SKIP_LOGIN_PHASE:
-			if self.isStartError:
-				self.connectBoard.Hide()
-				self.loginBoard.Hide()
-				self.serverBoard.Hide()
-				self.PopupNotifyMessage(localeInfo.LOGIN_CONNECT_FAILURE, self.__ExitGame)
-				return
-
-			if self.loginInfo:
-				self.serverBoard.Hide()
-			else:
-				self.__RefreshServerList()
-				self.__OpenServerBoard()
-		else:
-			connectingIP = self.stream.GetConnectAddr()
-			if connectingIP:
-				if app.USE_OPENID and not app.OPENID_TEST :
-					self.__RefreshServerList()
-					self.__OpenServerBoard()
-				else:
-					self.__OpenLoginBoard()
-					if IsFullBackImage():
-						self.GetChild("bg1").Hide()
-						self.GetChild("bg2").Show()
-
-			else:
-				self.__RefreshServerList()
-				self.__OpenServerBoard()
-
 		app.ShowCursor()
 
-		if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
-			import uiSystemOption
-			localeName = app.GetLoca()
-			for i, k in uiSystemOption.LOCALE_LANG_DICT.items():
-				if localeName in uiSystemOption.LOCALE_LANG_DICT[i]["locale"]:
-					net.SetLanguage(i)
-					break
+	#if app.ENABLE_MULTI_LANGUAGE_SYSTEM_SYSTEM:
+	#	import uiSystemOption
+	#	localeName = app.GetLoca()
+	#	for i, k in uiSystemOption.LOCALE_LANG_DICT.items():
+	#		if localeName in uiSystemOption.LOCALE_LANG_DICT[i]["locale"]:
+	#			net.SetLanguage(i)
+	#			break
 
 	def Close(self):
+		# dracaryS-28042020
+		ServerStateChecker.Initialize()
 
-		if self.connectingDialog:
-			self.connectingDialog.Close()
-		self.connectingDialog = None
+		if musicinfo.loginMusic != "" and musicinfo.selectMusic != "":
+			snd.FadeOutMusic("BGM/"+musicinfo.loginMusic)
 
-		ServerStateChecker.Initialize(self)
+		if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
+			self.languageList = [ None, None, None, None, None, None, None, None, None, None ] #x10 languages
 
-		print "---------------------------------------------------------------------------- CLOSE LOGIN WINDOW "
-		#
-		# selectMusic이 없으면 BGM이 끊기므로 두개 다 체크한다. 
-		#
-		if musicInfo.loginMusic != "" and musicInfo.selectMusic != "":
-			snd.FadeOutMusic("BGM/"+musicInfo.loginMusic)
+		if self.stream.popupWindow:
+			self.stream.popupWindow.Close()
 
-		## NOTE : idEditLine와 pwdEditLine은 이벤트가 서로 연결 되어있어서
-		##        Event를 강제로 초기화 해주어야만 합니다 - [levites]
-		self.idEditLine.SetTabEvent(0)
-		self.idEditLine.SetReturnEvent(0)
-		self.pwdEditLine.SetReturnEvent(0)
-		self.pwdEditLine.SetTabEvent(0)
-
-		self.connectBoard = None
-		self.loginBoard = None
-		self.idEditLine = None
-		self.pwdEditLine = None
-		self.inputDialog = None
-		self.connectingDialog = None
-		self.loadingImage = None
-
-		self.serverBoard				= None
-		self.serverList					= None
-		self.channelList				= None
-
-		self.VIRTUAL_KEY_ALPHABET_LOWERS = None
-		self.VIRTUAL_KEY_ALPHABET_UPPERS = None
-		self.VIRTUAL_KEY_SYMBOLS = None
-		self.VIRTUAL_KEY_NUMBERS = None
-
-		# VIRTUAL_KEYBOARD_BUG_FIX
-		if self.virtualKeyboard:
-			for keyIndex in xrange(0, VIRTUAL_KEYBOARD_NUM_KEYS+1):
-				key = self.GetChild2("key_%d" % keyIndex)
-				if key:
-					key.SetEvent(None)
-
-			self.GetChild("key_space").SetEvent(None)
-			self.GetChild("key_backspace").SetEvent(None)
-			self.GetChild("key_enter").SetEvent(None)
-			self.GetChild("key_shift").SetToggleDownEvent(None)
-			self.GetChild("key_shift").SetToggleUpEvent(None)
-			self.GetChild("key_at").SetToggleDownEvent(None)
-			self.GetChild("key_at").SetToggleUpEvent(None)
-
-			self.virtualKeyboard = None
-##select language system
-		del self.Languages[:]
-		self.LanguageButtonGroup = None
-##select language system
-		self.KillFocus()
 		self.Hide()
-
-		self.stream.popupWindow.Close()
-		self.loginFailureFuncDict=None
-
+		app.HideCursor()
 		ime.ClearExceptKey()
 
-		app.HideCursor()
-
-	def __SaveChannelInfo(self):
-		try:
-			file=open("channel.inf", "w")
-			file.write("%d %d %d" % (self.__GetServerID(), self.__GetChannelID(), self.__GetRegionID()))
-		except:
-			print "LoginWindow.__SaveChannelInfo - SaveError"
-
-	def __LoadChannelInfo(self):
-		try:
-			file=open("channel.inf")
-			lines=file.readlines()
-			
-			if len(lines)>0:
-				tokens=lines[0].split()
-
-				selServerID=int(tokens[0])
-				selChannelID=int(tokens[1])
-				
-				if len(tokens) == 3:
-					regionID = int(tokens[2])
-
-				return regionID, selServerID, selChannelID
-
-		except:
-			print "LoginWindow.__LoadChannelInfo - OpenError"
-			return -1, -1, -1
-
-	def __ExitGame(self):
-		app.Exit()
-##select language system
-	def __ExitGameNew(self):
-		import os
-		os.system('start metin2client.exe') #Name you server
-		app.Exit()
-##select language system
-	def SetIDEditLineFocus(self):
-		if self.idEditLine != None:
-			self.idEditLine.SetFocus()
-
-	def SetPasswordEditLineFocus(self):
-		if self.pwdEditLine != None:
-			self.pwdEditLine.SetFocus()								
-
-	def OnEndCountDown(self):
-		self.isNowCountDown = FALSE
-		self.timeOutMsg = FALSE
-		self.OnConnectFailure()
-
 	def OnConnectFailure(self):
-
-		if self.isNowCountDown:
-			return
-
 		snd.PlaySound("sound/ui/loginfail.wav")
-
-		if self.connectingDialog:
-			self.connectingDialog.Close()
-		self.connectingDialog = None
-
-		if app.loggined:
-			self.PopupNotifyMessage(localeInfo.LOGIN_CONNECT_FAILURE, self.__ExitGame)
-		else:
-			self.PopupNotifyMessage(localeInfo.LOGIN_CONNECT_FAILURE, self.SetPasswordEditLineFocus)
+		self.PopupNotifyMessage(localeinfo.LOGIN_CONNECT_FAILURE, self.EmptyFunc)
 
 	def OnHandShake(self):
-		if not IsLoginDelay():
-			snd.PlaySound("sound/ui/loginok.wav")
-			constInfo.ACCOUNT_NAME = str(self.idEditLine.GetText())
-			self.PopupDisplayMessage(localeInfo.LOGIN_CONNECT_SUCCESS)
+		snd.PlaySound("sound/ui/loginok.wav")
+		self.PopupDisplayMessage(localeinfo.LOGIN_CONNECT_SUCCESS)
 
 	def OnLoginStart(self):
-		if not IsLoginDelay():
-			self.PopupDisplayMessage(localeInfo.LOGIN_PROCESSING)
+		self.PopupDisplayMessage(localeinfo.LOGIN_PROCESSING)
 
 	def OnLoginFailure(self, error):
-		if self.connectingDialog:
-			self.connectingDialog.Close()
-		self.connectingDialog = None
-
 		try:
 			loginFailureMsg = self.loginFailureMsgDict[error]
 		except KeyError:
-			loginFailureMsg = localeInfo.LOGIN_FAILURE_UNKNOWN  + error
+		
+			loginFailureMsg = localeinfo.LOGIN_FAILURE_UNKNOWN  + error
 
+		loginFailureFunc = self.loginFailureFuncDict.get(error, self.EmptyFunc)
 
-		#0000685: [M2EU] 아이디/비밀번호 유추 가능 버그 수정: 무조건 패스워드로 포커스가 가게 만든다
-		loginFailureFunc=self.loginFailureFuncDict.get(error, self.SetPasswordEditLineFocus)
-
-		if app.loggined:
-			self.PopupNotifyMessage(loginFailureMsg, self.__ExitGame)
-		else:
-			self.PopupNotifyMessage(loginFailureMsg, loginFailureFunc)
+		self.PopupNotifyMessage(loginFailureMsg, loginFailureFunc)
 
 		snd.PlaySound("sound/ui/loginfail.wav")
 
-	def __DisconnectAndInputID(self):
-		if self.connectingDialog:
-			self.connectingDialog.Close()
-		self.connectingDialog = None
-
-		self.SetIDEditLineFocus()
-		net.Disconnect()
-
-	def __DisconnectAndInputPassword(self):
-		if self.connectingDialog:
-			self.connectingDialog.Close()
-		self.connectingDialog = None
-
-		self.SetPasswordEditLineFocus()
-		net.Disconnect()
-
-	def LangToIndex(self, lang):
-		langCodeReplace = {
-			"en"		:	0,
-			"pt"		:	1,
-			"es"		:	2,
-			"fr"		:	3,
-			"de"		:	4,
-			"ro"		:	5,
-			"tr"		:	6,
-		}
-	
-		return langCodeReplace[lang]
-
-	def LangToIndexNew(self, lang):
-		langCodeReplaceNew = {
-			"en"		:	"en",
-			"pt"		:	"pt",
-			"es"		:	"es",
-			"fr"		:	"fr",
-			"de"		:	"de",
-			"ro"		:	"ro",
-			"tr"		:	"tr",
-		}
-
-		return langCodeReplaceNew[lang]
-
-	def _CodePageReplace(self, langName):
-		cpReplace = {
-			"en"	:	1252,
-			"pt"	:	1252,
-			"es"	:	1252,
-			"fr"	:	1252,
-			"de"	:	1252,
-			"ro"	:	1250,
-			"tr"	:	1254,
-		}
-
-		try:
-			return cpReplace[langName]
-		except:
-			return 10000
-
+		# if error == "WRONG_CL":
+			# os.system("start Autopatcher.exe")
+			# app.Exit()
 
 	def __LoadScript(self, fileName):
-		import dbg
 		try:
 			pyScrLoader = ui.PythonScriptLoader()
 			pyScrLoader.LoadScriptFile(self, fileName)
 		except:
 			import exception
 			exception.Abort("LoginWindow.__LoadScript.LoadObject")
+
 		try:
-			GetObject=self.GetChild
-			self.serverBoard			= GetObject("ServerBoard")
-			self.serverList				= GetObject("ServerList")
-			self.channelList			= GetObject("ChannelList")
-			self.serverSelectButton		= GetObject("ServerSelectButton")
-			self.serverExitButton		= GetObject("ServerExitButton")
-			self.connectBoard			= GetObject("ConnectBoard")
-			self.loginBoard				= GetObject("LoginBoard")
-			self.idEditLine				= GetObject("ID_EditLine")
-			self.pwdEditLine			= GetObject("Password_EditLine")
-			self.serverInfo				= GetObject("ConnectName")
-			self.selectConnectButton	= GetObject("SelectConnectButton")
-			self.loginButton			= GetObject("LoginButton")
-			self.loginExitButton		= GetObject("LoginExitButton")
-
-			self.AccountBoard			= GetObject("AccountBoard")
-			self.AccountBoard2			= GetObject("AccountBoard2")
-			self.saveAccount			= GetObject("saveAccount")
-			self.ServerBoard_Lang		= GetObject("ServerBoard_Lang")
-			self.deleteAccount			= GetObject("deleteAccount")
-			self.passButton = {
-				"account1"	:	self.GetChild("pass1"),
-				"account2"	:	self.GetChild("pass2"),
-				"account3"	:	self.GetChild("pass3"),
-				"account4"	:	self.GetChild("pass4"),
-				"account5"	:	self.GetChild("pass5"),
-				"account6"	:	self.GetChild("pass6"),
-				"account7"	:	self.GetChild("pass7"),
-				"account8"	:	self.GetChild("pass8"),
-				"account9"	:	self.GetChild("pass9"),
-				"account10"	:	self.GetChild("pass10"),
-				"account11"	:	self.GetChild("pass11"),
-				"account12"	:	self.GetChild("pass12"),
-				"account13"	:	self.GetChild("pass13"),
-				"account14"	:	self.GetChild("pass14"),
-				"account15"	:	self.GetChild("pass15")}
-
-			for (passID, passButtons) in self.passButton.items():
-				passButtons.SetEvent(ui.__mem_func__(self.SetPass), passID)
-
-			for i in xrange(16):
-				if i != 0:
-					login = linecache.getline("mark/account" + str(i) + ".cfg", 1)
-					password = linecache.getline("mark/account" + str(i) + ".cfg", 2)
-					
-					login = login.replace('\n', '')
-					password = password.replace('\n', '')
-
-					if password != "" or password != "\n" or login != "" or login != "\n":
-						self.passButton["account"+str(i)].SetText(str(login))
-					else:
-						self.passButton["account"+str(i)].SetText("")
-
-			self.virtualKeyboard		= self.GetChild2("VirtualKeyboard")
-
-			if self.virtualKeyboard:
-				self.VIRTUAL_KEY_ALPHABET_UPPERS = Suffle(localeInfo.VIRTUAL_KEY_ALPHABET_UPPERS)
-				self.VIRTUAL_KEY_ALPHABET_LOWERS = "".join([localeInfo.VIRTUAL_KEY_ALPHABET_LOWERS[localeInfo.VIRTUAL_KEY_ALPHABET_UPPERS.index(e)] for e in self.VIRTUAL_KEY_ALPHABET_UPPERS])
-				self.VIRTUAL_KEY_SYMBOLS = Suffle(localeInfo.VIRTUAL_KEY_SYMBOLS)
-				self.VIRTUAL_KEY_NUMBERS = Suffle(localeInfo.VIRTUAL_KEY_NUMBERS)
-				self.__VirtualKeyboard_SetAlphabetMode()
+			self.board_main	= self.GetChild("board_main")
+			self.idEditLine = self.GetChild("id")
+			self.pwdEditLine = self.GetChild("pwd")
+			self.pwdHideText = self.GetChild("HideText")
+			self.pwdHideText.SetEvent(ui.__mem_func__(self.__OnClickHideText))
+			self.loginButton = self.GetChild("login_button")
+			self.exitButton = self.GetChild("exit_button")
+			# self.exitButton1 = self.GetChild("exit_button1")
+			self.channelButton = {
+				0 : self.GetChild("ch1"),
+				1 :	self.GetChild("ch2"),
+				2 : self.GetChild("ch3"),
+				3 : self.GetChild("ch4"),}
 			
-				self.GetChild("key_space").SetEvent(lambda : self.__VirtualKeyboard_PressKey(' '))
-				self.GetChild("key_backspace").SetEvent(lambda : self.__VirtualKeyboard_PressBackspace())
-				self.GetChild("key_enter").SetEvent(lambda : self.__VirtualKeyboard_PressReturn())
-				self.GetChild("key_shift").SetToggleDownEvent(lambda : self.__VirtualKeyboard_SetUpperMode())
-				self.GetChild("key_shift").SetToggleUpEvent(lambda : self.__VirtualKeyboard_SetLowerMode())
-				self.GetChild("key_at").SetToggleDownEvent(lambda : self.__VirtualKeyboard_SetSymbolMode())
-				self.GetChild("key_at").SetToggleUpEvent(lambda : self.__VirtualKeyboard_SetAlphabetMode())
-
-				self.Languages[0]			=	GetObject("Lang1")
-				self.Languages[1]			=	GetObject("Lang2")
-				self.Languages[2]			=	GetObject("Lang3")
-				self.Languages[3]			=	GetObject("Lang4")
-				self.Languages[4]			=	GetObject("Lang5")
-				self.Languages[5]			=	GetObject("Lang6")
-				self.Languages[6]			=	GetObject("Lang7")
-
+			self.accountData = {
+				0 : [[self.GetChild("delete_button_0"), self.GetChild("save_button_0"), self.GetChild("load_button_0")], self.GetChild("account_0_text")],
+				1 : [[self.GetChild("delete_button_1"), self.GetChild("save_button_1"), self.GetChild("load_button_1")], self.GetChild("account_1_text")],
+				2 : [[self.GetChild("delete_button_2"), self.GetChild("save_button_2"), self.GetChild("load_button_2")], self.GetChild("account_2_text")],
+				3 : [[self.GetChild("delete_button_3"), self.GetChild("save_button_3"), self.GetChild("load_button_3")], self.GetChild("account_3_text")]}
 		except:
 			import exception
 			exception.Abort("LoginWindow.__LoadScript.BindObject")
+			
+		for (key, item) in list(self.accountData.items()):
+			if isinstance(item[0], list):
+				item[0][0].SetEvent(ui.__mem_func__(self.DeleteAccount), key)
+				item[0][1].SetEvent(ui.__mem_func__(self.SaveAccount), key)
+				item[0][2].SetEvent(ui.__mem_func__(self.LoadAccount), key)
 
-		if self.IS_TEST:
-			self.selectConnectButton.Hide()
-		else:
-			self.selectConnectButton.SetEvent(ui.__mem_func__(self.__OnClickSelectConnectButton))
-
-		from _weakref import proxy
-		self.LanguageButtonGroup = ui.RadioButtonGroup.CreateSelectDefault([
-		[proxy(self.Languages[0]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("en"), None],
-		[proxy(self.Languages[1]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("pt"), None],
-		[proxy(self.Languages[2]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("es"), None],
-		[proxy(self.Languages[3]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("fr"), None],
-		[proxy(self.Languages[4]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("de"), None],
-		[proxy(self.Languages[5]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("ro"), None],
-		[proxy(self.Languages[6]), lambda : ui.__mem_func__(self.OnClickLanguageButton)("tr"), None],
-		], self.LangToIndex(app.GetLoca()))
-		self.serverBoard.OnKeyUp = ui.__mem_func__(self.__ServerBoard_OnKeyUp)
-		self.xServerBoard, self.yServerBoard = self.serverBoard.GetLocalPosition()
-
-		self.serverSelectButton.SetEvent(ui.__mem_func__(self.__OnClickSelectServerButton))
-		self.serverExitButton.SetEvent(ui.__mem_func__(self.__OnClickExitButton))
-
+		for (channelID, channelButtons) in list(self.channelButton.items()):
+			channelButtons.SetEvent(ui.__mem_func__(self.SetChannel), channelID)
 		self.loginButton.SetEvent(ui.__mem_func__(self.__OnClickLoginButton))
-		self.loginExitButton.SetEvent(ui.__mem_func__(self.__OnClickExitButton))
-
-		self.serverList.SetEvent(ui.__mem_func__(self.__OnSelectServer))
-		
+		self.exitButton.SetEvent(ui.__mem_func__(self.OnPressExitKey))
+		# self.exitButton1.SetEvent(ui.__mem_func__(self.OnPressExitKey1))
+		# self.clickOnTextLinks()
 		self.idEditLine.SetReturnEvent(ui.__mem_func__(self.pwdEditLine.SetFocus))
 		self.idEditLine.SetTabEvent(ui.__mem_func__(self.pwdEditLine.SetFocus))
-
 		self.pwdEditLine.SetReturnEvent(ui.__mem_func__(self.__OnClickLoginButton))
 		self.pwdEditLine.SetTabEvent(ui.__mem_func__(self.idEditLine.SetFocus))
+		self.idEditLine.SetFocus()
+			
+		GetObject=self.GetChild
+		# self.DiscordButton = self.GetChild("discord_btn")
+		# self.DiscordButton.SetEvent(ui.__mem_func__(self.__OnClickDiscordButton))
 		
-		self.saveAccount.SetEvent(ui.__mem_func__(self.__saveAccount))
-		self.deleteAccount.SetEvent(ui.__mem_func__(self.__deleteAccount))
+		# self.ForgotButton = self.GetChild("web_btn")
+		# self.ForgotButton.SetEvent(ui.__mem_func__(self.__OnClickWebButton))
 
-		if IsFullBackImage():
-			self.GetChild("bg1").Show()
-			self.GetChild("bg2").Hide()
-		return 1
+		# self.ForgotButton = self.GetChild("board_btn")
+		# self.ForgotButton.SetEvent(ui.__mem_func__(self.__OnClickBoardButton))
+		if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
+			self.languageList[0] = GetObject("btn_lang_en")
+			self.languageList[1] = GetObject("btn_lang_ro")
+			self.languageList[2] = GetObject("btn_lang_it")
+			self.languageList[3] = GetObject("btn_lang_tr")
+			self.languageList[4] = GetObject("btn_lang_de")
+			self.languageList[5] = GetObject("btn_lang_pl")
+			self.languageList[6] = GetObject("btn_lang_pt")
+			self.languageList[7] = GetObject("btn_lang_es")
+			self.languageList[8] = GetObject("btn_lang_cz")
+			self.languageList[9] = GetObject("btn_lang_hu")
+		self.languageList[0].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("en"))
+		self.languageList[1].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("ro"))
+		self.languageList[2].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("it"))
+		self.languageList[3].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("tr"))
+		self.languageList[4].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("de"))
+		self.languageList[5].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("pl"))
+		self.languageList[6].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("pt"))
+		self.languageList[7].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("es"))
+		self.languageList[8].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("cz"))
+		self.languageList[9].SetEvent(lambda:ui.__mem_func__(self.__QuestionChangeLanguage)("hu"))
 
-	def SetPass(self, ch):
-		self.SetPassInfo(ch)
-		
-		for (passID, passButtons) in self.passButton.items():
-			if ch != passID:
-				passButtons.SetUp()
-		if ch == "account1":
-			self.WritePass(1)
-		elif ch == "account2":
-			self.WritePass(2)
-		elif ch == "account3":
-			self.WritePass(3)
-		elif ch == "account4":
-			self.WritePass(4)
-		elif ch == "account5":
-			self.WritePass(5)
-		elif ch == "account6":
-			self.WritePass(6)
-		elif ch == "account7":
-			self.WritePass(7)
-		elif ch == "account8":
-			self.WritePass(8)
-		elif ch == "account9":
-			self.WritePass(9)
-		elif ch == "account10":
-			self.WritePass(10)
-		elif ch == "account11":
-			self.WritePass(11)
-		elif ch == "account12":
-			self.WritePass(12)
-		elif ch == "account13":
-			self.WritePass(13)
-		elif ch == "account14":
-			self.WritePass(14)
-		elif ch == "account15":
-			self.WritePass(15)
-
-	def WritePass(self, nr):
-		login = linecache.getline("mark/account" + str(nr) + ".cfg", 1)
-		password = linecache.getline("mark/account" + str(nr) + ".cfg", 2)
-		login = login.replace('\n', '')
-		password = password.replace('\n', '')
-		if password == "" or password == "\n" or login == "" or login == "\n":
-			self.idEditLine.SetText("")
-			self.pwdEditLine.SetText("")
-		else:
-			self.idEditLine.SetText(str(login))
-			self.pwdEditLine.SetText(str(password))
-		login = linecache.clearcache()
-		password = linecache.clearcache()
-
-	def __deleteAccount(self):
-		if self.GetPass() != 0:
-			self.PopupNotifyMessage(localeInfo.ACCOUNT_DELETED)
-			f = open("mark/"+str(self.GetPass())+".cfg", "w")
-			f.write ("")
-			self.passButton[self.GetPass()].SetText("")
-		else:
-			self.PopupNotifyMessage(localeInfo.ACCOUNT_DELETE_CHOOSE)
-
-	def __saveAccount(self):
-		for i in xrange(16):
-			if i != 0:
-				if self.passButton["account"+str(i)].GetText() == "":
-					f = open("mark/account"+str(i)+".cfg", "w")
-					f.write (self.idEditLine.GetText()+"\n"+self.pwdEditLine.GetText())
-					self.PopupNotifyMessage(localeInfo.ACCOUNT_SAVED)
-					self.passButton["account"+str(i)].SetText(str(self.idEditLine.GetText()))
-					break
+	if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
+		def RefreshLanguagesBtn(self):
+			langs = ["en", "ro", "it", "tr", "de", "pl", "pt", "es", "cz", "hu"]
+			for i in xrange(10):
+				if app.GetLocaleName() != langs[i]:
+					self.languageList[i].SetUp()
 				else:
-					self.PopupNotifyMessage(localeInfo.ACCOUNT_SLOT_AVAILABLE)
+					self.languageList[i].Down()
 
-	def SetPassInfo(self, ch):
-		self.passs = str(ch)
-		
-	def GetPass(self):
-		return self.passs
+		def OnClickLanguageButton(self, lang):
+			if app.GetLocaleName() != lang:
+				with open("locale.cfg", "w+") as localeConfig:
+					localeConfig.write("10022 %d %s" % (self.GetCodePage(lang), lang))
+				
+				app.SetDefaultCodePage(self.GetCodePage(lang))
+				app.ForceSetLocale(lang, "locale/%s" % (lang))
+				app.ShellExecute("Andra.exe")
+				self.OnCloseQuestionDialog()
+				app.Exit()
 
-	def __VirtualKeyboard_SetKeys(self, keyCodes):
-		uiDefFontBackup = localeInfo.UI_DEF_FONT
-		localeInfo.UI_DEF_FONT = localeInfo.UI_DEF_FONT_LARGE
-
-		keyIndex = 1
-		for keyCode in keyCodes:					
-			key = self.GetChild2("key_%d" % keyIndex)
-			if key:
-				key.SetEvent(lambda x=keyCode: self.__VirtualKeyboard_PressKey(x))
-				key.SetText(keyCode)
-				key.ButtonText.SetFontColor(0, 0, 0)
-				keyIndex += 1
+		def OnCloseQuestionDialog(self):
+			if not self.questionDialog:
+				return
 			
-		for keyIndex in xrange(keyIndex, VIRTUAL_KEYBOARD_NUM_KEYS+1):
-			key = self.GetChild2("key_%d" % keyIndex)
-			if key:
-				key.SetEvent(lambda x=' ': self.__VirtualKeyboard_PressKey(x))
-				key.SetText(' ')
-		
-		localeInfo.UI_DEF_FONT = uiDefFontBackup
+			self.RefreshLanguagesBtn()
+			self.questionDialog.Close()
+			self.questionDialog = None
+			constinfo.SET_ITEM_QUESTION_DIALOG_STATUS(0)
 
-	def __VirtualKeyboard_PressKey(self, code):
-		ime.PasteString(code)
+		def __QuestionChangeLanguage(self, lang):
+			if app.GetLocaleName() == lang:
+				return
 			
-	def __VirtualKeyboard_PressBackspace(self):
-		ime.PasteBackspace()
-		
-	def __VirtualKeyboard_PressReturn(self):
-		ime.PasteReturn()		
+			langs = ["en", "ro", "it", "tr", "de", "pl", "pt", "es", "cz", "hu"]
+			for i in xrange(10):
+				if lang != langs[i]:
+					self.languageList[i].SetUp()
+				else:
+					self.languageList[i].Down()
+			
+			self.stream.popupWindow.Close()
+			self.questionDialog = uicommon.QuestionDialog()
+			self.questionDialog.SetText(localeinfo.QUESTION_DLG_CHANGELANGUAGE)
+			self.questionDialog.SetAcceptEvent(lambda arg = lang: self.OnClickLanguageButton(arg))
+			self.questionDialog.SetCancelEvent(self.OnCloseQuestionDialog)
+			self.questionDialog.Open()
+			self.questionDialog.SetPosition(self.popupX - 29, self.popupY - 29)
+			constinfo.SET_ITEM_QUESTION_DIALOG_STATUS(1)
+			
+	def GetCodePage(self, lang):
+		codePageDict = {
+			"en" : 1252,
+			"ro" : 1250,
+			"it" : 1252,
+			"tr" : 1254,
+			"de" : 1252,
+			"pl" : 1250,
+			"pt" : 1252,
+			"es" : 1252,
+			"cz" : 1250,
+			"hu" : 1250,
+		}
+		try:
+			return codePageDict[lang]
+		except:
+			return 1252
 
-	def __VirtualKeyboard_SetUpperMode(self):
-		self.virtualKeyboardIsUpper = TRUE
-		
-		if self.virtualKeyboardMode == "ALPHABET":
-			self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_ALPHABET_UPPERS)
-		elif self.virtualKeyboardMode == "NUMBER":
-			self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_SYMBOLS)
+	def GetIndexByName(self, lang):
+		langCode = {
+			"en" : 0, # 0
+			"ro" : 1, # 1
+			"it" : 2, # 2
+			"tr" : 3, # 3
+			"de" : 4, # 4
+			"pl" : 5, # 5
+			"pt" : 6, # 6
+			"es" : 7, # 7
+			"cz" : 8, # 8
+			"hu" : 9, # 9
+		}
+		try:
+			return langCode[lang]
+		except:
+			return 2
+
+
+	def __ClickRadioButton(self, buttonList, buttonIndex):
+		try:
+			selButton = buttonList[buttonIndex]
+		except IndexError:
+			return
+		for eachButton in buttonList:
+			eachButton.SetUp()
+		selButton.Down()
+
+	def __OnClickHideText(self):
+		self.pwdEditLine.SetFocus()
+		if self.isHide == 1:
+			self.pwdEditLine.SetSecret(False)
+			text = self.pwdEditLine.GetText()
+			self.pwdEditLine.SetText("")
+			ime.PasteString(text)
+			self.isHide=0
 		else:
-			self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_NUMBERS)
-			
-	def __VirtualKeyboard_SetLowerMode(self):
-		self.virtualKeyboardIsUpper = FALSE
-		
-		if self.virtualKeyboardMode == "ALPHABET":
-			self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_ALPHABET_LOWERS)
-		elif self.virtualKeyboardMode == "NUMBER":
-			self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_NUMBERS)			
-		else:
-			self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_SYMBOLS)
-			
-	def __VirtualKeyboard_SetAlphabetMode(self):
-		self.virtualKeyboardIsUpper = FALSE
-		self.virtualKeyboardMode = "ALPHABET"		
-		self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_ALPHABET_LOWERS)	
+			self.pwdEditLine.SetSecret(True)
+			text = self.pwdEditLine.GetText()
+			self.pwdEditLine.SetText("")
+			ime.PasteString(text)
+			self.isHide=1
 
-	def __VirtualKeyboard_SetNumberMode(self):			
-		self.virtualKeyboardIsUpper = FALSE
-		self.virtualKeyboardMode = "NUMBER"
-		self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_NUMBERS)
-					
-	def __VirtualKeyboard_SetSymbolMode(self):		
-		self.virtualKeyboardIsUpper = FALSE
-		self.virtualKeyboardMode = "SYMBOL"
-		self.__VirtualKeyboard_SetKeys(self.VIRTUAL_KEY_SYMBOLS)
+	def CheckAccount(self):
+		for i in range(4):
+			if get_reg("id_%d" % i):
+				self.accountData[i][1].SetText(str(get_reg("id_%d" % i)))
+				self.accountData[i][0][1].Hide()
+				self.accountData[i][0][0].Show()
+			else:
+				self.accountData[i][1].SetText(uiscriptlocale.LOGIN_ACCOUNT_EMPTY)
+				self.accountData[i][0][1].Show()
+				self.accountData[i][0][0].Hide()
+				
+	def DeleteAccount(self, key):
+		if get_reg("id_%d" % key):
+			set_reg("id_%d" % key, "")
+			set_reg("pwd_%d" % key, "")
+			self.PopupNotifyMessage(uiscriptlocale.LOGIN_ACCOUNT_DELETE)
+		else:
+			self.PopupNotifyMessage(uiscriptlocale.LOGIN_ACCOUNT_D_S)
+			
+		self.CheckAccount()
+		
+	def LoadAccount(self, key):
+		if get_reg("id_%d" % key):
+			self.idEditLine.SetText(str(get_reg("id_%d" % key)))
+			self.pwdEditLine.SetText(str(get_reg("pwd_%d" % key)))
+			self.pwdEditLine.SetFocus()
+		else:
+			self.PopupNotifyMessage(uiscriptlocale.LOGIN_ACCOUNT_N_S)
+			
+	def SaveAccount(self, key):
+		if get_reg("id_%d" % key):
+			self.PopupNotifyMessage(uiscriptlocale.LOGIN_ACCOUNT_N_S_D)
+			return
+		
+		if self.idEditLine.GetText() == "" or self.pwdEditLine.GetText() == "":
+			self.PopupNotifyMessage(uiscriptlocale.LOGIN_ACCOUNT_SAVE)
+			return
+		
+		set_reg("id_%d" % key, self.idEditLine.GetText())
+		set_reg("pwd_%d" % key, self.pwdEditLine.GetText())
+		self.PopupNotifyMessage(uiscriptlocale.LOGIN_ACCOUNT_SAVED)
+		self.CheckAccount()
+
+	def SetChannel(self, ch):
+		for key, button in list(self.channelButton.items()):
+			button.SetUp()
+			
+		self.channelButton[ch].Down()
+
+		self.stream.SetConnectInfo(g_ip, self.ChannelPort(ch, 0), g_ip, self.ChannelPort("LOGIN"))
+		net.SetMarkServer(g_ip, self.ChannelPort("LOGO"))
+		app.SetGuildMarkPath("10.tga")
+		app.SetGuildSymbolPath("10")
+		net.SetServerInfo(self.ChannelPort(ch, 2))
+		
+	def ChannelPort(self, ch, value=0):
+		channel = {
+			0	:	30003,
+			1	:	30257,
+			2	:	30251,
+			3	:	30255,}
+		if ch == "LOGIN":
+			return 30001
+		elif ch == "LOGO":
+			return channel[0]
+		elif value == 2:
+			return "ISRAEL, Channel %s" % (ch+1)
+		else:
+			return channel[ch]
 				
 	def Connect(self, id, pwd):
-
-		if constInfo.SEQUENCE_PACKET_ENABLE:
+		if constinfo.SEQUENCE_PACKET_ENABLE:
 			net.SetPacketSequenceMode()
-
-		if IsLoginDelay():
-			loginDelay = GetLoginDelay()
-			self.connectingDialog = ConnectingDialog()
-			self.connectingDialog.Open(loginDelay)
-			self.connectingDialog.SAFE_SetTimeOverEvent(self.OnEndCountDown)
-			self.connectingDialog.SAFE_SetExitEvent(self.OnPressExitKey)
-			self.isNowCountDown = TRUE
-
-		else:
-			self.stream.popupWindow.Close()
-			self.stream.popupWindow.Open(localeInfo.LOGIN_CONNETING, self.SetPasswordEditLineFocus, localeInfo.UI_CANCEL)
+		constinfo.id = id
+		constinfo.pwd = pwd
+			
+		constinfo.LastAccount = id.lower()
+		self.stream.popupWindow.Close()
+		self.stream.popupWindow.Open(localeinfo.LOGIN_CONNETING, self.EmptyFunc, localeinfo.UI_CANCEL)
 
 		self.stream.SetLoginInfo(id, pwd)
-		if app.ENABLE_MULTI_LANGUAGE_SYSTEM:
-			connect_result = self.stream.Connect()
-			if not connect_result:
-				self.isNowCountDown = False
-		else:
-			if app.GetLoca() == "en":
-				self.stream.SetLoginInfo(id, pwd, 0)
-			elif app.GetLoca() == "pt":
-				self.stream.SetLoginInfo(id, pwd, 1)
-			elif app.GetLoca() == "es":
-				self.stream.SetLoginInfo(id, pwd, 2)
-			elif app.GetLoca() == "fr":
-				self.stream.SetLoginInfo(id, pwd, 3)
-			elif app.GetLoca() == "de":
-				self.stream.SetLoginInfo(id, pwd, 4)
-			elif app.GetLoca() == "ro":
-				self.stream.SetLoginInfo(id, pwd, 5)
-			elif app.GetLoca() == "pl":
-				self.stream.SetLoginInfo(id, pwd, 6)
-			elif app.GetLoca() == "it":
-				self.stream.SetLoginInfo(id, pwd, 7)
-			elif app.GetLoca() == "cz":
-				self.stream.SetLoginInfo(id, pwd, 8)
-			elif app.GetLoca() == "hu":
-				self.stream.SetLoginInfo(id, pwd, 9)
-			elif app.GetLoca() == "tr":
-				self.stream.SetLoginInfo(id, pwd, 10)
-			else:
-				self.stream.SetLoginInfo(id, pwd, 2)
-			self.stream.Connect()
-
-	def __OnClickExitButton(self):
-		self.stream.SetPhaseWindow(0)
-
-	def __SetServerInfo(self, name):
-		net.SetServerInfo(name.strip())
-		self.serverInfo.SetText(name)
-		
-	def __LoadLoginInfo(self, loginInfoFileName):
-
-		try:
-			loginInfo={}
-			execfile(loginInfoFileName, loginInfo)
-		except IOError:
-			print(\
-				"자동 로그인을 하시려면" + loginInfoFileName + "파일을 작성해주세요\n"\
-				"\n"\
-				"내용:\n"\
-				"================================================================\n"\
-				"addr=주소\n"\
-				"port=포트\n"\
-				"id=아이디\n"\
-				"pwd=비밀번호\n"\
-				"slot=캐릭터 선택 인덱스 (없거나 -1이면 자동 선택 안함)\n"\
-				"autoLogin=자동 접속 여부\n"
-				"autoSelect=자동 접속 여부\n"
-				"locale=(ymir) LC_Ymir 일경우 ymir로 작동. 지정하지 않으면 korea로 작동\n"
-			);
-
-		id=loginInfo.get("id", "")
-		pwd=loginInfo.get("pwd", "")
-
-		if self.IS_TEST:
-			try:
-				addr=loginInfo["addr"]
-				port=loginInfo["port"]
-				account_addr=addr
-				account_port=port
-
-				net.SetMarkServer(addr, port)
-				self.__SetServerInfo(locale.CHANNEL_TEST_SERVER_ADDR % (addr, port))
-			except:
-				try:
-					addr=serverInfo.TESTADDR["ip"]
-					port=serverInfo.TESTADDR["tcp_port"]
-
-					net.SetMarkServer(addr, port)
-					self.__SetServerInfo(locale.CHANNEL_TEST_SERVER)
-				except:
-					import exception
-					exception.Abort("LoginWindow.__LoadLoginInfo - 테스트서버 주소가 없습니다")
-
-		else:
-			addr=loginInfo.get("addr", "")
-			port=loginInfo.get("port", 0)
-			account_addr=loginInfo.get("account_addr", addr)
-			account_port=loginInfo.get("account_port", port)
-
-			locale = loginInfo.get("locale", "")
-
-			if addr and port:
-				net.SetMarkServer(addr, port)
-
-				if locale == "ymir" :
-					net.SetServerInfo("천마 서버")
-					self.serverInfo.SetText("Y:"+addr+":"+str(port))
-				else:
-					net.SetServerInfo(addr+":"+str(port))
-					self.serverInfo.SetText("K:"+addr+":"+str(port))
-
-		slot=loginInfo.get("slot", 0)
-		isAutoLogin=loginInfo.get("auto", 0)
-		isAutoLogin=loginInfo.get("autoLogin", 0)
-		isAutoSelect=loginInfo.get("autoSelect", 0)
-
-		self.stream.SetCharacterSlot(slot)
-		self.stream.SetConnectInfo(addr, port, account_addr, account_port)
-		self.stream.isAutoLogin=isAutoLogin
-		self.stream.isAutoSelect=isAutoSelect
-
-		self.id = None
-		self.pwd = None		
-		self.loginnedServer = None
-		self.loginnedChannel = None			
-		app.loggined = FALSE
-
-		self.loginInfo = loginInfo
-
-		if self.id and self.pwd:
-			app.loggined = TRUE
-
-		if isAutoLogin:
-			self.Connect(id, pwd)
-			
-			print "=================================================================================="
-			print "자동 로그인: %s - %s:%d %s" % (loginInfoFileName, addr, port, id)
-			print "=================================================================================="
-
+		self.stream.Connect()
 		
 	def PopupDisplayMessage(self, msg):
 		self.stream.popupWindow.Close()
@@ -926,401 +455,94 @@ class LoginWindow(ui.ScriptWindow):
 
 	def PopupNotifyMessage(self, msg, func=0):
 		if not func:
-			func=self.EmptyFunc
-
+			func = self.EmptyFunc
 		self.stream.popupWindow.Close()
-		self.stream.popupWindow.Open(msg, func, localeInfo.UI_OK)
+		self.stream.popupWindow.Open(msg, func, localeinfo.UI_OK)
+
+
+	# def OnPressExitKey1(self):
+		# if self.stream.popupWindow:
+			# self.stream.popupWindow.Close()
+		# self.stream.SetPhaseWindow(0)
+		# return TRUE
 		
-	def __OnCloseInputDialog(self):
-		if self.inputDialog:
-			self.inputDialog.Close()
-		self.inputDialog = None
-		return TRUE
-
 	def OnPressExitKey(self):
-		self.stream.popupWindow.Close()
+		if self.stream.popupWindow:
+			self.stream.popupWindow.Close()
 		self.stream.SetPhaseWindow(0)
 		return TRUE
-
-	def OnExit(self):
-		self.stream.popupWindow.Close()
-
-	def OnUpdate(self):
-		ServerStateChecker.Update()
 
 	def EmptyFunc(self):
 		pass
 
-	def OnClickLanguageButton(self, lang):
-		if app.GetLoca() != lang:
-			app.SetLoca(lang)
-			with open('loca.cfg', 'w+') as langFile:
-				langFile.write(lang)
-				
-			with open("loca.cfg", "w+") as localeConfig:
-				localeConfig.write("%d %s" % (self._CodePageReplace(lang), lang))
+	# def __OnClickDiscordButton(self):
+		# os.system("start " + DISCORDBUTTON)
 
-			app.SetDefaultCodePage(self._CodePageReplace(lang))
-			self.PopupNotifyMessage(localeInfo.CHANGE_LANGUAGE_RESTART, self.__ExitGameNew)
+	# def __OnClickWebButton(self):
+		# os.system("start " + WEBBUTTON)
 
-	#####################################################################################
-
-	def __ServerBoard_OnKeyUp(self, key):
-		if self.serverBoard.IsShow():
-			if app.DIK_RETURN==key:
-				self.__OnClickSelectServerButton()
-		return TRUE
-
-	def __GetRegionID(self):
-		return 0
-
-	def __GetServerID(self):
-		return self.serverList.GetSelectedItem()
-
-	def __GetChannelID(self):
-		return self.channelList.GetSelectedItem()
-
-	# SEVER_LIST_BUG_FIX
-	def __ServerIDToServerIndex(self, regionID, targetServerID):
-		try:
-			regionDict = serverInfo.REGION_DICT[regionID]
-		except KeyError:
-			return -1
-
-		retServerIndex = 0
-		for eachServerID, regionDataDict in regionDict.items():
-			if eachServerID == targetServerID:
-				return retServerIndex
-
-			retServerIndex += 1		
-		
-		return -1
-
-	def __ChannelIDToChannelIndex(self, channelID):
-		return channelID - 1
-	# END_OF_SEVER_LIST_BUG_FIX
-
-	def __OpenServerBoard(self):
-
-		loadRegionID, loadServerID, loadChannelID = self.__LoadChannelInfo()
-		
-		serverIndex = self.__ServerIDToServerIndex(loadRegionID, loadServerID)
-		channelIndex = self.__ChannelIDToChannelIndex(loadChannelID)
-
-		self.serverList.SelectItem(serverIndex)
-
-		if channelIndex >= 0:
-			self.channelList.SelectItem(channelIndex)
-
-		## Show/Hide 코드에 문제가 있어서 임시 - [levites]
-		self.serverBoard.SetPosition(self.xServerBoard, self.yServerBoard)
-		self.serverBoard.Show()
-		self.connectBoard.Hide()
-		self.loginBoard.Hide()
-		self.saveAccount.Hide()
-		self.deleteAccount.Hide()
-		self.AccountBoard.Hide()
-		self.AccountBoard2.Hide()
-		self.ServerBoard_Lang.Show()
-
-		if self.virtualKeyboard:
-			self.virtualKeyboard.Hide()
-
-		if app.loggined and not SKIP_LOGIN_PHASE_SUPPORT_CHANNEL:
-			self.serverList.SelectItem(self.loginnedServer-1)
-			self.channelList.SelectItem(self.loginnedChannel-1)
-			self.__OnClickSelectServerButton()
-
-	def __OpenLoginBoard(self):
-
-		self.serverExitButton.SetEvent(ui.__mem_func__(self.__OnClickExitServerButton))
-		self.serverExitButton.SetText(localeInfo.UI_CLOSE)
-
-		self.serverBoard.SetPosition(self.xServerBoard, wndMgr.GetScreenHeight())
-		self.serverBoard.Hide()
-
-		if self.virtualKeyboard:
-			self.virtualKeyboard.Show()
-
-		if app.loggined:
-			self.Connect(self.id, self.pwd)
-			self.connectBoard.Hide()
-			self.loginBoard.Hide()
-		elif not self.stream.isAutoLogin:
-			self.connectBoard.Show()
-			self.loginBoard.Show()
-
-		## if users have the login infomation, then don't initialize.2005.9 haho
-		if self.idEditLine == None:
-			self.idEditLine.SetText("")
-		if self.pwdEditLine == None:
-			self.pwdEditLine.SetText("")
-
-		self.idEditLine.SetFocus()
-
-		global SKIP_LOGIN_PHASE
-		if SKIP_LOGIN_PHASE:
-			if not self.loginInfo:
-				self.connectBoard.Hide()
-
-		self.saveAccount.Show()
-		self.deleteAccount.Show()
-		self.AccountBoard.Show()
-		self.AccountBoard2.Show()
-		self.ServerBoard_Lang.Hide()
-
-	def __OnSelectRegionGroup(self):
-		self.__RefreshServerList()
-
-	def __OnSelectSettlementArea(self):
-		# SEVER_LIST_BUG_FIX
-		regionID = self.__GetRegionID()
-		serverID = self.serverListOnRegionBoard.GetSelectedItem()
-
-		serverIndex = self.__ServerIDToServerIndex(regionID, serverID)
-		self.serverList.SelectItem(serverIndex)
-		# END_OF_SEVER_LIST_BUG_FIX
-		
-		self.__OnSelectServer()
-
-	def __RefreshServerList(self):
-		regionID = self.__GetRegionID()
-		
-		if not serverInfo.REGION_DICT.has_key(regionID):
-			return
-
-		self.serverList.ClearItem()
-
-		regionDict = serverInfo.REGION_DICT[regionID]
-
-		# SEVER_LIST_BUG_FIX
-		visible_index = 1
-		for id, regionDataDict in regionDict.items():
-			name = regionDataDict.get("name", "noname")
-			try:
-				server_id = serverInfo.SERVER_ID_DICT[id]
-			except:
-				server_id = visible_index
-
-			self.serverList.InsertItem(id, "  %02d. %s" % (int(server_id), name))
-			
-			visible_index += 1
-		
-		# END_OF_SEVER_LIST_BUG_FIX
-
-	def __OnSelectServer(self):
-		self.__OnCloseInputDialog()
-		self.__RequestServerStateList()
-		self.__RefreshServerStateList()
-
-	def __RequestServerStateList(self):
-		regionID = self.__GetRegionID()
-		serverID = self.__GetServerID()
-
-		try:
-			channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
-		except:
-			print " __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)
-			return
-
-		ServerStateChecker.Initialize();
-		for id, channelDataDict in channelDict.items():
-			key=channelDataDict["key"]
-			ip=channelDataDict["ip"]
-			udp_port=channelDataDict["udp_port"]
-			ServerStateChecker.AddChannel(key, ip, udp_port)
-
-		ServerStateChecker.Request()
-
-	def __RefreshServerStateList(self):
-
-		regionID = self.__GetRegionID()
-		serverID = self.__GetServerID()
-		bakChannelID = self.channelList.GetSelectedItem()
-
-		self.channelList.ClearItem()
-
-		try:
-			channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
-		except:
-			print " __RequestServerStateList - serverInfo.REGION_DICT(%d, %d)" % (regionID, serverID)
-			return
-
-		for channelID, channelDataDict in channelDict.items():
-			channelName = channelDataDict["name"]
-			channelState = channelDataDict["state"]
-			self.channelList.InsertItem(channelID, " %s %s" % (channelName, channelState))
-
-		self.channelList.SelectItem(bakChannelID-1)
-
-	def __GetChannelName(self, regionID, selServerID, selChannelID):
-		try:
-			return serverInfo.REGION_DICT[regionID][selServerID]["channel"][selChannelID]["name"]
-		except KeyError:
-			if 9==selChannelID:
-				return localeInfo.CHANNEL_PVP
-			else:
-				return localeInfo.CHANNEL_NORMAL % (selChannelID)
-
-	def NotifyChannelState(self, addrKey, state):
-		try:
-			stateName=serverInfo.STATE_DICT[state]
-		except:
-			stateName=serverInfo.STATE_NONE
-
-		regionID=self.__GetRegionID()
-		serverID=self.__GetServerID()
-		channelID=addrKey%10
-
-		try:
-			serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["state"] = stateName
-			self.__RefreshServerStateList()
-
-		except:
-			import exception
-			exception.Abort(localeInfo.CHANNEL_NOT_FIND_INFO)
-
-	def __OnClickExitServerButton(self):
-		print "exit server"
-		self.__OpenLoginBoard()			
-
-		if IsFullBackImage():
-			self.GetChild("bg1").Hide()
-			self.GetChild("bg2").Show()
-			
-
-	def __OnClickSelectRegionButton(self):
-		regionID = self.__GetRegionID()
-		serverID = self.__GetServerID()
-
-		if (not serverInfo.REGION_DICT.has_key(regionID)):
-			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_REGION)
-			return
-
-		if (not serverInfo.REGION_DICT[regionID].has_key(serverID)):
-			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_SERVER)
-			return		
-
-		self.__SaveChannelInfo()
-
-		self.serverExitButton.SetEvent(ui.__mem_func__(self.__OnClickExitServerButton))
-		self.serverExitButton.SetText(localeInfo.UI_CLOSE)
-
-		self.__RefreshServerList()
-		self.__OpenServerBoard()
-
-	def __OnClickSelectServerButton(self):
-		if IsFullBackImage():
-			self.GetChild("bg1").Hide()
-			self.GetChild("bg2").Show()
-
-		regionID = self.__GetRegionID()
-		serverID = self.__GetServerID()
-		channelID = self.__GetChannelID()
-
-		if (not serverInfo.REGION_DICT.has_key(regionID)):
-			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_REGION)
-			return
-
-		if (not serverInfo.REGION_DICT[regionID].has_key(serverID)):
-			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_SERVER)
-			return
-
-		try:
-			channelDict = serverInfo.REGION_DICT[regionID][serverID]["channel"]
-		except KeyError:
-			return
-
-		try:
-			state = channelDict[channelID]["state"]
-		except KeyError:
-			self.PopupNotifyMessage(localeInfo.CHANNEL_SELECT_CHANNEL)
-			return
-
-		# 상태가 FULL 과 같으면 진입 금지
-		if state == serverInfo.STATE_DICT[3]: 
-			self.PopupNotifyMessage(localeInfo.CHANNEL_NOTIFY_FULL)
-			return
-
-		self.__SaveChannelInfo()
-
-		try:
-			serverName = serverInfo.REGION_DICT[regionID][serverID]["name"]
-			channelName = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["name"]
-			addrKey = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["key"]
-			
-			if "천마 서버" == serverName:			
-				app.ForceSetLocale("ymir", "locale/ymir")
-			elif "쾌도 서버" == serverName:			
-				app.ForceSetLocale("we_korea", "locale/we_korea")				
-				
-		except:
-			print " ERROR __OnClickSelectServerButton(%d, %d, %d)" % (regionID, serverID, channelID)
-			serverName = localeInfo.CHANNEL_EMPTY_SERVER
-			channelName = localeInfo.CHANNEL_NORMAL % channelID
-
-		self.__SetServerInfo("%s, %s " % (serverName, channelName))
-
-		try:
-			ip = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["ip"]
-			tcp_port = serverInfo.REGION_DICT[regionID][serverID]["channel"][channelID]["tcp_port"]
-		except:
-			import exception
-			exception.Abort("LoginWindow.__OnClickSelectServerButton - 서버 선택 실패")
-
-		try:
-			account_ip = serverInfo.REGION_AUTH_SERVER_DICT[regionID][serverID]["ip"]
-			account_port = serverInfo.REGION_AUTH_SERVER_DICT[regionID][serverID]["port"]
-		except:
-			account_ip = 0
-			account_port = 0
-
-		try:
-			markKey = regionID*1000 + serverID*10
-			markAddrValue=serverInfo.MARKADDR_DICT[markKey]
-			net.SetMarkServer(markAddrValue["ip"], markAddrValue["tcp_port"])
-			app.SetGuildMarkPath(markAddrValue["mark"])
-			# GUILD_SYMBOL
-			app.SetGuildSymbolPath(markAddrValue["symbol_path"])
-			# END_OF_GUILD_SYMBOL
-
-		except:
-			import exception
-			exception.Abort("LoginWindow.__OnClickSelectServerButton - 마크 정보 없음")
-
-
-		if app.USE_OPENID and not app.OPENID_TEST :
-			## 2012.07.19 OpenID : 김용욱
-			# 채널 선택 화면에서 "확인"(SelectServerButton) 을 눌렀을때,
-			# 로그인 화면으로 넘어가지 않고 바로 서버에 OpenID 인증키를 보내도록 수정
-			self.stream.SetConnectInfo(ip, tcp_port, account_ip, account_port)
-			self.Connect(0, 0)
-		else :
-			self.stream.SetConnectInfo(ip, tcp_port, account_ip, account_port)
-			self.__OpenLoginBoard()
-		
-
-	def __OnClickSelectConnectButton(self):
-		if IsFullBackImage():
-			self.GetChild("bg1").Show()
-			self.GetChild("bg2").Hide()
-		self.__RefreshServerList()
-		self.__OpenServerBoard()
+	# def __OnClickBoardButton(self):
+		# os.system("start " + BOARDBUTTON)
 
 	def __OnClickLoginButton(self):
 		id = self.idEditLine.GetText()
-		pwd = self.pwdEditLine.GetText()		
+		pwd = self.pwdEditLine.GetText()
 
 		if len(id)==0:
-			self.PopupNotifyMessage(localeInfo.LOGIN_INPUT_ID, self.SetIDEditLineFocus)
+			self.PopupNotifyMessage(localeinfo.LOGIN_INPUT_ID, self.EmptyFunc)
 			return
 
 		if len(pwd)==0:
-			self.PopupNotifyMessage(localeInfo.LOGIN_INPUT_PASSWORD, self.SetPasswordEditLineFocus)
+			self.PopupNotifyMessage(localeinfo.LOGIN_INPUT_PASSWORD, self.EmptyFunc)
 			return
 
 		self.Connect(id, pwd)
-	
-	def SameLogin_OpenUI(self):
-		self.stream.popupWindow.Close()
-		self.stream.popupWindow.Open(localeInfo.LOGIN_FAILURE_SAMELOGIN, 0, localeInfo.UI_OK)
+
+	def AskGuardCode(self):
+		GuardInput = uiCommon.InputDialog()
+		GuardInput.SetTitle("Enter the code sent to your e-mail address")
+		GuardInput.SetAcceptEvent(ui.__mem_func__(self.ConfirmGuardCode))
+		GuardInput.SetCancelEvent(ui.__mem_func__(self.CancelGuardCode))
+		GuardInput.Open()
+
+		self.GuardInput = GuardInput
+
+	def ConfirmGuardCode(self):
+		self.__OnClickLoginButton()
+
+		self.GuardInput.Close()
+		self.GuardInput = None
+		return True
+
+	def CancelGuardCode(self):
+		self.GuardInput.Close()
+		self.GuardInput = None
+		return True
+
+	def CheckGuardCode(self):
+		if constinfo.GUARD_TRY_COUNT == 3:
+			self.PopupNotifyMessage("You already tried too much", self.__ExitGame)
+
+		constinfo.GUARD_TRY_COUNT += 1
+
+	# dracaryS-28042020
+	def __LoginDirectly(self, j):
+		self.LoadAccount(j-1)
+		self.__OnClickLoginButton()
+	def OnKeyDown(self, key):
+		if app.DIK_F1 == key:
+			self.__LoginDirectly(1)
+		elif app.DIK_F2 == key:
+			self.__LoginDirectly(2)
+		elif app.DIK_F3 == key:
+			self.__LoginDirectly(3)
+		elif app.DIK_F4 == key:
+			self.__LoginDirectly(4)
+		return True
+	def OnUpdate(self):
+		ServerStateChecker.Update()
+	def NotifyChannelState(self, addrKey, state):
+		if addrKey >= 1 and addrKey<=4:
+			STATE_DICT = {0 : "....",1 : "NORMAL",2 : "BUSY",3 : "FULL"}
+			self.GetChild("ch%d_status"%addrKey).SetFontColor(0.0, 1.0, 0.0)
+			self.GetChild("ch%d_status"%addrKey).SetText(STATE_DICT[state])

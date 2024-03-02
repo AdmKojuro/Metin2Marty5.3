@@ -11,6 +11,9 @@ import networkModule
 import constInfo
 import localeInfo
 
+if app.CHANNEL_CHANGE_SYSTEM:
+	import uichannel
+
 SYSTEM_MENU_FOR_PORTAL = False
 
 ###################################################################################################
@@ -25,6 +28,9 @@ class SystemDialog(ui.ScriptWindow):
 		self.eventOpenHelpWindow = None
 		self.systemOptionDlg = None
 		self.gameOptionDlg = None
+		if app.CHANNEL_CHANGE_SYSTEM:
+			self.channelUI = uichannel.ChannelChanger()
+			self.channelUI.Hide()
 
 
 	def LoadDialog(self):
@@ -40,6 +46,8 @@ class SystemDialog(ui.ScriptWindow):
 
 		self.GetChild("system_option_button").SAFE_SetEvent(self.__ClickSystemOptionButton)
 		self.GetChild("game_option_button").SAFE_SetEvent(self.__ClickGameOptionButton)
+		if app.CHANNEL_CHANGE_SYSTEM:
+			self.GetChild("movechannel_button").SAFE_SetEvent(self.__ClickChChangeButton)
 		self.GetChild("change_button").SAFE_SetEvent(self.__ClickChangeCharacterButton)
 		self.GetChild("logout_button").SAFE_SetEvent(self.__ClickLogOutButton)
 		self.GetChild("exit_button").SAFE_SetEvent(self.__ClickExitButton)
@@ -58,6 +66,8 @@ class SystemDialog(ui.ScriptWindow):
 
 		self.GetChild("system_option_button").SAFE_SetEvent(self.__ClickSystemOptionButton)
 		self.GetChild("game_option_button").SAFE_SetEvent(self.__ClickGameOptionButton)
+		if app.CHANNEL_CHANGE_SYSTEM:
+			self.GetChild("movechannel_button").SAFE_SetEvent(self.__ClickChChangeButton)
 		self.GetChild("change_button").SAFE_SetEvent(self.__ClickChangeCharacterButton)
 		self.GetChild("exit_button").SAFE_SetEvent(self.__ClickExitButton)
 		self.GetChild("help_button").SAFE_SetEvent(self.__ClickHelpButton)
@@ -113,6 +123,11 @@ class SystemDialog(ui.ScriptWindow):
 			self.systemOptionDlg = uiSystemOption.OptionDialog()
 
 		self.systemOptionDlg.Show()
+
+	if app.CHANNEL_CHANGE_SYSTEM:
+		def __ClickChChangeButton(self):
+			self.Close()
+			self.channelUI.Show()
 
 	def __ClickGameOptionButton(self):
 		self.Close()

@@ -2026,6 +2026,8 @@ TASKBAR_SP	SP
 TASKBAR_ST	ST
 TENTH_COIN	Moneda(s) del aniversario
 TENTH_EVENT_ASK_EXCHANGE	Necesitas %d Banderas del aniversario. ¿Deseas continuar?
+TEXT_CHANNEL	%s, CH%d
+CH_99_NAME	%s, General
 THING_COUNT	todo
 TOOLTIP_AFFECT_POLYMORPH	Polimorfismo	SNA
 TOOLTIP_ANTI_CRITICAL_PCT	Resistencia contra golpe crítico +%d%%	SA
@@ -2334,6 +2336,11 @@ UI_OK	OK
 UI_POS_UNKNOWN	Lugar desconocido
 UI_PREVPAGE	atrás
 UI_UNKNOWN	Desconocido
+UI_CHANNEL_GO	Cambiar
+UI_CHANNEL_CLOSE	Cerrar
+UI_CHANNEL_CHOOSE	Elegir CH
+UI_CHANNEL_REFRESH	Refrescar
+UI_CHANNEL_YET_ON_THIS_CH	Ya estas en este CH.
 UNLIMIT_ENTER_CZ_QUESTION	Puedes entrar en el Templo del zodíaco durante %d min. ¿Quieres utilizarlo?
 UPDATE_TIME	Fecha:
 UPLOAD_MARK_CHECK_NEED_RECONNECT	La carga tiene que ser iniciada de nuevo.

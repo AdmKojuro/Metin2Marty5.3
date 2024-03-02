@@ -5348,6 +5348,10 @@ bool CPythonNetworkStream::RecvChannelPacket()
 	if (!Recv(sizeof(kChannelPacket), &kChannelPacket))
 		return false;
 
+#ifdef __CHANNEL_CHANGE_SYSTEM__
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_OnChannelPacket", Py_BuildValue("(i)", kChannelPacket.channel));
+#endif
+
 	//Tracef(" >> CPythonNetworkStream::RecvChannelPacket(channel=%d)\n", kChannelPacket.channel);
 
 	return true;

@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define __CHANNEL_CHANGE_SYSTEM__			// Instant Change Channel
 #define FAST_EQUIP_WORLDARD
 #define __BL_KILL_BAR__										// Muestra las muertes y asesinatos
 #define ENABLE_ATLAS_BOSS
