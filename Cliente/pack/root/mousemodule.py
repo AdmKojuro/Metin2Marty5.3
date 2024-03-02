@@ -218,6 +218,7 @@ class CMouseController(object):
 				Type == player.SLOT_TYPE_SHOP or\
 				Type == player.SLOT_TYPE_SAFEBOX or\
 				Type == player.SLOT_TYPE_MALL or\
+				Type == player.SLOT_TYPE_CHANGE_EQUIP or\
 				Type == player.SLOT_TYPE_DRAGON_SOUL_INVENTORY or\
 				Type == player.SLOT_TYPE_SKILL_BOOK_INVENTORY or\
 				Type == player.SLOT_TYPE_UPGRADE_ITEMS_INVENTORY or\
@@ -359,6 +360,7 @@ class CMouseController(object):
 				self.AttachedType == player.SLOT_TYPE_PRIVATE_SHOP or\
 				self.AttachedType == player.SLOT_TYPE_SHOP or\
 				self.AttachedType == player.SLOT_TYPE_SAFEBOX or\
+				self.AttachedType == player.SLOT_TYPE_CHANGE_EQUIP or\
 				self.AttachedType == player.SLOT_TYPE_MALL or\
 				self.AttachedType == player.SLOT_TYPE_SKILL_BOOK_INVENTORY or\
 				self.AttachedType == player.SLOT_TYPE_UPGRADE_ITEMS_INVENTORY or\

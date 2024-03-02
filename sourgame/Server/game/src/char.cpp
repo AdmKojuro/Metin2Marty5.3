@@ -501,7 +501,9 @@ void CHARACTER::Initialize()
 #endif
 	memset(&m_tvLastSyncTime, 0, sizeof(m_tvLastSyncTime));
 	m_iSyncHackCount = 0;
-
+#ifdef FAST_EQUIP_WORLDARD
+	time_change_equip = 0;
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	m_isOpenCombSkillBook = false;
 	date_item_add = NULL;

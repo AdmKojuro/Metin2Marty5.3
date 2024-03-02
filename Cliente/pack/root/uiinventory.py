@@ -533,6 +533,10 @@ class InventoryWindow(ui.ScriptWindow):
 		def BindWindow(self, wnd):
 			self.bindWnds.append(wnd)
 
+	def OpenFastEquip(self):
+		if self.interface:
+			self.interface.OpenFastEquip()
+
 	def __LoadWindow(self):
 		if self.isLoaded == 1:
 			return
@@ -563,6 +567,7 @@ class InventoryWindow(ui.ScriptWindow):
 			self.DSSButton = self.GetChild2("DSSButton")
 			self.shopButton = self.GetChild("shopButton")
 			self.costumeButton = self.GetChild2("CostumeButton")
+			self.fast_equipbtn = self.GetChild2("fast_equip")
 			if app.ENABLE_CHEQUE_SYSTEM:
 				self.wndCheque = self.GetChild("Cheque")
 				self.wndChequeSlot = self.GetChild("Cheque_Slot")
@@ -709,6 +714,9 @@ class InventoryWindow(ui.ScriptWindow):
 
 		if self.shopButton:
 			self.shopButton.SetEvent(ui.__mem_func__(self.OpenOfflineShop))
+
+		if self.fast_equipbtn:
+			self.fast_equipbtn.SetEvent(ui.__mem_func__(self.OpenFastEquip))
 
 		# Costume Button
 		if self.costumeButton:
@@ -1373,6 +1381,10 @@ class InventoryWindow(ui.ScriptWindow):
 			elif app.ENABLE_SWITCHBOT and player.SLOT_TYPE_SWITCHBOT == attachedSlotType:
 				attachedCount = mouseModule.mouseController.GetAttachedItemCount()
 				net.SendItemMovePacket(player.SWITCHBOT, attachedSlotPos, player.INVENTORY, selectedSlotPos, attachedCount)
+
+			elif player.SLOT_TYPE_CHANGE_EQUIP == attachedSlotType and app.FAST_EQUIP_WORLDARD:
+				attachedCount = mouseModule.mouseController.GetAttachedItemCount()
+				net.SendItemMovePacket(player.CHANGE_EQUIP, attachedSlotPos, player.INVENTORY, selectedSlotPos, attachedCount)
 
 			elif player.SLOT_TYPE_PRIVATE_SHOP == attachedSlotType:
 				mouseModule.mouseController.RunCallBack("INVENTORY")
@@ -2760,7 +2772,7 @@ class InventoryWindow(ui.ScriptWindow):
 			#chat.AppendChat(chat.CHAT_TYPE_INFO, "System %d." % (int(arg)+1))
 			
 			if (arg == 0):
-				self.interface.OpenPrivateShopSearch(type)
+				self.interface.OpenFastEquip()
 			if (arg == 1):
 				self.interface.OpenDropItem()
 			if (arg == 2):

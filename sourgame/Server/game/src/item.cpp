@@ -386,6 +386,19 @@ LPITEM CItem::RemoveFromCharacter()
 				}
 			}
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+			else if (m_bWindow == CHANGE_EQUIP)
+			{
+				if (m_wCell >= CHANGE_EQUIP_SLOT_COUNT)
+				{
+					sys_err("CItem::RemoveFromCharacter: pos >= CHANGE_EQUIP_SLOT_COUNT");
+				}
+				else
+				{
+					pOwner->SetItem(TItemPos(CHANGE_EQUIP, m_wCell), NULL);
+				}
+			}
+#endif
 			else
 			{
 				TItemPos cell(INVENTORY, m_wCell);
@@ -462,6 +475,17 @@ bool CItem::AddToCharacter(LPCHARACTER ch, TItemPos Cell)
 		}
 	}
 #endif
+
+#ifdef FAST_EQUIP_WORLDARD
+	else if (CHANGE_EQUIP == window_type)
+	{
+		if (m_wCell >= CHANGE_EQUIP_SLOT_COUNT)
+		{
+			sys_err("CItem::AddToCharacter:ChangeEquip cell overflow: %s to %s cell %d", m_pProto->szName, ch->GetName(), m_wCell);
+			return false;
+		}
+	}
+#endif	
 
 	if (ch->GetDesc())
 		m_dwLastOwnerPID = ch->GetPlayerID();

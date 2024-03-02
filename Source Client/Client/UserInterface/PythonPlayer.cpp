@@ -628,6 +628,10 @@ const TItemData * CPythonPlayer::GetItemData(TItemPos Cell) const
 	case SWITCHBOT:
 		return &m_playerStatus.aSwitchbotItem[Cell.cell];
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+	case CHANGE_EQUIP:
+		return &m_playerStatus.aChangeEquipItem[Cell.cell];
+#endif	
 	default:
 		return NULL;
 	}
@@ -660,6 +664,11 @@ void CPythonPlayer::SetItemData(TItemPos Cell, const TItemData & c_rkItemInst)
 #ifdef ENABLE_SWITCHBOT
 	case SWITCHBOT:
 		m_playerStatus.aSwitchbotItem[Cell.cell] = c_rkItemInst;
+		break;
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	case CHANGE_EQUIP:
+		m_playerStatus.aChangeEquipItem[Cell.cell] = c_rkItemInst;
 		break;
 #endif
 	}

@@ -2380,6 +2380,9 @@ void CInputDB::ItemLoad(LPDESC d, const char * c_pData)
 #ifdef ENABLE_SWITCHBOT
 				case SWITCHBOT:
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+				case CHANGE_EQUIP:
+#endif
 #ifdef __SPECIAL_INVENTORY_SYSTEM__
 				case SKILL_BOOK_INVENTORY:
 				case UPGRADE_ITEMS_INVENTORY:

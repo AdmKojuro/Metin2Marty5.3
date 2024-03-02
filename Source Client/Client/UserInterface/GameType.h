@@ -32,6 +32,14 @@ struct SAffects
 	DWORD dwAffects;
 };
 
+#ifdef FAST_EQUIP_WORLDARD 
+enum ChangeEquipConfig
+{
+	CHANGE_EQUIP_PAGE_EXTRA = 10,
+	CHANGE_EQUIP_SLOT_COUNT = 30*CHANGE_EQUIP_PAGE_EXTRA,
+};
+	
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 const DWORD c_skillbook_slot_max = 10;
 #endif
@@ -200,6 +208,11 @@ const DWORD c_DragonSoul_Inventory_Box_Size = 32;
 const DWORD c_DragonSoul_Inventory_Count = CItemData::DS_SLOT_NUM_TYPES * DRAGON_SOUL_GRADE_MAX * c_DragonSoul_Inventory_Box_Size;
 const DWORD c_DragonSoul_Inventory_End = c_DragonSoul_Inventory_Start + c_DragonSoul_Inventory_Count;
 
+#ifdef FAST_EQUIP_WORLDARD 
+const DWORD c_change_equip_Slot_Start = c_New_Equipment_Start + c_New_Equipment_Count;
+const DWORD c_change_equip_Slot_End = c_change_equip_Slot_Start + 30*10;
+#endif
+
 enum ESlotType
 {
 	SLOT_TYPE_NONE,
@@ -216,6 +229,9 @@ enum ESlotType
 	SLOT_TYPE_DRAGON_SOUL_INVENTORY,
 #ifdef ENABLE_SWITCHBOT
 	SLOT_TYPE_SWITCHBOT,
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	SLOT_TYPE_CHANGE_EQUIP,
 #endif
 #ifdef ENABLE_AURA_SYSTEM
 	SLOT_TYPE_AURA,
@@ -290,6 +306,9 @@ enum EWindows
 	BELT_INVENTORY,
 #ifdef ENABLE_SWITCHBOT
 	SWITCHBOT,
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	CHANGE_EQUIP,
 #endif
 	GROUND,
 	
@@ -462,6 +481,11 @@ typedef struct SItemPos
 #ifdef ENABLE_SWITCHBOT
 		case SWITCHBOT:
 			return cell < SWITCHBOT_SLOT_COUNT;
+			break;
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+		case CHANGE_EQUIP:
+			return cell < CHANGE_EQUIP_SLOT_COUNT;
 			break;
 #endif
 		default:

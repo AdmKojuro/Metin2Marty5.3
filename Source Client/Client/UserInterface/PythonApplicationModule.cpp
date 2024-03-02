@@ -2093,5 +2093,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "BL_KILL_BAR", false);
 #endif
 
+#ifdef FAST_EQUIP_WORLDARD
+	PyModule_AddIntConstant(poModule, "FAST_EQUIP_WORLDARD",	1);
+#else
+	PyModule_AddIntConstant(poModule, "FAST_EQUIP_WORLDARD",	0);
+#endif
+
 }
 

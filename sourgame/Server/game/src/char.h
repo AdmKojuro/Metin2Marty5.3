@@ -494,6 +494,9 @@ typedef struct character_point_instant
 #ifdef ENABLE_SWITCHBOT
 	LPITEM			pSwitchbotItems[SWITCHBOT_SLOT_COUNT];
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+	LPITEM 			pChangeEquipItem[CHANGE_EQUIP_SLOT_COUNT];
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	LPITEM			pB67Item;
 #endif
@@ -2683,6 +2686,21 @@ public:
 
 	protected:
 		int		m_iGoToXYTime;
+
+#ifdef FAST_EQUIP_WORLDARD
+	public:
+		bool 			IsValidItemChangeEquip(int cell, LPITEM item);
+		LPITEM			GetChangeEquipItem(WORD wCell) const;
+		void 			SetTimeChangeEquip(int time ) {time_change_equip = time;}
+		int 			GetTimeChangeEquip(){return time_change_equip;}
+		DWORD 			GetLastSkillTime() const {return m_dwLastSkillTime;}
+		bool 			ChechPositionAvailable(int iWearCell);
+		int 			IsWearUniqueChangeEquip(BYTE page_index_ce,LPITEM item);
+
+	private:
+		int 	time_change_equip;
+
+#endif
 };
 
 ESex GET_SEX(LPCHARACTER ch);

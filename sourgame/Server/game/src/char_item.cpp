@@ -245,6 +245,13 @@ bool CHARACTER::CanHandleItem(bool bSkipCheckRefine, bool bSkipObserver)
 	return true;
 }
 
+#ifdef FAST_EQUIP_WORLDARD 
+LPITEM CHARACTER::GetChangeEquipItem(WORD wCell) const
+{
+	return GetItem(TItemPos(CHANGE_EQUIP,wCell));
+}
+#endif
+
 LPITEM CHARACTER::GetInventoryItem(WORD wCell) const
 {
 	return GetItem(TItemPos(INVENTORY, wCell));
@@ -314,6 +321,16 @@ LPITEM CHARACTER::GetItem(TItemPos Cell) const
 			return NULL;
 		}
 		return m_pointsInstant.pSwitchbotItems[wCell];
+#endif
+
+#ifdef FAST_EQUIP_WORLDARD
+	case CHANGE_EQUIP:
+		if(wCell >= CHANGE_EQUIP_SLOT_COUNT)
+		{
+			sys_err("CHARACTER::GetInventoryItem: invalid change_equip item cell %d", wCell);
+			return NULL;
+		}
+		return m_pointsInstant.pChangeEquipItem[wCell];
 #endif
 
 	default:
@@ -497,6 +514,26 @@ void CHARACTER::SetItem(TItemPos Cell, LPITEM pItem)
 	}
 	break;
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+	case CHANGE_EQUIP:
+		{
+			if (wCell >= CHANGE_EQUIP_SLOT_COUNT)
+			{
+				sys_err("CHARACTER::SetItem: invalid CHANGE_EQUIP item cell %d", wCell);
+				return;
+			}
+			LPITEM pOld = m_pointsInstant.pChangeEquipItem[wCell];
+
+			if (pOld && pItem)
+			{
+				return;
+			}
+
+			m_pointsInstant.pChangeEquipItem[wCell] = pItem;
+
+		}
+		break;	
+#endif
 	default:
 		sys_err ("Invalid Inventory type %d", window_type);
 		return;
@@ -571,6 +608,11 @@ void CHARACTER::SetItem(TItemPos Cell, LPITEM pItem)
 #ifdef ENABLE_SWITCHBOT
 		case SWITCHBOT:
 			pItem->SetWindow(SWITCHBOT);
+			break;
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+		case CHANGE_EQUIP:
+			pItem->SetWindow(CHANGE_EQUIP);
 			break;
 #endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
@@ -657,6 +699,20 @@ void CHARACTER::ClearItem()
 			M2_DESTROY_ITEM(item);
 		}
 	}
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	for (i = 0; i < CHANGE_EQUIP_SLOT_COUNT; ++i)
+	{
+		if ((item = GetItem(TItemPos(CHANGE_EQUIP, i))))
+		{
+			item->SetSkipSave(true);
+			ITEM_MANAGER::instance().FlushDelayedSave(item);
+
+			item->RemoveFromCharacter();
+			M2_DESTROY_ITEM(item);
+		}
+	}
+
 #endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	item = GetBonus67NewItem();
@@ -908,6 +964,7 @@ bool CHARACTER::IsEmptyItemGrid(TItemPos Cell, BYTE bSize, int iExceptionCell) c
 			}
 		}
 		break;
+
 	case DRAGON_SOUL_INVENTORY:
 		{
 			WORD wCell = Cell.cell;
@@ -979,6 +1036,23 @@ bool CHARACTER::IsEmptyItemGrid(TItemPos Cell, BYTE bSize, int iExceptionCell) c
 		}
 
 		if (m_pointsInstant.pSwitchbotItems[wCell])
+		{
+			return false;
+		}
+
+		return true;
+		}
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	case CHANGE_EQUIP:
+		{
+		WORD wCell = Cell.cell;
+		if (wCell >= CHANGE_EQUIP_SLOT_COUNT)
+		{
+			return false;
+		}
+
+		if (m_pointsInstant.pChangeEquipItem[wCell])
 		{
 			return false;
 		}
@@ -6363,6 +6437,22 @@ bool CHARACTER::UseItem(TItemPos Cell, TItemPos DestCell)
 	}
 #endif
 
+#ifdef FAST_EQUIP_WORLDARD
+	if(Cell.IsChangeEquipPosition())
+	{
+		int iEmptyCell = GetEmptyInventory(item->GetSize());
+		if (iEmptyCell == -1)
+		{
+			ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Cannot remove item from fast equip. Inventory is full."));
+			return false;
+		}
+
+		MoveItem(Cell, TItemPos(INVENTORY, iEmptyCell), item->GetCount());
+		return true;
+	}
+
+#endif
+
 	if (!item->CanUsedBy(this))
 	{
 		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("군직이 맞지않아 이 아이템을 사용할 수 없습니다."));
@@ -6801,6 +6891,194 @@ bool CHARACTER::DropGold(long long gold)
 	return false;
 }
 
+#ifdef FAST_EQUIP_WORLDARD
+bool CHARACTER::ChechPositionAvailable(int iWearCell)
+{
+	if(iWearCell < 0){
+		return false;
+	}
+
+	for (int a = 0; a <sizeof(EWearCheckPositions)/sizeof(*EWearCheckPositions); ++a)
+	{
+		if(iWearCell == EWearCheckPositions[a]){
+			return true;
+		}
+	}
+
+	return false;
+
+}
+
+int CHARACTER::IsWearUniqueChangeEquip(BYTE page_index_ce,LPITEM item)
+{
+	DWORD index_old = CHANGE_EQUIP_SLOT_COUNT-(CHANGE_EQUIP_SLOT_COUNT/page_index_ce);
+
+	if(page_index_ce > 1){
+		index_old = CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*page_index_ce;
+	}
+
+
+	LPITEM item_check = GetChangeEquipItem(index_old+WEAR_UNIQUE1);
+	if(item_check && item)
+	{
+		if(item->GetVnum() == item_check->GetVnum())
+		{
+			return WEAR_UNIQUE1;
+		}
+
+		return WEAR_UNIQUE2;
+	}
+
+	return WEAR_UNIQUE1;
+}
+
+
+bool CHARACTER::IsValidItemChangeEquip(int cell, LPITEM item)
+{	
+
+	if(cell < 0)
+	{
+		return false;
+	}
+
+
+	if(cell > CHANGE_EQUIP_SLOT_COUNT)
+	{
+		return false;
+	}
+
+
+	BYTE page_index_ce = 1;
+
+	for (int i = 1; i < CHANGE_EQUIP_PAGE_EXTRA; ++i)
+	{
+		if(cell >= CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*i && cell < (CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA)*(i+1))
+		{
+			page_index_ce = i;
+		}
+	}
+
+	int iWearCell = item->FindEquipCell(this);
+
+	if (item->GetType() == ITEM_UNIQUE)
+	{
+		iWearCell = IsWearUniqueChangeEquip(page_index_ce,item);
+	}
+
+	if(!ChechPositionAvailable(iWearCell)){
+		return false;
+	}
+
+	if(GetChangeEquipItem(cell)){
+		return false;
+	}
+
+	if (!item->CheckItemUseLevel(GetLevel())){
+		return false;
+	}	
+
+	if(iWearCell == WEAR_ARROW){
+		return false;
+	}
+
+
+	for (int i = 1; i < CHANGE_EQUIP_PAGE_EXTRA; ++i)
+	{
+		if(cell >= CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*i && cell < (CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA)*(i+1))
+		{
+			cell = cell - ((CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA)*i);
+		}
+	}
+
+	if(iWearCell != cell)
+	{
+		return false;
+	}	
+
+	if ((item->GetType() == ITEM_COSTUME && item->GetSubType() == COSTUME_WEAPON) || item->GetType() == ITEM_WEAPON)
+	{
+		
+		DWORD index_old = CHANGE_EQUIP_SLOT_COUNT-(CHANGE_EQUIP_SLOT_COUNT/page_index_ce);
+
+		if(page_index_ce > 1){
+			index_old = CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*page_index_ce;
+		}
+
+		LPITEM check_weapon = NULL;
+		LPITEM check_costume = NULL;
+
+		for (int i = index_old; i < (CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA)*(page_index_ce+1); ++i)
+		{
+			LPITEM item_check = GetChangeEquipItem(i);
+			if(item_check)
+			{
+				if(item_check->GetType() == ITEM_WEAPON)
+				{
+					check_weapon = item_check;
+				}
+
+				if(item_check->GetType() == ITEM_COSTUME && item_check->GetSubType() == COSTUME_WEAPON)
+				{
+					check_costume = item_check;
+				}
+			}
+		}
+
+		if(item->GetType() == ITEM_WEAPON)
+		{
+			if(check_costume != NULL)
+			{
+				if(check_costume->GetValue(3) != item->GetSubType()){
+					return false;
+				}
+			}
+		}
+
+		if(item->GetSubType() == COSTUME_WEAPON)
+		{
+			if(check_weapon != NULL)
+			{
+				if(item->GetValue(3) != check_weapon->GetSubType()){
+					return false;
+				}
+			}
+		}
+
+	}
+
+	switch (GetJob())
+	{
+		case JOB_WARRIOR:
+			if (item->GetAntiFlag() & ITEM_ANTIFLAG_WARRIOR)
+				return false;
+			break;
+
+		case JOB_ASSASSIN:
+			if (item->GetAntiFlag() & ITEM_ANTIFLAG_ASSASSIN)
+				return false;
+			break;
+
+		case JOB_SHAMAN:
+			if (item->GetAntiFlag() & ITEM_ANTIFLAG_SHAMAN)
+				return false;
+			break;
+
+		case JOB_SURA:
+			if (item->GetAntiFlag() & ITEM_ANTIFLAG_SURA)
+				return false;
+			break;
+	}
+
+	if (false == FN_check_item_sex(this, item))
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+#endif
+
 bool CHARACTER::MoveItem(TItemPos Cell, TItemPos DestCell, BYTE count)
 {
 	LPITEM item = NULL;
@@ -6925,7 +7203,11 @@ bool CHARACTER::MoveItem(TItemPos Cell, TItemPos DestCell, BYTE count)
 	}
 #endif
 
+#ifdef FAST_EQUIP_WORLDARD
+	if (DestCell.IsBeltInventoryPosition() && false == CBeltInventoryHelper::CanMoveIntoBeltInventory(item) && !DestCell.IsChangeEquipPosition())
+#else
 	if (DestCell.IsBeltInventoryPosition() && false == CBeltInventoryHelper::CanMoveIntoBeltInventory(item))
+#endif
 	{
 		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("이 아이템은 벨트 인벤토리로 옮길 수 없습니다."));
 		return false;
@@ -6946,7 +7228,25 @@ bool CHARACTER::MoveItem(TItemPos Cell, TItemPos DestCell, BYTE count)
 	}
 #endif
 
+#ifdef FAST_EQUIP_WORLDARD
+	if(DestCell.IsChangeEquipPosition())
+	{
+		if(!IsValidItemChangeEquip(DestCell.cell,item)){
+			ChatPacket(CHAT_TYPE_INFO,"No puedes mover el item a ese slot");
+			return false;
+		}
+
+		if(Cell.IsEquipPosition()){
+			return false;
+		}
+	}
+#endif
+	
+#ifdef FAST_EQUIP_WORLDARD
+	if (Cell.IsEquipPosition() && !Cell.IsChangeEquipPosition())
+#else
 	if (Cell.IsEquipPosition())
+#endif
 	{
 		if (!CanUnequipNow(item))
 			return false;
@@ -6968,7 +7268,11 @@ bool CHARACTER::MoveItem(TItemPos Cell, TItemPos DestCell, BYTE count)
 #endif
 	}
 
+#ifdef FAST_EQUIP_WORLDARD
+	if (DestCell.IsEquipPosition() && !DestCell.IsChangeEquipPosition())
+#else
 	if (DestCell.IsEquipPosition())
+#endif	
 	{
 		if (GetItem(DestCell))
 		{
@@ -9683,6 +9987,10 @@ bool CHARACTER::IsValidItemPosition(TItemPos Pos) const
 #ifdef ENABLE_SWITCHBOT
 	case SWITCHBOT:
 		return cell < SWITCHBOT_SLOT_COUNT;
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	case CHANGE_EQUIP:
+		return cell < CHANGE_EQUIP_SLOT_COUNT;
 #endif
 	default:
 		return false;

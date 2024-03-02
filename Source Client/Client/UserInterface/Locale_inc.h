@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define FAST_EQUIP_WORLDARD
 #define __BL_KILL_BAR__										// Muestra las muertes y asesinatos
 #define ENABLE_ATLAS_BOSS
 //#define BL_PRIVATESHOP_SEARCH_SYSTEM----------------------en reparacion

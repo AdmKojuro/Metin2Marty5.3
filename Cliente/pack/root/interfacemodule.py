@@ -79,6 +79,8 @@ if app.ENABLE_BIYOLOG:
 	import uiBiyolog
 if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
 	import uiPrivateShopSearch
+if app.FAST_EQUIP_WORLDARD:
+	import uifastequip
 
 IsQBHide = 0
 class Interface(object):
@@ -394,7 +396,13 @@ class Interface(object):
 		if app.ENABLE_GROWTH_PET_SYSTEM:
 			self.tooltipPetSkill = uiToolTip.PetSkillToolTip()
 			self.tooltipPetSkill.Hide()
-			
+
+	if app.FAST_EQUIP_WORLDARD:
+		def __MakeFastEquip(self):
+			self.wndFastEquip = uifastequip.UiFastEquip()
+			self.wndFastEquip.LoadWindow()
+			self.wndFastEquip.Hide()
+
 	def __MakeHelpWindow(self):
 		self.wndHelp = uiHelp.HelpWindow()
 		self.wndHelp.LoadDialog()
@@ -484,6 +492,8 @@ class Interface(object):
 			self.__MakeCubeRenewal()
 		if app.ENABLE_SEARCH_ITEM_DROP_ON_MOB:
 			self.__MakeDropItem()
+		if app.FAST_EQUIP_WORLDARD:
+			self.__MakeFastEquip()
 		# ACCESSORY_REFINE_ADD_METIN_STONE
 		self.__MakeItemSelectWindow()
 		# END_OF_ACCESSORY_REFINE_ADD_METIN_STONE
@@ -777,6 +787,12 @@ class Interface(object):
 				self.wndPrivateShopSearch.Destroy()
 				del self.wndPrivateShopSearch
 
+		if app.FAST_EQUIP_WORLDARD:
+			if self.wndFastEquip:
+				self.wndFastEquip.Close()
+				self.wndFastEquip.Destroy()
+				del self.wndFastEquip
+
 		self.wndChatLog.Destroy()
 		for btn in self.questButtonList:
 			btn.SetEvent(0)
@@ -967,6 +983,8 @@ class Interface(object):
 					self.wndAura.RefreshAuraWindow()
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			self.wndSpecialInventory.RefreshItemSlot()
+		if app.FAST_EQUIP_WORLDARD:
+			self.wndFastEquip.RefreshEquipSlotWindow()
 
 	def RefreshCharacter(self):
 		self.wndCharacter.RefreshCharacter()
@@ -1722,6 +1740,14 @@ class Interface(object):
 	# show GIFT
 	def ShowGift(self):
 		self.wndTaskBar.ShowGift()
+
+	if app.FAST_EQUIP_WORLDARD:
+		def OpenFastEquip(self):
+			if self.wndFastEquip:
+				if self.wndFastEquip.IsShow():
+					self.wndFastEquip.Hide()
+				else:
+					self.wndFastEquip.Show()
 
 	def CloseWbWindow(self):
 		self.wndWeb.Close()

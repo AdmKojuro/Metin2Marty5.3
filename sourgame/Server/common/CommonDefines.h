@@ -29,6 +29,7 @@ enum eCommonDefines {
 //#define BL_PRIVATESHOP_SEARCH_SYSTEM--------------------------- en reparacion
 #define ENABLE_ATLAS_BOSS
 #define __BL_KILL_BAR__
+#define FAST_EQUIP_WORLDARD
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

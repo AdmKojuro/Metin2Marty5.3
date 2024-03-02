@@ -3375,7 +3375,15 @@ void initPlayer()
 	PyModule_AddIntConstant(poModule, "ITEM_MONEY",					-1);
 #ifdef ENABLE_CHEQUE_SYSTEM
 	PyModule_AddIntConstant(poModule, "ITEM_CHEQUE",				-2);
-#endif 
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+	PyModule_AddIntConstant(poModule, "CHANGE_EQUIP", CHANGE_EQUIP);
+	PyModule_AddIntConstant(poModule, "SLOT_TYPE_CHANGE_EQUIP", SLOT_TYPE_CHANGE_EQUIP);
+	PyModule_AddIntConstant(poModule, "CHANGE_EQUIP_SLOT_START",	c_change_equip_Slot_Start);
+	PyModule_AddIntConstant(poModule, "CHANGE_EQUIP_SLOT_COUNT",	CHANGE_EQUIP_SLOT_COUNT);
+	PyModule_AddIntConstant(poModule, "CHANGE_EQUIP_PAGE_EXTRA",	CHANGE_EQUIP_PAGE_EXTRA);
+
+#endif
 	PyModule_AddIntConstant(poModule, "SKILL_SLOT_COUNT",			SKILL_MAX_NUM);
 
 	PyModule_AddIntConstant(poModule, "EFFECT_PICK",				CPythonPlayer::EFFECT_PICK);

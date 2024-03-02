@@ -688,6 +688,9 @@ enum EWindows
 #ifdef ENABLE_SWITCHBOT
 	SWITCHBOT,
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+	CHANGE_EQUIP,
+#endif
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 	BONUS_NEW_67,
 #endif
@@ -995,6 +998,53 @@ enum EMisc2
 #endif
 };
 
+#ifdef FAST_EQUIP_WORLDARD 
+enum ChangeEquipConfig
+{
+	CHANGE_EQUIP_PAGE_EXTRA = 10,
+	CHANGE_EQUIP_SLOT_COUNT = 30*CHANGE_EQUIP_PAGE_EXTRA,
+};
+
+static const DWORD EWearCheckPositions[]=
+{
+	WEAR_BODY,		// 0
+	WEAR_HEAD,		// 1
+	WEAR_FOOTS,		// 2
+	WEAR_WRIST,		// 3
+	WEAR_WEAPON,	// 4
+	WEAR_NECK,		// 5
+	WEAR_EAR,		// 6
+	WEAR_UNIQUE1,	// 7
+	WEAR_UNIQUE2,	// 8
+	WEAR_ARROW,		// 9
+	WEAR_SHIELD,	// 10
+    WEAR_ABILITY1,  // 11
+    WEAR_ABILITY2,  // 12
+    WEAR_ABILITY3,  // 13
+    WEAR_ABILITY4,  // 14
+    WEAR_ABILITY5,  // 15
+    WEAR_ABILITY6,  // 16
+    WEAR_ABILITY7,  // 17
+    WEAR_ABILITY8,  // 18
+	WEAR_COSTUME_BODY,	// 19
+	WEAR_COSTUME_HAIR,	// 20
+#ifdef ENABLE_MOUNT_COSTUME_SYSTEM
+	WEAR_COSTUME_MOUNT,	//22
+#endif
+#ifdef ENABLE_ACCE_SYSTEM
+	WEAR_COSTUME_ACCE,	//23
+#endif
+#ifdef __AURA_SYSTEM__
+	WEAR_COSTUME_AURA,	//24
+#endif
+#ifdef ENABLE_WEAPON_COSTUME_SYSTEM
+	WEAR_COSTUME_WEAPON,	// 21
+#endif
+	WEAR_BELT,			// 27	: ½Å±Ô º§Æ®½½·Ô
+
+};
+#endif
+
 #pragma pack(push, 1)
 
 typedef struct SItemPos
@@ -1034,6 +1084,10 @@ typedef struct SItemPos
 #ifdef ENABLE_6_7_BONUS_NEW_SYSTEM
 		case BONUS_NEW_67:
 			return cell < BONUS_67_SLOT_MAX;
+#endif
+#ifdef FAST_EQUIP_WORLDARD
+		case CHANGE_EQUIP:
+			return cell < CHANGE_EQUIP_SLOT_COUNT;
 #endif
 		case SAFEBOX:
 		case MALL:
@@ -1095,6 +1149,13 @@ typedef struct SItemPos
 	bool IsGiftBoxInventoryPosition() const
 	{
 		return (INVENTORY == window_type && (cell >= GIFT_BOX_INVENTORY_SLOT_START && cell < GIFT_BOX_INVENTORY_SLOT_END));
+	}
+#endif
+
+#ifdef FAST_EQUIP_WORLDARD
+	bool IsChangeEquipPosition() const
+	{
+		return CHANGE_EQUIP == window_type && cell < CHANGE_EQUIP_SLOT_COUNT;
 	}
 #endif
 

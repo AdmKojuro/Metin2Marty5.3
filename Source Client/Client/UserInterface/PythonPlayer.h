@@ -117,6 +117,9 @@ class CPythonPlayer : public CSingleton<CPythonPlayer>, public IAbstractPlayer
 #ifdef ENABLE_SWITCHBOT
 			TItemData			aSwitchbotItem[SWITCHBOT_SLOT_COUNT];
 #endif
+#ifdef FAST_EQUIP_WORLDARD
+			TItemData 			aChangeEquipItem[CHANGE_EQUIP_SLOT_COUNT];
+#endif
 			TQuickSlot			aQuickSlot[QUICKSLOT_MAX_NUM];
 			TSkillInstance		aSkill[SKILL_MAX_NUM];
 			long long				m_alPoint[POINT_MAX_NUM];

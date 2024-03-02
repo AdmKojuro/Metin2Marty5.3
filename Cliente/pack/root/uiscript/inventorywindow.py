@@ -150,9 +150,9 @@ window = {
 
 							"tooltip_text" : "Tienda offline",
 
-							"default_image" : "d:/ymir work/ui/game/offlineshop/premium_button_01.tga",
-							"over_image" : "d:/ymir work/ui/game/offlineshop/premium_button_02.tga",
-							"down_image" : "d:/ymir work/ui/game/offlineshop/premium_button_03.tga",
+							"default_image" : "d:/ymir work/ui/game/offlineshop/premium_button_01.png",
+							"over_image" : "d:/ymir work/ui/game/offlineshop/premium_button_02.png",
+							"down_image" : "d:/ymir work/ui/game/offlineshop/premium_button_03.png",
 						},
 
 						## CostumeButton

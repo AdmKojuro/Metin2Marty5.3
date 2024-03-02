@@ -4613,3 +4613,140 @@ ACMD(do_gotoxy)
 		ch->SetGoToXYTime();
 	}
 }
+
+#ifdef FAST_EQUIP_WORLDARD
+
+ACMD(do_open_change_equip)
+{
+
+	char arg1[256];
+	one_argument (argument, arg1, sizeof(arg1));
+	
+	if (0 == arg1[0])
+		return;
+
+	int page_index = atoi(arg1);
+
+	if(page_index <= 0 || page_index > CHANGE_EQUIP_PAGE_EXTRA){
+		return;
+	}
+
+	if(!ch->CanHandleItem()){
+		return;
+	}
+
+	if (ch->IsDead()){
+		return;
+	}
+
+	if (ch->IsStun()){
+		return;
+	}
+
+	if (ch->GetExchange() || ch->GetMyShop() || ch->GetShopOwner() || ch->IsOpenSafebox() || ch->IsCubeOpen())
+	{
+		return;
+	}
+
+    int get_time_change_equip = ch->GetTimeChangeEquip();
+    int currentPulse = thecore_pulse();
+   
+    if (get_time_change_equip > currentPulse) {
+        int deltaInSeconds = ((get_time_change_equip / PASSES_PER_SEC(1)) - (currentPulse / PASSES_PER_SEC(1)));
+        int minutes = deltaInSeconds / 60;
+        int seconds = (deltaInSeconds - (minutes * 60));
+		
+		ch->ChatPacket(CHAT_TYPE_INFO, "you have to wait %02d seconds to change equip .", seconds);
+        return;
+    }
+
+	DWORD dwCurTime = get_dword_time();
+
+	if (dwCurTime - ch->GetLastAttackTime() <= 1500 || dwCurTime - ch->GetLastSkillTime() <= 1500)
+	{
+		return;
+	}
+
+	DWORD index_old = CHANGE_EQUIP_SLOT_COUNT-(CHANGE_EQUIP_SLOT_COUNT/page_index);
+
+	if(page_index > 1){
+		index_old = CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*(page_index-1);
+	}
+
+	// Fix Weapon Costume
+
+	LPITEM item_change_equip;
+	LPITEM item_inv;
+	LPITEM item_extra;
+
+	item_inv = ch->GetWear(WEAR_COSTUME_WEAPON);
+	if(item_inv){
+		item_change_equip = ch->GetChangeEquipItem(index_old+WEAR_WEAPON);
+		if(item_change_equip)
+		{
+			if (item_change_equip->GetType() != ITEM_WEAPON || item_inv->GetValue(3) != item_change_equip->GetSubType())
+			{
+				ch->ChatPacket(CHAT_TYPE_INFO, "Este cambio de equipo no se puede realizar, tu skin de arma actual es incompatible.");
+				return;
+			}
+		}
+	}
+
+
+	item_inv = ch->GetWear(WEAR_WEAPON);
+	if(item_inv){
+		item_change_equip = ch->GetChangeEquipItem(index_old+WEAR_COSTUME_WEAPON);
+		item_extra = ch->GetChangeEquipItem(index_old+WEAR_WEAPON);
+
+		if(item_change_equip && !item_extra)
+		{
+			if (item_change_equip->GetSubType() != COSTUME_WEAPON || item_change_equip->GetValue(3) != item_inv->GetSubType())
+			{
+				ch->ChatPacket(CHAT_TYPE_INFO, "Este cambio de equipo no se puede realizar, tu skin de arma actual es incompatible.");
+				return;
+			}
+		}
+	}else{
+		item_change_equip = ch->GetChangeEquipItem(index_old+WEAR_COSTUME_WEAPON);
+		if(item_change_equip){
+			ch->ChatPacket(CHAT_TYPE_INFO, "Este cambio de equipo no se puede realizar, tu skin de arma actual es incompatible.");
+			return;	
+		}
+	}
+
+	// Fix Weapon Costume
+
+	for (int i = index_old; i < CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*page_index; ++i)
+	{
+		item_change_equip = ch->GetChangeEquipItem(i);
+
+		int cell = i;
+
+		if(page_index > 1){
+			if(cell >= CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA*(page_index-1) && cell < (CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA)*(page_index))
+			{
+				cell = cell - ((CHANGE_EQUIP_SLOT_COUNT/CHANGE_EQUIP_PAGE_EXTRA)*(page_index-1));
+			}
+		}
+
+		item_inv = ch->GetWear(cell);
+
+		if(item_change_equip && item_inv == NULL)
+		{
+			item_change_equip->EquipTo(ch, item_change_equip->FindEquipCell(ch));
+		}
+
+		if(item_change_equip && item_inv)
+		{
+			item_inv->RemoveFromCharacter();
+			if(item_change_equip->EquipTo(ch, item_change_equip->FindEquipCell(ch)))
+				item_inv->AddToCharacter(ch, TItemPos(CHANGE_EQUIP, i));
+			
+		}
+	}
+
+	ch->SetTimeChangeEquip(thecore_pulse() + PASSES_PER_SEC(7));
+
+}
+
+#endif
