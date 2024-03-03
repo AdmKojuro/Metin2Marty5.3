@@ -281,6 +281,22 @@ class OptionDialog(ui.ScriptWindow):
 		systemSetting.SetAlwaysShowNameFlag(False)
 		self.RefreshAlwaysShowName()
 
+	def RefreshTimePm(self):
+		if systemSetting.GetTimePm():
+			self.timePmButtonList[0].Down()
+			self.timePmButtonList[1].SetUp()
+		else:
+			self.timePmButtonList[0].SetUp()
+			self.timePmButtonList[1].Down()
+
+	def __OnClickTimePmOnButton(self):
+		systemSetting.SetTimePm(True)
+		self.RefreshTimePm()
+
+	def __OnClickTimePmOffButton(self):
+		systemSetting.SetTimePm(False)
+		self.RefreshTimePm()
+
 	def __OnClickShowDamageOnButton(self):
 		systemSetting.SetShowDamageFlag(True)
 		self.RefreshShowDamage()

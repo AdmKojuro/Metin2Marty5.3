@@ -105,6 +105,8 @@ class CPythonSystem : public CSingleton<CPythonSystem>
 #ifdef OUTLINE_NAMES_TEXTLINE
 			bool			bNamesOutline;
 #endif
+			bool	bTimePm;
+
 		} TConfig;
 
 	public:
@@ -232,6 +234,9 @@ class CPythonSystem : public CSingleton<CPythonSystem>
 		bool	GetNamesType();
 		void	SetNamesType(bool value);
 #endif
+
+		bool	GetTimePm();
+		void	SetTimePm(bool value);
 
 	protected:
 		TResolution						m_ResolutionList[RESOLUTION_MAX_NUM];

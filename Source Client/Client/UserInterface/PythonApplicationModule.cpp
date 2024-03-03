@@ -2105,5 +2105,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "CHANNEL_CHANGE_SYSTEM", 0);
 #endif
 
+#ifdef ENABLE_DATETIME_UNDER_MINIMAP
+	PyModule_AddIntConstant(poModule, "ENABLE_DATETIME_UNDER_MINIMAP", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_DATETIME_UNDER_MINIMAP", 0);
+#endif
+
 }
 

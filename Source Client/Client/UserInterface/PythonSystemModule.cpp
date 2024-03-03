@@ -649,6 +649,21 @@ PyObject* systemIsNpcNameStatus(PyObject* poSelf, PyObject* poArgs)
 }
 #endif
 
+PyObject * systemSetTimePm(PyObject * poSelf, PyObject * poArgs)
+{
+	bool value;
+	if (!PyTuple_GetBoolean(poArgs, 0, &value))
+		return Py_BuildException();
+	
+	CPythonSystem::Instance().SetTimePm(value);
+	return Py_BuildNone();
+}
+
+PyObject * systemGetTimePm(PyObject * poSelf, PyObject * poArgs)
+{
+	return Py_BuildValue("b", CPythonSystem::Instance().GetTimePm());
+}
+
 void initsystemSetting()
 {
 	static PyMethodDef s_methods[] =
@@ -756,6 +771,8 @@ void initsystemSetting()
 		{ "SetNpcNameStatusFlag", systemSetNpcNameStatusFlag, METH_VARARGS },
 		{ "IsNpcNameStatus", systemIsNpcNameStatus, METH_VARARGS },
 #endif
+		{"SetTimePm", systemSetTimePm, METH_VARARGS},
+		{"GetTimePm", systemGetTimePm, METH_VARARGS},
 
 		{ NULL,							NULL,							NULL }
 	};

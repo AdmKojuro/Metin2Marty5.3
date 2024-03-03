@@ -269,6 +269,14 @@ void CPythonSystem::SetNamesType(bool value) {
 }
 #endif
 
+void CPythonSystem::SetTimePm(bool value) {
+	m_Config.bTimePm = value;
+}
+
+bool CPythonSystem::GetTimePm() {
+	return m_Config.bTimePm;
+}
+
 int CPythonSystem::GetShadowLevel()
 {
 	return m_Config.iShadowLevel;

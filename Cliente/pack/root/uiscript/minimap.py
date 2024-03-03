@@ -6,11 +6,11 @@ ROOT = "d:/ymir work/ui/minimap/"
 window = {
 	"name" : "MiniMap",
 
-	"x" : SCREEN_WIDTH - 136,
+	"x" : SCREEN_WIDTH - 148,
 	"y" : 0,
 
-	"width" : 136,
-	"height" : 137,
+	"width" : 148,
+	"height" : 160,
 
 	"children" :
 	[
@@ -22,8 +22,8 @@ window = {
 			"x" : 0,
 			"y" : 0,
 
-			"width" : 136,
-			"height" : 137,
+			"width" : 148,
+			"height" : 160,
 
 			"children" :
 			[
@@ -93,19 +93,79 @@ window = {
 					"over_image" : ROOT + "atlas_open_over.sub",
 					"down_image" : ROOT + "atlas_open_down.sub",
 				},
-				## ServerInfo
 				{
-					"name" : "ServerInfo",
-					"type" : "text",
-					
-					"text_horizontal_align" : "center",
-
-					"outline" : 1,
-
-					"x" : 70,
-					"y" : 140,
-
-					"text" : "",
+					"name" : "textInfoBar",
+					"type" : "bar",
+					"x" : 8,
+					"y" : 163,
+					"color" : 0x64000000,
+					"width" : 132,
+					"height" : 28,
+					"children" : 
+					(
+						{
+							"name" : "textInfoValue1",
+							"type" : "text",
+							"x" : 0,
+							"y" : 1,
+							"text" : "",
+							"outline" : 1,
+							"horizontal_align" : "center",
+							"text_horizontal_align" : "center"
+						},
+						{
+							"name" : "textInfoValue2",
+							"type" : "text",
+							"x" : 0,
+							"y" : 12,
+							"text" : "",
+							"outline" : 1,
+							"horizontal_align" : "center",
+							"text_horizontal_align" : "center"
+						},
+					),
+				},
+				{
+					"name" : "textInfoBar2",
+					"type" : "bar",
+					"x" : 8,
+					"y" : 163 + 26,
+					"color" : 0x00000000,
+					"width" : 132,
+					"height" : 28,
+					"children" : 
+					(
+						{
+							"name" : "ServerInfo",
+							"type" : "text",
+							"x" : 0,
+							"y" : 1,
+							"text" : "",
+							"outline" : 1,
+							"horizontal_align" : "center",
+							"text_horizontal_align" : "center"
+						},
+						{
+							"name" : "MiniMapClock",
+							"type" : "text",
+							"x" : 0,
+							"y" : 12,
+							"text" : "",
+							"outline" : 1,
+							"horizontal_align" : "center",
+							"text_horizontal_align" : "center"
+						},
+						{
+							"name" : "TimeInfo",
+							"type" : "text",
+							"x" : 0,
+							"y" : 12,
+							"text" : "",
+							"outline" : 1,
+							"horizontal_align" : "center",
+							"text_horizontal_align" : "center"
+						},
+					),
 				},
 				## PositionInfo
 				{

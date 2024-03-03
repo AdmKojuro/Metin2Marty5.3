@@ -10,6 +10,9 @@ import colorInfo
 import constInfo
 import background
 import uicommon
+import systemSetting
+import time
+import serverInfo as serverInfo
 if app.ENABLE_ATLAS_BOSS:
 	import grp
 if app.BL_KILL_BAR:
@@ -397,6 +400,7 @@ class MiniMap(ui.ScriptWindow):
 		self.imprisonmentDuration = 0
 		self.imprisonmentEndTime = 0
 		self.imprisonmentEndTimeText = ""
+		self.infoValue1 = None
 		# END_OF_AUTOBAN
 
 	def __del__(self):
@@ -433,6 +437,8 @@ class MiniMap(ui.ScriptWindow):
 			self.tooltipBiolog = None
 		if app.BL_KILL_BAR:
 			self.KillList = list()
+		if app.ENABLE_DATETIME_UNDER_MINIMAP:
+			self.minimapclock = 0
 
 	def SetMapName(self, mapName):
 		self.mapName=mapName
@@ -496,6 +502,8 @@ class MiniMap(ui.ScriptWindow):
 			self.positionInfo = self.GetChild("PositionInfo")
 			self.observerCount = self.GetChild("ObserverCount")
 			self.serverInfo = self.GetChild("ServerInfo")
+			self.infoValue1 = self.GetChild("textInfoValue1")
+			self.infoValue2 = self.GetChild("textInfoValue2")
 			if app.ENABLE_EVENT_MANAGER:
 				self.InGameEventButton = self.GetChild("InGameEventButton")
 				self.InGameEventButton.SetEvent(ui.__mem_func__(self.ToggleInGameEvent))
@@ -503,12 +511,17 @@ class MiniMap(ui.ScriptWindow):
 				self.DungeonInfoShowButton = self.GetChild("DungeonInfoShowButton")
 			if app.ENABLE_BIYOLOG:
 				self.GetChild("bio").SetEvent(ui.__mem_func__(self.OpenBio))
+			if app.ENABLE_DATETIME_UNDER_MINIMAP:
+				self.minimapclock = self.GetChild("MiniMapClock")
 		except:
 			import exception
 			exception.Abort("MiniMap.LoadWindow.Bind")
 
 		if constInfo.MINIMAP_POSITIONINFO_ENABLE==0:
 			self.positionInfo.Hide()
+
+		if app.ENABLE_DATETIME_UNDER_MINIMAP:
+			self.minimapclock.Show()
 
 		self.serverInfo.SetText(net.GetServerInfo())
 		self.ScaleUpButton.SetEvent(ui.__mem_func__(self.ScaleUp))
@@ -565,6 +578,9 @@ class MiniMap(ui.ScriptWindow):
 		if app.BL_KILL_BAR:
 			self.KillList = None
 
+		self.infoValue1 = None
+		self.infoValue2 = None
+
 		self.ClearDictionary()
 
 		self.__Initialize()
@@ -585,32 +601,36 @@ class MiniMap(ui.ScriptWindow):
 		self.observerCount.SetText(localeInfo.MINIMAP_OBSERVER_COUNT % observerCount)
 
 	def OnUpdate(self):
+		if app.ENABLE_DATETIME_UNDER_MINIMAP:
+			if systemSetting.GetTimePm():
+				self.minimapclock.SetText(time.strftime('[%I:%M:%S %p - %d/%m/%Y]'))
+			else:
+				self.minimapclock.SetText(time.strftime('[%X - %d/%m/%Y]'))
+		
 		(x, y, z) = player.GetMainCharacterPosition()
 		miniMap.Update(x, y)
-
-		self.positionInfo.SetText("(%.0f, %.0f)" % (x/100, y/100))
-
-		if self.tooltipInfo:
-			if True == self.MiniMapWindow.IsIn():
-				(mouseX, mouseY) = wndMgr.GetMousePosition()
-				(bFind, sName, iPosX, iPosY, dwTextColor) = miniMap.GetInfo(mouseX, mouseY)
-				if bFind == 0:
-					self.tooltipInfo.Hide()
-				elif not self.canSeeInfo:
-					self.tooltipInfo.SetText("%s(%s)" % (sName, localeInfo.UI_POS_UNKNOWN))
-					self.tooltipInfo.SetTooltipPosition(mouseX - 5, mouseY)
-					self.tooltipInfo.SetTextColor(dwTextColor)
-					self.tooltipInfo.Show()
+		
+		added = False
+		if self.MiniMapWindow.IsIn() == True:
+			(mouseX, mouseY) = wndMgr.GetMousePosition()
+			(bFind, sName, iPosX, iPosY, dwTextColor) = miniMap.GetInfo(mouseX, mouseY)
+			if bFind != 0:
+				if self.canSeeInfo:
+					self.infoValue1.SetText("%s" % (sName))
+					self.infoValue2.SetText("(%d, %d)" % (iPosX, iPosY))
 				else:
-					if localeInfo.IsARABIC() and sName[-1].isalnum():
-						self.tooltipInfo.SetText("(%s)%d, %d" % (sName, iPosX, iPosY))
-					else:
-						self.tooltipInfo.SetText("%s(%d, %d)" % (sName, iPosX, iPosY))
-					self.tooltipInfo.SetTooltipPosition(mouseX - 5, mouseY)
-					self.tooltipInfo.SetTextColor(dwTextColor)
-					self.tooltipInfo.Show()
-			else:
-				self.tooltipInfo.Hide()
+					self.infoValue1.SetText(sName)
+					self.infoValue2.SetText("(%s)" % (localeInfo.UI_POS_UNKNOWN))
+				
+				self.infoValue1.SetPackedFontColor(dwTextColor)
+				self.infoValue2.SetPackedFontColor(dwTextColor)
+				added = True
+		
+		if not added:
+			self.infoValue1.SetText(player.GetName())
+			self.infoValue1.SetPackedFontColor(-10420)
+			self.infoValue2.SetText("(%d, %d)" % (int(x / 100), int(y / 100)))
+			self.infoValue2.SetPackedFontColor(-10420)
 
 			# AUTOBAN
 			if self.imprisonmentDuration:

@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_DATETIME_UNDER_MINIMAP		// DateTime (ONly PythonApplicationModule.cpp)
 #define __CHANNEL_CHANGE_SYSTEM__			// Instant Change Channel
 #define FAST_EQUIP_WORLDARD
 #define __BL_KILL_BAR__										// Muestra las muertes y asesinatos
