@@ -120,3 +120,4 @@ metin2_guild_war2	1075200	1049600	3	3
 metin2_guild_war3	1152000	1049600	1	1
 metin2_guild_war4	1177600	1049600	2	2
 metin2_map_battlefied	691200	0	2	2
+metin2_map_privateshop	000	358400	2	2
