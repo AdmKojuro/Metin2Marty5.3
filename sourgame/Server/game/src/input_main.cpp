@@ -3322,7 +3322,7 @@ int CInputMain::MyShop(LPCHARACTER ch, const char * c_pData, size_t uiBytes)
 #endif
 #ifdef SHOP_ONLY_M1_M2
 	int mapIndex = ch->GetMapIndex();
-	if ((mapIndex != 1) && (mapIndex != 3) && (mapIndex != 21) && (mapIndex != 23) && (mapIndex != 41) && (mapIndex != 43))
+	if ((mapIndex != 392))
 	{
 		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT( "SHOP_RANDOM_ERROR"));
 		return (iExtraLen);
