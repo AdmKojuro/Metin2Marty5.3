@@ -7,6 +7,7 @@ import chat
 import player
 import localeInfo
 from uiToolTip import ItemToolTip
+import event
 
 OZUT_STATUS = True
 UNUTKANLIK_STATUS = True
@@ -358,6 +359,8 @@ class BiologWindow(ui.BoardWithTitleBar):
 			CALLBACK_MISSION=flag
 		self.SaveBioCacheData()
 
+	def BindInterfaceClass(self, interface):
+		self.interface = interface
 	def OverOutItem(self):
 		interface = constInfo.GetInterfaceInstance()
 		if interface:

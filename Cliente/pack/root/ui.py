@@ -11,6 +11,7 @@ import dbg
 import guild
 # END_OF_MARK_BUG_FIX
 import constInfo
+import sys
 
 from _weakref import proxy
 
@@ -1209,16 +1210,21 @@ class ImageBox(Window):
 
 	def __del__(self):
 		Window.__del__(self)
+		self.eventFunc = None
+		self.eventArgs = None
 
 	def RegisterWindow(self, layer):
 		self.hWnd = wndMgr.RegisterImageBox(self, layer)
+
+	def LoadImageInstance(self, image):
+		wndMgr.LoadImageInstance(self.hWnd, image)
 
 	def LoadImage(self, imageName):
 		self.name=imageName
 		wndMgr.LoadImage(self.hWnd, imageName)
 
 		if len(self.eventDict)!=0:
-			print "LOAD IMAGE", self, self.eventDict
+			print("LOAD IMAGE", self, self.eventDict)
 
 	def SetDiffuseColor(self, r, g, b, a):
 		wndMgr.SetDiffuseColor(self.hWnd, r, g, b, a)
@@ -1272,7 +1278,7 @@ class ImageBox(Window):
 				apply(self.eventFunc["mouse_over_in"], self.eventArgs["mouse_over_in"])
 			else:
 				try:
-					self.eventDict["MOUSE_OVER_IN"]()
+					self.eventDict["mouse_over_in"]()
 				except KeyError:
 					pass
 
@@ -1281,25 +1287,70 @@ class ImageBox(Window):
 				apply(self.eventFunc["mouse_over_out"], self.eventArgs["mouse_over_out"])
 			else :
 				try:
-					self.eventDict["MOUSE_OVER_OUT"]()
+					self.eventDict["mouse_over_out"]()
 				except KeyError:
 					pass
-#	else:
-#		def OnMouseOverIn(self):
-#			try:
-#				self.eventDict["MOUSE_OVER_IN"]()
-#			except KeyError:
-#				pass
-#
-#		def OnMouseOverOut(self):
-#			try:
-#				self.eventDict["MOUSE_OVER_OUT"]()
-#			except KeyError:
-#				pass
+	else:
+		def OnMouseOverIn(self):
+			try:
+				self.eventDict["mouse_over_in"]()
+			except KeyError:
+				pass
+
+		def OnMouseOverOut(self):
+			try:
+				self.eventDict["mouse_over_out"]()
+			except KeyError:
+				pass
+
+	def SAFE_SetStringEvent(self, event, func, *args):
+		self.eventDict[event] =__mem_func__(func)
+		self.eventArgs[event] = args
+		
+	def SetMouseOverInEvent(self, func, *args):
+		self.eventDict["mouse_over_in"] = func
+		self.eventArgs["mouse_over_in"] = args
+
+	def SetMouseOverOutEvent(self, func, *args):
+		self.eventDict["mouse_over_out"] = func
+		self.eventArgs["mouse_over_out"] = args
+
+	def SetEvent(self, func, *args):
+		result = self.eventFunc.has_key(args[0])
+		if result:
+			self.eventFunc[args[0]] = func
+			self.eventArgs[args[0]] = args
+		else:
+			print "[ERROR] ui.py SetEvent, Can`t Find has_key : %s" % args[0]
+
+	def OnMouseLeftButtonUp(self) :
+		if self.eventFunc["mouse_click"]:
+			apply(self.eventFunc["mouse_click"], self.eventArgs["mouse_click"])
+		Window.OnMouseLeftButtonUp(self)
+
+	def SetStringEvent(self, event, func, *args):
+		self.eventDict[event] = func
+		self.argDict[event] = args
 
 	if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
 		def LeftRightReverse(self):
 			wndMgr.LeftRightReverseImageBox(self.hWnd)
+
+	def SAFE_SetStringEvent(self, event, func, *args):
+		self.eventDict[event] = func
+		self.argDict[event] = args
+
+	def SetCoolTime(self, time):
+		wndMgr.SetCoolTimeImageBox(self.hWnd, time)
+
+	def SetStartCoolTime(self, time):
+		wndMgr.SetStartCoolTimeImageBox(self.hWnd, time)
+
+	def	SetCoolTimeInverse(self, flag):
+		wndMgr.SetCoolTimeInverseImageBox(self.hWnd, flag)
+
+	def	SetCoolTimeInvert(self, flag):
+		wndMgr.SetCoolTimeInvertImageBox(self.hWnd, flag)
 
 class ExpandedImageBox(ImageBox):
 	def __init__(self, layer = "UI"):
@@ -1347,6 +1398,10 @@ class ExpandedImageBox(ImageBox):
 
 	def GetHeight(self):
 		return wndMgr.GetWindowHeight(self.hWnd)
+
+	def SAFE_SetStringEvent(self, event, func, *args):
+		self.eventDict[event] = func
+		self.argDict[event] = args
 
 class AniImageBox(Window):
 	def __init__(self, layer = "UI"):
