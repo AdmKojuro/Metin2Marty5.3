@@ -30,6 +30,7 @@ enum eCommonDefines {
 #define ENABLE_ATLAS_BOSS
 #define __BL_KILL_BAR__
 #define FAST_EQUIP_WORLDARD
+#define FIX_HEADER_CG_MARK_LOGIN								// Fix for syserr error header 100 (login phase does not handle this packet! header 100);
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER
