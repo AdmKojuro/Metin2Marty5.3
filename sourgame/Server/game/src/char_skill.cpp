@@ -392,6 +392,13 @@ bool CHARACTER::LearnSkillByBook(DWORD dwSkillVnum, BYTE bProb)
 		return false;
 	}
 
+#ifdef ENABLE_ANTI_EXP //add new
+	if (GetAntiExp())
+	{
+		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Antiexp is on."));
+		return false;
+	}
+#endif
 	DWORD need_exp = 0;
 
 	if (FN_should_check_exp(this))

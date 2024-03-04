@@ -2511,6 +2511,12 @@ static void GiveExp(LPCHARACTER from, LPCHARACTER to, int iExp)
 	if (test_server)
 		to->ChatPacket(CHAT_TYPE_INFO, "exp+minGNE+adjust(%d)", iExp);
 	// set
+
+#ifdef ENABLE_ANTI_EXP
+	if (to->GetAntiExp())
+		return;
+#endif
+
 	to->PointChange(POINT_EXP, iExp, true);
 	from->CreateFly(FLY_EXP, to);
 	// marriage

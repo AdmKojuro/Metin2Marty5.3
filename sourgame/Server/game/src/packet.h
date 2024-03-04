@@ -2349,6 +2349,9 @@ typedef struct packet_channel
 {
 	BYTE header;
 	BYTE channel;
+#ifdef ENABLE_ANTI_EXP
+	bool anti_exp;
+#endif
 } TPacketGCChannel;
 
 #if defined(__BL_KILL_BAR__)

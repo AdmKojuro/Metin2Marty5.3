@@ -2299,6 +2299,9 @@ class GameWindow(ui.ScriptWindow):
 			serverCommandList.update({"bioodul" : self.interface.SetBioGift})
 			serverCommandList.update({"bioempty" : self.interface.SetBioEmpty})
 
+		if app.ENABLE_ANTI_EXP:
+			serverCommandList.update({"SetAntiExp" : self.SetAntiExp})
+
 		if app.ENABLE_SPECIAL_INVENTORY_SYSTEM:
 			serverCommandList.update({
 				"OpenSpecialInventoryWindow" : self.OpenSpecialInventoryWindow,
@@ -2967,3 +2970,40 @@ class GameWindow(ui.ScriptWindow):
 		def BINARY_RefreshChestDropInfo(self, chestVnum):
 			if self.interface:
 				self.interface.RefreshChestDropInfo(chestVnum)
+
+	if app.ENABLE_ANTI_EXP:
+		def SetAntiExp(self, flag):
+			flag = int(flag)
+			if self.interface:
+				ptr = [self.interface.wndTaskBar]
+				for gui in ptr:
+					if gui:
+						if flag:
+							guiptr = gui.GetChild("AntiExp")
+							guiptr.SetUpVisual("d:/ymir work/ui/game/anti_exp/no_exp_0.tga")
+							guiptr.SetOverVisual("d:/ymir work/ui/game/anti_exp/no_exp_1.tga")
+							guiptr.SetDownVisual("d:/ymir work/ui/game/anti_exp/no_exp_2.tga")
+
+							if gui.IsChild("RestExp_Value"):
+								gui.GetChild("Exp_Value").Hide()
+							if gui.IsChild("Exp_Value"):
+								gui.GetChild("RestExp_Value").Hide()
+								
+							for j in range(1,5):
+								if gui.IsChild("EXPGauge_0%d"%j):
+									gui.GetChild("EXPGauge_0%d"%j).SetDiffuseColor(104.0/255.0,104.0/255.0,104.0/255.0,1)
+
+						else:
+							guiptr = gui.GetChild("AntiExp")
+							guiptr.SetUpVisual("d:/ymir work/ui/game/anti_exp/exp_0.tga")
+							guiptr.SetOverVisual("d:/ymir work/ui/game/anti_exp/exp_1.tga")
+							guiptr.SetDownVisual("d:/ymir work/ui/game/anti_exp/exp_2.tga")
+
+							if gui.IsChild("RestExp_Value"):
+								gui.GetChild("Exp_Value").Show()
+							if gui.IsChild("Exp_Value"):
+								gui.GetChild("RestExp_Value").Show()
+
+							for j in range(1,5):
+								if gui.IsChild("EXPGauge_0%d"%j):
+									gui.GetChild("EXPGauge_0%d"%j).SetDiffuseColor(201,160,51,1)

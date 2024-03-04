@@ -2111,5 +2111,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_DATETIME_UNDER_MINIMAP", 0);
 #endif
 
+#ifdef ENABLE_ANTI_EXP
+	PyModule_AddIntConstant(poModule, "ENABLE_ANTI_EXP", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_ANTI_EXP", 0);
+#endif
+
 }
 

@@ -687,6 +687,9 @@ void CInputLogin::Entergame(LPDESC d, const char * data)
 	TPacketGCChannel p2;
 	p2.header = HEADER_GC_CHANNEL;
 	p2.channel = g_bChannel;
+#ifdef ENABLE_ANTI_EXP
+	p2.anti_exp = ch->GetAntiExp();
+#endif
 	d->Packet(&p2, sizeof(p2));
 
 	ch->SendGreetMessage();

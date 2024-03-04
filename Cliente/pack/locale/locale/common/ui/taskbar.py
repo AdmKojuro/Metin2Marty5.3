@@ -368,7 +368,16 @@ window = {
 			"over_image" : ROOT + "TaskBar/System_Button_02.sub",
 			"down_image" : ROOT + "TaskBar/System_Button_03.sub",
 		},
-
+		{
+			"name" : "AntiExp",
+			"type" : "button",
+			"x" : 158+110,
+			"y" : 3 + Y_ADD_POSITION,
+			"tooltip_text" : "Anti Exp",
+			"default_image" : "d:/ymir work/ui/game/anti_exp/exp_0.tga",
+			"over_image" : "d:/ymir work/ui/game/anti_exp/exp_1.tga",
+			"down_image" : "d:/ymir work/ui/game/anti_exp/exp_2.tga",
+		},
 		## QuickBar
 		{
 			"name" : "quickslot_board",

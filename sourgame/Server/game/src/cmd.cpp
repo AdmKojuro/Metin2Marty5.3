@@ -328,6 +328,9 @@ ACMD(do_gotoxy);
 #ifdef FAST_EQUIP_WORLDARD
 ACMD(do_open_change_equip);
 #endif
+#ifdef ENABLE_ANTI_EXP
+ACMD(do_anti_exp);
+#endif
 
 struct command_info cmd_info[] =
 {
@@ -695,6 +698,9 @@ struct command_info cmd_info[] =
 	{"gotoxy", do_gotoxy, 0, POS_DEAD, GM_PLAYER},
 #ifdef FAST_EQUIP_WORLDARD
 	{"change_equip_wa",			do_open_change_equip,	0,			POS_DEAD,		GM_PLAYER},
+#endif
+#ifdef ENABLE_ANTI_EXP
+	{ "anti_exp",	do_anti_exp,		0,		POS_DEAD,	GM_PLAYER },
 #endif
 
 	{ "\n",		NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	}

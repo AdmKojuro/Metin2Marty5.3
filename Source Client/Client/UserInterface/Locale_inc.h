@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_ANTI_EXP										// Boton de anti exp
 #define ENABLE_DATETIME_UNDER_MINIMAP		// DateTime (ONly PythonApplicationModule.cpp)
 #define __CHANNEL_CHANGE_SYSTEM__			// Instant Change Channel
 #define FAST_EQUIP_WORLDARD

@@ -1569,6 +1569,9 @@ void CHARACTER::CreatePlayerProto(TPlayerTable & tab)
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	tab.battle_pass_premium_id = GetExtBattlePassPremiumID();
 #endif
+#ifdef ENABLE_ANTI_EXP
+	tab.anti_exp = GetAntiExp();
+#endif
 }
 
 
@@ -2163,6 +2166,9 @@ void CHARACTER::SetPlayerProto(const TPlayerTable * t)
 #endif
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	SetExtBattlePassPremiumID(t->battle_pass_premium_id);
+#endif
+#ifdef ENABLE_ANTI_EXP
+	SetAntiExp(t->anti_exp);
 #endif
 	SetMapIndex(t->lMapIndex);
 	SetXYZ(t->x, t->y, t->z);
@@ -10932,3 +10938,19 @@ void CHARACTER::OpenPrivateShopSearch(DWORD dwVnum)
 	bPrivateShopSearchState = (dwVnum == PRIVATE_SHOP_SEARCH_LOOKING_GLASS) ? SHOP_SEARCH_LOOKING : SHOP_SEARCH_TRADING;
 }
 #endif
+
+void CHARACTER::SetProtectTime(const std::string& flagname, int value)
+{
+	itertype(m_protection_Time) it = m_protection_Time.find(flagname);
+	if (it != m_protection_Time.end())
+		it->second = value;
+	else
+		m_protection_Time.insert(make_pair(flagname, value));
+}
+int CHARACTER::GetProtectTime(const std::string& flagname) const
+{
+	itertype(m_protection_Time) it = m_protection_Time.find(flagname);
+	if (it != m_protection_Time.end())
+		return it->second;
+	return 0;
+}

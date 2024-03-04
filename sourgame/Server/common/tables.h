@@ -547,6 +547,10 @@ typedef struct SPlayerTable
 	int	battle_pass_premium_id;
 #endif
 
+#ifdef ENABLE_ANTI_EXP
+	bool	anti_exp;
+#endif
+
 } TPlayerTable;
 
 typedef struct SPetSkill

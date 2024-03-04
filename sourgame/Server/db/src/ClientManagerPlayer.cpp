@@ -155,6 +155,9 @@ size_t CreatePlayerSaveQuery(char * pszQuery, size_t querySize, TPlayerTable * p
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 			"battle_pass_premium_id = %d, "
 #endif
+#ifdef ENABLE_ANTI_EXP
+			"anti_exp = %d, "
+#endif
 			,
 		GetTablePostfix(),
 		pkTab->job,
@@ -207,6 +210,9 @@ size_t CreatePlayerSaveQuery(char * pszQuery, size_t querySize, TPlayerTable * p
 #endif
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 		,pkTab->battle_pass_premium_id
+#endif
+#ifdef ENABLE_ANTI_EXP
+		,pkTab->anti_exp
 #endif
 		);
 
@@ -478,6 +484,9 @@ void CClientManager::QUERY_PLAYER_LOAD(CPeer * peer, DWORD dwHandle, TPlayerLoad
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 				",battle_pass_premium_id "
 #endif
+#ifdef ENABLE_ANTI_EXP
+				", anti_exp "
+#endif
 				" FROM player%s WHERE id=%d",
 				GetTablePostfix(), packet->player_id);
 
@@ -701,6 +710,9 @@ bool CreatePlayerTableFromRes(MYSQL_RES * res, TPlayerTable * pkTab)
 #endif
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	str_to_number(pkTab->battle_pass_premium_id, row[col++]);
+#endif
+#ifdef ENABLE_ANTI_EXP
+	str_to_number(pkTab->anti_exp, row[col++]);
 #endif
 	// reset sub_skill_point
 	{

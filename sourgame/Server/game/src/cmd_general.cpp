@@ -4750,3 +4750,20 @@ ACMD(do_open_change_equip)
 }
 
 #endif
+
+#ifdef ENABLE_ANTI_EXP
+ACMD(do_anti_exp)
+{
+	time_t real_time = time(0);
+	if (ch->GetProtectTime("anti.exp") > real_time)
+	{
+//		ch->ChatPacket(CHAT_TYPE_INFO, "1068 %d", ch->GetProtectTime("anti.exp") - real_time);
+		ch->ChatPacket(CHAT_TYPE_INFO, "Solo puedes activar o desactivar la funcion pasados %d segundos.", ch->GetProtectTime("anti.exp") - real_time);
+
+		return;
+	}
+	ch->SetProtectTime("anti.exp", real_time + 3);
+	ch->SetAntiExp(!ch->GetAntiExp());
+	ch->ChatPacket(CHAT_TYPE_COMMAND, "SetAntiExp %d", ch->GetAntiExp()?1:0);
+}
+#endif

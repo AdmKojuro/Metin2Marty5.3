@@ -15,22 +15,23 @@ enum eCommonDefines {
 // #define ENABLE_ITEM_ATTR_COSTUME
 // #define ENABLE_SEQUENCE_SYSTEM
 /* General */
-#define ENABLE_SWITCHBOT
-#define ENABLE_SEARCH_ITEM_DROP_ON_MOB
-#define ENABLE_SHOW_CHEST_DROP
-#define ENABLE_BUY_ITEMS_WORLDARD // comprar objetos en tienda con otros objetos
-#define ENABLE_EXTENDED_BATTLE_PASS 	// Extended Battlepass-System by Aslan
+#define ENABLE_SWITCHBOT										//switbot sanni full fix
+#define ENABLE_SEARCH_ITEM_DROP_ON_MOB							//sistma de buscar item en mob
+#define ENABLE_SHOW_CHEST_DROP									//sistema visor de cofres
+#define ENABLE_BUY_ITEMS_WORLDARD								// comprar objetos en tienda con otros objetos
+#define ENABLE_EXTENDED_BATTLE_PASS								// Extended Battlepass-System by Aslan
 #ifdef ENABLE_EXTENDED_BATTLE_PASS
 	#define RESTRICT_COMMAND_GET_INFO					GM_LOW_WIZARD
 	#define RESTRICT_COMMAND_SET_MISSION				GM_IMPLEMENTOR
 	#define RESTRICT_COMMAND_PREMIUM_ACTIVATE	GM_IMPLEMENTOR	
 #endif
-#define ENABLE_BIYOLOG
+#define ENABLE_BIYOLOG											//biologo
 //#define BL_PRIVATESHOP_SEARCH_SYSTEM--------------------------- en reparacion
-#define ENABLE_ATLAS_BOSS
-#define __BL_KILL_BAR__
-#define FAST_EQUIP_WORLDARD
+#define ENABLE_ATLAS_BOSS										//Mob en minimap
+#define __BL_KILL_BAR__											//Muertes y asesinatos
+#define FAST_EQUIP_WORLDARD										//Cambio de quipo 
 #define FIX_HEADER_CG_MARK_LOGIN								// Fix for syserr error header 100 (login phase does not handle this packet! header 100);
+#define ENABLE_ANTI_EXP											// Boton de Anti experiencia
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

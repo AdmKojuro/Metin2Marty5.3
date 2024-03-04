@@ -5352,6 +5352,10 @@ bool CPythonNetworkStream::RecvChannelPacket()
 	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "BINARY_OnChannelPacket", Py_BuildValue("(i)", kChannelPacket.channel));
 #endif
 
+#ifdef ENABLE_ANTI_EXP
+	PyCallClassMemberFunc(m_apoPhaseWnd[PHASE_WINDOW_GAME], "SetAntiExp", Py_BuildValue("(i)", kChannelPacket.anti_exp));
+#endif
+
 	//Tracef(" >> CPythonNetworkStream::RecvChannelPacket(channel=%d)\n", kChannelPacket.channel);
 
 	return true;

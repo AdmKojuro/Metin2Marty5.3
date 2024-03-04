@@ -398,16 +398,13 @@ int CInputMain::Whisper(LPCHARACTER ch, const char* data, size_t uiBytes)
 		return -1;
 	}
 
-	ch->IncreaseWhisperCounter();
-	if (ch->GetWhisperCounter() == 10 && !ch->IsGM())
+#ifdef ENABLE_WHISPER_CHAT_SPAMLIMIT
+	if (ch->IncreaseChatCounter() >= 10)
 	{
-		sys_log(0, "WHISPER_HACK: %s", ch->GetName());
-		//ch->GetDesc()->DelayedDisconnect(5);
-		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("Please do not spam the chat."));
-		ch->AddAffect(AFFECT_BLOCK_CHAT, POINT_NONE, 0, AFF_NONE, 10, 0, true);
-
-		return iExtraLen;
+		ch->GetDesc()->DelayedDisconnect(0);
+		return (iExtraLen);
 	}
+#endif
 
 	if (ch->FindAffect(AFFECT_BLOCK_CHAT))
 	{

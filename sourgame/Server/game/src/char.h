@@ -518,6 +518,9 @@ typedef struct character_point_instant
 
 	int				iDragonSoulActiveDeck;
 	LPENTITY		m_pDragonSoulRefineWindowOpener;
+#ifdef ENABLE_ANTI_EXP
+	bool			anti_exp;
+#endif
 #ifdef __AURA_SYSTEM__
 	LPENTITY		m_pAuraRefineWindowOpener;
 #endif
@@ -938,6 +941,13 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		void			ResetChatCounter();
 		BYTE			IncreaseChatCounter();
 		BYTE			GetChatCounter() const;
+
+	public:
+		void	SetProtectTime(const std::string& flagname, int value);
+		int		GetProtectTime(const std::string& flagname) const;
+		
+	protected:
+		std::map<std::string, int>  m_protection_Time;
 
 		void ResetWhisperCounter() { m_bWhisperCounter = 0; }
 		bool IncreaseWhisperCounter() { ++m_bWhisperCounter; return m_bWhisperCounter; }
@@ -2679,6 +2689,10 @@ public:
 #ifdef ENABLE_BIYOLOG
 	public:
 		void			CheckBio();
+#endif
+#ifdef ENABLE_ANTI_EXP
+		bool			GetAntiExp() { return m_pointsInstant.anti_exp; }
+		void			SetAntiExp(bool flag) { m_pointsInstant.anti_exp = flag; }
 #endif
 	public:
 		int		GetGoToXYTime() const { return m_iGoToXYTime; }

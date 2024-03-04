@@ -682,6 +682,9 @@ class TaskBar(ui.ScriptWindow):
 		self.stGaugeBoard=self.GetChild("STGauge_Board")
 		self.expGaugeBoard=self.GetChild("EXP_Gauge_Board")
 
+		if app.ENABLE_ANTI_EXP:
+			self.GetChild("AntiExp").SetEvent(ui.__mem_func__(self.__ClickAntiExp))
+
 		#giftbox object
 		wndGiftBox = GiftBox()
 		wndGiftBox.LoadWindow()
@@ -690,6 +693,10 @@ class TaskBar(ui.ScriptWindow):
 		self.__LoadMouseSettings()
 		self.RefreshStatus()
 		self.RefreshQuickSlot()
+
+	if app.ENABLE_ANTI_EXP:
+		def __ClickAntiExp(self):
+			net.SendChatPacket("/anti_exp")
 
 	def __RampageGauge_OverIn(self):
 		print "rampage_over_in"
