@@ -529,6 +529,10 @@ class MiniMap(ui.ScriptWindow):
 		self.MiniMapHideButton.SetEvent(ui.__mem_func__(self.HideMiniMap))
 		self.MiniMapShowButton.SetEvent(ui.__mem_func__(self.ShowMiniMap))
 
+		if app.ENABLE_BIYOLOG:
+			(ButtonPosX, ButtonPosY) = self.GetChild("bio").GetGlobalPosition()
+			self.tooltipBiolog.SetTooltipPosition(ButtonPosX, ButtonPosY)
+
 		if miniMap.IsAtlas():
 			self.AtlasShowButton.SetEvent(ui.__mem_func__(self.ShowAtlas))
 
@@ -554,20 +558,11 @@ class MiniMap(ui.ScriptWindow):
 			(ButtonPosX, ButtonPosY) = self.DungeonInfoShowButton.GetGlobalPosition()
 			self.tooltipDungeonInfoOpen.SetTooltipPosition(ButtonPosX, ButtonPosY)
 
-		if app.ENABLE_BIYOLOG:
-			(ButtonPosX, ButtonPosY) = self.GetChild("bio").GetGlobalPosition()
-			self.tooltipBiolog.SetTooltipPosition(ButtonPosX, ButtonPosY)
-
 		self.ShowMiniMap()
 
 	if app.ENABLE_BIYOLOG:
 		def OpenBio(self):
-			try:
-				interface = constInfo.GetInterfaceInstance()
-				if interface:
-					interface.OpenBiologWindow()
-			except:
-				pass
+			self.interface.OpenBiologWindow()
 
 	def Destroy(self):
 		self.HideMiniMap()
@@ -662,6 +657,11 @@ class MiniMap(ui.ScriptWindow):
 		else:
 			self.tooltipAtlasOpen.Hide()
 
+		if app.ENABLE_BIYOLOG:
+			if True == self.GetChild("bio").IsIn():
+				self.tooltipBiolog.Show()
+			else:
+				self.tooltipBiolog.Hide()
 		if app.ENABLE_DUNGEON_INFO_SYSTEM:
 			if True == self.DungeonInfoShowButton.IsIn():
 				self.tooltipDungeonInfoOpen.Show()
@@ -680,12 +680,6 @@ class MiniMap(ui.ScriptWindow):
 					if obj["MOVE_Y"] > 0.0:
 						obj["ThinBoard"].SetPosition(xLocal, yLocal + MiniMap.KILL_BAR_MOVE_SPEED)
 						obj["MOVE_Y"] -= MiniMap.KILL_BAR_MOVE_SPEED
-
-		if app.ENABLE_BIYOLOG:
-			if True == self.GetChild("bio").IsIn():
-				self.tooltipBiolog.Show()
-			else:
-				self.tooltipBiolog.Hide()
 
 	def OnRender(self):
 		(x, y) = self.GetGlobalPosition()
@@ -739,6 +733,7 @@ class MiniMap(ui.ScriptWindow):
 		miniMap.Hide()
 		self.OpenWindow.Hide()
 		self.CloseWindow.Show()
+
 		if app.ENABLE_BIYOLOG:
 			self.GetChild("bio").Hide()
 
@@ -749,6 +744,7 @@ class MiniMap(ui.ScriptWindow):
 		miniMap.Show()
 		self.OpenWindow.Show()
 		self.CloseWindow.Hide()
+
 		if app.ENABLE_BIYOLOG:
 			self.GetChild("bio").Show()
 

@@ -296,16 +296,12 @@ window = {
 		{
 			"name" : "BattlePassButton",
 			"type" : "button",
-
-			"x" : 295,
+			"x" : 305,
 			"y" : 3 + Y_ADD_POSITION,
-
-			#"tooltip_text" : "Exp ON/OFF",
-
-			#"default_image" : "d:/ymir work/ui/game/TaskBar/anti_exp_01.png",
-			#"over_image" : "d:/ymir work/ui/game/TaskBar/anti_exp_02.png",
-			#"down_image" : "d:/ymir work/ui/game/TaskBar/anti_exp_03.png",
-
+			"tooltip_text" : "Pase de batalla",
+			"default_image" : "d:/ymir work/ui/game/taskbar/pase_1.png",
+			"over_image" : "d:/ymir work/ui/game/taskbar/pase_2.png",
+			"down_image" : "d:/ymir work/ui/game/taskbar/pase_3.png",
 		},
 		{
 			"name" : "AntiExp",

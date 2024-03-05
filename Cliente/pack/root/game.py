@@ -99,6 +99,9 @@ class GameWindow(ui.ScriptWindow):
 		self.playerGauge = None
 		self.FishGame=None
 
+		if app.ENABLE_BIYOLOG:
+			self.loopList = []
+
 		self.stream=stream
 		self.interface = interfaceModule.Interface()
 		self.interface.MakeInterface()
@@ -277,6 +280,9 @@ class GameWindow(ui.ScriptWindow):
 
 		self.onPressKeyDict = None
 		self.onClickKeyDict = None
+
+		if app.ENABLE_BIYOLOG:
+			self.loopList = []
 
 		chat.Close()
 		snd.StopAllSound()
@@ -2934,6 +2940,27 @@ class GameWindow(ui.ScriptWindow):
 			
 		def PetWindowTypeResult(self, result):
 			self.interface.PetWindowTypeResult(result)
+
+	if app.ENABLE_BIYOLOG:
+		def AddLoopEvent(self, name, event):
+			for i in self.loopList:
+				if i[0] == name:
+					i[1] = event
+					return # already have.
+			list = [name,event]
+			self.loopList.append(list)
+	
+		def RemoveLoopEvent(self, name):
+			for i in xrange(len(self.loopList)):
+				if self.loopList[i][0] == name:
+					del self.loopList[i]
+					return
+		def loopListEvent(self):
+			for i in xrange(len(self.loopList)):
+				returnValue = self.loopList[i][1]()
+				if returnValue == True:
+					del self.loopList[i]
+
 
 	def OpenFish(self, p):
 		n = int(p)

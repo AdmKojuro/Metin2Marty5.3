@@ -99,8 +99,6 @@ class Interface(object):
 		self.wndGiftBox = None
 		if app.ENABLE_OFFSHOP_DECO:
 			self.shopDecoration = None
-		if app.ENABLE_BIYOLOG:
-			self.wndBio = None
 		# ITEM_MALL
 		self.mallPageDlg = None
 		# END_OF_ITEM_MALL
@@ -498,6 +496,9 @@ class Interface(object):
 		self.__MakeItemSelectWindow()
 		# END_OF_ACCESSORY_REFINE_ADD_METIN_STONE
 
+		if app.ENABLE_BIYOLOG:
+			self.wndBio = None
+
 		self.questButtonList = []
 		self.whisperButtonList = []
 		self.whisperDialogDict = {}
@@ -748,6 +749,12 @@ class Interface(object):
 			self.wndItemSelect.Destroy()
 		# END_OF_ACCESSORY_REFINE_ADD_METIN_STONE
 
+		if app.ENABLE_BIYOLOG:
+			if self.wndBio:
+				self.wndBio.Hide()
+				self.wndBio.Destroy()
+				del self.wndBio
+
 		if app.ENABLE_CUBE_RENEWAL_WORLDARD:
 			if self.wndCubeRenewal:
 				self.wndCubeRenewal.Destroy()
@@ -775,12 +782,6 @@ class Interface(object):
 			if self.wndDungeonInfo:
 				self.wndDungeonInfo.Destroy()
 				del self.wndDungeonInfo
-
-		if app.ENABLE_BIYOLOG:
-			if self.wndBio:
-				self.wndBio.Hide()
-				self.wndBio.Destroy()
-				del self.wndBio
 
 		if app.BL_PRIVATESHOP_SEARCH_SYSTEM:
 			if self.wndPrivateShopSearch:
@@ -2708,16 +2709,11 @@ class Interface(object):
 				return True
 			return False
 		def OpenBiologWindow(self):
-			if constInfo.GetServerID() == 1:
-				self.MakeBioWindow()
-				if self.wndBio.IsShow():
-					self.wndBio.Close()
-				else:
-					self.wndBio.Open()
-			elif constInfo.GetServerID() == 2:
-				import chat
-				chat.AppendChat(chat.CHAT_TYPE_INFO, "En Furia no estᠤisponible el Bi󬯧o")
-
+			self.MakeBioWindow()
+			if self.wndBio.IsShow():
+				self.wndBio.Close()
+			else:
+				self.wndBio.Open()
 		def SetBioData(self, level, count, time):
 			self.MakeBioWindow()
 			self.wndBio.LoadData(int(level), int(count), int(time))

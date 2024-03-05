@@ -10894,7 +10894,7 @@ void CHARACTER::CheckBio()
 	else if (level >= bio_max)
 		return;
 
-	DWORD count = GetQuestFlag("bio.count");
+	int count = GetQuestFlag("bio.count");
 	if (count >= bio_data[level][2])
 	{
 		if (count == bio_data[level][2])

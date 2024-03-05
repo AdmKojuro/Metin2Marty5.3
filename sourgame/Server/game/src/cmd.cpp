@@ -693,7 +693,6 @@ struct command_info cmd_info[] =
 #endif
 #ifdef ENABLE_BIYOLOG
 	{ "bio_dra",	do_bio,		0,		POS_DEAD,	GM_PLAYER },
-	{ "open_shop",	do_open_shop,		0,		POS_DEAD,	GM_PLAYER },
 #endif
 	{"gotoxy", do_gotoxy, 0, POS_DEAD, GM_PLAYER},
 #ifdef FAST_EQUIP_WORLDARD

@@ -4159,17 +4159,6 @@ ACMD(do_stat_val)
 }
 
 #ifdef ENABLE_BIYOLOG
-#include "shop_manager.h"
-ACMD(do_open_shop)
-{
-	std::vector<std::string> vecArgs;
-	split_argument(argument, vecArgs);
-	if (vecArgs.size() < 2) { return; }
-
-	DWORD shopVnum = 0;
-	str_to_number(shopVnum, vecArgs[1].c_str());
-	CShopManager::Instance().StartShopping(ch, NULL, shopVnum);
-}
 ACMD(do_bio)
 {
 	if (ch->GetLevel() < 30)
@@ -4187,11 +4176,11 @@ ACMD(do_bio)
 		return;
 	else if (ch->GetLevel() < bio_data[level][0])
 	{
-		ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("임무를 부여받으려면 레벨 30이 되어야 합니다."));
+		ch->ChatPacket(CHAT_TYPE_INFO, "Debes tener nivel %d para asignarte una mision.", bio_data[level][0]);
 		return;
 	}
 
-	DWORD count = ch->GetQuestFlag("bio.count");
+	int count = ch->GetQuestFlag("bio.count");
 	int time = ch->GetQuestFlag("bio.time");
 
 	if (vecArgs[1] == "mission")
@@ -4207,7 +4196,7 @@ ACMD(do_bio)
 		{
 			if (ch->CountSpecifyItem(bio_data[level][1]) < 1)
 			{
-				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("임무를 완료하기에는 재료가 충분하지 않습니다."));
+				ch->ChatPacket(CHAT_TYPE_INFO, "No hay suficientes %d para finalizar la mision.", bio_data[level][1]);
 				return;
 			}
 
@@ -4225,7 +4214,7 @@ ACMD(do_bio)
 				{
 					if (time > get_global_time())
 					{
-						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("대기 시간이 지나지 않으면 상품을 배송할 수 없습니다. 엘릭서를 사용하면 시간을 줄일 수 있습니다."));
+						ch->ChatPacket(CHAT_TYPE_INFO, "No puedes entregar un objeto si no ha pasado el tiempo de espera. Puedes reducir el tiempo usando %d.", bio_data[level][16]);
 						return;
 					}
 				}
@@ -4234,7 +4223,7 @@ ACMD(do_bio)
 			{
 				if (time > get_global_time())
 				{
-					ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("대기 시간이 지나지 않으면 상품을 배송할 수 없습니다. 엘릭서를 사용하면 시간을 줄일 수 있습니다."));
+					ch->ChatPacket(CHAT_TYPE_INFO, "No puedes entregar un objeto si no ha pasado el tiempo de espera. Puedes reducir el tiempo usando %d.",bio_data[level][16]);
 					return;
 				}
 			}
@@ -4260,8 +4249,7 @@ ACMD(do_bio)
 				ch->SetQuestFlag("bio.time", time);
 				ch->ChatPacket(CHAT_TYPE_COMMAND, "biodata %d %d %d", level, count, time);
 
-				//ch->ChatPacket(CHAT_TYPE_INFO, "565 I%d", bio_data[level][1]);
-				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("개체의 품질이 좋고 긍정적인 결과를 얻었습니다."));
+				ch->ChatPacket(CHAT_TYPE_INFO, "El objeto %d tiene buena calidad y ha dado resultado positivo.", bio_data[level][1]);
 			}
 			else
 			{
@@ -4269,8 +4257,7 @@ ACMD(do_bio)
 				ch->SetQuestFlag("bio.time", time);
 				ch->ChatPacket(CHAT_TYPE_COMMAND, "biodata %d %d %d", level, count, time);
 
-				//ch->ChatPacket(CHAT_TYPE_INFO, "566 I%d", bio_data[level][1]);
-				ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("물건의 상태가 좋지 않았습니다. 더 가져오세요."));
+				ch->ChatPacket(CHAT_TYPE_INFO, "El objeto %d estaba en malas condiciones, traeme mas.", bio_data[level][1]);
 			}
 
 			if (bio_data[level][5] != 0)
@@ -4289,8 +4276,7 @@ ACMD(do_bio)
 			{
 				if (ch->CountSpecifyItem(bio_data[level][5]) < 1)
 				{
-					//ch->ChatPacket(CHAT_TYPE_INFO, "567 I%d", bio_data[level][5]);
-					ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("신성한 물건을 가져오지 않으면 임무를 완료할 수 없습니다."));
+					ch->ChatPacket(CHAT_TYPE_INFO, "No puedes acabar la mision sin traerme el objeto sagrado: %d.", bio_data[level][5]);
 					return;
 				}
 				else
@@ -4314,8 +4300,7 @@ ACMD(do_bio)
 							}
 							ch->AddAffect(AFFECT_COLLECT, bio_data[level][6], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-							//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][6]), bio_data[level][7]);
-							ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+							ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character:%d", pointToApply(bio_data[level][6]), bio_data[level][7]);
 							//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 						}
 
@@ -4329,8 +4314,7 @@ ACMD(do_bio)
 							}
 							ch->AddAffect(AFFECT_COLLECT, bio_data[level][8], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-							//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][8]), bio_data[level][9]);
-							ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+							ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character:%d", pointToApply(bio_data[level][8]), bio_data[level][9]);
 							//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 						}
 
@@ -4344,8 +4328,7 @@ ACMD(do_bio)
 							}
 							ch->AddAffect(AFFECT_COLLECT, bio_data[level][10], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-							//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][10]), bio_data[level][11]);
-							ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+							ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character:%d", pointToApply(bio_data[level][10]), bio_data[level][11]);
 							//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 						}
 
@@ -4360,16 +4343,14 @@ ACMD(do_bio)
 								
 							ch->AddAffect(AFFECT_COLLECT, bio_data[level][12], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-							//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][12]), bio_data[level][13]);
-							ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+							ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character:%d", pointToApply(bio_data[level][12]), bio_data[level][13]);
 							//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 						}
 
 						int newLevel = level + 1;
 						if (newLevel >= bio_max)
 						{
-							//ch->ChatPacket(CHAT_TYPE_INFO, "570");
-							ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("모든 임무를 완료했습니다. 새로운 미션으로 곧 뵙길 바랍니다."));
+							ch->ChatPacket(CHAT_TYPE_INFO, "Has terminado todas tus misiones. Espero verte muy pronto con nuevas misiones.");
 							ch->ChatPacket(CHAT_TYPE_COMMAND, "bioempty");
 							return;
 						}
@@ -4405,8 +4386,7 @@ ACMD(do_bio)
 						}
 						ch->AddAffect(AFFECT_COLLECT, bio_data[level][6], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-						//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][6]), bio_data[level][7]);
-						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+						ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][6]), bio_data[level][7]);
 						//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 					}
 
@@ -4420,8 +4400,7 @@ ACMD(do_bio)
 						}
 						ch->AddAffect(AFFECT_COLLECT, bio_data[level][8], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-						//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][8]), bio_data[level][9]);
-						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+						ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][8]), bio_data[level][9]);
 						//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 					}
 
@@ -4435,8 +4414,7 @@ ACMD(do_bio)
 						}
 						ch->AddAffect(AFFECT_COLLECT, bio_data[level][10], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-						//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][10]), bio_data[level][11]);
-						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+						ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][10]), bio_data[level][11]);
 						//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 					}
 
@@ -4450,16 +4428,14 @@ ACMD(do_bio)
 						}
 						ch->AddAffect(AFFECT_COLLECT, bio_data[level][12], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-						//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][12]), bio_data[level][13]);
-						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+						ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][12]), bio_data[level][13]);
 						//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 					}
 
 					int newLevel = level + 1;
 					if (newLevel >= bio_max)
 					{
-						//ch->ChatPacket(CHAT_TYPE_INFO, "570");
-						ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("모든 임무를 완료했습니다. 새로운 미션으로 곧 뵙길 바랍니다."));
+						ch->ChatPacket(CHAT_TYPE_INFO, "Has terminado todas tus misiones. Espero verte muy pronto con nuevas misiones.");
 						ch->ChatPacket(CHAT_TYPE_COMMAND, "bioempty");
 						return;
 					}
@@ -4507,8 +4483,7 @@ ACMD(do_bio)
 			}
 			ch->AddAffect(AFFECT_COLLECT, bio_data[level][6], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-			//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][6]), bio_data[level][7]);
-			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+			ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][6]), bio_data[level][7]);
 			//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 		}
 
@@ -4522,8 +4497,7 @@ ACMD(do_bio)
 			}
 			ch->AddAffect(AFFECT_COLLECT, bio_data[level][8], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-			//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][8]), bio_data[level][9]);
-			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+			ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][8]), bio_data[level][9]);
 			//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 		}
 
@@ -4537,8 +4511,7 @@ ACMD(do_bio)
 			}
 			ch->AddAffect(AFFECT_COLLECT, bio_data[level][10], value, AFF_NONE, INFINITE_AFFECT_DURATION, 0, false);
 
-			//ch->ChatPacket(CHAT_TYPE_INFO, "568 E%d:%d", pointToApply(bio_data[level][10]), bio_data[level][11]);
-			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("캐릭터에 효과가 성공적으로 처리되었습니다."));
+			ch->ChatPacket(CHAT_TYPE_INFO, "The effect %d has been successfully processed to character.:%d", pointToApply(bio_data[level][10]), bio_data[level][11]);
 			//ch->ChatPacket(CHAT_TYPE_INFO, "569");
 		}
 
@@ -4549,8 +4522,7 @@ ACMD(do_bio)
 		int newLevel = level + 1;
 		if (newLevel >= bio_max)
 		{
-			//ch->ChatPacket(CHAT_TYPE_INFO, "570");
-			ch->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("모든 임무를 완료했습니다. 새로운 미션으로 곧 뵙길 바랍니다."));
+			ch->ChatPacket(CHAT_TYPE_INFO, "Has terminado todas tus misiones. Espero verte muy pronto con nuevas misiones.");
 			ch->ChatPacket(CHAT_TYPE_COMMAND, "bioempty");
 			return;
 		}

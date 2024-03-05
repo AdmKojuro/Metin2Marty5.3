@@ -22,21 +22,20 @@ YENILEME_NOTU = 70028
 bio_data = [
 	# level, item, count, time, lucky, stone, afftype1, affvalue1, afftype2, affvalue2, afftype3, affvalue3 , afftype4, affvalue4, isChoose
 	[ 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0,0,0,0,0], #empty
-	[ 30, 30006, 10, 10 * 60, 60, 30220, item.APPLY_DEF_GRADE_BONUS, 30,0,0,0,0,0,0,0, 71035, 30250], #Dientes orco
-	[ 40, 30047, 15, 10 * 60, 60, 30221, item.APPLY_ATT_GRADE_BONUS, 40,0,0,0,0,0,0,0, 71035, 30250], #Libro maldicion
-	[ 50, 30015, 15, 15 * 60, 60, 30222, item.APPLY_ATTBONUS_MONSTER, 5,0,0,0,0,0,0,0, 71035, 30250], #Recuerdodeldemonio
-	[ 60, 30050, 20, 15 * 60, 60, 30223, item.APPLY_ATTBONUS_METIN, 4,item.APPLY_ATTBONUS_BOSS,4,0,0,0,0,1, 71035, 30250], #Bola de hielo
-	[ 70, 300004, 25, 30 * 60, 60, 30224, item.APPLY_ATTBONUS_BOSS, 6,item.APPLY_ATTBONUS_METIN,6,0,0,0,0,1, 71035, 30250], #Ramas Zelkova
-	[ 80, 300005, 30, 30 * 60, 60, 30225, item.APPLY_MAX_HP, 1000,item.APPLY_CAST_SPEED,10,0,0,0,0,1, 71035, 30250], #Panel Tugyis
-	[ 85, 300006, 40, 45 * 60, 60, 30226, item.APPLY_RESIST_WARRIOR, 10,item.APPLY_RESIST_ASSASSIN,10,item.APPLY_RESIST_SURA,10,item.APPLY_RESIST_SHAMAN,10,0, 71035, 30250], #Rama arbol Rojo Fantasma
-	[ 90, 300007, 50, 60 * 60, 60, 30227, item.APPLY_ATTBONUS_WARRIOR, 10,item.APPLY_ATTBONUS_ASSASSIN,10,item.APPLY_ATTBONUS_SURA,10,item.APPLY_ATTBONUS_SHAMAN,10,0, 71035, 30250], #Notas del Lider
-	[ 92, 300008, 10, 120 * 60, 60, 30228, item.APPLY_MAX_HP, 1200,item.APPLY_DEF_GRADE_BONUS,120,item.APPLY_ATT_GRADE_BONUS,50,0,0,1, 71035, 30250], #Joya de la envidia
-	[ 94, 300009, 20, 120 * 60, 60, 30229, item.APPLY_MAX_HP, 1500,item.APPLY_DEF_GRADE_BONUS,140,item.APPLY_ATT_GRADE_BONUS,60,0,0,1, 71035, 30250], #Joya de la sabiduria
+	[ 30, 30006, 10, 10 * 60, 60, 30220, item.APPLY_MAX_HP, 10000,0,0,0,0,0,0,0, 71035, 30250], #Dientes orco
+	[ 40, 30047, 15, 10 * 60, 60, 30221, item.APPLY_MAX_HP, 5000,0,0,0,0,0,0,0, 71035, 30250], #Libro maldicion
+	[ 50, 30015, 15, 15 * 60, 60, 30222, item.APPLY_ATTBONUS_HUMAN, 12,0,0,0,0,0,0,0, 71035, 30250], #Recuerdodeldemonio
+	[ 60, 30050, 20, 15 * 60, 60, 30223, item.APPLY_CAST_SPEED, 15,0,0,0,0,0,0,1, 71035, 30250], #Bola de hielo
+	[ 70, 30165, 25, 30 * 60, 60, 30224, item.APPLY_ATT_GRADE_BONUS, 30,item.APPLY_ATTBONUS_MONSTER,10,0,0,0,0,1, 71035, 30250], #Ramas Zelkova
+	[ 80, 30166, 30, 30 * 60, 60, 30225, item.APPLY_MAX_HP, 1000,item.APPLY_CAST_SPEED,10,0,0,0,0,1, 71035, 30250], #Panel Tugyis
+	[ 85, 30167, 40, 45 * 60, 60, 30226, item.APPLY_RESIST_WARRIOR, 10,item.APPLY_RESIST_ASSASSIN,10,item.APPLY_RESIST_SURA,10,item.APPLY_RESIST_SHAMAN,10,0, 71035, 30250], #Rama arbol Rojo Fantasma
+	[ 90, 30168, 50, 60 * 60, 60, 30227, item.APPLY_ATTBONUS_WARRIOR, 10,item.APPLY_ATTBONUS_ASSASSIN,10,item.APPLY_ATTBONUS_SURA,10,item.APPLY_ATTBONUS_SHAMAN,10,0, 71035, 30250], #Notas del Lider
+	[ 92, 30251, 10, 120 * 60, 60, 30228, item.APPLY_MAX_HP, 1200,item.APPLY_DEF_GRADE_BONUS,120,item.APPLY_ATT_GRADE_BONUS,50,0,0,1, 71035, 30250], #Joya de la envidia
+	[ 94, 30252, 20, 120 * 60, 60, 30229, item.APPLY_MAX_HP, 1500,item.APPLY_DEF_GRADE_BONUS,140,item.APPLY_ATT_GRADE_BONUS,60,0,0,1, 71035, 30250], #Joya de la sabiduria
 	[ 98, 300010, 35, 180 * 60, 60, 30230, item.APPLY_ATTBONUS_MONSTER, 10,item.APPLY_RESIST_HUMAN,10,0,0,0,0,1, 71035, 30250], #Pluma de Fenix
-	[ 100, 300011, 35, 180 * 60, 60, 30231, item.APPLY_ATTBONUS_METIN, 10,item.APPLY_MELEE_MAGIC_ATTBONUS_PER,10,0,0,0,0,1, 71035, 30250], #Monoculo Rojo
- 	[ 105, 300012, 35, 180 * 60, 60, 30232, item.APPLY_ATTBONUS_BOSS, 10,item.APPLY_ATTBONUS_HUMAN,10,0,0,0,0,1, 71035, 30250], #Receta antigua
+	[ 100, 300011, 35, 180 * 60, 60, 30231, item.APPLY_ATTBONUS_MONSTER, 10,item.APPLY_MELEE_MAGIC_ATTBONUS_PER,10,0,0,0,0,1, 71035, 30250], #Monoculo Rojo
+ 	[ 105, 300012, 35, 180 * 60, 60, 30232, item.APPLY_ATT_GRADE_BONUS, 50,item.APPLY_ATTBONUS_HUMAN,10,0,0,0,0,1, 71035, 30250], #Receta antigua
 ]
-
 
 class BiologWindow(ui.BoardWithTitleBar):
 	def __del__(self):
@@ -361,6 +360,7 @@ class BiologWindow(ui.BoardWithTitleBar):
 
 	def BindInterfaceClass(self, interface):
 		self.interface = interface
+
 	def OverOutItem(self):
 		interface = constInfo.GetInterfaceInstance()
 		if interface:
@@ -602,7 +602,7 @@ class BiologWindow(ui.BoardWithTitleBar):
 			_yPos+=buttonList[j].GetHeight()+2
 
 	def OpenShop(self):
-		net.SendChatPacket("/npc.open_shop 8")
+		net.SendChatPacket("/open_shop 8")
 
 	def GiveMission(self):
 		if self.bioLevel == 0:
