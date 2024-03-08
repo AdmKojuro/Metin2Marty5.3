@@ -1,0 +1,23 @@
+1	Résistance (Guerrier)	jijoong	PASSIVE	Résistance contre les attaques de Guerriers (passive)	0
+2	Résistance (Sura)	jijoong	PASSIVE	Résistance contre les attaques de Suras (passive)	0
+3	Résistance (Ninja)	jijoong	PASSIVE	Résistance contre les attaques de Ninjas (passive)	0
+4	Résistance (Chamane)	jijoong	PASSIVE	Résistance contre les attaques de Chamanes (passive)	0
+5	Résistance (Lycan)	jijoong	PASSIVE	Résistance contre les attaques de Lycans (passive)	0
+6	Berserker	pacheon	PASSIVE	La valeur d'attaque augmente (passive)	0
+7	Anti-magie	cheonryeong	PASSIVE	La magie de l'adversaire est neutralisée (passivement)	0
+8	Accélération	banya	PASSIVE	Le temps de recharge des capacités est réduit (passivement)	0
+9	Drill	choehoenbimu	PASSIVE	La chance de coups perçants est augmentée (passivement)	0
+10	Renouvellement	heal	AUTO	Les PV sont restaurés dès qu'ils tombent sous les 20 %	480
+11	Vampire	stealhp	PASSIVE	Des PV de l'adversaire sont aspirés (passivement)	0
+12	Fantômes	stealmp	PASSIVE	Des PM de l'adversaire sont aspirés (passivement)	0
+13	Obstacle	block	PASSIVE	Les obstacles physiques sont bloqués (passivement)	0
+14	Miroir	reflect_melee	PASSIVE	Les dégâts subis sont répercutés sur l'adversaire (passivement)	0
+15	Chute de Yangs	gold_drop	PASSIVE	Le nombre de Yangs lâchés est augmenté (passivement)	0
+16	Portée	bow_distance	PASSIVE	Augmentation de la portée (passif)	0
+17	Invincibilité	invincibility	AUTO	Chance d'invincibilité temporaire	600
+18	Soins	removal	AUTO	Chance de neutraliser les effets de poisons, de saignements et de ralentissements	480
+19	Maître brasseur	potion	PASSIVE	Augmentation de la régénération par potions (passif)	0
+20	Chasseur de monstres	mob_bonus	PASSIVE	L'effet « force contre les monstres » s'intensifie (passif)	0
+21	Regard perçant	exp	PASSIVE	L'EXP acquise augmente (passif)	0
+22	Sangsue	hp_recover	PASSIVE	Absorption des PV des monstres éliminés (passif)	0
+23	Poids plume	feather	AUTO	La Foulée de plume s'active un court instant	180

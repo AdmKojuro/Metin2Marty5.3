@@ -130,6 +130,11 @@ if app.ENABLE_OFFSHOP_DECO:
 	decoration_w = 0
 #Decoration Shop
 
+Habilidades = {	
+	"HABSTR" : "",
+	"qid" : 0,
+}
+
 # option
 IN_GAME_SHOP_ENABLE = 1
 

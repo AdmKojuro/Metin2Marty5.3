@@ -1,0 +1,23 @@
+1	Widerstand (Krieger)	jijoong	PASSIVE	Widerstand gegen Krieger-Angriffe (passiv)	0
+2	Widerstand (Sura)	jijoong	PASSIVE	Widerstand gegen Sura-Angriffe (passiv)	0
+3	Widerstand (Ninja)	jijoong	PASSIVE	Widerstand gegen Ninja-Angriffe (passiv)	0
+4	Widerstand (Schamane)	jijoong	PASSIVE	Widerstand gegen Schamanen-Angriffe (passiv)	0
+5	Widerstand (Lykaner)	jijoong	PASSIVE	Widerstand gegen Lykaner-Angriffe (passiv)	0
+6	Berserker	pacheon	PASSIVE	Angriffswert erhöht sich (passiv)	0
+7	Magiebruch	cheonryeong	PASSIVE	Magie des Gegners wird gebrochen (passiv)	0
+8	Beschleunigung	banya	PASSIVE	Aufladezeit der Fähigkeiten vermindert sich (passiv)	0
+9	Drill	choehoenbimu	PASSIVE	Chance auf durchbohrende Treffer erhöht sich (passiv)	0
+10	Erneuerung	heal	AUTO	TP werden wieder hergestellt, sobald sie unter 20% fallen	480
+11	Vampir	stealhp	PASSIVE	Dem Gegner werden TP entzogen (passiv)	0
+12	Geister	stealmp	PASSIVE	Dem Gegner werden MP entzogen (passiv)	0
+13	Hindernis	block	PASSIVE	Physischer Schaden wird abgeblockt (passiv)	0
+14	Spiegeln	reflect_melee	PASSIVE	Erlittener Schaden wird auf den Gegner reflektiert (passiv)	0
+15	Yang Drop	gold_drop	PASSIVE	Droprate von Yang wird erhöht (passiv)	0
+16	Reichweite	bow_distance	PASSIVE	Reichweite wird erhöht (passiv)	0
+17	Unbesiegbarkeit	invincibility	AUTO	Chance auf vorübergehende Unbesiegbarkeit	600
+18	Heilung	removal	AUTO	Chance auf Entfernung von Blutungs-, Gift- und Verlangsamungseffekten	480
+19	Braumeister	potion	PASSIVE	Regeneration durch Tränke wird erhöht (passiv)	0
+20	Monsterjäger	mob_bonus	PASSIVE	Effekt von "Stark gegen Monster" wird erhöht (passiv)	0
+21	Scharfblick	exp	PASSIVE	Gesammelte EXP werden erhöht (passiv)	0
+22	Lebensentzug	hp_recover	PASSIVE	Absorbiert TP von getöteten Monstern (passiv)	0
+23	Federleicht	feather	AUTO	Aktiviert Federschreiten für kurze Zeit	180

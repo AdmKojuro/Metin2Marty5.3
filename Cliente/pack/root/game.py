@@ -35,6 +35,7 @@ import uiPlayerGauge
 import uiCharacter
 import uiTarget
 import uimall
+import uiHabilidades
 if app.ENABLE_GOOGLE_TRANSLATE_INGAME:
 	import texttranslator_v4
 # PRIVATE_SHOP_PRICE_LIST
@@ -125,6 +126,9 @@ class GameWindow(ui.ScriptWindow):
 
 		self.playerGauge = uiPlayerGauge.PlayerGauge(self)
 		self.playerGauge.Hide()
+
+		self.habis = uiHabilidades.Habilidades()
+		self.habis.Close() 
 
 		#wj 2014.1.2. ESCŰ�� ���� �� �켱������ DropQuestionDialog�� ������ �������. ������ ó���� itemDropQuestionDialog�� ����Ǿ� ���� �ʾ� ERROR�� �߻��Ͽ� init���� ����� ���ÿ� �ʱ�ȭ ��Ŵ.
 		self.itemDropQuestionDialog = None
@@ -773,7 +777,9 @@ class GameWindow(ui.ScriptWindow):
 		self.interface.OnBlockMode(mode)
 
 	def OpenQuestWindow(self, skin, idx):
-		if not constInfo.INPUT_IGNORE:
+		if constInfo.INPUT_IGNORE == 1:
+			return
+		else:
 			self.interface.OpenQuestWindow(skin, idx)
 
 	def AskGuildName(self):
@@ -2225,6 +2231,10 @@ class GameWindow(ui.ScriptWindow):
 			"item_mall"				: self.__ItemMall_Open,
 			# END_OF_ITEM_MALL
 
+			# HABILIDADES			
+			"HABILIDADES"			: self.__Habilidades,			
+			# END_OF_HABILIDADES 
+
 			"mall_v3"			: uimall.wnd.cqc.ReceiveQuestCommand,
 			"getinputbegin"				: self.GetInputBegin,
 			"getinputend"					: self.GetInputEnd,
@@ -2273,6 +2283,10 @@ class GameWindow(ui.ScriptWindow):
 			"gift_info"		:self.gift_show,
 			"gift_load"		:self.gift_load,
 			# END GIFT SYSTEM
+
+			"input0"						: self.__Input0,
+			"input1"						: self.__Input1,
+
 		}
 
 		if app.ENABLE_HIDE_COSTUME_SYSTEM:
@@ -2366,6 +2380,12 @@ class GameWindow(ui.ScriptWindow):
 		except RuntimeError, msg:
 			dbg.TraceError(msg)
 			return 0
+
+	def __Input0(self):
+		constInfo.INPUT_IGNORE = 0
+	
+	def __Input1(self):
+		constInfo.INPUT_IGNORE = 1
 
 	def PartyHealReady(self):
 		self.interface.PartyHealReady()
@@ -3034,3 +3054,21 @@ class GameWindow(ui.ScriptWindow):
 							for j in range(1,5):
 								if gui.IsChild("EXPGauge_0%d"%j):
 									gui.GetChild("EXPGauge_0%d"%j).SetDiffuseColor(201,160,51,1)
+
+		### HABILIDADES ###
+		def __Habilidades(self, cmd):
+			shang = cmd.split("|")
+			if shang[0] == "RAZA":
+				self.habis.Open(int(shang[1]))
+			elif shang[0] == "GRUPO":
+				net.SendQuestInputStringPacket(str(constInfo.Habilidades["HABSTR"]))
+				constInfo.Habilidades["HABSTR"] = ""
+			elif shang[0] == "QID":
+				constInfo.Habilidades["qid"] = int(shang[1])
+		### END_HABILIDADES ### 
+
+	def GetInputBegin(self):
+		constInfo.INPUT_IGNORE = 1
+		
+	def GetInputEnd(self):
+		constInfo.INPUT_IGNORE = 0

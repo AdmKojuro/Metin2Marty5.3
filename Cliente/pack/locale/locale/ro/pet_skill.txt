@@ -1,0 +1,23 @@
+1	Rezistenþã (Rãzboinic)	jijoong	PASSIVE	Rezitenþã la atacurile Rãzboinicului (pasiv)	0
+2	Rezistenta (Sura)	jijoong	PASSIVE	Rezitenta la atacurile Sura (pasiv)	0
+3	Rezistenta (Ninja)	jijoong	PASSIVE	Rezitenta la atacurile Ninja (pasiv)	0
+4	Rezistenþã (ªaman)	jijoong	PASSIVE	Rezitenþã la atacurile ªamanului (pasiv)	0
+5	Rezistenta (Lycan)	jijoong	PASSIVE	Rezitenta la atacurile Lycanului (pasiv)	0
+6	Berserker	pacheon	PASSIVE	Creste valoarea atacului (pasiv)	0
+7	Anti-Magie	cheonryeong	PASSIVE	Reduce rezistenta magica la oponent (pasiv)	0
+8	Graba	banya	PASSIVE	Reduce calmarea abilitatii (pasiv)	0
+9	Antrenament	choehoenbimu	PASSIVE	Creste sansa unei lovituri patrunzatoare (pasiv)	0
+10	Restaurare	heal	AUTO	PV va fi restaurat de indata ce scade sub 20%.	480
+11	Vampirism	stealhp	PASSIVE	Absorbi PV de la oponent (pasiv)	0
+12	Spiritism	stealmp	PASSIVE	Absorbi PM de la oponent (pasiv)	0
+13	Obstructie	block	PASSIVE	Atacul fizic este blocat (pasiv)	0
+14	Reflexie	reflect_melee	PASSIVE	Daunele primite se reflecta in inamic (pasiv)	0
+15	Drop Yang	gold_drop	PASSIVE	Rata de castig a Yang-ului este crescuta (pasiv)	0
+16	Perimetru	bow_distance	PASSIVE	Perimetru crescut (pasiv)	0
+17	Imortalitate	invincibility	AUTO	Sansa de imortalitate temporara	600
+18	Remediu	removal	AUTO	Sansa de a inlatura efectele incetinirii, otravii si sangerarii	480
+19	Maestrul Licorilor	potion	PASSIVE	Creºte efectivitatea licorilor de regenerare (pasiv)	0
+20	Maestru Vânãtor	mob_bonus	PASSIVE	Creºte efectivitatea puterii împotriva monºtrilor (pasiv)	0
+21	Ochi de Vultur	exp	PASSIVE	Creºte colectarea de EXP (pasiv)	0
+22	Absorbþia Vieþii	hp_recover	PASSIVE	Absoarbe PV de la monºtrii uciºi (pasiv)	0
+23	Uºor ca un Fulg	feather	AUTO	Activeazã Mers de Fulg pentru o scurtã perioadã	180

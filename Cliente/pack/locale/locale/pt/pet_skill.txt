@@ -1,0 +1,23 @@
+1	Resistência (Guerreiro)	jijoong	PASSIVE	Resistência a ataques de Guerreiros (passiva)	0
+2	Resistência (Sura)	jijoong	PASSIVE	Resistência a ataques de Suras (passiva)	0
+3	Resistência (Ninja)	jijoong	PASSIVE	Resistência a ataques de Ninjas (passiva)	0
+4	Resistência (Xamã)	jijoong	PASSIVE	Resistência a ataques de Xamãs (passiva)	0
+5	Resistência (Lycan)	jijoong	PASSIVE	Resistência a ataques de Lycans (passiva)	0
+6	Enfurecido	pacheon	PASSIVE	Aumento do Valor de Ataque (passiva)	0
+7	Anti-Magia	cheonryeong	PASSIVE	Redução da resistência mágica inimiga (passiva)	0
+8	Celeridade	banya	PASSIVE	Redução do recarregamento de habilidades (passiva)	0
+9	Perfuração	choehoenbimu	PASSIVE	Aumento da probabilidade de golpes perfurantes (passiva)	0
+10	Recuperação	heal	AUTO	Recuperação de VD assim que cair abaixo dos 20%.	480
+11	Vampirismo	stealhp	PASSIVE	Rouba VD ao inimigo (passiva)	0
+12	Espiritualismo	stealmp	PASSIVE	Rouba MN ao inimigo (passiva)	0
+13	Baluarte	block	PASSIVE	Dano físico é bloqueado (passiva)	0
+14	Reflexão	reflect_melee	PASSIVE	Dano sofrido é reflectido de volta ao inimigo (passiva)	0
+15	Queda de Yang	gold_drop	PASSIVE	Aumento da taxa de queda de Yang (passiva)	0
+16	Alcance	bow_distance	PASSIVE	Alcance aumentado (passiva)	0
+17	Imortal	invincibility	AUTO	Probabilidade de invencibilidade temporária	600
+18	Panaceia	removal	AUTO	Probabilidade de remover efeitos de sangramento, lentidão e envenenamento	480
+19	Mestre das Bebidas	potion	PASSIVE	Aumenta a eficácia de poções de regeneração (passiva)	0
+20	Caçador de Monstros	mob_bonus	PASSIVE	Aumenta o efeito Forte contra Monstros (passiva)	0
+21	Olho de Falcão	exp	PASSIVE	Aumenta a EXP obtida (passiva)	0
+22	Suga-Vida	hp_recover	PASSIVE	Absorve VD de monstros derrotados (passiva)	0
+23	Leve como uma Pena	feather	AUTO	Activa Flutuar durante um curto período de tempo	180

@@ -1,0 +1,23 @@
+1	Resistance (Warrior)	jijoong	PASSIVE	Resistance to Warrior attacks (passive)	0
+2	Resistance (Sura)	jijoong	PASSIVE	Resistance to Sura attacks (passive)	0
+3	Resistance (Ninja)	jijoong	PASSIVE	Resistance to Ninja attacks (passive)	0
+4	Resistance (Shaman)	jijoong	PASSIVE	Resistance to Shaman attacks (passive)	0
+5	Resistance (Lycan)	jijoong	PASSIVE	Resistance to Lycan attacks (passive)	0
+6	Berserker	pacheon	PASSIVE	Attack value increased (passive)	0
+7	Anti-Magic	cheonryeong	PASSIVE	Reduce enemy magic resistance (passive)	0
+8	Haste	banya	PASSIVE	Skill cooldown reduced (passive)	0
+9	Drill	choehoenbimu	PASSIVE	Increased chance of piercing hits (passive)	0
+10	Restoration	heal	AUTO	HP will be restored as soon as it drops below 20%	480
+11	Vampirism	stealhp	PASSIVE	Leech HP from the enemy (passive)	0
+12	Spiritualism	stealmp	PASSIVE	Leech SP from the enemy (passive)	0
+13	Bulwark	block	PASSIVE	Physical damage is blocked (passive)	0
+14	Reflection	reflect_melee	PASSIVE	Damage taken is reflected back at the enemy (passive)	0
+15	Yang Drop	gold_drop	PASSIVE	Yang drop rate is increased (passive)	0
+16	Range	bow_distance	PASSIVE	Range increased (passive)	0
+17	Immortal	invincibility	AUTO	Chance of temporary invincibility	600
+18	Panacea	removal	AUTO	Chance to remove bleeding, slow and poison effects	480
+19	Master Brewer	potion	PASSIVE	Increases regeneration potion effectiveness (passive)	0
+20	Monster Hunter	mob_bonus	PASSIVE	Increases strength against monsters effect (passive)	0
+21	Eagle Eyes	exp	PASSIVE	Increases EXP gain (passive)	0
+22	Life Drain	hp_recover	PASSIVE	Absorbs HP from killed monsters (passive)	0
+23	Light as a Feather	feather	AUTO	Activates Feather Walk for a short period	180
