@@ -3085,6 +3085,20 @@ void CInputDB::ReloadAdmin(const char * c_pData )
 ////////////////////////////////////////////////////////////////////
 // Analyze
 ////////////////////////////////////////////////////////////////////
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+void LoadItemExtraProto(const char* data)
+{
+	TPacketDGLoadItemExtraProto* Pack = (TPacketDGLoadItemExtraProto*)data;
+	if (Pack->dwTableSize != sizeof(TItemExtraProto)) {
+		sys_err("Invalid TItemExtraProto size %u (known %u) ", Pack->dwTableSize, sizeof(TItemExtraProto));
+		return;
+	}
+
+	ITEM_MANAGER::instance().InitializeExtraProto((TItemExtraProto*)(data + sizeof(TPacketDGLoadItemExtraProto)), Pack->dwCount);
+}
+#endif
+
 int CInputDB::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 {
 	switch (bHeader)
@@ -3456,6 +3470,13 @@ int CInputDB::Analyze(LPDESC d, BYTE bHeader, const char * c_pData)
 	case HEADER_DG_RESPOND_CHANNELSTATUS:
 		RespondChannelStatus(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);
 		break;
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	case HEADER_DG_ITEM_EXTRA_PROTO_LOAD:
+		LoadItemExtraProto(c_pData);
+		break;
+#endif
+
 #ifdef __SKILL_COLOR_SYSTEM__
 	case HEADER_DG_SKILL_COLOR_LOAD:
 		SkillColorLoad(DESC_MANAGER::instance().FindByHandle(m_dwHandle), c_pData);

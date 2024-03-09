@@ -45,7 +45,11 @@ class CItem : public CEntity
 
 		void			SetProto(const TItemTable * table);
 		TItemTable const *	GetProto()	{ return m_pProto; }
-
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		void		SetExtraProto(TItemExtraProto* Proto);
+		TItemExtraProto* GetExtraProto();
+		bool		HasExtraProto() { return m_ExtraProto != nullptr; }
+#endif
 		long long		GetGold();
 		long long		GetShopBuyPrice();
 #ifdef __MULTI_LANGUAGE_SYSTEM__
@@ -312,6 +316,9 @@ class CItem : public CEntity
 		DWORD		m_dwRefineElement;
 #endif		
 		long		m_lFlag;
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		TItemExtraProto* m_ExtraProto;
+#endif
 		DWORD		m_dwLastOwnerPID;
 
 		bool		m_bExchanging;

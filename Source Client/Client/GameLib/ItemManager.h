@@ -58,7 +58,9 @@ class CItemManager : public CSingleton<CItemManager>
 
 		BOOL			SelectItemData(DWORD dwIndex);
 		CItemData *		GetSelectedItemDataPointer();
-
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		CItemData::TItemExtraProto* GetSelectedExtraProto();
+#endif
 		BOOL			GetItemDataPointer(DWORD dwItemID, CItemData ** ppItemData);
 
 		/////
@@ -71,12 +73,19 @@ class CItemManager : public CSingleton<CItemManager>
 		bool			LoadItemScale(const char* c_szFileName);
 #endif
 #ifdef ENABLE_SHINING_SYSTEM
-	bool			LoadShiningTable(const char* szShiningTable);
+		bool			LoadShiningTable(const char* szShiningTable);
 #endif
-
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		bool			LoadItemExtraProto(std::string filename);
+		CItemData::TItemExtraProto* GetExtraProto(DWORD vnum);
+#endif
 	protected:
 		TItemMap m_ItemMap;
 		std::vector<CItemData*>  m_vec_ItemRange;
 		CItemData * m_pSelectedItemData;
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		std::map<DWORD, CItemData::TItemExtraProto> m_map_extraProto;
+		CItemData::TItemExtraProto* m_pSelectedExtraProto;
+#endif
 };
 

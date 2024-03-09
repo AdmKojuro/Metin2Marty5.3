@@ -152,6 +152,52 @@ bool ITEM_MANAGER::Initialize(TItemTable * table, int size)
 	return true;
 }
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+bool ITEM_MANAGER::InitializeExtraProto(TItemExtraProto* table, DWORD count) 
+{
+	if (m_map_ExtraProto.empty() == false)
+		sys_log(0, "RELOADING ITEM EXTRA PROTO.");
+	
+	m_map_ExtraProto.clear();
+	auto& map = m_map_ExtraProto;
+
+	//todebug
+	//sys_err("FINDME : count of extra protos %u ", count);
+
+	for (DWORD i = 0; i < count; ++i, ++table) {
+		map[table->dwVnum] = *table;
+
+		//todebug
+		//sys_err("FINDME : loading table vnum(%u) rarity (%d) ", table->dwVnum, table->iRarity);
+	}
+
+	ITEM_VID_MAP::iterator it = m_VIDMap.begin();
+	while (it != m_VIDMap.end())
+	{
+		LPITEM item = it->second;
+		++it;
+
+		auto extra_it = map.find(item->GetOriginalVnum());
+		if (extra_it != map.end()) {
+			item->SetExtraProto(&extra_it->second);
+			continue;
+		}
+
+		item->SetExtraProto(nullptr);
+	}
+
+	return true;
+}
+
+TItemExtraProto* ITEM_MANAGER::GetExtraProto(DWORD vnum) 
+{
+	auto it = this->m_map_ExtraProto.find(vnum);
+	if (it != m_map_ExtraProto.end())
+		return &it->second;
+	return nullptr;
+}
+#endif
+
 LPITEM ITEM_MANAGER::CreateItem(DWORD vnum, DWORD count, DWORD id, bool bTryMagic, int iRarePct, bool bSkipSave)
 {
 	if (0 == vnum)
@@ -191,6 +237,9 @@ LPITEM ITEM_MANAGER::CreateItem(DWORD vnum, DWORD count, DWORD id, bool bTryMagi
 
 	item->Initialize();
 	item->SetProto(table);
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	item->SetExtraProto(ITEM_MANAGER::instance().GetExtraProto(vnum));
+#endif
 	item->SetMaskVnum(dwMaskVnum);
 #ifdef __SOUL_SYSTEM__
 	if (item->GetType() == ITEM_SOUL)

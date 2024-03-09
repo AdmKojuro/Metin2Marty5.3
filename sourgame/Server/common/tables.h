@@ -315,6 +315,10 @@ enum
 	HEADER_DG_GROWTH_PET_LOAD		= 184,
 #endif
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	HEADER_DG_ITEM_EXTRA_PROTO_LOAD = 185,
+#endif
+
 #ifdef __SKILL_COLOR_SYSTEM__
 	HEADER_DG_SKILL_COLOR_LOAD = 186,
 #endif
@@ -1762,6 +1766,26 @@ typedef struct SExtBattlePassTimeTable
 	DWORD	dwStartTime;
 	DWORD	dwEndTime;
 } TExtBattlePassTimeTable;
+#endif
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+typedef struct {
+	DWORD dwVnum;
+
+#ifdef ENABLE_RARITY_SYSTEM
+	int iRarity;
+#endif
+#ifdef ENABLE_NEW_EXTRA_BONUS
+	TItemApply ExtraBonus[NEW_EXTRA_BONUS_COUNT];
+#endif
+} TItemExtraProto;
+
+
+typedef struct {
+	DWORD dwCount;
+	DWORD dwTableSize;
+} TPacketDGLoadItemExtraProto;
+
 #endif
 
 #pragma pack()

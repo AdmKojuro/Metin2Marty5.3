@@ -27,6 +27,9 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_RARITY_SYSTEM									// Grade Item Rarity System
+#define ENABLE_ITEM_EXTRA_PROTO									// Item Extra Proto System
+#define ENABLE_NEW_EXTRA_BONUS									// Item Extra Bonus System
 #define ENABLE_ANTI_EXP										// Boton de anti exp
 #define ENABLE_DATETIME_UNDER_MINIMAP		// DateTime (ONly PythonApplicationModule.cpp)
 #define __CHANNEL_CHANGE_SYSTEM__			// Instant Change Channel

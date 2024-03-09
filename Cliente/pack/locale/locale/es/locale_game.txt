@@ -1738,6 +1738,11 @@ RESTART_POPUP_GIVEUP_SUNGMAHEE_TOWER	¡Una amarga derrota! Tu camino acaba aquí.
 REVIVE_QUESTION	¿Quieres revivir a %s? Cantidad de Prismas del despertar: %d unidades
 REVIVE_SELF_QUESTION	¿Quieres llevar a cabo una resurreción? Cantidad de Prismas del despertar: %d unidades
 ROULETTE_REWARD_TEXT	Obtener objeto
+RARITY_ITEM_COMMON	Objeto común
+RARITY_ITEM_EPIC	Objeto épico
+RARITY_ITEM_LEGENDARY	Objeto legendario
+RARITY_ITEM_ANTIQUE	Objeto antiguo
+RARITY_ITEM_MISTIC	Objeto místico
 SAFEBOX_ERROR	Has introducido una contraseña incorrecta.
 SAFEBOX_NEED_CHANGE_PASSWORD	Tu contraseña ha expirado.\nPor favor, elige una nueva.
 SAFEBOX_SELL_DISABLE_SAFEITEM	No puedes vender ninguno de los objetos guardados.

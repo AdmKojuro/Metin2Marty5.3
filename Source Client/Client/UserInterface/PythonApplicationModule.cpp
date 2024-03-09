@@ -2117,5 +2117,23 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_ANTI_EXP", 0);
 #endif
 
+#ifdef ENABLE_RARITY_SYSTEM
+	PyModule_AddIntConstant(poModule, "ENABLE_RARITY_SYSTEM", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_RARITY_SYSTEM", 0);
+#endif
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	PyModule_AddIntConstant(poModule, "ENABLE_ITEM_EXTRA_PROTO", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_ITEM_EXTRA_PROTO", 0);
+#endif
+
+#ifdef ENABLE_NEW_EXTRA_BONUS
+	PyModule_AddIntConstant(poModule, "ENABLE_NEW_EXTRA_BONUS", 1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_NEW_EXTRA_BONUS", 0);
+#endif
+
 }
 

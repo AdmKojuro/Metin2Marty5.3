@@ -208,6 +208,18 @@ void CItem::SetProto(const TItemTable * table)
 	SetFlag(m_pProto->dwFlags);
 }
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+void CItem::SetExtraProto(TItemExtraProto* Proto) 
+{
+	m_ExtraProto = Proto;
+}
+
+TItemExtraProto* CItem::GetExtraProto() 
+{
+	return m_ExtraProto;
+}
+#endif
+
 void CItem::UsePacketEncode(LPCHARACTER ch, LPCHARACTER victim, struct packet_item_use *packet)
 {
 	if (!GetVnum())
@@ -1001,6 +1013,22 @@ void CItem::ModifyPoints(bool bAdd)
 					m_pOwner->ApplyPoint(p->aApplies[i].bType, bAdd ? iValue : -iValue);
 			}
 		}
+	}
+#endif
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	if (HasExtraProto()) 
+	{
+#ifdef ENABLE_NEW_EXTRA_BONUS
+		for (int i = 0; i < NEW_EXTRA_BONUS_COUNT; i++) 
+		{
+			auto type = m_ExtraProto->ExtraBonus[i].bType;			
+			if (type != APPLY_NONE) {
+				auto value = m_ExtraProto->ExtraBonus[i].lValue;
+				m_pOwner->ApplyPoint(m_ExtraProto->ExtraBonus[i].bType, bAdd ? value : -value);
+			}			
+		}
+#endif
 	}
 #endif
 

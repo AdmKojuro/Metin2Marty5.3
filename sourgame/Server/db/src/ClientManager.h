@@ -215,6 +215,10 @@ class CClientManager : public CNetBase, public singleton<CClientManager>
 	bool		InitializeObjectProto();
 	bool		InitializeObjectTable();
 	bool		InitializeMonarch();
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	bool		InitializeItemExtraProtoTable();
+	void		SendItemExtraProtoTable(CPeer* peer);
+#endif
 #ifdef __EVENT_MANAGER__
 	bool		InitializeEventTable();
 #endif
@@ -466,7 +470,9 @@ class CClientManager : public CNetBase, public singleton<CClientManager>
 	std::vector<TBanwordTable>		m_vec_banwordTable;
 	std::vector<TItemAttrTable>		m_vec_itemAttrTable;
 	std::vector<TItemAttrTable>		m_vec_itemRareTable;
-
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	std::vector<TItemExtraProto> m_vec_itemExtraProto;
+#endif
 	std::vector<building::TLand>		m_vec_kLandTable;
 	std::vector<building::TObjectProto>	m_vec_kObjectProto;
 	std::map<DWORD, building::TObject *>	m_map_pkObjectTable;

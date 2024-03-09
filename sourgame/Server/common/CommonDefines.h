@@ -32,6 +32,9 @@ enum eCommonDefines {
 #define FAST_EQUIP_WORLDARD										//Cambio de quipo 
 #define FIX_HEADER_CG_MARK_LOGIN								// Fix for syserr error header 100 (login phase does not handle this packet! header 100);
 #define ENABLE_ANTI_EXP											// Boton de Anti experiencia
+#define ENABLE_RARITY_SYSTEM									// Rarity Bonus Item System
+#define ENABLE_ITEM_EXTRA_PROTO									// Item Extra Proto System
+#define ENABLE_NEW_EXTRA_BONUS									// Extra Bonus System
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

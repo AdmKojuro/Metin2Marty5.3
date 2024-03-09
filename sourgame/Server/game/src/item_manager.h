@@ -369,6 +369,10 @@ class ITEM_MANAGER : public singleton<ITEM_MANAGER>
 		virtual ~ITEM_MANAGER();
 
 		bool                    Initialize(TItemTable * table, int size);
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		bool					InitializeExtraProto(TItemExtraProto* table, DWORD count);
+		TItemExtraProto*		GetExtraProto(DWORD vnum);
+#endif
 		void			Destroy();
 		void			Update();
 		void			GracefulShutdown();
@@ -443,7 +447,9 @@ class ITEM_MANAGER : public singleton<ITEM_MANAGER>
 
 	protected:
 		typedef std::map<DWORD, LPITEM> ITEM_VID_MAP;
-
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		std::map<DWORD, TItemExtraProto> m_map_ExtraProto;
+#endif
 		std::vector<TItemTable>		m_vec_prototype;
 		std::vector<TItemTable*> m_vec_item_vnum_range_info;
 		std::map<DWORD, DWORD>		m_map_ItemRefineFrom;

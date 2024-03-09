@@ -15,6 +15,9 @@ static DWORD s_adwItemProtoKey[4] =
 BOOL CItemManager::SelectItemData(DWORD dwIndex)
 {
 	TItemMap::iterator f = m_ItemMap.find(dwIndex);
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	m_pSelectedExtraProto = GetExtraProto(dwIndex);
+#endif
 
 	if (m_ItemMap.end() == f)
 	{
@@ -43,6 +46,13 @@ CItemData * CItemManager::GetSelectedItemDataPointer()
 {
 	return m_pSelectedItemData;
 }
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+CItemData::TItemExtraProto* CItemManager::GetSelectedExtraProto()
+{
+	return m_pSelectedExtraProto;
+}
+#endif
 
 BOOL CItemManager::GetItemDataPointer(DWORD dwItemID, CItemData ** ppItemData)
 {
@@ -393,6 +403,75 @@ bool CItemManager::LoadItemTable(const char* c_szFileName)
 	delete [] pbData;
 	return true;
 }
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+bool CItemManager::LoadItemExtraProto(std::string filename)
+{
+	CMappedFile file;
+	LPCVOID pvData;
+
+	if (!CEterPackManager::Instance().Get(file, filename.c_str(), &pvData))
+		return false;
+
+	CMemoryTextFileLoader kTextFileLoader;
+	kTextFileLoader.Bind(file.Size(), pvData);
+
+	std::string stTemp;
+	CItemData::TItemExtraProto Proto;
+
+	CTokenVector kTokenVector;
+	for (DWORD i = 0; i < kTextFileLoader.GetLineCount(); ++i)
+	{
+		if (i == 0)
+		{
+			auto line = kTextFileLoader.GetLineString(0);
+			if (line.find("vnum") != std::string::npos)
+				continue;
+		}
+
+		if (!kTextFileLoader.SplitLineByTab(i, &kTokenVector))
+			continue;
+
+		if (kTokenVector.size() != CItemData::ITEM_EXTRA_PROTO_FIELD_COUNT) 
+		{
+			TraceError("Invalid line (Item extra proto) %d ", i+1);
+			continue;
+		}
+
+		auto& vnum = kTokenVector[CItemData::EItemExtraProto::ITEM_VNUM];
+		Proto.dwVnum = strtoul(vnum.c_str(), nullptr, 10);
+#ifdef ENABLE_RARITY_SYSTEM
+		auto& rarity = kTokenVector[CItemData::EItemExtraProto::ITEM_RARITY];
+		Proto.iRarity = strtol(rarity.c_str(), nullptr, 10);
+#endif
+
+#ifdef ENABLE_NEW_EXTRA_BONUS
+		int index = 0;
+		for (int i= (int)CItemData::EItemExtraProto::ITEM_EXTRA_BONUS_START; i <= (int)CItemData::EItemExtraProto::ITEM_EXTRA_BONUS_END; i += 2, index++)
+		{
+			auto& type = kTokenVector[i];
+			auto& value = kTokenVector[i + 1];
+			Proto.ExtraBonus[index].bType = atoi(type.c_str());
+			Proto.ExtraBonus[index].lValue = atoi(value.c_str());
+		}
+#endif
+		m_map_extraProto.emplace(Proto.dwVnum, Proto);
+	}
+
+	return true;
+}
+
+
+CItemData::TItemExtraProto* CItemManager::GetExtraProto(DWORD vnum) 
+{
+	auto Iter = m_map_extraProto.find(vnum);
+	if (Iter != m_map_extraProto.end())
+		return &(Iter->second);
+	return nullptr;
+}
+
+
+#endif
 
 void CItemManager::Destroy()
 {

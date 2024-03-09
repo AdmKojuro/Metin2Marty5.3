@@ -589,6 +589,9 @@ void CClientManager::QUERY_BOOT(CPeer* peer, TPacketGDBoot * p)
 		sys_log(0, "MONARCHCandidacy Size %d", CMonarch::instance().MonarchCandidacySize());
 
 	peer->EncodeWORD(0xffff);
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	SendItemExtraProtoTable(peer);
+#endif
 }
 
 void CClientManager::SendPartyOnSetup(CPeer* pkPeer)
@@ -4772,6 +4775,29 @@ void CClientManager::ChargeCash(const TRequestChargeCash* packet)
 	CDBManager::Instance().AsyncQuery(szQuery, SQL_ACCOUNT);
 }
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+void CClientManager::SendItemExtraProtoTable(CPeer* peer) 
+{
+	DWORD count = static_cast<DWORD>(m_vec_itemExtraProto.size());
+	DWORD table_size = static_cast<DWORD>(sizeof(TItemExtraProto));
+
+	if (count == 0) {
+		sys_err("peer boot ERROR, empty item extra proto table.");
+		return;
+	}
+
+	TPacketDGLoadItemExtraProto Pack;
+	Pack.dwCount = count;
+	Pack.dwTableSize = table_size;
+
+	auto table_vector_size = count * table_size;
+	auto packet_size = sizeof(Pack) + table_vector_size;
+
+	peer->EncodeHeader(HEADER_DG_ITEM_EXTRA_PROTO_LOAD, 0, packet_size);
+	peer->Encode(&Pack, sizeof(Pack));
+	peer->Encode(&m_vec_itemExtraProto[0], table_vector_size);
+}
+#endif
 
 #ifdef __EVENT_MANAGER__
 void CClientManager::UpdateEventStatus(DWORD dwID)

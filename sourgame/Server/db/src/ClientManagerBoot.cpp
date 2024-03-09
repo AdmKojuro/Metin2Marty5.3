@@ -105,6 +105,14 @@ bool CClientManager::InitializeTables()
 		return false;
 	}
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	if (!InitializeItemExtraProtoTable())
+	{
+		sys_err("Initialize of Item extra proto table FAILED.");
+		return false;
+	}
+#endif
+
 	if (!InitializeMonarch())
 	{
 		sys_err("InitializeMonarch FAILED");
@@ -1207,6 +1215,41 @@ bool CClientManager::InitializeMonarch()
 
 	return true;
 }
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+bool CClientManager::InitializeItemExtraProtoTable()
+{
+	m_vec_itemExtraProto.clear();
+
+	std::auto_ptr<SQLMsg> msg(CDBManager::instance().DirectQuery("SELECT * FROM item_extra_proto ORDER by vnum ASC"));
+	SQLResult * res = msg->Get();
+	if (!res->uiNumRows)
+	{
+		return true;
+	}
+
+	int32_t size = res->uiNumRows;
+	m_vec_itemExtraProto.reserve(size);
+
+	MYSQL_ROW data;
+	while ((data = mysql_fetch_row(res->pSQLResult)))
+	{
+		TItemExtraProto t;
+		memset(&t, 0, sizeof(TItemExtraProto));
+
+		int32_t c = 0;
+		str_to_number(t.dwVnum, data[c++]);
+		str_to_number(t.iRarity, data[c++]);
+		str_to_number(t.ExtraBonus[0].bType, data[c++]);
+		str_to_number(t.ExtraBonus[0].lValue, data[c++]);
+		str_to_number(t.ExtraBonus[1].bType, data[c++]);
+		str_to_number(t.ExtraBonus[1].lValue, data[c]);
+		m_vec_itemExtraProto.push_back(t);
+	}
+
+	return true;
+}
+#endif
 
 bool CClientManager::MirrorMobTableIntoDB()
 {

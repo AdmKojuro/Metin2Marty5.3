@@ -852,6 +852,37 @@ PyObject* itemIsItemUsedForDragonSoul(PyObject* poSelf, PyObject* poArgs)
 	}
 }
 #endif
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+PyObject* itemHasExtraProto(PyObject* poSelf, PyObject* poArgs)
+{
+	auto item = CItemManager::instance().GetSelectedExtraProto();
+	return Py_BuildValue("i", item? 1:0);
+}
+#ifdef ENABLE_RARITY_SYSTEM
+PyObject* itemGetRarity(PyObject* poSelf, PyObject* poArgs)
+{
+	auto item = CItemManager::instance().GetSelectedExtraProto();
+	return Py_BuildValue("i", item ? item->iRarity : 0);
+}
+#endif
+#ifdef ENABLE_NEW_EXTRA_BONUS
+PyObject* itemGetExtraBonus(PyObject* poSelf, PyObject* poArgs)
+{
+	auto item = CItemManager::instance().GetSelectedExtraProto();
+	if (!item)
+		return Py_BuildValue("ii", 0,0);
+
+	int Pos = 0;
+	if (!PyTuple_GetInteger(poArgs, 0, &Pos))
+		return Py_BuildException("Invalid argument type pos 0");
+
+	if (Pos >= CItemData::NEW_EXTRA_BONUS_COUNT)
+		return Py_BuildException("Invalid argument value pos 0");
+
+	return Py_BuildValue("ii", item->ExtraBonus[Pos].bType, item->ExtraBonus[Pos].lValue);
+}
+#endif
+#endif
 
 void initItem()
 {
@@ -918,6 +949,15 @@ void initItem()
 //		{ "GetItemNameByVnum",				itemGetItemNameByVnum,					METH_VARARGS },
 #ifdef ENABLE_NEW_SOUL_FUNCTION
 		{ "IsItemUsedForDragonSoul",		itemIsItemUsedForDragonSoul,			METH_VARARGS },
+#endif
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		{ "HasExtraProto",					itemHasExtraProto,						METH_VARARGS },
+#ifdef ENABLE_RARITY_SYSTEM
+		{ "GetRarity",						itemGetRarity,							METH_VARARGS },
+#endif
+#ifdef ENABLE_NEW_EXTRA_BONUS
+		{ "GetExtraBonus",					itemGetExtraBonus,						METH_VARARGS },
+#endif
 #endif
 		{ NULL,								NULL,									NULL		 },
 	};
@@ -1007,7 +1047,17 @@ void initItem()
 #ifdef ENABLE_WEAPON_COSTUME_SYSTEM
 	PyModule_AddIntConstant(poModule, "COSTUME_TYPE_WEAPON",		CItemData::COSTUME_WEAPON);
 #endif
+#ifdef ENABLE_RARITY_SYSTEM
+	PyModule_AddIntConstant(poModule, "RARITY_COMMON",		CItemData::ITEM_COMMON);
+	PyModule_AddIntConstant(poModule, "RARITY_EPIC",		CItemData::ITEM_EPIC);
+	PyModule_AddIntConstant(poModule, "RARITY_LEGENDARY",	CItemData::ITEM_LEGENDARY);
+	PyModule_AddIntConstant(poModule, "RARITY_ANTIQUE",		CItemData::ITEM_ANTIQUE);
+	PyModule_AddIntConstant(poModule, "RARITY_MISTIC",		CItemData::ITEM_MISTIC);
+#endif
 
+#ifdef ENABLE_NEW_EXTRA_BONUS
+	PyModule_AddIntConstant(poModule, "NEW_EXTRA_BONUS_COUNT", CItemData::NEW_EXTRA_BONUS_COUNT);
+#endif
 	PyModule_AddIntConstant(poModule, "COSTUME_SLOT_START",			c_Costume_Slot_Start);
 	PyModule_AddIntConstant(poModule, "COSTUME_SLOT_COUNT",			c_Costume_Slot_Count);
 	PyModule_AddIntConstant(poModule, "COSTUME_SLOT_BODY",			c_Costume_Slot_Body);

@@ -16,6 +16,9 @@ class CItemData
 			ITEM_LIMIT_MAX_NUM = 2,
 			ITEM_VALUES_MAX_NUM = 6,
 			ITEM_SMALL_DESCR_MAX_LEN = 256,
+#ifdef ENABLE_NEW_EXTRA_BONUS
+			NEW_EXTRA_BONUS_COUNT = 2,
+#endif
 			ITEM_APPLY_MAX_NUM = 3,
 			ITEM_SOCKET_MAX_NUM = 3,
 #ifdef __UNIMPLEMENTED__
@@ -200,6 +203,34 @@ class CItemData
 			WEDDING_BOUQUET1 = 50201,
 			WEDDING_BOUQUET2 = 50202,
 		};
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		enum EItemExtraProto {
+			ITEM_VNUM,
+#ifdef ENABLE_RARITY_SYSTEM
+			ITEM_RARITY,
+#endif
+#ifdef ENABLE_NEW_EXTRA_BONUS
+			ITEM_EXTRA_BONUS_START,
+			ITEM_EXTRA_BONUS_TYPE0 = ITEM_EXTRA_BONUS_START,
+			ITEM_EXTRA_BONUS_VALUE0,
+			ITEM_EXTRA_BONUS_TYPE1,
+			ITEM_EXTRA_BONUS_VALUE1,
+			ITEM_EXTRA_BONUS_END = ITEM_EXTRA_BONUS_START + (NEW_EXTRA_BONUS_COUNT * 2) - 1,
+#endif
+			ITEM_EXTRA_PROTO_FIELD_COUNT,
+		};
+#endif
+
+#ifdef ENABLE_RARITY_SYSTEM
+		enum EItemRarity {
+			ITEM_COMMON,
+			ITEM_EPIC,
+			ITEM_LEGENDARY,
+			ITEM_ANTIQUE,
+			ITEM_MISTIC,
+		};
+#endif
 
 		enum EWeaponSubTypes
 		{
@@ -631,6 +662,19 @@ class CItemData
 			BYTE        bType;
 			long        lValue;
 		} TItemApply;
+
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+		typedef struct {
+			DWORD dwVnum;
+
+#ifdef ENABLE_RARITY_SYSTEM
+			int iRarity;
+#endif
+#ifdef ENABLE_NEW_EXTRA_BONUS
+			TItemApply ExtraBonus[NEW_EXTRA_BONUS_COUNT];
+#endif
+		} TItemExtraProto;
+#endif
 
 		typedef struct SItemTable_r152
 		{

@@ -1013,6 +1013,13 @@ bool LoadLocaleData(const char* localePath)
 		Tracenf("LoadLocaleData - LoadItemDesc(%s) Error", szItemDesc);
 	}
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	if (!rkItemMgr.LoadItemExtraProto("locale/common/items/item_extra_proto.txt"))
+	{
+		TraceError("Error while loading item_extra_proto.txt.");
+	}
+#endif
+
 	if (!rkNPCMgr.LoadNonPlayerData(szMobProto))
 	{
 		TraceError("LoadLocaleData - LoadMobProto(%s) Error", szMobProto);

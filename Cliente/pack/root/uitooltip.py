@@ -648,6 +648,26 @@ class ItemToolTip(ToolTip):
 		ANTI_FLAG_DICT.update({
 			4 : item.ITEM_ANTIFLAG_WOLFMAN,
 		})
+	if app.ENABLE_RARITY_SYSTEM:
+		RARITY_DESC = {
+			item.RARITY_COMMON : localeInfo.RARITY_ITEM_COMMON,
+			item.RARITY_EPIC : localeInfo.RARITY_ITEM_EPIC,
+			item.RARITY_LEGENDARY : localeInfo.RARITY_ITEM_LEGENDARY,
+			item.RARITY_ANTIQUE : localeInfo.RARITY_ITEM_ANTIQUE,
+			item.RARITY_MISTIC : localeInfo.RARITY_ITEM_MISTIC,
+		}
+		
+		RARITY_COLOR = {
+			item.RARITY_COMMON : grp.GenerateColor(1.0,1.0,1.0,1.0),
+			item.RARITY_EPIC : grp.GenerateColor(0.1,0.1,1.0,1.0),
+			item.RARITY_LEGENDARY : grp.GenerateColor(1.0, 0.1, 0.1,1.0),
+			item.RARITY_ANTIQUE : grp.GenerateColor(0.5,1.0,0.1,1.0),
+			item.RARITY_MISTIC : grp.GenerateColor(1.0, 0.2, 1.0, 1.0),
+		}
+
+	if app.ENABLE_NEW_EXTRA_BONUS:
+		NEW_EXTRA_BONUS_COLOR = grp.GenerateColor(1.0, 0.8, 0.1, 1.0)
+
 	if app.ENABLE_REFINE_ELEMENT:
 		REFINE_ELEMENT_TEXT_INFO_INFO = {
 			chrmgr.REFINE_ELEMENT_CATEGORY_ELECT : ( localeInfo.REFINE_ELEMENT_TEXT_ELECT, localeInfo.TOOLTIP_APPLY_ENCHANT_ELECT, localeInfo.TOOLTIP_APPLY_ENCHANT_ELECT2 ),
@@ -1551,6 +1571,11 @@ class ItemToolTip(ToolTip):
 				self.AppendTextLine(item.GetItemName(), grp.GenerateColor(1.0, 0.7843, 0.0, 1.0))
 				return
 
+		if app.ENABLE_RARITY_SYSTEM:
+			rarity = item.GetRarity()
+			if rarity != item.RARITY_COMMON:
+				self.AppendTextLine(item.GetItemName(), self.RARITY_COLOR[rarity])
+
 		if self.__IsPolymorphItem(itemVnum):
 			self.__SetPolymorphItemTitle(metinSlot[0])
 		else:
@@ -1819,6 +1844,13 @@ class ItemToolTip(ToolTip):
 		### Description ###
 		self.AppendDescription(itemDesc, 26)
 		self.AppendDescription(itemSummary, 26, self.CONDITION_COLOR)
+
+		if app.ENABLE_RARITY_SYSTEM:
+			if itemType == item.ITEM_TYPE_WEAPON or itemType == item.ITEM_TYPE_ARMOR:
+				itemRarity = item.GetRarity()
+				rarityDesc = self.RARITY_DESC[itemRarity]
+				self.AppendTextLine(rarityDesc, self.RARITY_COLOR[itemRarity])
+				self.AppendSpace(5)
 
 		### Weapon ###
 		if item.ITEM_TYPE_WEAPON == itemType:
@@ -2731,6 +2763,13 @@ class ItemToolTip(ToolTip):
 			if affectString:
 				self.AppendTextLine(affectString, self.GetChangeTextLineColor(affectValue))
 
+		if app.ENABLE_NEW_EXTRA_BONUS:
+			for i in xrange(item.NEW_EXTRA_BONUS_COUNT):
+				(pointType, pointCount) = item.GetExtraBonus(i)
+				if pointType != item.APPLY_NONE:
+					affectString = self.__GetAffectString(pointType, pointCount)
+					self.AppendTextLine(affectString, self.NEW_EXTRA_BONUS_COLOR)
+
 	def AppendWearableInformation(self):
 
 		self.AppendSpace(5)
@@ -3195,6 +3234,14 @@ class ItemToolTip(ToolTip):
 			self.__SetItemTitle(itemVnum, metinSlot, attrSlot)
 			self.AppendDescription(itemDesc, 26)
 			self.AppendDescription(item.GetItemSummary(), 26, self.CONDITION_COLOR)
+
+			if app.ENABLE_RARITY_SYSTEM:
+				item.SelectItem(itemVnum)
+				if itemSubType == item.COSTUME_TYPE_ACCE:
+					itemRarity = item.GetRarity()
+					rarityDesc = self.RARITY_DESC[itemRarity]
+					self.AppendTextLine(rarityDesc, self.RARITY_COLOR[itemRarity])
+
 			self.__AppendLimitInformation()
 			
 			## ABSORPTION RATE

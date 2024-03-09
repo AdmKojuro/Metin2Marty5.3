@@ -108,6 +108,18 @@ bool CItem::HasAttr(BYTE bApply)
 		if (GetAttributeType(i) == bApply)
 			return true;
 
+#ifdef ENABLE_ITEM_EXTRA_PROTO
+	if (HasExtraProto())
+	{
+#ifdef ENABLE_NEW_EXTRA_BONUS
+		for (int i = 0; i < NEW_EXTRA_BONUS_COUNT; i++){
+			if (m_ExtraProto->ExtraBonus[i].bType == bApply)
+				return true;
+		}
+#endif
+	}
+#endif
+
 	return false;
 }
 
