@@ -328,6 +328,9 @@ void CHARACTER::Initialize()
 
 	m_bDisableCooltime = false;
 
+	m_pkTimedEventPvP = NULL;//contador pvp
+	m_TimeStartPvP = false;//contador pvp
+
 	m_iAlignment = 0;
 	m_iRealAlignment = 0;
 
@@ -747,6 +750,7 @@ void CHARACTER::Destroy()
 	m_dwShopEditModeTick = 0;
 #endif
 
+	event_cancel(&m_pkTimedEventPvP); //contador pvp
 	// RECALL_DELAY
 	//event_cancel(&m_pkRecallEvent);
 	// END_OF_RECALL_DELAY

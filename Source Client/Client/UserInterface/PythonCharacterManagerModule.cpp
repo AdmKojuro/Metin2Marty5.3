@@ -866,6 +866,13 @@ void initchrmgr()
 	PyModule_AddIntConstant(poModule, "EFFECT_HAPPINESS_RING_EQUIP",		CInstanceBase::EFFECT_HAPPINESS_RING_EQUIP);
 	PyModule_AddIntConstant(poModule, "EFFECT_LOVE_PENDANT_EQUIP",		CInstanceBase::EFFECT_LOVE_PENDANT_EQUIP);
 
+	PyModule_AddIntConstant(poModule, "EFFECT_PVP_OPEN1",			CInstanceBase::EFFECT_PVP_OPEN1);
+	PyModule_AddIntConstant(poModule, "EFFECT_PVP_OPEN2",			CInstanceBase::EFFECT_PVP_OPEN2);
+	PyModule_AddIntConstant(poModule, "EFFECT_DUEL_1",						CInstanceBase::EFFECT_DUEL_1);
+	PyModule_AddIntConstant(poModule, "EFFECT_DUEL_2",						CInstanceBase::EFFECT_DUEL_2);
+	PyModule_AddIntConstant(poModule, "EFFECT_DUEL_3",						CInstanceBase::EFFECT_DUEL_3);
+	PyModule_AddIntConstant(poModule, "EFFECT_DUEL_GO",						CInstanceBase::EFFECT_DUEL_GO);
+
 #ifdef ENABLE_ACCE_SYSTEM
 	PyModule_AddIntConstant(poModule, "EFFECT_ACCE_SUCCEDED", CInstanceBase::EFFECT_ACCE_SUCCEDED);
 	PyModule_AddIntConstant(poModule, "EFFECT_ACCE_EQUIP", CInstanceBase::EFFECT_ACCE_EQUIP);

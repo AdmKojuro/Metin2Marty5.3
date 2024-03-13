@@ -294,7 +294,12 @@ def __InitData():
 	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_PERCENT_DAMAGE2, "", "d:/ymir work/effect/hit/percent_damage2.mse")
 	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_PERCENT_DAMAGE3, "", "d:/ymir work/effect/hit/percent_damage3.mse")
 
-
+	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_PVP_OPEN1, "", "d:/ymir work/effect/etc/pvp/pvp_open1.mse")
+	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_PVP_OPEN2, "", "d:/ymir work/effect/etc/pvp/pvp_open2.mse")
+	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_DUEL_1, "", "d:/ymir work/effect/duel/1.mse")
+	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_DUEL_2, "", "d:/ymir work/effect/duel/2.mse")
+	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_DUEL_3, "", "d:/ymir work/effect/duel/3.mse")
+	chrmgr.RegisterCacheEffect(chrmgr.EFFECT_DUEL_GO, "", "d:/ymir work/effect/duel/go.mse")
 
 	##############
 	# WARRIOR

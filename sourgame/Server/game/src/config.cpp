@@ -125,6 +125,8 @@ extern string g_stLocale;
 char	teen_addr[ADDRESS_MAX_LEN + 1] = {0};
 WORD	teen_port	= 0;
 
+BYTE gTimeToStartPvP = 3; //contador pvp by dragonslayer
+
 int SPEEDHACK_LIMIT_COUNT   = 50;
 int SPEEDHACK_LIMIT_BONUS   = 80;
 int g_iSyncHackLimitCount = 10;

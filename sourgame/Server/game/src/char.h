@@ -2028,7 +2028,9 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		LPEVENT				m_pkCheckSpeedHackEvent;
 		LPEVENT				m_pkDestroyWhenIdleEvent;
 		LPEVENT				m_pkPetSystemUpdateEvent;
+		LPEVENT				m_pkTimedEventPvP; //contador pvp
 
+		bool m_TimeStartPvP; //contador pvp
 		bool IsWarping() const { return m_pkWarpEvent ? true : false; }
 
 		bool				m_bHasPoisoned;

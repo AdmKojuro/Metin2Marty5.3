@@ -169,6 +169,72 @@ CPVPManager::~CPVPManager()
 {
 }
 
+	EVENTINFO(TimedPvPEventInfo) //contador  pvp
+	{
+			DynamicCharacterPtr eChr;
+			DynamicCharacterPtr eVictim;
+			BYTE    time_second;
+	 
+			TimedPvPEventInfo()
+			: eChr()
+			, eVictim()
+			, time_second(0)
+			{
+			}
+	};
+	EVENTFUNC(timed_event_pvp)//contador  pvp
+	{
+			TimedPvPEventInfo * info = dynamic_cast<TimedPvPEventInfo *>( event->info );
+		   
+			if ( info == NULL )
+			{
+					sys_err( "timed_event_pvp> <Factor> Null pointer" );
+					return 0;
+			}
+	 
+			LPCHARACTER     pvpChr = info->eChr;
+			LPCHARACTER     pvpVictim = info->eVictim;
+	 
+			if (pvpChr == NULL) {
+					return 0;
+			}
+	 
+			if (info->time_second <= 0)
+			{
+					pvpChr->EffectPacket(SE_DUEL_GO);
+					pvpVictim->EffectPacket(SE_DUEL_GO);
+					pvpVictim->m_pkTimedEventPvP = NULL;           
+					pvpVictim->m_TimeStartPvP = true;
+					CPVPManager::instance().Insert(pvpChr, pvpVictim);	 
+					return 0;
+			}
+			else if (info->time_second == 1)
+			{
+					pvpChr->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s comenzara en 1 segundos."), pvpVictim->GetName());
+					pvpVictim->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s comenzara en 1 segundos."), pvpChr->GetName());
+					pvpChr->EffectPacket(SE_DUEL_1);
+					pvpVictim->EffectPacket(SE_DUEL_1);
+					--info->time_second;
+			}
+			else if (info->time_second == 2)
+			{
+					pvpChr->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s comenzara en 2 segundos."), pvpVictim->GetName());
+					pvpVictim->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s comenzara en 2 segundos."), pvpChr->GetName());
+					pvpChr->EffectPacket(SE_DUEL_2);
+					pvpVictim->EffectPacket(SE_DUEL_2);
+					--info->time_second;
+			}
+			else if (info->time_second == 3)
+			{
+					pvpChr->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s comenzara en 3 segundos."), pvpVictim->GetName());
+					pvpVictim->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s comenzara en 3 segundos."), pvpChr->GetName());
+					pvpChr->EffectPacket(SE_DUEL_3);
+					pvpVictim->EffectPacket(SE_DUEL_3);
+					--info->time_second;
+			}
+			return PASSES_PER_SEC(1);
+	}
+
 void CPVPManager::Insert(LPCHARACTER pkChr, LPCHARACTER pkVictim)
 {
 	if (pkChr->IsDead() || pkVictim->IsDead())
@@ -178,16 +244,24 @@ void CPVPManager::Insert(LPCHARACTER pkChr, LPCHARACTER pkVictim)
 
 	CPVP * pkPVP;
 
-	if ((pkPVP = Find(kPVP.m_dwCRC)))
-	{
-
-		if (pkPVP->Agree(pkChr->GetPlayerID()))
-		{
-			pkVictim->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s님과의 대결 시작!"), pkChr->GetName());
-			pkChr->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s님과의 대결 시작!"), pkVictim->GetName());
-		}
-		return;
-	}
+        if ((pkPVP = Find(kPVP.m_dwCRC)))//contador  pvp
+        {
+                if (pkVictim->m_TimeStartPvP == false)
+                {
+                        TimedPvPEventInfo* info = AllocEventInfo<TimedPvPEventInfo>();
+                        info->eChr = pkChr;
+                        info->eVictim = pkVictim;
+                        info->time_second = gTimeToStartPvP;
+                        pkVictim->m_pkTimedEventPvP = event_create(timed_event_pvp, info, 1);
+                }
+                if (pkVictim->m_TimeStartPvP == true && pkPVP->Agree(pkChr->GetPlayerID()))
+                {
+                        pkVictim->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s ha comenzado!"), pkChr->GetName());
+                        pkChr->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("El enfrentamiento con %s ha comenzado!"), pkVictim->GetName());
+                        pkVictim->m_TimeStartPvP = 0;
+                }
+                return;
+        }
 
 	pkPVP = M2_NEW CPVP(kPVP);
 
@@ -210,6 +284,9 @@ void CPVPManager::Insert(LPCHARACTER pkChr, LPCHARACTER pkVictim)
 
 	pkVictim->ChatPacket(CHAT_TYPE_INFO, msg);
 	pkChr->ChatPacket(CHAT_TYPE_INFO, LC_TEXT("%s에게 대결신청을 했습니다."), pkVictim->GetName());
+
+	pkChr->EffectPacket(SE_PVP_OPEN1);
+	pkVictim->EffectPacket(SE_PVP_OPEN2);
 
 	// NOTIFY_PVP_MESSAGE
 	LPDESC pkVictimDesc = pkVictim->GetDesc();

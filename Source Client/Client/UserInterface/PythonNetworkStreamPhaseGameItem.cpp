@@ -933,6 +933,24 @@ bool CPythonNetworkStream::RecvSpecialEffect()
 		case SE_EQUIP_LOVE_PENDANT:
 			effect = CInstanceBase::EFFECT_LOVE_PENDANT_EQUIP;
 			break;
+		case SE_PVP_OPEN1:
+			effect = CInstanceBase::EFFECT_PVP_OPEN1;
+			break;
+		case SE_PVP_OPEN2:
+			effect = CInstanceBase::EFFECT_PVP_OPEN2;
+			break;
+		case SE_DUEL_1:
+			effect = CInstanceBase::EFFECT_DUEL_1;
+			break;
+		case SE_DUEL_2:
+			effect = CInstanceBase::EFFECT_DUEL_2;
+			break;
+		case SE_DUEL_3:
+			effect = CInstanceBase::EFFECT_DUEL_3;
+			break;
+		case SE_DUEL_GO:
+			effect = CInstanceBase::EFFECT_DUEL_GO;
+			break;
 
 #ifdef ENABLE_ACCE_SYSTEM
 		case SE_EFFECT_ACCE_SUCCEDED:
