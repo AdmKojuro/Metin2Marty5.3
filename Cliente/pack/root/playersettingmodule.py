@@ -564,33 +564,66 @@ def __LoadGameEffect():
 	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+11, "", EmoticonStr+"fish.mse")
 	net.RegisterEmoticonString("(fish)")
 
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+12, "", "d:/ymir work/effect/etc/buff/1_muerte.mse")
+	net.RegisterEmoticonString("(1_muerte)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+13, "", "d:/ymir work/effect/etc/buff/doble_muerte.mse")
+	net.RegisterEmoticonString("(doble_muerte)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+14, "", "d:/ymir work/effect/etc/buff/triple_muerte.mse")
+	net.RegisterEmoticonString("(triple_muerte)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+15, "", "d:/ymir work/effect/etc/buff/exterminio.mse")
+	net.RegisterEmoticonString("(exterminio)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+16, "", "d:/ymir work/effect/etc/buff/muertacular.mse")
+	net.RegisterEmoticonString("(muertacular)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+17, "", "d:/ymir work/effect/etc/buff/bestialidad.mse")
+	net.RegisterEmoticonString("(bestialidad)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+18, "", "d:/ymir work/effect/etc/buff/salvajada.mse")
+	net.RegisterEmoticonString("(salvajada)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+19, "", "d:/ymir work/effect/etc/buff/catastrofe.mse")
+	net.RegisterEmoticonString("(catastrofe)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+20, "", "d:/ymir work/effect/etc/buff/apocalipsis.mse")
+	net.RegisterEmoticonString("(apocalipsis)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+21, "", "d:/ymir work/effect/etc/buff/lluvia_muertos.mse")
+	net.RegisterEmoticonString("(lluvia_muertos)")
+	
+	chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+22, "", "d:/ymir work/effect/etc/buff/super_increible.mse")
+	net.RegisterEmoticonString("(super_increible)")
+
 	if app.ENABLE_EXPRESSING_EMOTION:
 		number_next_emoticon = emotion.EMOTICON_NEXT
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon), "", EmoticonStr+"charging.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon)+30, "", EmoticonStr+"charging.mse")
 		net.RegisterEmoticonString("(charging)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+1), "", EmoticonStr+"nosay.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+31), "", EmoticonStr+"nosay.mse")
 		net.RegisterEmoticonString("(nosay)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+2), "", EmoticonStr+"weather1.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+32), "", EmoticonStr+"weather1.mse")
 		net.RegisterEmoticonString("(weather_1)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+3), "", EmoticonStr+"weather2.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+33), "", EmoticonStr+"weather2.mse")
 		net.RegisterEmoticonString("(weather_2)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+4), "", EmoticonStr+"weather3.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+34), "", EmoticonStr+"weather3.mse")
 		net.RegisterEmoticonString("(weather_3)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+5), "", EmoticonStr+"hungry.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+35), "", EmoticonStr+"hungry.mse")
 		net.RegisterEmoticonString("(hungry)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+6), "", EmoticonStr+"siren.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+36), "", EmoticonStr+"siren.mse")
 		net.RegisterEmoticonString("(siren)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+7), "", EmoticonStr+"alcohol.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+37), "", EmoticonStr+"alcohol.mse")
 		net.RegisterEmoticonString("(alcohol)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+8), "", EmoticonStr+"call.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+38), "", EmoticonStr+"call.mse")
 		net.RegisterEmoticonString("(call)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+9), "", EmoticonStr+"celebration.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+39), "", EmoticonStr+"celebration.mse")
 		net.RegisterEmoticonString("(celebration)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+10), "", EmoticonStr+"letter.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+40), "", EmoticonStr+"letter.mse")
 		net.RegisterEmoticonString("(letter)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+11), "", EmoticonStr+"busy.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+41), "", EmoticonStr+"busy.mse")
 		net.RegisterEmoticonString("(busy)")
-		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+12), "", EmoticonStr+"whirl.mse")
+		chrmgr.RegisterEffect(chrmgr.EFFECT_EMOTICON+(number_next_emoticon+42), "", EmoticonStr+"whirl.mse")
 		net.RegisterEmoticonString("(whirl)")
 
 	## Emoticon

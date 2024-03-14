@@ -157,6 +157,88 @@ class GameWindow(ui.ScriptWindow):
 
 		self.SetSize(wndMgr.GetScreenWidth(), wndMgr.GetScreenHeight())
 
+		Medallas_gui = ui.AniImageBox()
+		Medallas_gui.SetWindowHorizontalAlignLeft()
+		Medallas_gui.SetWindowVerticalAlignTop()
+		Medallas_gui.AppendImage("d:/ymir work/ui/pattern/medallas/espacio.dds")
+		self.Medallas_gui = Medallas_gui
+		
+		self.Medallas_gui.SetPosition(10, 40)
+
+		self.muertes = ui.TextLine()
+		self.muertes.SetWindowHorizontalAlignLeft()
+		self.muertes.SetWindowVerticalAlignTop()
+		self.muertes.SetDefaultFontName()
+		self.muertes.SetPosition(24, 51)
+		self.muertes.SetText("0")
+		self.muertes.SetOutline()
+
+		self.primera_muerte = ui.AniImageBox()
+		self.primera_muerte.SetWindowHorizontalAlignLeft()
+		self.primera_muerte.SetWindowVerticalAlignTop()
+		self.primera_muerte.AppendImage("d:/ymir work/ui/pattern/medallas/1.dds")
+		self.primera_muerte.SetPosition(43, 40)
+
+		self.doble_muerte = ui.AniImageBox()
+		self.doble_muerte.SetWindowHorizontalAlignLeft()
+		self.doble_muerte.SetWindowVerticalAlignTop()
+		self.doble_muerte.AppendImage("d:/ymir work/ui/pattern/medallas/2.dds")
+		self.doble_muerte.SetPosition(43 + 33, 40)
+
+		self.triple_muerte = ui.AniImageBox()
+		self.triple_muerte.SetWindowHorizontalAlignLeft()
+		self.triple_muerte.SetWindowVerticalAlignTop()
+		self.triple_muerte.AppendImage("d:/ymir work/ui/pattern/medallas/3.dds")
+		self.triple_muerte.SetPosition(43 + 33 + 33, 40)
+
+		self.exterminio = ui.AniImageBox()
+		self.exterminio.SetWindowHorizontalAlignLeft()
+		self.exterminio.SetWindowVerticalAlignTop()
+		self.exterminio.AppendImage("d:/ymir work/ui/pattern/medallas/4.dds")
+		self.exterminio.SetPosition(43+ 33+ 33 + 33, 40)
+
+		self.muertacular = ui.AniImageBox()
+		self.muertacular.SetWindowHorizontalAlignLeft()
+		self.muertacular.SetWindowVerticalAlignTop()
+		self.muertacular.AppendImage("d:/ymir work/ui/pattern/medallas/5.dds")
+		self.muertacular.SetPosition(43+ 33+ 33+ 33 + 33, 40)
+
+		self.bestialidad = ui.AniImageBox()
+		self.bestialidad.SetWindowHorizontalAlignLeft()
+		self.bestialidad.SetWindowVerticalAlignTop()
+		self.bestialidad.AppendImage("d:/ymir work/ui/pattern/medallas/6.dds")
+		self.bestialidad.SetPosition(43+ 33+ 33+ 33+ 33 + 33, 40)
+
+		self.salvajada = ui.AniImageBox()
+		self.salvajada.SetWindowHorizontalAlignLeft()
+		self.salvajada.SetWindowVerticalAlignTop()
+		self.salvajada.AppendImage("d:/ymir work/ui/pattern/medallas/7.dds")
+		self.salvajada.SetPosition(43+ 33+ 33+ 33+ 33+ 33 + 33, 40)
+
+		self.catastrofe = ui.AniImageBox()
+		self.catastrofe.SetWindowHorizontalAlignLeft()
+		self.catastrofe.SetWindowVerticalAlignTop()
+		self.catastrofe.AppendImage("d:/ymir work/ui/pattern/medallas/8.dds")
+		self.catastrofe.SetPosition(43+ 33+ 33+ 33+ 33+ 33+ 33 + 33, 40)
+
+		self.apocalipsis = ui.AniImageBox()
+		self.apocalipsis.SetWindowHorizontalAlignLeft()
+		self.apocalipsis.SetWindowVerticalAlignTop()
+		self.apocalipsis.AppendImage("d:/ymir work/ui/pattern/medallas/9.dds")
+		self.apocalipsis.SetPosition(43+ 33+ 33+ 33+ 33+ 33+ 33+ 33 + 33, 40)
+
+		self.lluvia_muertos = ui.AniImageBox()
+		self.lluvia_muertos.SetWindowHorizontalAlignLeft()
+		self.lluvia_muertos.SetWindowVerticalAlignTop()
+		self.lluvia_muertos.AppendImage("d:/ymir work/ui/pattern/medallas/10.dds")
+		self.lluvia_muertos.SetPosition(43+ 33+ 33+ 33+ 33+ 33+ 33+ 33+ 33 + 33, 40)
+
+		self.super_increible = ui.AniImageBox()
+		self.super_increible.SetWindowHorizontalAlignLeft()
+		self.super_increible.SetWindowVerticalAlignTop()
+		self.super_increible.AppendImage("d:/ymir work/ui/pattern/medallas/11.dds")
+		self.super_increible.SetPosition(43+ 33+ 33+ 33+ 33+ 33+ 33+ 33+ 33+ 33 + 33, 40)
+
 		self.quickSlotPageIndex = 0
 		self.PickingCharacterIndex = -1
 		self.PickingItemIndex = -1
@@ -2262,7 +2344,22 @@ class GameWindow(ui.ScriptWindow):
 			"lover_divorce"			: self.__LoverDivorce,
 			"PlayMusic"				: self.__PlayMusic,
 			# END_OF_WEDDING
-
+			#SISTEMA_RACHAS
+			"Showmedallas_gui"			: self.__showmedallas_gui,
+			"Hidemedallas_gui"			: self.__hidemedallas_gui,
+			"muertes"					: self.__muertes,
+			"primera_muerte"			: self.__primera_muerte,
+			"doble_muerte"				: self.__doble_muerte,
+			"triple_muerte"				: self.__triple_muerte,
+			"exterminio"				: self.__exterminio,
+			"muertacular"				: self.__muertacular,
+			"bestialidad"				: self.__bestialidad,
+			"salvajada"					: self.__salvajada,
+			"catastrofe"				: self.__catastrofe,
+			"apocalipsis"				: self.__apocalipsis,
+			"lluvia_muertos"			: self.__lluvia_muertos,
+			"super_increible"			: self.__super_increible,
+			#END_SISTEMA_RACHAS
 			# PRIVATE_SHOP_PRICE_LIST
 			"MyShopPriceList"		: self.__PrivateShop_PriceList,
 			# END_OF_PRIVATE_SHOP_PRICE_LIST
@@ -2660,6 +2757,85 @@ class GameWindow(ui.ScriptWindow):
 	def __InGameShop_Show(self, url):
 		if constInfo.IN_GAME_SHOP_ENABLE:
 			self.interface.OpenWebWindow(url)
+
+	#SISTEMA_RACHAS
+	def __primera_muerte(self):
+		self.primera_muerte.Show()
+		snd.PlaySound("sound/ui/1.wav")
+		net.SendChatPacket("(1_muerte)")
+
+	def __doble_muerte(self):
+		self.doble_muerte.Show()
+		snd.PlaySound("sound/ui/2.wav")
+		net.SendChatPacket("(doble_muerte)")
+
+	def __triple_muerte(self):
+		self.triple_muerte.Show()
+		snd.PlaySound("sound/ui/3.wav")
+		net.SendChatPacket("(triple_muerte)")
+
+	def __exterminio(self):
+		self.exterminio.Show()
+		snd.PlaySound("sound/ui/4.wav")
+		net.SendChatPacket("(exterminio)")
+
+	def __muertacular(self):
+		self.muertacular.Show()
+		snd.PlaySound("sound/ui/5.wav")
+		net.SendChatPacket("(muertacular)")
+
+	def __bestialidad(self):
+		self.bestialidad.Show()
+		snd.PlaySound("sound/ui/6.wav")
+		net.SendChatPacket("(bestialidad)")
+
+	def __salvajada(self):
+		self.salvajada.Show()
+		snd.PlaySound("sound/ui/7.wav")
+		net.SendChatPacket("(salvajada)")
+
+	def __catastrofe(self):
+		self.catastrofe.Show()
+		snd.PlaySound("sound/ui/8.wav")
+		net.SendChatPacket("(catastrofe)")
+
+	def __apocalipsis(self):
+		self.apocalipsis.Show()
+		snd.PlaySound("sound/ui/9.wav")
+		net.SendChatPacket("(apocalipsis)")
+
+	def __lluvia_muertos(self):
+		self.lluvia_muertos.Show()
+		snd.PlaySound("sound/ui/10.wav")
+		net.SendChatPacket("(lluvia_muertos)")
+
+	def __super_increible(self):
+		self.super_increible.Show()
+		snd.PlaySound("sound/ui/11.wav")
+		net.SendChatPacket("(super_increible)")
+
+	def __hidemedallas_gui(self):
+		self.Medallas_gui.Hide()
+		self.primera_muerte.Hide()
+		self.doble_muerte.Hide()
+		self.triple_muerte.Hide()
+		self.exterminio.Hide()
+		self.muertacular.Hide()
+		self.bestialidad.Hide()
+		self.salvajada.Hide()
+		self.catastrofe.Hide()
+		self.apocalipsis.Hide()
+		self.lluvia_muertos.Hide()
+		self.super_increible.Hide()
+		self.muertes.Hide()
+		
+	def __showmedallas_gui(self):
+		self.Medallas_gui.Show()
+		self.muertes.Show()
+
+	def __muertes(self, muertes):
+		self.muertes.SetText(muertes)
+	#END_SISTEMA_RACHAS
 
 	# WEDDING
 	def __LoginLover(self):
