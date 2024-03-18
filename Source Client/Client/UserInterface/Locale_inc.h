@@ -27,25 +27,26 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_NEW_AFFECT_POTION								//efecto de potas
 #define ENABLE_RARITY_SYSTEM									// Grade Item Rarity System
 #define ENABLE_ITEM_EXTRA_PROTO									// Item Extra Proto System
 #define ENABLE_NEW_EXTRA_BONUS									// Item Extra Bonus System
-#define ENABLE_ANTI_EXP										// Boton de anti exp
-#define ENABLE_DATETIME_UNDER_MINIMAP		// DateTime (ONly PythonApplicationModule.cpp)
-#define __CHANNEL_CHANGE_SYSTEM__			// Instant Change Channel
-#define FAST_EQUIP_WORLDARD
-#define __BL_KILL_BAR__										// Muestra las muertes y asesinatos
-#define ENABLE_ATLAS_BOSS
-//#define BL_PRIVATESHOP_SEARCH_SYSTEM----------------------en reparacion
-#define ENABLE_BIYOLOG										// Biologo
-#define ENABLE_EXTENDED_BATTLE_PASS
-#define ENABLE_BUY_ITEMS_WORLDARD // sistema compra items tienda con otros items
-#define ENABLE_NEW_MOUNT_ROTATION_SPEED
-#define ENABLE_SHOW_CHEST_DROP
-#define ENABLE_SWITCHBOT
-#define ENABLE_SEARCH_ITEM_DROP_ON_MOB
-#define ENABLE_RENDER_TARGET
-#define ENABLE_INVENTORY_SIDEBAR
+#define ENABLE_ANTI_EXP											// Boton de anti exp
+#define ENABLE_DATETIME_UNDER_MINIMAP							// DateTime (ONly PythonApplicationModule.cpp)
+#define __CHANNEL_CHANGE_SYSTEM__								// Instant Change Channel
+#define FAST_EQUIP_WORLDARD										//Cambio equipo rapido
+#define __BL_KILL_BAR__											// Muestra las muertes y asesinatos
+#define ENABLE_ATLAS_BOSS										//Mob jefes en minimap
+//#define BL_PRIVATESHOP_SEARCH_SYSTEM--------------------------en reparacion
+#define ENABLE_BIYOLOG											// Biologo
+#define ENABLE_EXTENDED_BATTLE_PASS								//pase de batalla
+#define ENABLE_BUY_ITEMS_WORLDARD								// sistema compra items tienda con otros items
+#define ENABLE_NEW_MOUNT_ROTATION_SPEED							//Rotacion del caballo
+#define ENABLE_SHOW_CHEST_DROP									//sistema cofres visualizador
+#define ENABLE_SWITCHBOT										//switbot
+#define ENABLE_SEARCH_ITEM_DROP_ON_MOB							//Buscador de item en mob
+#define ENABLE_RENDER_TARGET									//reindert target
+#define ENABLE_INVENTORY_SIDEBAR								//botones en inventario
 #define ENABLE_ENERGY_SYSTEM
 #define ENABLE_DRAGON_SOUL_SYSTEM
 #define ENABLE_NEW_EQUIPMENT_SYSTEM

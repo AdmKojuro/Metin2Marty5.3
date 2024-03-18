@@ -2135,5 +2135,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_NEW_EXTRA_BONUS", 0);
 #endif
 
+#ifdef ENABLE_NEW_AFFECT_POTION
+	PyModule_AddIntConstant(poModule, "ENABLE_NEW_AFFECT_POTION",	1);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_NEW_AFFECT_POTION",	0);
+#endif
+
 }
 

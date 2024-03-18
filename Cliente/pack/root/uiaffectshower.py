@@ -8,6 +8,38 @@ import player
 import uiToolTip
 import math
 
+if app.ENABLE_NEW_AFFECT_POTION:				
+	AFFECT_POTION = {
+		"affect"  : {
+			1 : 303,
+			2 : 304,
+			3 : 305,
+			4 : 306,
+			5 : 307,
+			6 : 308,
+
+			7 : 309,
+			8 : 310,
+			9 : 311,
+			10 : 312,
+			11 : 313,
+		},
+		"image"  : {
+			1 : "flag/50821.tga",
+			2 : "flag/50822.tga",
+			3 : "flag/50823.tga",
+			4 : "flag/50824.tga",
+			5 : "flag/50825.tga",
+			6 : "flag/50826.tga",
+
+			7 : "flag/51003.tga",
+			8 : "flag/51004.tga",
+			9 : "flag/51005.tga",
+			10 : "flag/51006.tga",
+			11 : "flag/51007.tga",
+		},
+	}
+
 # WEDDING
 class LovePointImage(ui.ExpandedImageBox):
 
@@ -472,6 +504,19 @@ class AffectShower(ui.Window):
 		AFFECT_DATA_DICT[chr.AFFECT_BLEEDING] = (localeInfo.SKILL_BLEEDING, "d:/ymir work/ui/skill/common/affect/poison.sub")
 		AFFECT_DATA_DICT[chr.AFFECT_RED_POSSESSION] = (localeInfo.SKILL_GWIGEOM, "d:/ymir work/ui/skill/wolfman/red_possession_03.sub")
 		AFFECT_DATA_DICT[chr.AFFECT_BLUE_POSSESSION] = (localeInfo.SKILL_CHEONGEUN, "d:/ymir work/ui/skill/wolfman/blue_possession_03.sub")
+	if app.ENABLE_NEW_AFFECT_POTION:	
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][1]] = (localeInfo.TOOLTIP_AFFECT_POTION_1, AFFECT_POTION["image"][1])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][2]] = (localeInfo.TOOLTIP_AFFECT_POTION_2, AFFECT_POTION["image"][2])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][3]] = (localeInfo.TOOLTIP_AFFECT_POTION_3, AFFECT_POTION["image"][3])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][4]] = (localeInfo.TOOLTIP_AFFECT_POTION_4, AFFECT_POTION["image"][4])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][5]] = (localeInfo.TOOLTIP_AFFECT_POTION_5, AFFECT_POTION["image"][5])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][6]] = (localeInfo.TOOLTIP_AFFECT_POTION_6, AFFECT_POTION["image"][6])
+
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][7]] = (localeInfo.TOOLTIP_AFFECT_CRISTALES_1, AFFECT_POTION["image"][7])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][8]] = (localeInfo.TOOLTIP_AFFECT_CRISTALES_2, AFFECT_POTION["image"][8])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][9]] = (localeInfo.TOOLTIP_AFFECT_CRISTALES_3, AFFECT_POTION["image"][9])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][10]] = (localeInfo.TOOLTIP_AFFECT_CRISTALES_4, AFFECT_POTION["image"][10])
+		AFFECT_DATA_DICT[AFFECT_POTION["affect"][11]] = (localeInfo.TOOLTIP_AFFECT_CRISTALES_5, AFFECT_POTION["image"][11])
 
 	def __init__(self):
 		ui.Window.__init__(self)
@@ -508,8 +553,12 @@ class AffectShower(ui.Window):
 
 		print "BINARY_NEW_AddAffect", type, pointIdx, value, duration
 
-		if type < 500:
-			return
+		if app.ENABLE_NEW_AFFECT_POTION:
+			if type < 500 and not type == AFFECT_POTION["affect"][1] and not type == AFFECT_POTION["affect"][2] and not type == AFFECT_POTION["affect"][3] and not type == AFFECT_POTION["affect"][4] and not type == AFFECT_POTION["affect"][5] and not type == AFFECT_POTION["affect"][6] and not type == AFFECT_POTION["affect"][7] and not type == AFFECT_POTION["affect"][8] and not type == AFFECT_POTION["affect"][9] and not type == AFFECT_POTION["affect"][10] and not type == AFFECT_POTION["affect"][11]:
+				return
+		else:
+			if type < 500:
+				return
 
 		if type == chr.NEW_AFFECT_MALL:
 			affect = self.MALL_DESC_IDX_START + pointIdx

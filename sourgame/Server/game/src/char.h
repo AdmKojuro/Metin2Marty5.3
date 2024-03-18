@@ -753,7 +753,9 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		void			Save();		// DelayedSave
 		void			SaveReal();
 		void			FlushDelayedSaveItem();
-
+#ifdef ENABLE_NEW_AFFECT_POTION	
+		bool			SetAffectPotion(LPITEM item);
+#endif	
 		const char *	GetName() const;
 		const VID &		GetVID() const		{ return m_vid;		}
 

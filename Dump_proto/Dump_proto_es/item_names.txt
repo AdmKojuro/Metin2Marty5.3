@@ -8409,6 +8409,11 @@ VNUM	LOCALE_NAME
 50910	Receta para Agua Hwal
 51001	Fragmento de energía
 51002	Cristal de Energía
+51003	Cristal de Defensa
+51004	Cristal de Ataque
+51005	Cristal de Caos
+51006	Cristal de Resistencia
+51007	Cristal de Pureza
 51501	Cor Draconis (en bruto)
 51502	Cor Draconis (en bruto)
 51503	Cor Draconis (normal)

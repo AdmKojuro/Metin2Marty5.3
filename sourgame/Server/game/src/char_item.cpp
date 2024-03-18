@@ -2023,6 +2023,61 @@ void CHARACTER::ProcessRecallItem(LPITEM item)
 	}
 }
 
+#ifdef ENABLE_NEW_AFFECT_POTION
+bool CHARACTER::SetAffectPotion(LPITEM item)
+{
+	int blend_get_affect[] = {AFFECT_POTION_1, AFFECT_POTION_2, AFFECT_POTION_3, AFFECT_POTION_4, AFFECT_POTION_5, AFFECT_POTION_6, AFFECT_POTION_7, AFFECT_POTION_8, AFFECT_POTION_9, AFFECT_POTION_10, AFFECT_POTION_11};
+	
+	int blend_null[] = {APPLY_NONE, AFF_NONE, 0, false};
+	
+	int blend_list[] = {50821, 50822, 50823, 50824, 50825, 50826, 51003, 51004, 51005, 51006, 51007};
+	
+	//const char* blend_succes = {"<Affect Potion> Set icon ingame for item: |cFFc9ff00|H|h[%s]"};
+	
+	int	blend_time	= item->GetSocket(2);
+	
+	switch (item->GetVnum())
+	{
+		case 50821:
+			AddAffect(blend_get_affect[0], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;
+		case 50822:
+			AddAffect(blend_get_affect[1], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);
+			break;
+		case 50823:
+			AddAffect(blend_get_affect[2], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;
+		case 50824:
+			AddAffect(blend_get_affect[3], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+		case 50825:
+			AddAffect(blend_get_affect[4], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+		case 50826:
+			AddAffect(blend_get_affect[5], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;
+
+		case 51003:
+			AddAffect(blend_get_affect[6], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+		case 51004:
+			AddAffect(blend_get_affect[7], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+		case 51005:
+			AddAffect(blend_get_affect[8], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+		case 51006:
+			AddAffect(blend_get_affect[9], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+		case 51007:
+			AddAffect(blend_get_affect[10], blend_null[0], blend_null[2], blend_null[1], blend_time, blend_null[2], blend_null[3], blend_null[3]);	
+			break;	
+	}	
+		//ChatPacket(CHAT_TYPE_INFO, blend_succes, item->GetName());	
+	return true;
+}
+#endif
+
 void CHARACTER::__OpenPrivateShop()
 {
 #ifdef ENABLE_OPEN_SHOP_WITH_ARMOR
@@ -6218,6 +6273,9 @@ bool CHARACTER::UseItemEx(LPITEM item, TItemPos DestCell)
 					}
 					else
 					{
+						#ifdef ENABLE_NEW_AFFECT_POTION
+						SetAffectPotion(item);
+						#endif		
 						AddAffect(affect_type, apply_type, apply_value, 0, apply_duration, 0, false);
 						item->SetCount(item->GetCount() - 1);
 					}

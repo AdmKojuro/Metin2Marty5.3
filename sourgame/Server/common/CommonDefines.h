@@ -35,6 +35,7 @@ enum eCommonDefines {
 #define ENABLE_RARITY_SYSTEM									// Rarity Bonus Item System
 #define ENABLE_ITEM_EXTRA_PROTO									// Item Extra Proto System
 #define ENABLE_NEW_EXTRA_BONUS									// Extra Bonus System
+#define ENABLE_NEW_AFFECT_POTION								//efecto potas
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

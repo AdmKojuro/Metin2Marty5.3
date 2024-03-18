@@ -1660,5 +1660,14 @@ void initchr()
 	PyModule_AddIntConstant(poModule, "PET_SKILL_FEATHER",					CInstanceBase::PET_SKILL_FEATHER);
 	PyModule_AddIntConstant(poModule, "PET_SKILL_AFFECT_MAX",				CInstanceBase::PET_SKILL_AFFECT_MAX);
 #endif
+#ifdef ENABLE_NEW_AFFECT_POTION
+	PyModule_AddIntConstant(poModule, "AFFECT_POTION_1",		CInstanceBase::AFFECT_POTION_1);
+	PyModule_AddIntConstant(poModule, "AFFECT_POTION_2",		CInstanceBase::AFFECT_POTION_2);
+	PyModule_AddIntConstant(poModule, "AFFECT_POTION_3",		CInstanceBase::AFFECT_POTION_3);
+	PyModule_AddIntConstant(poModule, "AFFECT_POTION_4",		CInstanceBase::AFFECT_POTION_4);
+	PyModule_AddIntConstant(poModule, "AFFECT_POTION_5",		CInstanceBase::AFFECT_POTION_5);
+	PyModule_AddIntConstant(poModule, "AFFECT_POTION_6",		CInstanceBase::AFFECT_POTION_6);
+#endif
+
 }
 

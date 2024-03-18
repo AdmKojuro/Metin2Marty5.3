@@ -196,6 +196,19 @@ void CHARACTER::ClearAffect(bool bSave)
 				continue;
 			}
 
+#ifdef ENABLE_NEW_AFFECT_POTION			
+			int pkAff_blend[] = {AFFECT_POTION_1, AFFECT_POTION_2, AFFECT_POTION_3, AFFECT_POTION_4, AFFECT_POTION_5, AFFECT_POTION_6, AFFECT_POTION_7, AFFECT_POTION_8, AFFECT_POTION_9, AFFECT_POTION_10, AFFECT_POTION_11};
+			
+			if ((pkAff->dwType == pkAff_blend[0]) || (pkAff->dwType == pkAff_blend[1]) || (pkAff->dwType == pkAff_blend[2]) ||
+				(pkAff->dwType == pkAff_blend[3]) || (pkAff->dwType == pkAff_blend[4]) || (pkAff->dwType == pkAff_blend[5]) ||
+				(pkAff->dwType == pkAff_blend[6]) || (pkAff->dwType == pkAff_blend[7]) || (pkAff->dwType == pkAff_blend[8]) ||
+				(pkAff->dwType == pkAff_blend[9]) || (pkAff->dwType == pkAff_blend[10]))
+			{
+				++it;
+				continue;
+			}
+#endif
+
 			if (IsPC())
 			{
 				SendAffectRemovePacket(GetDesc(), GetPlayerID(), pkAff->dwType, pkAff->bApplyOn);

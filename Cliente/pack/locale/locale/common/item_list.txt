@@ -10554,6 +10554,11 @@
 50904	ETC	icon/item/50904.tga
 51001	ETC	icon/item/51001.tga
 51002	ETC	icon/item/51002.tga
+51003	ETC	icon/item/51003.tga
+51004	ETC	icon/item/51004.tga
+51005	ETC	icon/item/51005.tga
+51006	ETC	icon/item/51006.tga
+51007	ETC	icon/item/51007.tga
 51501	ETC	icon/item/51501.tga
 51502	ETC	icon/item/51501.tga
 51503	ETC	icon/item/51501.tga
