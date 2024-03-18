@@ -1201,7 +1201,9 @@ namespace UI
 			}
 			else if ('+' == cChar)
 			{
-				strImageFileName = m_strPath + "plus.sub";
+#ifdef ENABLE_PLUS_ICON_ITEM
+			strImageFileName = m_strPath + "Fizp.tga";
+#endif
 			}
 			else if ('m' == cChar)
 			{

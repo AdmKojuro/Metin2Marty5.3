@@ -2141,5 +2141,11 @@ void initapp()
 	PyModule_AddIntConstant(poModule, "ENABLE_NEW_AFFECT_POTION",	0);
 #endif
 
+#ifdef ENABLE_PLUS_ICON_ITEM
+	PyModule_AddIntConstant(poModule, "ENABLE_PLUS_ICON_ITEM", true);
+#else
+	PyModule_AddIntConstant(poModule, "ENABLE_PLUS_ICON_ITEM", false);
+#endif
+
 }
 

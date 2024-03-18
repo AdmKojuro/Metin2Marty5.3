@@ -2653,6 +2653,29 @@ PyObject * wndMgrGetColorAtPosition(PyObject * poSelf, PyObject * poArgs)
 }
 #endif
 
+#ifdef ENABLE_PLUS_ICON_ITEM
+PyObject* wndMgrGetValue(PyObject* poSelf, PyObject* poArgs)
+{
+	uint8_t slot;
+	char* Number;
+
+	UI::CWindow* pWin;
+
+	if (!PyTuple_GetWindow(poArgs, 0, &pWin))
+		return Py_BuildException();
+
+	if (!PyTuple_GetInteger(poArgs, 1, &slot))
+		return Py_BuildException();
+
+	if (!PyTuple_GetString(poArgs, 2, &Number))
+		return Py_BuildException();
+
+	UI::CSlotWindow* pSlotWin = (UI::CSlotWindow*)pWin;
+	pSlotWin->GetValue(slot, Number);
+	return Py_BuildNone();
+}
+#endif
+
 PyObject * wndMgrSetSlotID(PyObject * poSelf, PyObject * poArgs)
 {
 	UI::CWindow * pWin;
@@ -3061,6 +3084,9 @@ void initwndMgr()
 #ifdef ENABLE_SKILL_COLOR_SYSTEM
 		{ "GetRealMousePosition",		wndMgrGetRealMousePosition,			METH_VARARGS },
 		{ "GetColorAtPosition",			wndMgrGetColorAtPosition,			METH_VARARGS },
+#endif
+#ifdef ENABLE_PLUS_ICON_ITEM
+		{ "GetValue", wndMgrGetValue, METH_VARARGS },
 #endif
 		{ "SetRotationAni",		wndImageSetRotationAni,				METH_VARARGS },
 		{ NULL,							NULL,								NULL },

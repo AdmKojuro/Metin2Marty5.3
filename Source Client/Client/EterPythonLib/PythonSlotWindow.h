@@ -122,6 +122,11 @@ namespace UI
 			void SetSlot(DWORD dwIndex, DWORD dwVirtualNumber, BYTE byWidth, BYTE byHeight, CGraphicImage * pImage, D3DXCOLOR& diffuseColor);
 			void SetSlotCount(DWORD dwIndex, DWORD dwCount);
 			void SetRealSlotNumber(DWORD dwIndex, DWORD dwID);
+
+#ifdef ENABLE_PLUS_ICON_ITEM
+			void GetValue(uint8_t dwIndex, char* number);
+#endif
+
 			void SetSlotCountNew(DWORD dwIndex, DWORD dwGrade, DWORD dwCount);
 			void SetSlotCoolTime(DWORD dwIndex, float fCoolTime, float fElapsedTime = 0.0f);
 			void SetSlotCoolTimeColor(DWORD dwIndex, float fr, float fg, float fb, float fa);

@@ -429,6 +429,28 @@ void CSlotWindow::SetSlot(DWORD dwIndex, DWORD dwVirtualNumber, BYTE byWidth, BY
 	}
 }
 
+#ifdef ENABLE_PLUS_ICON_ITEM
+void CSlotWindow::GetValue(uint8_t dwIndex, char* number)
+{
+	TSlot* pSlot;
+	if (!GetSlotPointer(dwIndex, &pSlot))
+		return;
+
+	char szCount[16 + 1];
+	_snprintf(szCount, sizeof(szCount), "+ %s", number);
+
+	if (!pSlot->pNumberLine)
+	{
+		CNumberLine* pNumberLine = new UI::CNumberLine(this);
+		pNumberLine->SetHorizontalAlign(CNumberLine::HORIZONTAL_ALIGN_RIGHT);
+		pNumberLine->Show();
+		pSlot->pNumberLine = pNumberLine;
+	}
+
+	pSlot->pNumberLine->SetNumber(szCount);
+}
+#endif
+
 void CSlotWindow::SetSlotCount(DWORD dwIndex, DWORD dwCount)
 {
 	TSlot * pSlot;

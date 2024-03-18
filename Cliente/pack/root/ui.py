@@ -2200,6 +2200,20 @@ class SlotWindow(Window):
 		wndMgr.SetSlotCount(self.hWnd, renderingSlotNumber, ItemCount)
 		wndMgr.SetSlotID(self.hWnd, renderingSlotNumber, id)
 
+####Item level text/icon ###
+		if app.ENABLE_PLUS_ICON_ITEM:
+			if not item.IsEquipmentVID(ItemIndex):
+				return
+
+			item.SelectItem(ItemIndex)
+			itemName = item.GetItemName().strip()
+			itemNameP = item.GetItemName().rfind('+')
+			if itemNameP > 0 and len(itemName) > itemNameP + 1:
+				level=itemName[itemNameP+1:]
+				if level.isdigit():
+					wndMgr.GetValue(self.hWnd, renderingSlotNumber, level)
+####Item level text/icon END ###
+
 	def SetSkillSlot(self, renderingSlotNumber, skillIndex, skillLevel):
 
 		skillIcon = skill.GetIconImage(skillIndex)
@@ -2270,6 +2284,10 @@ class SlotWindow(Window):
 
 	def GetStartIndex(self):
 		return 0
+
+	if app.ENABLE_PLUS_ICON_ITEM:
+		def SetValueItem(self, slotNumber, number):
+			wndMgr.GetValue(self.hWnd, slotNumber, number)
 
 class GridSlotWindow(SlotWindow):
 
