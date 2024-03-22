@@ -37,6 +37,9 @@ public:
 	void DestroyDeviceObjects();
 
 	bool CheckTextureIndex(DWORD dwTexture);
+#ifdef ENABLE_FIX_MOBS_LAG
+	CGraphicImageTexture* GetTexture(DWORD dwTexture);
+#endif
 	void SelectTexture(DWORD dwTexture);
 
 	bool UpdateTexture();

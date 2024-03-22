@@ -129,7 +129,11 @@ HFONT CGraphicFontTexture::GetFont(WORD codePage)
 		logFont.lfOutPrecision		= OUT_DEFAULT_PRECIS;
 		logFont.lfClipPrecision		= CLIP_DEFAULT_PRECIS;
 		logFont.lfQuality			= ANTIALIASED_QUALITY;
+#ifdef ENABLE_FIX_MOBS_LAG
+		logFont.lfPitchAndFamily	= VARIABLE_PITCH;
+#else
 		logFont.lfPitchAndFamily	= DEFAULT_PITCH;
+#endif
 		//Tracenf("font: %s", GetFontFaceFromCodePage(codePage));
 		strcpy(logFont.lfFaceName, m_fontName); //GetFontFaceFromCodePage(codePage));
 		//strcpy(logFont.lfFaceName, GetFontFaceFromCodePage(codePage));
@@ -313,3 +317,10 @@ void CGraphicFontTexture::SelectTexture(DWORD dwTexture)
 	m_lpd3dTexture = m_pFontTextureVector[dwTexture]->GetD3DTexture();
 }
 
+#ifdef ENABLE_FIX_MOBS_LAG
+CGraphicImageTexture * CGraphicFontTexture::GetTexture(DWORD dwTexture)
+{
+	assert(CheckTextureIndex(dwTexture));
+	return m_pFontTextureVector[dwTexture];
+}
+#endif

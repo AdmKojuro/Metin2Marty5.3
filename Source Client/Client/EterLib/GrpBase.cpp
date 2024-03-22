@@ -94,7 +94,12 @@ std::vector<TIndex>		CGraphicBase::ms_fillCubeIdxVector;
 LPD3DXMESH				CGraphicBase::ms_lpSphereMesh = NULL;
 LPD3DXMESH				CGraphicBase::ms_lpCylinderMesh = NULL;
 
-LPDIRECT3DVERTEXBUFFER8	CGraphicBase::ms_alpd3dPDTVB[PDT_VERTEXBUFFER_NUM];
+#ifdef ENABLE_FIX_MOBS_LAG
+IDirect3DVertexBuffer8* CGraphicBase::m_smallPdtVertexBuffer;
+IDirect3DVertexBuffer8 * CGraphicBase::m_largePdtVertexBuffer;
+#else
+LPDIRECT3DVERTEXBUFFER8 CGraphicBase::ms_alpd3dPDTVB[PDT_VERTEXBUFFER_NUM];
+#endif
 
 LPDIRECT3DINDEXBUFFER8	CGraphicBase::ms_alpd3dDefIB[DEFAULT_IB_NUM];
 
@@ -146,6 +151,42 @@ bool CGraphicBase::SetPDTStream(SPDTVertex* pVertices, UINT uVtxCount)
 	return SetPDTStream((SPDTVertexRaw*)pVertices, uVtxCount);
 }
 
+#ifdef ENABLE_FIX_MOBS_LAG
+bool CGraphicBase::SetPDTStream(SPDTVertexRaw* pSrcVertices, UINT uVtxCount)
+{
+	if (!uVtxCount)
+	{
+		return false;
+	}
+
+	assert(uVtxCount <= LARGE_PDT_VERTEX_BUFFER_SIZE);
+
+	if (!uVtxCount)
+		return false;
+
+	IDirect3DVertexBuffer8* vb = nullptr;
+
+	if (uVtxCount <= SMALL_PDT_VERTEX_BUFFER_SIZE)
+		vb = GetSmallPdtVertexBuffer();
+	else
+		vb = GetLargePdtVertexBuffer();
+
+	const auto bytes = sizeof(TPDTVertex) * uVtxCount;
+	
+		TPDTVertex* dst;
+	if (FAILED(vb->Lock(0, bytes, (BYTE**)&dst, D3DLOCK_DISCARD))) 
+	{
+		STATEMANAGER.SetStreamSource(0, NULL, 0);
+		return false;
+	}
+
+	std::memcpy(dst, pSrcVertices, bytes);
+	vb->Unlock();
+	STATEMANAGER.SetStreamSource(0, vb, sizeof(TPDTVertex));
+
+	return true;
+}
+#else
 bool CGraphicBase::SetPDTStream(SPDTVertexRaw* pSrcVertices, UINT uVtxCount)
 {
 	if (!uVtxCount)
@@ -181,6 +222,7 @@ bool CGraphicBase::SetPDTStream(SPDTVertexRaw* pSrcVertices, UINT uVtxCount)
 
 	return true;
 }
+#endif
 
 DWORD CGraphicBase::GetAvailableTextureMemory()
 {

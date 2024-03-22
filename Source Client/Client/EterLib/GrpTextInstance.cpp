@@ -605,6 +605,9 @@ void CGraphicTextInstance::Render(RECT * pClipRect)
 	STATEMANAGER.SetTextureStageState(0, D3DTSS_ALPHAARG1,	D3DTA_TEXTURE);
 	STATEMANAGER.SetTextureStageState(0, D3DTSS_ALPHAARG2,	D3DTA_DIFFUSE);
 	STATEMANAGER.SetTextureStageState(0, D3DTSS_ALPHAOP,	D3DTOP_MODULATE);
+#ifdef ENABLE_FIX_MOBS_LAG
+	std::map<CGraphicImageTexture*, std::vector<SPDTVertexRaw>> verticesMap;
+#endif
 
 	{
 		const float fFontHalfWeight=1.0f;
@@ -621,11 +624,19 @@ void CGraphicTextInstance::Render(RECT * pClipRect)
 		float fFontMaxHeight;
 		float fFontAdvance;
 
+#ifdef ENABLE_FIX_MOBS_LAG
+		SPDTVertexRaw akVertex[4];
+		akVertex[0].pz = m_v3Position.z;
+		akVertex[1].pz = m_v3Position.z;
+		akVertex[2].pz = m_v3Position.z;
+		akVertex[3].pz = m_v3Position.z;
+#else
 		SVertex akVertex[4];
 		akVertex[0].z=m_v3Position.z;
 		akVertex[1].z=m_v3Position.z;
 		akVertex[2].z=m_v3Position.z;
 		akVertex[3].z=m_v3Position.z;
+#endif
 
 		CGraphicFontTexture::TCharacterInfomation* pCurCharInfo;
 
@@ -695,8 +706,13 @@ void CGraphicTextInstance::Render(RECT * pClipRect)
 				fFontEx = fFontSx + fFontWidth;
 				fFontEy = fFontSy + fFontHeight;
 
+#ifdef ENABLE_FIX_MOBS_LAG
+				const auto tex = pFontTexture->GetTexture(pCurCharInfo->index);
+				auto & batchVertices = verticesMap[tex];
+#else
 				pFontTexture->SelectTexture(pCurCharInfo->index);
 				STATEMANAGER.SetTexture(0, pFontTexture->GetD3DTexture());
+#endif
 
 				akVertex[0].u=pCurCharInfo->left;
 				akVertex[0].v=pCurCharInfo->top;
@@ -707,55 +723,115 @@ void CGraphicTextInstance::Render(RECT * pClipRect)
 				akVertex[3].u=pCurCharInfo->right;
 				akVertex[3].v=pCurCharInfo->bottom;
 
+#ifdef ENABLE_FIX_MOBS_LAG
+				akVertex[3].diffuse = akVertex[2].diffuse = akVertex[1].diffuse = akVertex[0].diffuse = m_dwOutLineColor;
+#else
 				akVertex[3].color = akVertex[2].color = akVertex[1].color = akVertex[0].color = m_dwOutLineColor;
+#endif
 
 
 				float feather = 0.0f; // m_fFontFeather
 
-				akVertex[0].y=fFontSy-feather;
-				akVertex[1].y=fFontEy+feather;
-				akVertex[2].y=fFontSy-feather;
-				akVertex[3].y=fFontEy+feather;
+#ifdef ENABLE_FIX_MOBS_LAG
+				akVertex[0].py = fFontSy - feather;
+				akVertex[1].py = fFontEy + feather;
+				akVertex[2].py = fFontSy - feather;
+				akVertex[3].py = fFontEy + feather;
+				akVertex[0].px = fFontSx - fFontHalfWeight - feather;
+				akVertex[1].px = fFontSx - fFontHalfWeight - feather;
+				akVertex[2].px = fFontEx - fFontHalfWeight + feather;
+				akVertex[3].px = fFontEx - fFontHalfWeight + feather;
+#else
+				akVertex[0].y = fFontSy - feather;
+				akVertex[1].y = fFontEy + feather;
+				akVertex[2].y = fFontSy - feather;
+				akVertex[3].y = fFontEy + feather;
+				akVertex[0].x = fFontSx - fFontHalfWeight - feather;
+				akVertex[1].x = fFontSx - fFontHalfWeight - feather;
+				akVertex[2].x = fFontEx - fFontHalfWeight + feather;
+				akVertex[3].x = fFontEx - fFontHalfWeight + feather;
+#endif
 
-				akVertex[0].x=fFontSx-fFontHalfWeight-feather;
-				akVertex[1].x=fFontSx-fFontHalfWeight-feather;
-				akVertex[2].x=fFontEx-fFontHalfWeight+feather;
-				akVertex[3].x=fFontEx-fFontHalfWeight+feather;
-
+#ifdef ENABLE_FIX_MOBS_LAG
+				batchVertices.insert(batchVertices.end(),
+				std::begin(akVertex), std::end(akVertex));
+				
+				akVertex[0].px = fFontSx + fFontHalfWeight - feather;
+				akVertex[1].px = fFontSx + fFontHalfWeight - feather;
+				akVertex[2].px = fFontEx + fFontHalfWeight + feather;
+				akVertex[3].px = fFontEx + fFontHalfWeight + feather;
+#else
 				if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
+				{
 					STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+				}
+				
+				akVertex[0].x = fFontSx + fFontHalfWeight - feather;
+				akVertex[1].x = fFontSx + fFontHalfWeight - feather;
+				akVertex[2].x = fFontEx + fFontHalfWeight + feather;
+				akVertex[3].x = fFontEx + fFontHalfWeight + feather;
+#endif
 
+#ifdef ENABLE_FIX_MOBS_LAG
+				batchVertices.insert(batchVertices.end(),
+					std::begin(akVertex), std::end(akVertex));
 
-				akVertex[0].x=fFontSx+fFontHalfWeight-feather;
-				akVertex[1].x=fFontSx+fFontHalfWeight-feather;
-				akVertex[2].x=fFontEx+fFontHalfWeight+feather;
-				akVertex[3].x=fFontEx+fFontHalfWeight+feather;
-
+				akVertex[0].px = fFontSx - feather;
+				akVertex[1].px = fFontSx - feather;
+				akVertex[2].px = fFontEx + feather;
+				akVertex[3].px = fFontEx + feather;
+				
+				akVertex[0].py = fFontSy - fFontHalfWeight - feather;
+				akVertex[1].py = fFontEy - fFontHalfWeight + feather;
+				akVertex[2].py = fFontSy - fFontHalfWeight - feather;
+				akVertex[3].py = fFontEy - fFontHalfWeight + feather;
+#else
 				if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
+				{
 					STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+				}
 
-				akVertex[0].x=fFontSx-feather;
-				akVertex[1].x=fFontSx-feather;
-				akVertex[2].x=fFontEx+feather;
-				akVertex[3].x=fFontEx+feather;
-
-				akVertex[0].y=fFontSy-fFontHalfWeight-feather;
-				akVertex[1].y=fFontEy-fFontHalfWeight+feather;
-				akVertex[2].y=fFontSy-fFontHalfWeight-feather;
-				akVertex[3].y=fFontEy-fFontHalfWeight+feather;
+				akVertex[0].x = fFontSx - feather;
+				akVertex[1].x = fFontSx - feather;
+				akVertex[2].x = fFontEx + feather;
+				akVertex[3].x = fFontEx + feather;
+				akVertex[0].y = fFontSy - fFontHalfWeight - feather;
+				akVertex[1].y = fFontEy - fFontHalfWeight + feather;
+				akVertex[2].y = fFontSy - fFontHalfWeight - feather;
+				akVertex[3].y = fFontEy - fFontHalfWeight + feather;
+#endif
 
 				// 20041216.myevan.DrawPrimitiveUP
-				if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
-					STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+#ifdef ENABLE_FIX_MOBS_LAG
+				batchVertices.insert(batchVertices.end(),
+					std::begin(akVertex), std::end(akVertex));
 
-				akVertex[0].y=fFontSy+fFontHalfWeight-feather;
-				akVertex[1].y=fFontEy+fFontHalfWeight+feather;
-				akVertex[2].y=fFontSy+fFontHalfWeight-feather;
-				akVertex[3].y=fFontEy+fFontHalfWeight+feather;
+				akVertex[0].py = fFontSy + fFontHalfWeight - feather;
+				akVertex[1].py = fFontEy + fFontHalfWeight + feather;
+				akVertex[2].py = fFontSy + fFontHalfWeight - feather;
+				akVertex[3].py = fFontEy + fFontHalfWeight + feather;
+#else
+				if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
+				{
+					STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+				}
+
+				akVertex[0].y = fFontSy + fFontHalfWeight - feather;
+				akVertex[1].y = fFontEy + fFontHalfWeight + feather;
+				akVertex[2].y = fFontSy + fFontHalfWeight - feather;
+				akVertex[3].y = fFontEy + fFontHalfWeight + feather;
+#endif
 
 				// 20041216.myevan.DrawPrimitiveUP
+#ifdef ENABLE_FIX_MOBS_LAG
+				batchVertices.insert(batchVertices.end(),
+					std::begin(akVertex), std::end(akVertex));
+#else
 				if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
+				{
 					STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+				}
+#endif
 
 				fCurX += fFontAdvance;
 			}
@@ -817,18 +893,47 @@ void CGraphicTextInstance::Render(RECT * pClipRect)
 				}
 			}
 
-			fFontSx = fCurX-0.5f;
-			fFontSy = fCurY-0.5f;
+#ifdef ENABLE_FIX_MOBS_LAG
+			fFontSx = fCurX - 0.5f;
+			fFontSy = fCurY - 0.5f;
 			fFontEx = fFontSx + fFontWidth;
 			fFontEy = fFontSy + fFontHeight;
+			const auto tex = pFontTexture->GetTexture(pCurCharInfo->index);
+			auto & batchVertices = verticesMap[tex];
 
+			akVertex[0].px = fFontSx;
+			akVertex[0].py = fFontSy;
+			akVertex[0].u = pCurCharInfo->left;
+			akVertex[0].v = pCurCharInfo->top;
+
+			akVertex[1].px = fFontSx;
+			akVertex[1].py = fFontEy;
+			akVertex[1].u = pCurCharInfo->left;
+			akVertex[1].v = pCurCharInfo->bottom;
+
+			akVertex[2].px = fFontEx;
+			akVertex[2].py = fFontSy;
+			akVertex[2].u = pCurCharInfo->right;
+			akVertex[2].v = pCurCharInfo->top;
+
+			akVertex[3].px = fFontEx;
+			akVertex[3].py = fFontEy;
+			akVertex[3].u = pCurCharInfo->right;
+			akVertex[3].v = pCurCharInfo->bottom;
+
+			akVertex[0].diffuse = akVertex[1].diffuse = akVertex[2].diffuse = akVertex[3].diffuse = m_dwColorInfoVector[i];
+#else
+			fFontSx = fCurX - 0.5f;
+			fFontSy = fCurY - 0.5f;
+			fFontEx = fFontSx + fFontWidth;
+			fFontEy = fFontSy + fFontHeight;
 			pFontTexture->SelectTexture(pCurCharInfo->index);
 			STATEMANAGER.SetTexture(0, pFontTexture->GetD3DTexture());
 
-			akVertex[0].x=fFontSx;
-			akVertex[0].y=fFontSy;
-			akVertex[0].u=pCurCharInfo->left;
-			akVertex[0].v=pCurCharInfo->top;
+			akVertex[0].x = fFontSx;
+			akVertex[0].y = fFontSy;
+			akVertex[0].u = pCurCharInfo->left;
+			akVertex[0].v = pCurCharInfo->top;
 
 			akVertex[1].x=fFontSx;
 			akVertex[1].y=fFontEy;
@@ -845,18 +950,43 @@ void CGraphicTextInstance::Render(RECT * pClipRect)
 			akVertex[3].u=pCurCharInfo->right;
 			akVertex[3].v=pCurCharInfo->bottom;
 
-			//m_dwColorInfoVector[i];
-			//m_dwTextColor;
 			akVertex[0].color = akVertex[1].color = akVertex[2].color = akVertex[3].color = m_dwColorInfoVector[i];
+#endif
 
 			// 20041216.myevan.DrawPrimitiveUP
-			if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
-				STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-			//STATEMANAGER.DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, akVertex, sizeof(SVertex));
+#ifdef ENABLE_FIX_MOBS_LAG
+			batchVertices.insert(batchVertices.end(),
+				std::begin(akVertex), std::end(akVertex));
 
 			fCurX += fFontAdvance;
 		}
 	}
+
+	for (auto& p : verticesMap)
+	{
+		STATEMANAGER.SetTexture(0, p.first->GetD3DTexture());
+		
+		for (auto f = p.second.begin(), l = p.second.end(); f != l; )
+		{
+			const auto batchCount = std::min<std::size_t>(LARGE_PDT_VERTEX_BUFFER_SIZE,
+				l - f);
+			
+			if (CGraphicBase::SetPDTStream(&*f, batchCount))
+			STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0,
+				batchCount - 2);		
+				f += batchCount;
+		}
+	}
+#else
+			if (CGraphicBase::SetPDTStream((SPDTVertex*)akVertex, 4))
+			{
+				STATEMANAGER.DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+			}
+
+			fCurX += fFontAdvance;
+		}
+	}
+#endif
 
 	if (m_isCursor)
 	{

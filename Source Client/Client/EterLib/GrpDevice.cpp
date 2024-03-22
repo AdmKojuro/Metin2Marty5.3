@@ -248,10 +248,25 @@ CGraphicDevice::EDeviceState CGraphicDevice::GetDeviceState()
 
 bool CGraphicDevice::Reset()
 {
+
+#ifdef ENABLE_FIX_MOBS_LAG
+	__DestroyPDTVertexBufferList();
+#endif
+
 	HRESULT hr;
 
 	if (FAILED(hr = ms_lpd3dDevice->Reset(&ms_d3dPresentParameter)))
+	{
+#ifdef ENABLE_FIX_MOBS_LAG
+		TraceError("Failed to reset device");
+#endif
 		return false;
+	}
+
+#ifdef ENABLE_FIX_MOBS_LAG
+	m_pStateManager->SetDefaultState();
+	__CreatePDTVertexBufferList();
+#endif
 
 	return true;
 }
@@ -595,6 +610,49 @@ RETRY:
 	return (iRet);
 }
 
+#ifdef ENABLE_FIX_MOBS_LAG
+void CGraphicDevice::__InitializePDTVertexBufferList()
+{
+	m_smallPdtVertexBuffer = nullptr;
+	m_largePdtVertexBuffer = nullptr;
+}
+		
+void CGraphicDevice::__DestroyPDTVertexBufferList()
+{
+	if (m_smallPdtVertexBuffer) {
+		m_smallPdtVertexBuffer->Release();
+		m_smallPdtVertexBuffer = nullptr;
+	}
+
+	if (m_largePdtVertexBuffer) {
+		m_largePdtVertexBuffer->Release();
+		m_largePdtVertexBuffer = nullptr;
+	}
+}
+
+bool CGraphicDevice::__CreatePDTVertexBufferList()
+{
+	auto res = ms_lpd3dDevice->CreateVertexBuffer(sizeof(TPDTVertex) * SMALL_PDT_VERTEX_BUFFER_SIZE,
+		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY,
+		TPDTVertex::kFVF,
+		D3DPOOL_DEFAULT,
+		&m_smallPdtVertexBuffer);
+
+	if (FAILED(res))
+		return false;
+
+	res = ms_lpd3dDevice->CreateVertexBuffer(sizeof(TPDTVertex) * LARGE_PDT_VERTEX_BUFFER_SIZE,
+		D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY,
+		TPDTVertex::kFVF,
+		D3DPOOL_DEFAULT,
+		&m_largePdtVertexBuffer);
+
+	if (FAILED(res))
+		return false;
+
+	return true;
+}
+#else
 void CGraphicDevice::__InitializePDTVertexBufferList()
 {
 	for (UINT i=0; i<PDT_VERTEXBUFFER_NUM; ++i)
@@ -629,6 +687,7 @@ bool CGraphicDevice::__CreatePDTVertexBufferList()
 	}
 	return true;
 }
+#endif
 
 void CGraphicDevice::__InitializeDefaultIndexBufferList()
 {

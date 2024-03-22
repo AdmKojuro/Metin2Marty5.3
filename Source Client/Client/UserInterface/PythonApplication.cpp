@@ -612,10 +612,18 @@ bool CPythonApplication::Process()
 		}
 		else
 		{
+#ifdef ENABLE_FIX_MOBS_LAG
+			if (DEVICE_STATE_OK != CheckDeviceState())
+#else
 			if (m_pyGraphic.IsLostDevice())
+#endif
 			{
 				CPythonBackground& rkBG = CPythonBackground::Instance();
+#ifdef ENABLE_FIX_MOBS_LAG
+				canRender = false;
+#else
 				rkBG.ReleaseCharacterShadowTexture();
+#endif
 #ifdef ENABLE_RENDER_TARGET
 				CRenderTargetManager::Instance().ReleaseRenderTargetTextures();
 #endif
@@ -812,11 +820,47 @@ int CPythonApplication::CheckDeviceState()
 	case CGraphicDevice::DEVICESTATE_BROKEN:
 		return DEVICE_STATE_SKIP;
 
+#ifdef ENABLE_FIX_MOBS_LAG
 	case CGraphicDevice::DEVICESTATE_NEEDS_RESET:
+		m_pyBackground.ReleaseCharacterShadowTexture();
+// #ifdef ENABLE_RENDER_TARGET
+		CRenderTargetManager::Instance().ReleaseRenderTargetTextures();
+// #endif
+
+// #ifdef ENABLE_INGAME_WIKI_SYSTEM
+		// if (CPythonWikiRenderTarget::instance().CanRenderWikiModules())
+			// CWikiRenderTargetManager::Instance().ReleaseRenderTargetTextures();
+// #endif
+
+		Trace("DEVICESTATE_NEEDS_RESET - attempting");
 		if (!m_grpDevice.Reset())
+		{
 			return DEVICE_STATE_SKIP;
+		}
+// #ifdef ENABLE_RENDER_TARGET
+		CRenderTargetManager::Instance().CreateRenderTargetTextures();
+// #endif
+
+// #ifdef ENABLE_INGAME_WIKI_SYSTEM
+		// if (CPythonWikiRenderTarget::instance().CanRenderWikiModules())
+			// CWikiRenderTargetManager::Instance().CreateRenderTargetTextures();
+// #endif
+
+		m_pyBackground.CreateCharacterShadowTexture();
 
 		break;
+
+	case CGraphicDevice::DEVICESTATE_OK: break;
+	default:;
+#else
+	case CGraphicDevice::DEVICESTATE_NEEDS_RESET:
+		if (!m_grpDevice.Reset())
+		{
+			return DEVICE_STATE_SKIP;
+		}
+
+		break;
+#endif
 	}
 
 	return DEVICE_STATE_OK;

@@ -3,6 +3,10 @@
 #include "GrpDetector.h"
 #include "Ray.h"
 #include <vector>
+#ifdef ENABLE_FIX_MOBS_LAG
+static const std::size_t SMALL_PDT_VERTEX_BUFFER_SIZE = 16;
+static const std::size_t LARGE_PDT_VERTEX_BUFFER_SIZE = 200;
+#endif
 
 void PixelPositionToD3DXVECTOR3(const D3DXVECTOR3& c_rkPPosSrc, D3DXVECTOR3* pv3Dst);
 void D3DXVECTOR3ToPixelPosition(const D3DXVECTOR3& c_rv3Src, D3DXVECTOR3* pv3Dst);
@@ -74,6 +78,9 @@ typedef struct SPDTVertex
 	TPosition	position;
 	TDiffuse	diffuse;
 	TTextureCoordinate texCoord;
+#ifdef ENABLE_FIX_MOBS_LAG
+	static const DWORD kFVF = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
+#endif
 } TPDTVertex;
 
 typedef struct SPNTVertex
@@ -150,6 +157,11 @@ class CGraphicBase
 	public:
 		CGraphicBase();
 		virtual	~CGraphicBase();
+
+#ifdef ENABLE_FIX_MOBS_LAG
+		static IDirect3DVertexBuffer8* GetSmallPdtVertexBuffer() { return m_smallPdtVertexBuffer; }
+		static IDirect3DVertexBuffer8 * GetLargePdtVertexBuffer() { return m_largePdtVertexBuffer; }
+#endif
 
 		void		SetSimpleCamera(float x, float y, float z, float pitch, float roll);
 		void		SetEyeCamera(float xEye, float yEye, float zEye, float xCenter, float yCenter, float zCenter, float xUp, float yUp, float zUp);
@@ -314,7 +326,12 @@ class CGraphicBase
 		};
 
 
-		static LPDIRECT3DVERTEXBUFFER8	ms_alpd3dPDTVB[PDT_VERTEXBUFFER_NUM];
+#ifdef ENABLE_FIX_MOBS_LAG
+		static IDirect3DVertexBuffer8* m_smallPdtVertexBuffer;
+		static IDirect3DVertexBuffer8 * m_largePdtVertexBuffer;
+#else
+		static LPDIRECT3DVERTEXBUFFER8 ms_alpd3dPDTVB[PDT_VERTEXBUFFER_NUM];
+#endif
 		static LPDIRECT3DINDEXBUFFER8	ms_alpd3dDefIB[DEFAULT_IB_NUM];
 };
 
