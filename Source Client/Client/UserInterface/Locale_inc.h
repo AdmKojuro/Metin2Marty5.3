@@ -27,6 +27,7 @@
 /* Wolfman */
 
 /* System Enable */
+#define ENABLE_INBUILT_ANIMATION								//Animacion GR2 ACCE, ESTOLAS, ARMAS ETC
 #define ENABLE_PLUS_ICON_ITEM									// Displays Value of Item
 #define ENABLE_NEW_AFFECT_POTION								//efecto de potas
 #define ENABLE_RARITY_SYSTEM									// Grade Item Rarity System

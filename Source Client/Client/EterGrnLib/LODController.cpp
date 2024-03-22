@@ -659,13 +659,21 @@ void CGrannyLODController::ResetLocalTime()
 	m_pCurrentModelInstance->ResetLocalTime();
 }
 
+#ifdef ENABLE_INBUILT_ANIMATION
+void CGrannyLODController::SetMotionPointer(const std::shared_ptr<CGrannyMotion> c_pMotion, float fBlendTime, int iLoopCount, float speedRatio)
+#else
 void CGrannyLODController::SetMotionPointer(const CGrannyMotion * c_pMotion, float fBlendTime, int iLoopCount, float speedRatio)
+#endif
 {
 	assert(m_pCurrentModelInstance != NULL);
 	m_pCurrentModelInstance->SetMotionPointer(c_pMotion, fBlendTime, iLoopCount, speedRatio);
 }
 
+#ifdef ENABLE_INBUILT_ANIMATION
+void CGrannyLODController::ChangeMotionPointer(const std::shared_ptr<CGrannyMotion> c_pMotion, int iLoopCount, float speedRatio)
+#else
 void CGrannyLODController::ChangeMotionPointer(const CGrannyMotion * c_pMotion, int iLoopCount, float speedRatio)
+#endif
 {
 	assert(m_pCurrentModelInstance != NULL);
 	m_pCurrentModelInstance->ChangeMotionPointer(c_pMotion, iLoopCount, speedRatio);

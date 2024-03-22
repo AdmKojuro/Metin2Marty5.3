@@ -185,7 +185,11 @@ class CGrannyLODController : public CGraphicBase
 
 		struct FSetMotionPointer
 		{
+#ifdef ENABLE_INBUILT_ANIMATION
+			std::shared_ptr<CGrannyMotion>	m_pMotion;
+#else
 			const CGrannyMotion *	m_pMotion;
+#endif
 			float					m_speedRatio;
 			float					m_blendTime;
 			int						m_loopCount;
@@ -199,7 +203,11 @@ class CGrannyLODController : public CGraphicBase
 
 		struct FChangeMotionPointer
 		{
+#ifdef ENABLE_INBUILT_ANIMATION
+			std::shared_ptr<CGrannyMotion>	m_pMotion;
+#else
 			const CGrannyMotion *	m_pMotion;
+#endif
 			float					m_speedRatio;
 			int						m_loopCount;
 
@@ -212,7 +220,11 @@ class CGrannyLODController : public CGraphicBase
 
 		struct FEndStopMotionPointer
 		{
+#ifdef ENABLE_INBUILT_ANIMATION
+			std::shared_ptr<CGrannyMotion>	m_pMotion;
+#else
 			const CGrannyMotion *	m_pMotion;
+#endif
 
 			void operator () (CGrannyLODController * pController)
 			{
@@ -263,8 +275,13 @@ class CGrannyLODController : public CGraphicBase
 		void	SetLocalTime(float fLocalTime);
 		void	ResetLocalTime();
 
+#ifdef ENABLE_INBUILT_ANIMATION
+		void	SetMotionPointer(const std::shared_ptr<CGrannyMotion> c_pMotion, float fBlendTime, int iLoopCount, float speedRatio);
+		void	ChangeMotionPointer(const std::shared_ptr<CGrannyMotion> c_pMotion, int iLoopCount, float speedRatio);
+#else
 		void	SetMotionPointer(const CGrannyMotion * c_pMotion, float fBlendTime, int iLoopCount, float speedRatio);
 		void	ChangeMotionPointer(const CGrannyMotion * c_pMotion, int iLoopCount, float speedRatio);
+#endif
 		void	SetMotionAtEnd();
 
 		BOOL	isModelInstance();

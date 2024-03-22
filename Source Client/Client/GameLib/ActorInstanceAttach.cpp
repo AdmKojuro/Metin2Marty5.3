@@ -245,6 +245,19 @@ void CActorInstance::AttachWeapon(DWORD dwParentPartIndex, DWORD dwPartIndex, CI
 		pWeaponTrace->SetWeaponInstance(this, dwPartIndex, szBoneName);
 		m_WeaponTraceVector.push_back(pWeaponTrace);
 	}
+#ifdef ENABLE_INBUILT_ANIMATION
+	if (CGrannyLODController* pGrnLODController = m_LODControllerVector[dwPartIndex])
+	{
+		if (CGrannyModelInstance* pWeaponModelInstance = pGrnLODController->GetModelInstance())
+		{
+			CGraphicThing* pItemGraphicThing = pItemData->GetModelThing();
+			if (std::shared_ptr<CGrannyMotion> pItemMotion =  pItemGraphicThing->GetMotionPointer(0))
+			{
+				pWeaponModelInstance->SetMotionPointer(pItemMotion);
+			}
+		}
+	}
+#endif
 }
 
 void  CActorInstance::DettachEffect(DWORD dwEID)
@@ -699,6 +712,20 @@ void CActorInstance::AttachAcce(CItemData * pItemData, float fSpecular)
 		kMaterialData.bSphereMapIndex = 1;
 		SetMaterialData(CRaceData::PART_ACCE, NULL, kMaterialData);
 	}
+#ifdef ENABLE_INBUILT_ANIMATION
+	DWORD dwPartIndex = CRaceData::PART_ACCE;
+	if (CGrannyLODController* pGrnLODController = m_LODControllerVector[dwPartIndex])
+	{
+		if (CGrannyModelInstance* pSashModelInstance = pGrnLODController->GetModelInstance())
+		{
+			CGraphicThing* pItemGraphicThing = pItemData->GetModelThing();
+			if (std::shared_ptr<CGrannyMotion> pItemMotion =  pItemGraphicThing->GetMotionPointer(0))
+			{
+				pSashModelInstance->SetMotionPointer(pItemMotion);
+			}
+		}
+	}
+#endif
 }
 #endif
 

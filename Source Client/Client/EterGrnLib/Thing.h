@@ -23,7 +23,11 @@ class CGraphicThing : public CResource
 		int						GetModelCount() const;
 
 		bool					CheckMotionIndex(int iMotion) const;
+#ifdef ENABLE_INBUILT_ANIMATION
+		std::shared_ptr<CGrannyMotion> GetMotionPointer(int iMotion);
+#else
 		CGrannyMotion *			GetMotionPointer(int iMotion);
+#endif
 		int						GetMotionCount() const;
 
 		int						GetTextureCount() const;
@@ -47,6 +51,10 @@ class CGraphicThing : public CResource
 		granny_animation *		m_pgrnAni;
 
 		CGrannyModel *			m_models;
+#ifdef ENABLE_INBUILT_ANIMATION
+		std::vector<std::shared_ptr<CGrannyMotion>>			m_motions;
+#else
 		CGrannyMotion *			m_motions;
+#endif
 };
 

@@ -147,7 +147,11 @@ bool CGrannyMesh::CreateFromGrannyMeshPointer(granny_skeleton * pgrnSkeleton, gr
 
 		granny_data_type_definition * pgrnInputType = GrannyGetMeshVertexType(m_pgrnMesh);
 		granny_data_type_definition * pgrnOutputType = m_pgrnMeshType;
-
+#ifdef ENABLE_INBUILT_ANIMATION	
+		m_pgrnMeshDeformer = GrannyNewMeshDeformer(pgrnInputType, pgrnOutputType, GrannyDeformPositionNormal, GrannyAllowUncopiedTail);
+#else
+		m_pgrnMeshDeformer = GrannyNewMeshDeformer(pgrnInputType, pgrnOutputType, GrannyDeformPositionNormal, GrannyAllowUncopiedTail);
+#endif
 #if GrannyProductMinorVersion==4
 		m_pgrnMeshDeformer = GrannyNewMeshDeformer(pgrnInputType, pgrnOutputType, GrannyDeformPositionNormal);
 #elif GrannyProductMinorVersion==11 || GrannyProductMinorVersion==9 || GrannyProductMinorVersion==8 || GrannyProductMinorVersion==7

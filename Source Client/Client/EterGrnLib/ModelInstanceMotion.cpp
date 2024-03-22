@@ -45,7 +45,11 @@ bool CGrannyModelInstance::IsMotionPlaying()
 	return true;
 }
 
+#ifdef ENABLE_INBUILT_ANIMATION
+void CGrannyModelInstance::SetMotionPointer(const std::shared_ptr<CGrannyMotion> pMotion, float blendTime, int loopCount, float speedRatio)
+#else
 void CGrannyModelInstance::SetMotionPointer(const CGrannyMotion * pMotion, float blendTime, int loopCount, float speedRatio)
+#endif
 {
 	// TEST
 	if (!m_pgrnWorldPoseReal)
@@ -81,7 +85,34 @@ void CGrannyModelInstance::SetMotionPointer(const CGrannyMotion * pMotion, float
 	}
 
 	m_pgrnAni = pMotion->GetGrannyAnimationPointer();
+#ifdef ENABLE_INBUILT_ANIMATION	
+	granny_model_instance* InstanceOfModel = pgrnModelInstance;
+	granny_animation* Animation = m_pgrnAni;
+	granny_real32 StartTime = localTime;
+
+	granny_controlled_animation_builder* Builder =
+		GrannyBeginControlledAnimation(StartTime, Animation);
+	if (Builder)
+	{
+		granny_int32x TrackGroupIndex;
+		if (GrannyFindTrackGroupForModel(Animation,
+			GrannyGetSourceModel(InstanceOfModel)->Name,
+			&TrackGroupIndex))
+		{
+			GrannySetTrackGroupLOD(Builder, TrackGroupIndex, true, 1.0f);
+			GrannySetTrackGroupTarget(Builder, TrackGroupIndex, InstanceOfModel);
+		}
+		else {
+			GrannySetTrackGroupLOD(Builder, 1.0f, true, 1.0f);
+
+			GrannySetTrackGroupTarget(Builder, 0, InstanceOfModel);
+		}
+		m_pgrnCtrl = GrannyEndControlledAnimation(Builder);
+
+	}
+#else
 	m_pgrnCtrl = GrannyPlayControlledAnimation(localTime, m_pgrnAni, pgrnModelInstance);
+#endif
 	if (!m_pgrnCtrl)
 		return;
 
@@ -106,7 +137,11 @@ void CGrannyModelInstance::SetMotionPointer(const CGrannyMotion * pMotion, float
 	//Tracef("easeIn %f\n", blendTime);
 }
 
-void CGrannyModelInstance::ChangeMotionPointer(const CGrannyMotion* pMotion, int loopCount, float speedRatio)
+#ifdef ENABLE_INBUILT_ANIMATION	
+void CGrannyModelInstance::ChangeMotionPointer(const std::shared_ptr<CGrannyMotion> pMotion, int loopCount, float speedRatio)
+#else
+void CGrannyModelInstance::ChangeMotionPointer(const CGrannyMotion * pMotion, int loopCount, float speedRatio)
+#endif
 {
 	granny_model_instance * pgrnModelInstance = m_pgrnModelInstance;
 	if (!pgrnModelInstance)

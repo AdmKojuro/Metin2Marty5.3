@@ -592,7 +592,11 @@ float CActorInstance::GetMotionDuration(DWORD dwMotionKey)
 		return 0.0f;
 	}
 
+#ifdef ENABLE_INBUILT_ANIMATION
+	std::shared_ptr<CGrannyMotion> pGrannyMotion = pMotion->GetMotionPointer(0);
+#else
 	CGrannyMotion * pGrannyMotion = pMotion->GetMotionPointer(0);
+#endif
 	return pGrannyMotion->GetDuration();
 }
 

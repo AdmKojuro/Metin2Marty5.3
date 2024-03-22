@@ -115,6 +115,10 @@ void CPythonItem::Update(const POINT& c_rkPtMouse)
 	TGroundItemInstanceMap::iterator itor = m_GroundItemInstanceMap.begin();
 	for(; itor != m_GroundItemInstanceMap.end(); ++itor)
 	{
+#ifdef ENABLE_INBUILT_ANIMATION
+		itor->second->ThingInstance.Deform();
+		itor->second->ThingInstance.Update();
+#endif
 		itor->second->Update();
 	}
 

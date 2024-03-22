@@ -71,8 +71,13 @@ class CGrannyModelInstance : public CGraphicCollisionObject
 		void	SetLinkedModelPointer(CGrannyModel* pkModel, CGraphicVertexBuffer* pkSharedDefromableVertexBuffer, CGrannyModelInstance** ppkSkeletonInst);
 
 		// Motion
-		void	SetMotionPointer(const CGrannyMotion* pMotion, float blendTime=0.0f, int loopCount=0, float speedRatio=1.0f);
-		void	ChangeMotionPointer(const CGrannyMotion* pMotion, int loopCount=0, float speedRatio=1.0f);
+#ifdef ENABLE_INBUILT_ANIMATION		
+		void	SetMotionPointer(const std::shared_ptr<CGrannyMotion> pMotion, float blendTime = 0.0f, int loopCount = 0, float speedRatio = 1.0f);
+		void	ChangeMotionPointer(const std::shared_ptr<CGrannyMotion> pMotion, int loopCount = 0, float speedRatio = 1.0f);
+#else
+		void 	SetMotionPointer(const CGrannyMotion * pMotion, float blendTime = 0.0f, int loopCount = 0, float speedRatio = 1.0f);
+		void 	ChangeMotionPointer(const CGrannyMotion * pMotion, int loopCount = 0, float speedRatio = 1.0f);
+#endif
 		void	SetMotionAtEnd();
 		bool	IsMotionPlaying();
 

@@ -475,7 +475,25 @@ bool CGraphicThingInstance::SetMotion(DWORD dwMotionKey, float blendTime, int lo
 	SetMotionPointer.m_loopCount = loopCount;
 	SetMotionPointer.m_speedRatio = speedRatio;
 
+#ifdef ENABLE_INBUILT_ANIMATION
+	for (int i = 0; i < m_LODControllerVector.size(); ++i)
+	{
+		switch (i)
+		{
+			case CRaceData::PART_WEAPON:
+			case CRaceData::PART_WEAPON_LEFT:
+			case CRaceData::PART_ACCE:
+				break;
+
+			default:
+				SetMotionPointer(m_LODControllerVector[i]);
+				break;
+		}
+	}
+#else
+	//std::for_each(m_LODControllerVector.begin(), m_LODControllerVector.end(), LODControllerLambda);
 	std::for_each(m_LODControllerVector.begin(), m_LODControllerVector.end(), SetMotionPointer);
+#endif
 	return true;
 }
 

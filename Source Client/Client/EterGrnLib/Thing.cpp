@@ -14,6 +14,16 @@ CGraphicThing::~CGraphicThing()
 	Clear();
 }
 
+#ifdef ENABLE_INBUILT_ANIMATION
+void CGraphicThing::Initialize()
+{
+	m_pgrnFile = NULL;
+	m_pgrnFileInfo = NULL;
+	m_pgrnAni = NULL;
+
+	m_models = NULL;
+}
+#else
 void CGraphicThing::Initialize()
 {
 	m_pgrnFile = NULL;
@@ -23,7 +33,23 @@ void CGraphicThing::Initialize()
 	m_models = NULL;
 	m_motions = NULL;
 }
+#endif
 
+#ifdef ENABLE_INBUILT_ANIMATION
+void CGraphicThing::OnClear()
+{
+	if (!m_motions.empty())
+		m_motions.clear();
+
+	if (m_models)
+		delete [] m_models;
+
+	if (m_pgrnFile)
+		GrannyFreeFile(m_pgrnFile);
+
+	Initialize();
+}
+#else
 void CGraphicThing::OnClear()
 {
 	if (m_motions)
@@ -37,6 +63,7 @@ void CGraphicThing::OnClear()
 
 	Initialize();
 }
+#endif
 
 CGraphicThing::TType CGraphicThing::Type()
 {
@@ -127,6 +154,20 @@ CGrannyModel * CGraphicThing::GetModelPointer(int iModel)
 	return m_models + iModel;
 }
 
+#ifdef ENABLE_INBUILT_ANIMATION
+std::shared_ptr<CGrannyMotion> CGraphicThing::GetMotionPointer(int iMotion)
+{
+	assert(CheckMotionIndex(iMotion));
+
+	if (iMotion >= m_pgrnFileInfo->AnimationCount)
+		return NULL;
+
+	if (m_motions.empty())
+		return NULL;
+
+	return m_motions.at(iMotion);
+}
+#else
 CGrannyMotion * CGraphicThing::GetMotionPointer(int iMotion)
 {
 	assert(CheckMotionIndex(iMotion));
@@ -137,6 +178,7 @@ CGrannyMotion * CGraphicThing::GetMotionPointer(int iMotion)
 	assert(m_motions != NULL);
 	return (m_motions + iMotion);
 }
+#endif
 
 int CGraphicThing::GetTextureCount() const
 {
@@ -241,6 +283,30 @@ bool CGraphicThing::LoadModels()
 	return true;
 }
 
+#ifdef ENABLE_INBUILT_ANIMATION
+bool CGraphicThing::LoadMotions()
+{
+	assert(m_pgrnFile != NULL);
+	assert(m_motions->empty());
+
+	if (m_pgrnFileInfo->AnimationCount <= 0)
+		return false;
+
+	int motionCount = m_pgrnFileInfo->AnimationCount;
+
+	for (int m = 0; m < motionCount; ++m)
+	{
+		auto motion = std::make_shared<CGrannyMotion>();
+
+		if (!motion->BindGrannyAnimation(m_pgrnFileInfo->Animations[m]))
+			return false;
+
+		m_motions.push_back(motion);
+	}
+
+	return true;
+}
+#else
 bool CGraphicThing::LoadMotions()
 {
 	assert(m_pgrnFile != NULL);
@@ -248,15 +314,16 @@ bool CGraphicThing::LoadMotions()
 
 	if (m_pgrnFileInfo->AnimationCount <= 0)
 		return false;
-
+	
 	int motionCount = m_pgrnFileInfo->AnimationCount;
 
 	m_motions = new CGrannyMotion[motionCount];
-
+	
 	for (int m = 0; m < motionCount; ++m)
 		if (!m_motions[m].BindGrannyAnimation(m_pgrnFileInfo->Animations[m]))
 			return false;
 
 	return true;
 }
+#endif
 

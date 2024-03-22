@@ -68,6 +68,9 @@ void CArea::__UpdateAniThingList()
 		while (i!=m_AniThingCloneInstanceVector.end())
 		{
 			pkThingInst=*i++;
+#ifdef ENABLE_INBUILT_ANIMATION
+			pkThingInst->Deform();
+#endif
 			pkThingInst->Update();
 		}
 	}
