@@ -4393,6 +4393,7 @@ void CHARACTER::ApplyPoint(BYTE bApplyType, int iVal)
 		case APPLY_ATTBONUS_METIN:				// 115
 		case APPLY_ATTBONUS_BOSS:				// 116
 #endif
+		case APPLY_MOUNT:
 			PointChange(aApplyInfo[bApplyType].bPointType, iVal);
 			break;
 
@@ -7159,6 +7160,21 @@ void CHARACTER::SendEquipment(LPCHARACTER ch)
 bool CHARACTER::CanSummon(int iLeaderShip)
 {
 	return ((iLeaderShip >= 20) || ((iLeaderShip >= 12) && ((m_dwLastDeadTime + 180) > get_dword_time())));
+}
+
+void CHARACTER::EnterMount()
+{
+	#ifdef ENABLE_MOUNT_COSTUME_EX_SYSTEM
+	const auto mountVnum = GetPoint(POINT_MOUNT);
+	if (mountVnum)
+	{
+		MountVnum(mountVnum);
+		return;
+	}
+	#endif
+
+	if (GetHorseLevel() > 0)
+		EnterHorse();
 }
 
 // #define ENABLE_MOUNT_ENTITY_REFRESH

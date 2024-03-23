@@ -277,6 +277,7 @@ class CItem : public CEntity
 
 	public:
 		bool		IsRideItem();
+		bool		IsOldMountItem();
 		bool		IsRamadanRing();
 
 		void		ClearMountAttributeAndAffect();

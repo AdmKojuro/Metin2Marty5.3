@@ -1182,6 +1182,9 @@ ACMD(do_state)
 			tch->GetPoint(POINT_BLOCK),
 			tch->GetPoint(POINT_DODGE),
 			tch->GetPoint(POINT_DEF_BONUS));
+#ifdef ENABLE_MOUNT_COSTUME_EX_SYSTEM
+	ch->ChatPacket(CHAT_TYPE_INFO, "MOUNT %d", tch->GetPoint(POINT_MOUNT));
+#endif
 	ch->ChatPacket(CHAT_TYPE_INFO, "RESISTANCES:");
 	ch->ChatPacket(CHAT_TYPE_INFO, "   WARR:%3d%% ASAS:%3d%% SURA:%3d%% SHAM:%3d%%"
 #ifdef ENABLE_WOLFMAN_CHARACTER

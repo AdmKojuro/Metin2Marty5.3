@@ -651,6 +651,7 @@ void CInputLogin::Entergame(LPDESC d, const char * data)
 		ch->EnterHorse();
 	}
 
+	ch->EnterMount();
 
 	ch->ResetPlayTime();
 

@@ -946,6 +946,11 @@ const TApplyInfo aApplyInfo[MAX_APPLY_NUM] =
 	{ POINT_ATTBONUS_METIN, },				// APPLY_ATTBONUS_METIN,			// 115
 	{ POINT_ATTBONUS_BOSS, },				// APPLY_ATTBONUS_BOSS,				// 116
 #endif
+#ifdef ENABLE_MOUNT_COSTUME_EX_SYSTEM
+	{ POINT_MOUNT,					},	// APPLY_MOUNT,118
+#else
+	{ POINT_NONE,					},	// APPLY_MOUNT,118
+#endif
 };
 
 const int aiItemMagicAttributePercentHigh[ITEM_ATTRIBUTE_MAX_LEVEL] =

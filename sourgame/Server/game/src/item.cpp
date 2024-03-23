@@ -2215,22 +2215,24 @@ void CItem::StopAccessorySocketExpireEvent()
 
 bool CItem::IsRideItem()
 {
-	if (ITEM_UNIQUE == GetType() && UNIQUE_SPECIAL_RIDE == GetSubType())
-	{
-		return true;
-	}
+	return IsOldMountItem() || IsNewMountItem(); // @fixme152
+}
 
-	if (ITEM_UNIQUE == GetType() && UNIQUE_SPECIAL_MOUNT_RIDE == GetSubType())
-	{
+bool CItem::IsOldMountItem()
+{
+	if (ITEM_UNIQUE == GetType() && UNIQUE_SPECIAL_RIDE == GetSubType())
 		return true;
-	}
+	if (ITEM_UNIQUE == GetType() && UNIQUE_SPECIAL_MOUNT_RIDE == GetSubType())
+		return true;
+	return false;
+}
+
+bool CItem::IsNewMountItem()
+{
 #ifdef ENABLE_MOUNT_COSTUME_SYSTEM
 	if (ITEM_COSTUME == GetType() && COSTUME_MOUNT == GetSubType())
-	{
 		return true;
-	}
 #endif
-
 	return false;
 }
 
@@ -2302,16 +2304,14 @@ void CItem::SetSoulKeepTime()
 // fixme
 
 // by rtsummit
-bool CItem::IsNewMountItem()
-{
-	return (
-			   (ITEM_UNIQUE == GetType() && UNIQUE_SPECIAL_RIDE == GetSubType() && IS_SET(GetFlag(), ITEM_FLAG_QUEST_USE))
-			   || (ITEM_UNIQUE == GetType() && UNIQUE_SPECIAL_MOUNT_RIDE == GetSubType() && IS_SET(GetFlag(), ITEM_FLAG_QUEST_USE))
-#ifdef ENABLE_MOUNT_COSTUME_SYSTEM
-			   || (ITEM_COSTUME == GetType() && COSTUME_MOUNT == GetSubType())
-#endif
-		   ); // @fixme152
-}
+//bool CItem::IsNewMountItem()
+//{
+//#ifdef ENABLE_MOUNT_COSTUME_SYSTEM
+//	if (ITEM_COSTUME == GetType() && COSTUME_MOUNT == GetSubType())
+//		return true;
+//#endif
+//	return false;
+//}
 
 void CItem::SetAccessorySocketExpireEvent(LPEVENT pkEvent)
 {

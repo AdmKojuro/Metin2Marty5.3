@@ -648,6 +648,7 @@ enum EApplyTypes
 	APPLY_ATTBONUS_METIN,				// 115
 	APPLY_ATTBONUS_BOSS,				// 116
 #endif
+	APPLY_MOUNT,						// 118,
 
 	MAX_APPLY_NUM,						//
 };

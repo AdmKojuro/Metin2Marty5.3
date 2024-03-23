@@ -500,6 +500,7 @@ int get_Item_ApplyType_Value(string inputString)
 			"APPLY_ATTBONUS_METIN",
 			"APPLY_ATTBONUS_BOSS",
 #endif
+			"APPLY_MOUNT",
 	};
 
 	int retInt = -1;

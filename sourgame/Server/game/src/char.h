@@ -1798,6 +1798,7 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		////////////////////////////////////////////////////////////////////////////////////////
 		// Mounting
 	public:
+		void				EnterMount();
 		void				MountVnum(DWORD vnum);
 		DWORD				GetMountVnum() const { return m_dwMountVnum; }
 		DWORD				GetLastMountTime() const { return m_dwMountTime; }

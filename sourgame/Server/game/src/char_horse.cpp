@@ -148,16 +148,19 @@ void CHARACTER::HorseSummon(bool bSummon, bool bFromFar, DWORD dwVnum, const cha
 {
 	if ( bSummon )
 	{
-
 		if( m_chHorse != NULL )
 			return;
 
 		if (GetHorseLevel() <= 0)
 			return;
 
-
 		if (IsRiding())
 			return;
+
+		#ifdef ENABLE_MOUNT_COSTUME_EX_SYSTEM
+		if (GetMountVnum())
+			return;
+		#endif
 
 		sys_log(0, "HorseSummon : %s lv:%d bSummon:%d fromFar:%d", GetName(), GetLevel(), bSummon, bFromFar);
 

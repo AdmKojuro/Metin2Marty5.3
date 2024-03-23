@@ -8168,12 +8168,33 @@ bool CHARACTER::EquipItem(LPITEM item, int iCandidateCell)
 	}
 
 
-	if(item->IsRideItem() && IsRiding())
+	if (item->IsRideItem())
 	{
+		#ifdef ENABLE_MOUNT_COSTUME_EX_SYSTEM
+			#ifdef ENABLE_NEWSTUFF
+			// block mount spawn
+			if (g_NoMountAtGuildWar && GetWarMap())
+			{
+				if (IsRiding())
+					StopRiding();
+				ChatPacket(CHAT_TYPE_INFO, LC_TEXT("이미 탈것을 이용중입니다."));
+				return false;
+			}
+			#endif
+
+			// unsummon horse first
+			if (GetHorse() || IsHorseRiding()) {
+				StopRiding();
+				HorseSummon(false);
+			}
+
+			if (GetHorse() || IsHorseRiding())
+				return false;
+		#else
 		ChatPacket(CHAT_TYPE_INFO, LC_TEXT("이미 탈것을 이용중입니다."));
 		return false;
+		#endif
 	}
-
 
 	DWORD dwCurTime = get_dword_time();
 
@@ -8344,10 +8365,14 @@ bool CHARACTER::EquipItem(LPITEM item, int iCandidateCell)
 		}
 #endif
 
-		if (item->IsNewMountItem()) // @fixme152
-		{
-			quest::CQuestManager::instance().UseItem(GetPlayerID(), item, false);
+		if (item->IsOldMountItem()) // @fixme152
+			quest::CQuestManager::instance().SIGUse(GetPlayerID(), quest::QUEST_NO_NPC, item, false);
+		#ifdef ENABLE_MOUNT_COSTUME_EX_SYSTEM
+		else if (item->IsNewMountItem()) {
+			const auto mountVnum = GetPoint(POINT_MOUNT);
+			MountVnum(mountVnum);
 		}
+		#endif
 
 	}
 
