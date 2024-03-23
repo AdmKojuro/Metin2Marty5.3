@@ -623,6 +623,7 @@ string arIATVApplyType[] = {"APPLY_NONE", "APPLY_MAX_HP", "APPLY_MAX_SP", "APPLY
 		"APPLY_ATTBONUS_METIN",
 		"APPLY_ATTBONUS_BOSS",
 #endif
+		"APPLY_MOUNT",
 };
 
 int get_Item_ApplyType_Value(string inputString)
