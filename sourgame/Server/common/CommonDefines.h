@@ -37,6 +37,7 @@ enum eCommonDefines {
 #define ENABLE_NEW_EXTRA_BONUS									// Extra Bonus System
 #define ENABLE_NEW_AFFECT_POTION								//efecto potas
 #define ENABLE_MOUNT_COSTUME_EX_SYSTEM							//Caballo fix
+#define ENABLE_EQUIP_WELCOME									// equipacion inicial en el PJ
 /* Wolfman */
 #define ENABLE_WOLFMAN_CHARACTER
 #ifdef ENABLE_WOLFMAN_CHARACTER

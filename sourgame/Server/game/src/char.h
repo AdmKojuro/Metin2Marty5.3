@@ -786,6 +786,10 @@ class CHARACTER : public CEntity, public CFSM, public CHorseRider
 		void			SetLastShoutPulse(DWORD pulse) { m_pointsInstant.dwLastShoutPulse = pulse; }
 		int				GetLevel() const		{ return m_points.level;	}
 		void			SetLevel(BYTE level);
+#ifdef ENABLE_EQUIP_WELCOME		
+		void            efsunver(LPCHARACTER ch);
+		void            itemver(LPCHARACTER ch);
+#endif		
 
 		BYTE			GetGMLevel() const;
 		BOOL 			IsGM() const;

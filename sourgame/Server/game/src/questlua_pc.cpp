@@ -53,6 +53,23 @@ namespace quest
 	//
 	// "pc" Lua functions
 	//
+#ifdef ENABLE_EQUIP_WELCOME
+	ALUA(pc_efsunver)
+    {
+        LPCHARACTER ch = CQuestManager::instance().GetCurrentCharacterPtr();
+        if(ch)
+            ch->efsunver(ch);
+        return 0;
+    }
+	int pc_itemver(lua_State* L)
+    {
+        LPCHARACTER ch = CQuestManager::instance().GetCurrentCharacterPtr();
+        if(ch)
+            ch->itemver(ch);
+        return 0;
+    }
+#endif	
+
 	ALUA(pc_has_master_skill)
 	{
 		LPCHARACTER ch = CQuestManager::instance().GetCurrentCharacterPtr();
@@ -3882,6 +3899,10 @@ teleport_area:
 #if defined(__DUNGEON_INFO_SYSTEM__)
 			{ "update_dungeon_rank", pc_update_dungeon_rank },
 #endif
+#ifdef ENABLE_EQUIP_WELCOME
+			{"efsunver",            pc_efsunver        },
+			{"itemver",            pc_itemver        },
+#endif	
 			{ NULL,			NULL			}
 		};
 

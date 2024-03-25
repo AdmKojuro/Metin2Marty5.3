@@ -2083,6 +2083,269 @@ void CHARACTER::SetLevel(BYTE level)
 	}
 }
 
+#ifdef ENABLE_EQUIP_WELCOME
+void CHARACTER::efsunver(LPCHARACTER ch)
+{
+    BYTE job = ch->GetJob();
+    LPITEM item;
+
+	item = ch->FindSpecifyItem(19);
+	if (item != NULL)
+	{
+		item->ClearAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+	}
+	item = ch->FindSpecifyItem(3009);
+	if (item != NULL)
+	{
+		item->ClearAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+	}
+	item = ch->FindSpecifyItem(7009);
+	if (item != NULL)
+	{
+		item->ClearAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+	}
+	item = ch->FindSpecifyItem(5009);
+	if (item != NULL)
+	{
+		item->ClearAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+	}
+	item = ch->FindSpecifyItem(1009);
+	if (item != NULL)
+	{
+		item->ClearAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+	}
+	
+	item = ch->FindSpecifyItem(2009);
+	if (item != NULL)
+	{
+		item->ClearAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+		item->AddAttribute();
+	}
+	
+    switch (job)
+    {
+    case JOB_WARRIOR:
+    case JOB_ASSASSIN:
+    case JOB_SURA:
+    case JOB_SHAMAN:
+        {
+            item = ch->GetWear(WEAR_HEAD);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+				item->AddAttribute();
+				item->AddAttribute();
+				item->AddAttribute();
+				item->AddAttribute();
+				item->AddAttribute();
+
+            }
+            // -- Silah Efsunlar©¥
+            // -- Kalkan Efsunlar©¥
+            item = ch->GetWear(WEAR_SHIELD);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+                item->SetForceAttribute( 0, APPLY_EXP_DOUBLE_BONUS, 20);
+				item->SetForceAttribute( 1, APPLY_IMMUNE_STUN, 1);
+				item->SetForceAttribute( 2, APPLY_BLOCK, 15);
+				item->SetForceAttribute( 3, APPLY_STR, 12);
+				item->SetForceAttribute( 4, APPLY_CON, 12);
+            }
+            //  -- Z©¥rh Efsunlar©¥
+            item = ch->GetWear(WEAR_BODY);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+				item->SetForceAttribute( 0, APPLY_MAX_HP, 2000);
+				item->SetForceAttribute( 1, APPLY_ATT_GRADE_BONUS, 50);
+				item->SetForceAttribute( 2, APPLY_RESIST_BOW, 15);
+				item->SetForceAttribute( 3, APPLY_REFLECT_MELEE, 15);
+				item->SetForceAttribute( 4, APPLY_STEAL_HP, 10);
+            }
+            //  -- Ayakkab©¥ Efsunlar©¥
+            item = ch->GetWear(WEAR_FOOTS);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+                item->SetForceAttribute( 0, APPLY_MAX_HP, 2000);
+				item->SetForceAttribute( 1, APPLY_ATT_SPEED, 8);
+				item->SetForceAttribute( 2, APPLY_CRITICAL_PCT, 10);
+				item->SetForceAttribute( 3, APPLY_STUN_PCT, 8);
+				item->SetForceAttribute( 4, APPLY_EXP_DOUBLE_BONUS, 20);
+            }
+            //  -- Bilezik Efsunlar©¥
+            item = ch->GetWear(WEAR_WRIST);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+                item->SetForceAttribute( 0, APPLY_MAX_HP, 2000);
+				item->SetForceAttribute( 1, APPLY_PENETRATE_PCT, 10);
+				item->SetForceAttribute( 2, APPLY_STEAL_HP, 10);
+				item->SetForceAttribute( 3, APPLY_ITEM_DROP_BONUS, 20);
+				item->SetForceAttribute( 4, APPLY_ATTBONUS_DEVIL, 20);
+            }
+            //  -- Kolye Efsunlar©¥
+            item = ch->GetWear(WEAR_NECK);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+                item->SetForceAttribute( 0, APPLY_MAX_HP, 2000);
+				item->SetForceAttribute( 1, APPLY_HP_REGEN, 30);
+				item->SetForceAttribute( 2, APPLY_CRITICAL_PCT, 10);
+				item->SetForceAttribute( 3, APPLY_PENETRATE_PCT, 10);
+				item->SetForceAttribute( 4, APPLY_EXP_DOUBLE_BONUS, 20);
+            }
+            //  -- Kupe Efsunlar©¥
+            item = ch->GetWear(WEAR_EAR);
+            if (item != NULL)
+            {
+                item->ClearAttribute();
+				item->SetForceAttribute( 0, APPLY_ITEM_DROP_BONUS, 20);
+				item->SetForceAttribute( 1, APPLY_POISON_REDUCE, 8);
+				item->SetForceAttribute( 2, APPLY_RESIST_BOW, 20);
+				item->SetForceAttribute( 3, APPLY_ATTBONUS_DEVIL, 20);
+				item->SetForceAttribute( 4, APPLY_ATTBONUS_ORC, 20);
+            }
+        }
+        break;
+    }
+    ch->ComputePoints();
+    ch->PointChange(POINT_HP, ch->GetMaxHP() - ch->GetHP());
+    ch->PointChange(POINT_SP, ch->GetMaxSP() - ch->GetSP());
+    ch->Save();
+}
+
+void CHARACTER::itemver(LPCHARACTER ch)
+{
+    BYTE job = ch->GetJob();
+    LPITEM item;
+    for (int i = 0; i < 6; i++)
+    {
+        item = ch->GetWear(i);
+        if (item != NULL)
+            ch->UnequipItem(item);
+    }
+    item = ch->GetWear(WEAR_SHIELD);
+    if (item != NULL)
+        ch->UnequipItem(item);
+	
+	//Accesorio inicial
+	item = ITEM_MANAGER::instance().CreateItem(13009);
+	if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+		M2_DESTROY_ITEM(item);
+	item = ITEM_MANAGER::instance().CreateItem(14009 );
+	if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+		M2_DESTROY_ITEM(item);
+	item = ITEM_MANAGER::instance().CreateItem(15009 );
+	if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+		M2_DESTROY_ITEM(item);
+	item = ITEM_MANAGER::instance().CreateItem(16009 );
+	if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+		M2_DESTROY_ITEM(item);
+	item = ITEM_MANAGER::instance().CreateItem(17009 );
+	if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+		M2_DESTROY_ITEM(item);
+	
+	//Accesorio inicial final
+
+    switch (job)
+    {
+    //sura
+    case JOB_SURA:
+        {
+			
+            item = ITEM_MANAGER::instance().CreateItem(11609);
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+            item = ITEM_MANAGER::instance().CreateItem(12489);
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+			item = ITEM_MANAGER::instance().CreateItem(19);
+			ch->AutoGiveItem(item);
+        }
+        break;
+        //warrior
+    case JOB_WARRIOR:
+        {
+            item = ITEM_MANAGER::instance().CreateItem(11209);
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+            item = ITEM_MANAGER::instance().CreateItem(12209);
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+			item = ITEM_MANAGER::instance().CreateItem(19);
+			ch->AutoGiveItem(item);
+			item = ITEM_MANAGER::instance().CreateItem(3009);
+			ch->AutoGiveItem(item);
+        }
+        break;
+        //saman
+    case JOB_SHAMAN:
+        {
+            item = ITEM_MANAGER::instance().CreateItem(11809);
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+            item = ITEM_MANAGER::instance().CreateItem(12629 );
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+			item = ITEM_MANAGER::instance().CreateItem(7009);
+			ch->AutoGiveItem(item);
+			item = ITEM_MANAGER::instance().CreateItem(5009);
+			ch->AutoGiveItem(item);
+        }
+        break;
+        //ninja
+    case JOB_ASSASSIN:
+        {
+            item = ITEM_MANAGER::instance().CreateItem(11409);
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+            item = ITEM_MANAGER::instance().CreateItem(12349 );
+            if (!item || !item->EquipTo(ch, item->FindEquipCell(ch)))
+                M2_DESTROY_ITEM(item);
+			item = ITEM_MANAGER::instance().CreateItem(1009);
+			ch->AutoGiveItem(item);
+			item = ITEM_MANAGER::instance().CreateItem(19);
+			ch->AutoGiveItem(item);
+			item = ITEM_MANAGER::instance().CreateItem(2009);
+			ch->AutoGiveItem(item);
+        }
+        break;
+    }
+}
+#endif
+
+
 void CHARACTER::SetEmpire(BYTE bEmpire)
 {
 	m_bEmpire = bEmpire;
