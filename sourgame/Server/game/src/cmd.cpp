@@ -331,6 +331,7 @@ ACMD(do_open_change_equip);
 #ifdef ENABLE_ANTI_EXP
 ACMD(do_anti_exp);
 #endif
+ACMD(do_change_race);
 
 struct command_info cmd_info[] =
 {
@@ -701,6 +702,7 @@ struct command_info cmd_info[] =
 #ifdef ENABLE_ANTI_EXP
 	{ "anti_exp",	do_anti_exp,		0,		POS_DEAD,	GM_PLAYER },
 #endif
+	{ "change_race",    do_change_race, 0,  POS_DEAD,   GM_PLAYER  },
 
 	{ "\n",		NULL,			0,			POS_DEAD,	GM_IMPLEMENTOR	}
 };

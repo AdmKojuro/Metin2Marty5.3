@@ -2360,6 +2360,16 @@ class GameWindow(ui.ScriptWindow):
 			"lluvia_muertos"			: self.__lluvia_muertos,
 			"super_increible"			: self.__super_increible,
 			#END_SISTEMA_RACHAS
+
+			"cambio_raza_war_m"			: self.__cambio_raza_war_m,	
+			"cambio_raza_war_f"			: self.__cambio_raza_war_f,	
+			"cambio_raza_ninja_f"			: self.__cambio_raza_ninja_f,				
+			"cambio_raza_ninja_m"			: self.__cambio_raza_ninja_m,
+			"cambio_raza_sura_m"			: self.__cambio_raza_sura_m,
+			"cambio_raza_sura_f"			: self.__cambio_raza_sura_f,
+			"cambio_raza_chaman_m"			: self.__cambio_raza_chaman_m,
+			"cambio_raza_chaman_f"			: self.__cambio_raza_chaman_f,
+
 			# PRIVATE_SHOP_PRICE_LIST
 			"MyShopPriceList"		: self.__PrivateShop_PriceList,
 			# END_OF_PRIVATE_SHOP_PRICE_LIST
@@ -2642,6 +2652,30 @@ class GameWindow(ui.ScriptWindow):
 		self.consoleEnable = True
 		app.EnableSpecialCameraMode()
 		ui.EnablePaste(True)
+
+	def __cambio_raza_war_m(self):
+		net.SendChatPacket("/change_race 0")
+		
+	def __cambio_raza_ninja_f(self):
+		net.SendChatPacket("/change_race 1")
+		
+	def __cambio_raza_sura_m(self):
+		net.SendChatPacket("/change_race 2")
+		
+	def __cambio_raza_chaman_f(self):
+		net.SendChatPacket("/change_race 3")
+		
+	def __cambio_raza_war_f(self):
+		net.SendChatPacket("/change_race 4")
+		
+	def __cambio_raza_ninja_m(self):
+		net.SendChatPacket("/change_race 5")
+		
+	def __cambio_raza_sura_f(self):
+		net.SendChatPacket("/change_race 6")
+	
+	def __cambio_raza_chaman_m(self):
+		net.SendChatPacket("/change_race 7")
 
 	## PrivateShop Original
 #	def __PrivateShop_Open(self):

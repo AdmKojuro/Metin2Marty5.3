@@ -5523,3 +5523,73 @@ ACMD(do_battlepass_premium_activate)
 	}
 }
 #endif
+
+ACMD(do_schimba_rasa)
+{
+	char arg1[256], arg2[256];
+	two_arguments(argument, arg1, sizeof(arg1), arg2, sizeof(arg2));
+	// init
+	bool bIsSetSkillGroup = false;
+	DWORD dwRace = MAIN_RACE_MAX_NUM;
+	DWORD dwSkillGroup = 0;
+	// check arg1
+	if (!*arg1)
+	{
+		goto USAGE;
+		return;
+	}
+	// check&analyze arg2
+	if (*arg2)
+	{
+		str_to_number(dwSkillGroup, arg2);
+		dwSkillGroup = MINMAX(0, dwSkillGroup, 2);
+		bIsSetSkillGroup = true;
+	}
+	// analyze arg1
+	str_to_number(dwRace, arg1);
+	if (dwRace >= MAIN_RACE_MAX_NUM)
+	{
+		goto USAGE;
+		return;
+	}
+	// skip if same race
+	if (dwRace==ch->GetRaceNum())
+		return;
+	// process change race
+	ch->ChatPacket(CHAT_TYPE_INFO, "Old Race=%u, Group=%u", ch->GetRaceNum(), ch->GetSkillGroup());
+	ch->SetRace(dwRace);
+	ch->ClearSkill();
+	// ch->ClearSubSkill();
+	if (bIsSetSkillGroup)
+	{
+		ch->SetSkillGroup(dwSkillGroup);
+	}
+	// quick mesh change workaround begin
+	ch->SetPolymorph(101);
+	ch->SetPolymorph(0);
+	// quick mesh change workaround end
+	ch->ChatPacket(CHAT_TYPE_INFO, "New Race=%u, Group=%u", ch->GetRaceNum(), ch->GetSkillGroup());
+	return;
+	// usage
+USAGE:
+	ch->ChatPacket(CHAT_TYPE_INFO, "Usage: /change_race <race_id> <&skill_group>");
+	// race list
+	ch->ChatPacket(CHAT_TYPE_INFO, "RACE-LIST");
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tWarrior M = %d", MAIN_RACE_WARRIOR_M);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tNinja F = %d", MAIN_RACE_ASSASSIN_W);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tSura M = %d", MAIN_RACE_SURA_M); 
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tShaman F = %d", MAIN_RACE_SHAMAN_W);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tWarrior W = %d", MAIN_RACE_WARRIOR_W);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tAssassin M = %d", MAIN_RACE_ASSASSIN_M);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tSura W = %d", MAIN_RACE_SURA_W);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tShaman M = %d", MAIN_RACE_SHAMAN_M);
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tRACE_MAX_NUM = %d", MAIN_RACE_MAX_NUM);
+	// group list
+	ch->ChatPacket(CHAT_TYPE_INFO, "GROUP-LIST");
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tNone = 0");
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tFirst = 1");
+	ch->ChatPacket(CHAT_TYPE_INFO, "\tSecond = 2");
+	return;
+}
+
+

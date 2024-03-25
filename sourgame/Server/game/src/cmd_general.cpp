@@ -4739,3 +4739,135 @@ ACMD(do_anti_exp)
 	ch->ChatPacket(CHAT_TYPE_COMMAND, "SetAntiExp %d", ch->GetAntiExp()?1:0);
 }
 #endif
+
+ACMD(do_change_race)
+{
+
+    char arg1[256], arg2[256];
+
+    two_arguments(argument, arg1, sizeof(arg1), arg2, sizeof(arg2));
+
+    // init
+
+    bool bIsSetSkillGroup = false;
+
+    DWORD dwRace = MAIN_RACE_MAX_NUM;
+
+    DWORD dwSkillGroup = 0;
+
+    // check arg1
+
+    if (!*arg1)
+
+    {
+
+        goto USAGE;
+
+        return;
+
+    }
+
+    // check&analyze arg2
+
+    if (*arg2)
+
+    {
+
+        str_to_number(dwSkillGroup, arg2);
+
+        dwSkillGroup = MINMAX(0, dwSkillGroup, 2);
+
+        bIsSetSkillGroup = true;
+
+    }
+
+    // analyze arg1
+
+    str_to_number(dwRace, arg1);
+
+    if (dwRace >= MAIN_RACE_MAX_NUM)
+
+    {
+
+        goto USAGE;
+
+        return;
+
+    }
+
+    // skip if same race
+
+    if (dwRace==ch->GetRaceNum())
+
+        return;
+
+    // process change race
+
+    //ch->ChatPacket(CHAT_TYPE_INFO, "Old race=%u, Group=%u", ch->GetRaceNum(), ch->GetSkillGroup());
+
+    ch->SetRace(dwRace);
+
+    ch->ClearSkill();
+
+    // ch->ClearSubSkill();
+
+    if (bIsSetSkillGroup)
+
+    {
+
+        ch->SetSkillGroup(dwSkillGroup);
+
+    }
+
+    // quick mesh change workaround begin
+
+    ch->SetPolymorph(101);
+
+    ch->SetPolymorph(0);
+
+    // quick mesh change workaround end
+
+    //ch->ChatPacket(CHAT_TYPE_INFO, "New race=%u, Group=%u", ch->GetRaceNum(), ch->GetSkillGroup());
+
+    return;
+
+    // Usage
+
+USAGE:
+    ch->ChatPacket(CHAT_TYPE_INFO, "Usage: /change_race <race_id>");
+
+    // lista raselor
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "Races list:");
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tWarrior M = %d", MAIN_RACE_WARRIOR_M);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tNinja F = %d", MAIN_RACE_ASSASSIN_W);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tSura M = %d", MAIN_RACE_SURA_M);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tShaman F = %d", MAIN_RACE_SHAMAN_W);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tWarrior W = %d", MAIN_RACE_WARRIOR_W);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tNinja M = %d", MAIN_RACE_ASSASSIN_M);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tSura W = %d", MAIN_RACE_SURA_W);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tShaman M = %d", MAIN_RACE_SHAMAN_M);
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tMax race number = %d", MAIN_RACE_MAX_NUM);
+
+    // Group lists.
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "Lista grupelor:");
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tNone = 0");
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tFirst = 1");
+
+    ch->ChatPacket(CHAT_TYPE_INFO, "\tSecond = 2");
+
+    return;
+
+} 
